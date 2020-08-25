@@ -4,8 +4,8 @@ import router from "./router";
 import store from "@/core/services/store";
 import ApiService from "@/core/services/api.service";
 import MockService from "@/core/mock/mock.service";
-import {VERIFY_AUTH} from "@/core/services/store/auth.module";
-import {RESET_LAYOUT_CONFIG} from "@/core/services/store/config.module";
+import { VERIFY_AUTH } from "@/core/services/store/auth.module";
+import { RESET_LAYOUT_CONFIG } from "@/core/services/store/config.module";
 // Global 3rd party plugins
 import "popper.js";
 import "tooltip.js";
@@ -22,7 +22,7 @@ import "@/core/plugins/inline-svg";
 import "@/core/plugins/apexcharts";
 import "@/core/plugins/metronic";
 import "@mdi/font/css/materialdesignicons.css";
-import {createProvider} from "./vue-apollo";
+import { createProvider } from "./vue-apollo";
 
 Vue.config.productionTip = false;
 
