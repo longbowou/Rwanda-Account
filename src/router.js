@@ -7,11 +7,23 @@ export default new Router({
   routes: [
     {
       path: "/",
-      redirect: "/dashboard",
-      component: () => import("@/view/layout/Layout"),
+      redirect: "/home",
+      component: () => import("@/view/layout/HomeLayout"),
       children: [
         {
-          path: "/dashboard",
+          path: "/home",
+          name: "home",
+          component: () => import("@/view/pages/Home.vue")
+        }
+      ]
+    },
+    {
+      path: "/_/",
+      redirect: "/_/dashboard",
+      component: () => import("@/view/layout/AuthLayout"),
+      children: [
+        {
+          path: "/_/dashboard",
           name: "dashboard",
           component: () => import("@/view/pages/Dashboard.vue")
         },

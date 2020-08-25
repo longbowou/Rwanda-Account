@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column flex-root" v-if="isAuthenticated">
+  <div class="d-flex flex-column flex-root">
     <!-- begin:: Header Mobile -->
     <KTHeaderMobile></KTHeaderMobile>
     <!-- end:: Header Mobile -->
@@ -15,23 +15,23 @@
 
         <!-- begin:: Content -->
         <div
-          id="kt_content"
-          class="content d-flex flex-column flex-column-fluid"
+            id="kt_content"
+            class="content d-flex flex-column flex-column-fluid"
         >
           <!-- begin:: Content Head -->
 
           <!-- begin:: Content Head -->
           <KTSubheader
-            v-if="subheaderDisplay"
-            v-bind:breadcrumbs="breadcrumbs"
-            v-bind:title="pageTitle"
+              v-if="subheaderDisplay"
+              v-bind:breadcrumbs="breadcrumbs"
+              v-bind:title="pageTitle"
           />
           <!-- end:: Content Head -->
 
           <!-- begin:: Content Body -->
           <div class="d-flex flex-column-fluid">
             <div
-              :class="{
+                :class="{
                 'container-fluid': contentFluid,
                 container: !contentFluid
               }"
@@ -43,7 +43,7 @@
 
                 <div class="content-wrapper flex-row-fluid">
                   <transition name="fade-in-up">
-                    <router-view />
+                    <router-view/>
                   </transition>
                 </div>
               </div>
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import KTAside from "@/view/layout/aside/Aside.vue";
 import KTHeader from "@/view/layout/header/Header.vue";
 import KTHeaderMobile from "@/view/layout/header/HeaderMobile.vue";
@@ -72,10 +72,7 @@ import KTSubheader from "@/view/layout/subheader/Subheader.vue";
 import KTStickyToolbar from "@/view/layout/extras/StickyToolbar.vue";
 import KTScrollTop from "@/view/layout/extras/ScrollTop";
 import Loader from "@/view/content/Loader.vue";
-import {
-  ADD_BODY_CLASSNAME,
-  REMOVE_BODY_CLASSNAME
-} from "@/core/services/store/htmlclass.module.js";
+import {ADD_BODY_CLASSNAME, REMOVE_BODY_CLASSNAME} from "@/core/services/store/htmlclass.module.js";
 
 export default {
   name: "Layout",
@@ -98,16 +95,14 @@ export default {
     HtmlClass.init(this.layoutConfig());
   },
   mounted() {
-    // check if current user is authenticated
-    if (!this.isAuthenticated) {
-      this.$router.push({ name: "login" });
-    }
+    // hide page loading
+    // this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
 
     // Simulate the delay page loading
     setTimeout(() => {
       // Remove page loader after some time
       this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
-    }, 2000);
+    }, 1000);
   },
   methods: {
     footerLayout(type) {
