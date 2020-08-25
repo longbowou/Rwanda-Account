@@ -10,11 +10,11 @@ const AUTH_TOKEN = "apollo-token";
 
 // Http endpoint
 const httpEndpoint =
-    process.env.VUE_APP_GRAPHQL_HTTP || "http://localhost:8000/graphql/";
+  process.env.VUE_APP_GRAPHQL_HTTP || "http://localhost:8000/graphql/";
 // Files URL root
 export const filesRoot =
-    process.env.VUE_APP_FILES_ROOT ||
-    httpEndpoint.substr(0, httpEndpoint.indexOf("/graphql"));
+  process.env.VUE_APP_FILES_ROOT ||
+  httpEndpoint.substr(0, httpEndpoint.indexOf("/graphql"));
 
 Vue.prototype.$filesRoot = filesRoot;
 
@@ -56,7 +56,7 @@ const defaultOptions = {
 // Call this in the Vue app file
 export function createProvider(options = {}) {
   // Create apollo client
-  const {apolloClient, wsClient} = createApolloClient({
+  const { apolloClient, wsClient } = createApolloClient({
     ...defaultOptions,
     ...options
   });
@@ -73,9 +73,9 @@ export function createProvider(options = {}) {
     errorHandler(error) {
       // eslint-disable-next-line no-console
       console.log(
-          "%cError",
-          "background: red; color: white; padding: 2px 4px; border-radius: 3px; font-weight: bold;",
-          error.message
+        "%cError",
+        "background: red; color: white; padding: 2px 4px; border-radius: 3px; font-weight: bold;",
+        error.message
       );
     }
   });
