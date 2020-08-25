@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    container_name: rwanda_serve
+    container_name: rwanda_account_app
     build:
       context: .
       dockerfile: Dockerfile

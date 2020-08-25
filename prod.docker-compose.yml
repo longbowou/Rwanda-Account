@@ -2,7 +2,7 @@ version: '3'
 
 services:
   nginx:
-    container_name: metronic_ngnix
+    container_name: rwanda_account_ngnix
     build:
       context: .
       dockerfile: prod.Dockerfile

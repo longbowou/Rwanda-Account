@@ -1,4 +1,9 @@
-FROM node:lts-alpine
+FROM node:lts
+
 WORKDIR /app
-COPY package*.json ./
-RUN yarn install
+
+RUN yarn global add @vue/cli
+
+RUN chown node:node -R /app
+
+USER node

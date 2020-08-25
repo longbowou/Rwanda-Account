@@ -4,19 +4,13 @@ import router from "./router";
 import store from "@/core/services/store";
 import ApiService from "@/core/services/api.service";
 import MockService from "@/core/mock/mock.service";
-import { VERIFY_AUTH } from "@/core/services/store/auth.module";
-import { RESET_LAYOUT_CONFIG } from "@/core/services/store/config.module";
-
-Vue.config.productionTip = false;
-
+import {VERIFY_AUTH} from "@/core/services/store/auth.module";
+import {RESET_LAYOUT_CONFIG} from "@/core/services/store/config.module";
 // Global 3rd party plugins
 import "popper.js";
 import "tooltip.js";
 import PerfectScrollbar from "perfect-scrollbar";
-window.PerfectScrollbar = PerfectScrollbar;
 import ClipboardJS from "clipboard";
-window.ClipboardJS = ClipboardJS;
-
 // Vue 3rd party plugins
 import i18n from "@/core/plugins/vue-i18n";
 import vuetify from "@/core/plugins/vuetify";
@@ -28,6 +22,12 @@ import "@/core/plugins/inline-svg";
 import "@/core/plugins/apexcharts";
 import "@/core/plugins/metronic";
 import "@mdi/font/css/materialdesignicons.css";
+import {createProvider} from "./vue-apollo";
+
+Vue.config.productionTip = false;
+
+window.PerfectScrollbar = PerfectScrollbar;
+window.ClipboardJS = ClipboardJS;
 
 // API service init
 ApiService.init();
@@ -53,5 +53,6 @@ new Vue({
   store,
   i18n,
   vuetify,
+  apolloProvider: createProvider(),
   render: h => h(App)
 }).$mount("#app");

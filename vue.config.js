@@ -3,6 +3,7 @@ const path = require("path");
 module.exports = {
   publicPath:
     process.env.NODE_ENV === "production" ? "/metronic/vue/demo2/" : "/",
+
   configureWebpack: {
     resolve: {
       alias: {
@@ -13,6 +14,7 @@ module.exports = {
       }
     }
   },
+
   chainWebpack: config => {
     config.module
       .rule("eslint")
@@ -22,6 +24,7 @@ module.exports = {
         return options;
       });
   },
+
   css: {
     loaderOptions: {
       postcss: {
@@ -34,5 +37,13 @@ module.exports = {
       }
     }
   },
-  transpileDependencies: ["vuetify"]
+
+  transpileDependencies: ["vuetify"],
+
+  pluginOptions: {
+    apollo: {
+      enableMocks: true,
+      enableEngine: false
+    }
+  }
 };
