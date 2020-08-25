@@ -1,30 +1,18 @@
 <template>
-  <!--begin::Signup-->
-  <div class="login-form login-signup pt-11">
+  <!--begin::Forgot-->
+  <div class="login-form login-forgot pt-11">
     <!--begin::Form-->
-    <form class="form" novalidate="novalidate" id="kt_login_signup_form">
+    <form class="form" novalidate="novalidate" id="kt_login_forgot_form">
       <!--begin::Title-->
       <div class="text-center pb-8">
         <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">
-          Sign Up
+          Forgotten Password ?
         </h2>
         <p class="text-muted font-weight-bold font-size-h4">
-          Enter your details to create your account
+          Enter your email to reset your password
         </p>
       </div>
       <!--end::Title-->
-
-      <!--begin::Form group-->
-      <div class="form-group">
-        <input
-          class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
-          type="text"
-          placeholder="Fullname"
-          name="fullname"
-          autocomplete="off"
-        />
-      </div>
-      <!--end::Form group-->
 
       <!--begin::Form group-->
       <div class="form-group">
@@ -39,49 +27,14 @@
       <!--end::Form group-->
 
       <!--begin::Form group-->
-      <div class="form-group">
-        <input
-          class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
-          type="password"
-          placeholder="Password"
-          name="password"
-          autocomplete="off"
-        />
-      </div>
-      <!--end::Form group-->
-
-      <!--begin::Form group-->
-      <div class="form-group">
-        <input
-          class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
-          type="password"
-          placeholder="Confirm password"
-          name="cpassword"
-          autocomplete="off"
-        />
-      </div>
-      <!--end::Form group-->
-
-      <!--begin::Form group-->
-      <div class="form-group">
-        <label class="checkbox checkbox-lg mb-0">
-          <input type="checkbox" name="agree" />
-          <span class="mr-3"></span>
-          I Agree the terms and conditions.
-        </label>
-      </div>
-      <!--end::Form group-->
-
-      <!--begin::Form group-->
       <div class="form-group d-flex flex-wrap flex-center pb-lg-0 pb-3">
         <button
           type="button"
-          id="kt_login_signup_submit"
+          id="kt_login_forgot_submit"
           class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4"
         >
           Submit
         </button>
-
         <router-link
           to="/login"
           v-slot="{ href, navigate, isActive, isExactActive }"
@@ -99,7 +52,7 @@
     </form>
     <!--end::Form-->
   </div>
-  <!--end::Signup-->
+  <!--end::Forgot-->
 </template>
 
 <style lang="scss" scoped>
@@ -110,16 +63,15 @@
 
 <script>
 import { mapState } from "vuex";
-import { REGISTER } from "@/core/services/store/auth.module";
-import { LOGOUT } from "@/core/services/store/auth.module";
+import { LOGIN, LOGOUT } from "@/core/services/store/auth.module";
 
 import { validationMixin } from "vuelidate";
-import { email, required, minLength } from "vuelidate/lib/validators";
+import { email, minLength, required } from "vuelidate/lib/validators";
 import { SET_HEAD_TITLE } from "@/core/services/store/htmlhead.module";
 
 export default {
   mixins: [validationMixin],
-  name: "register",
+  name: "forgot-password",
   data() {
     return {
       // Remove this dummy login info
@@ -129,12 +81,11 @@ export default {
       }
     };
   },
+  mounted() {
+    this.$store.dispatch(SET_HEAD_TITLE, "Forgot Password");
+  },
   validations: {
     form: {
-      username: {
-        required,
-        minLength: minLength(3)
-      },
       email: {
         required,
         email
@@ -152,7 +103,6 @@ export default {
     },
     resetForm() {
       this.form = {
-        username: null,
         email: null,
         password: null
       };
@@ -167,7 +117,6 @@ export default {
         return;
       }
 
-      const username = this.$v.form.username.$model;
       const email = this.$v.form.email.$model;
       const password = this.$v.form.password.$model;
 
@@ -175,18 +124,15 @@ export default {
       this.$store.dispatch(LOGOUT);
 
       // set spinner to submit button
-      const submitButton = this.$refs["kt_login_signup_submit"];
+      const submitButton = this.$refs["kt_login_signin_submit"];
       submitButton.classList.add("spinner", "spinner-light", "spinner-right");
 
       // dummy delay
       setTimeout(() => {
-        // send register request
+        // send login request
         this.$store
-          .dispatch(REGISTER, {
-            email: email,
-            password: password,
-            username: username
-          })
+          .dispatch(LOGIN, { email, password })
+          // go to which page after successfully login
           .then(() => this.$router.push({ name: "dashboard" }));
 
         submitButton.classList.remove(
@@ -196,9 +142,6 @@ export default {
         );
       }, 2000);
     }
-  },
-  mounted() {
-    this.$store.dispatch(SET_HEAD_TITLE, "Register");
   },
   computed: {
     ...mapState({

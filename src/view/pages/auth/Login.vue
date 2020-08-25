@@ -1,112 +1,87 @@
 <template>
-  <div>
-    <!--begin::Content header-->
-    <div
-      class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10"
-    >
-      <span class="font-weight-bold font-size-3 text-dark-60">
-        Don't have an account yet?
-      </span>
-      <router-link
-        class="font-weight-bold font-size-3 ml-2"
-        :to="{ name: 'register' }"
-      >
-        Sign Up!
-      </router-link>
-    </div>
-    <!--end::Content header-->
-
-    <!--begin::Signin-->
-    <div class="login-form login-signin">
-      <div class="text-center mb-10 mb-lg-20">
-        <h3 class="font-size-h1">Sign In</h3>
-        <p class="text-muted font-weight-semi-bold">
-          Enter your username and password
-        </p>
+  <!--begin::Signin-->
+  <div class="login-form login-signin py-11">
+    <!--begin::Form-->
+    <form class="form" novalidate="novalidate" id="kt_login_signin_form">
+      <!--begin::Title-->
+      <div class="text-center pb-8">
+        <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">
+          Sign In
+        </h2>
+        <span class="text-muted font-weight-bold font-size-h4"
+          >Or
+          <router-link
+            to="/register"
+            v-slot="{ href, navigate, isActive, isExactActive }"
+          >
+            <a
+              :href="href"
+              class="text-primary font-weight-bolder"
+              @click="navigate"
+            >
+              Create An Account
+            </a>
+          </router-link>
+        </span>
       </div>
+      <!--end::Title-->
 
-      <!--begin::Form-->
-      <b-form class="form" @submit.stop.prevent="onSubmit">
-        <div role="alert" class="alert alert-info">
-          <div class="alert-text">
-            Use account <strong>admin@demo.com</strong> and password
-            <strong>demo</strong> to continue.
-          </div>
-        </div>
+      <!--begin::Form group-->
+      <div class="form-group">
+        <label class="font-size-h6 font-weight-bolder text-dark">Email</label>
+        <input
+          class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
+          type="text"
+          name="username"
+          autocomplete="off"
+        />
+      </div>
+      <!--end::Form group-->
 
-        <div
-          role="alert"
-          v-bind:class="{ show: errors.length }"
-          class="alert fade alert-danger"
-        >
-          <div class="alert-text" v-for="(error, i) in errors" :key="i">
-            {{ error }}
-          </div>
-        </div>
-
-        <b-form-group
-          id="example-input-group-1"
-          label=""
-          label-for="example-input-1"
-        >
-          <b-form-input
-            class="form-control form-control-solid h-auto py-5 px-6"
-            id="example-input-1"
-            name="example-input-1"
-            v-model="$v.form.email.$model"
-            :state="validateState('email')"
-            aria-describedby="input-1-live-feedback"
-          ></b-form-input>
-
-          <b-form-invalid-feedback id="input-1-live-feedback">
-            Email is required and a valid email address.
-          </b-form-invalid-feedback>
-        </b-form-group>
-
-        <b-form-group
-          id="example-input-group-2"
-          label=""
-          label-for="example-input-2"
-        >
-          <b-form-input
-            class="form-control form-control-solid h-auto py-5 px-6"
-            type="password"
-            id="example-input-2"
-            name="example-input-2"
-            v-model="$v.form.password.$model"
-            :state="validateState('password')"
-            aria-describedby="input-2-live-feedback"
-          ></b-form-input>
-
-          <b-form-invalid-feedback id="input-2-live-feedback">
-            Password is required.
-          </b-form-invalid-feedback>
-        </b-form-group>
-
-        <!--begin::Action-->
-        <div
-          class="form-group d-flex flex-wrap justify-content-between align-items-center"
-        >
-          <a
-            href="#"
-            class="text-dark-60 text-hover-primary my-3 mr-2"
-            id="kt_login_forgot"
+      <!--begin::Form group-->
+      <div class="form-group">
+        <div class="d-flex justify-content-between mt-n5">
+          <label class="font-size-h6 font-weight-bolder text-dark pt-5"
+            >Password</label
           >
-            Forgot Password ?
-          </a>
-          <button
-            ref="kt_login_signin_submit"
-            class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
+
+          <router-link
+            to="forgot-password"
+            v-slot="{ href, navigate, isActive, isExactActive }"
           >
-            Sign In
-          </button>
+            <a
+              :href="href"
+              class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5"
+              @click="navigate"
+            >
+              Forgot Password ?
+            </a>
+          </router-link>
         </div>
-        <!--end::Action-->
-      </b-form>
-      <!--end::Form-->
-    </div>
-    <!--end::Signin-->
+
+        <input
+          class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
+          type="password"
+          name="password"
+          autocomplete="off"
+        />
+      </div>
+      <!--end::Form group-->
+
+      <!--begin::Action-->
+      <div class="text-center pt-2">
+        <button
+          id="kt_login_signin_submit"
+          class="btn btn-dark font-weight-bolder font-size-h6 px-8 py-4 my-3"
+        >
+          Sign In
+        </button>
+      </div>
+      <!--end::Action-->
+    </form>
+    <!--end::Form-->
   </div>
+  <!--end::Signin-->
 </template>
 
 <style lang="scss" scoped>
