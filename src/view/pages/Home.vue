@@ -46,7 +46,7 @@ import ListWidget9 from "@/view/content/widgets/list/Widget9.vue";
 import StatsWidget7 from "@/view/content/widgets/stats/Widget7.vue";
 import StatsWidget12 from "@/view/content/widgets/stats/Widget12.vue";
 
-import { queryServices } from "@/graphql/HomeQueries";
+import { queryServices } from "@/graphql/home-queries";
 
 export default {
   name: "home",

@@ -76,7 +76,6 @@
 </style>
 
 <script>
-import { mapState } from "vuex";
 import { ADD_BODY_CLASSNAME } from "@/core/services/store/htmlclass.module";
 
 export default {
@@ -94,9 +93,6 @@ export default {
     className() {
       return this.$route.name;
     },
-    ...mapState({
-      errors: state => state.auth.errors
-    }),
     backgroundImage() {
       return (
         process.env.BASE_URL + "media/svg/illustrations/login-visual-2.svg"

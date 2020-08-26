@@ -2,7 +2,12 @@
   <!--begin::Signin-->
   <div class="login-form login-signin py-11">
     <!--begin::Form-->
-    <form class="form" novalidate="novalidate" id="kt_login_signin_form">
+    <form
+      class="form"
+      novalidate="novalidate"
+      id="kt_login_signin_form"
+      @submit="onSubmit"
+    >
       <!--begin::Title-->
       <div class="text-center pb-8">
         <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">
@@ -28,13 +33,21 @@
 
       <!--begin::Form group-->
       <div class="form-group">
-        <label class="font-size-h6 font-weight-bolder text-dark">Email</label>
-        <input
+        <label class="font-size-h6 font-weight-bolder text-dark"
+          >Email or Phone Number</label
+        >
+        <b-form-input
+          :state="validateState('login')"
+          v-model="input.login"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
           type="text"
-          name="username"
           autocomplete="off"
         />
+        <b-form-invalid-feedback id="input-live-feedback">
+          <p :key="message" v-for="message of errorMessages('login')">
+            {{ message }}
+          </p>
+        </b-form-invalid-feedback>
       </div>
       <!--end::Form group-->
 
@@ -59,12 +72,18 @@
           </router-link>
         </div>
 
-        <input
+        <b-form-input
+          :state="validateState('password')"
+          v-model="input.password"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
           type="password"
-          name="password"
           autocomplete="off"
         />
+        <b-form-invalid-feedback id="input-live-feedback">
+          <p :key="message" v-for="message of errorMessages('password')">
+            {{ message }}
+          </p>
+        </b-form-invalid-feedback>
       </div>
       <!--end::Form group-->
 
@@ -91,30 +110,36 @@
 </style>
 
 <script>
-import { mapState } from "vuex";
-import { LOGIN, LOGOUT } from "@/core/services/store/auth.module";
-
+import { mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 import { email, minLength, required } from "vuelidate/lib/validators";
+import { LOGIN, LOGOUT } from "@/core/services/store/auth.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/htmlhead.module";
+import { login } from "@/graphql/auth-mutations";
+import $ from "jquery";
 
 export default {
   mixins: [validationMixin],
   name: "login",
   data() {
     return {
-      // Remove this dummy login info
-      form: {
-        email: "admin@demo.com",
-        password: "demo"
-      }
+      input: {
+        login: "",
+        password: ""
+      },
+      errors: []
     };
+  },
+  beforeMount() {
+    if (this.isAuthenticated) {
+      this.$router.push({ name: "dashboard" });
+    }
   },
   mounted() {
     this.$store.dispatch(SET_HEAD_TITLE, "Login");
   },
   validations: {
-    form: {
+    input: {
       email: {
         required,
         email
@@ -127,55 +152,72 @@ export default {
   },
   methods: {
     validateState(name) {
-      const { $dirty, $error } = this.$v.form[name];
-      return $dirty ? !$error : null;
+      if (Array.isArray(this.errors)) {
+        for (let error of this.errors) {
+          if (error.field === name) {
+            return false;
+          }
+        }
+      }
+      return null;
     },
-    resetForm() {
-      this.form = {
-        email: null,
-        password: null
-      };
+    errorMessages(name) {
+      if (Array.isArray(this.errors)) {
+        for (let error of this.errors) {
+          if (error.field === name) {
+            return error.messages;
+          }
+        }
+      }
+      return [];
+    },
+    async onSubmit(evt) {
+      evt.preventDefault();
 
-      this.$nextTick(() => {
-        this.$v.$reset();
+      // clear existing errors
+      await this.$store.dispatch(LOGOUT);
+
+      // set spinner to submit button
+      const submitButton = $("#kt_login_signin_submit");
+      submitButton.addClass("spinner spinner-light spinner-right");
+
+      this.errors = [];
+
+      let result = await this.$apollo.mutate({
+        mutation: login,
+        variables: {
+          input: this.input
+        }
       });
-    },
-    onSubmit() {
-      this.$v.form.$touch();
-      if (this.$v.form.$anyError) {
+
+      submitButton.removeClass("spinner spinner-light spinner-right");
+
+      if (result.errors !== undefined && result.errors.length > 0) {
         return;
       }
 
-      const email = this.$v.form.email.$model;
-      const password = this.$v.form.password.$model;
+      this.errors = result.data.login.errors;
+      if (this.errors !== undefined && this.errors.length > 0) {
+        return;
+      }
 
-      // clear existing errors
-      this.$store.dispatch(LOGOUT);
-
-      // set spinner to submit button
-      const submitButton = this.$refs["kt_login_signin_submit"];
-      submitButton.classList.add("spinner", "spinner-light", "spinner-right");
-
-      // dummy delay
-      setTimeout(() => {
-        // send login request
-        this.$store
-          .dispatch(LOGIN, { email, password })
-          // go to which page after successfully login
-          .then(() => this.$router.push({ name: "dashboard" }));
-
-        submitButton.classList.remove(
-          "spinner",
-          "spinner-light",
-          "spinner-right"
-        );
-      }, 2000);
+      this.$store
+        .dispatch(LOGIN, {
+          account: result.data.login.account,
+          auth: result.data.login.auth
+        })
+        // go to which page after successfully login
+        .then(() => this.$router.push({ name: "dashboard" }));
     }
   },
   computed: {
-    ...mapState({
-      errors: state => state.auth.errors
-    })
+    ...mapGetters(["isAuthenticated"]),
+    loginState() {
+      return this.validateState("login");
+    },
+    loginErrorMessages() {
+      return this.errorMessages("login");
+    }
   }
 };
 </script>

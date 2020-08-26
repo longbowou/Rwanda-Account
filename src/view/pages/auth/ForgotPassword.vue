@@ -62,7 +62,6 @@
 </style>
 
 <script>
-import { mapState } from "vuex";
 import { LOGIN, LOGOUT } from "@/core/services/store/auth.module";
 
 import { validationMixin } from "vuelidate";
@@ -143,10 +142,6 @@ export default {
       }, 2000);
     }
   },
-  computed: {
-    ...mapState({
-      errors: state => state.auth.errors
-    })
-  }
+  computed: {}
 };
 </script>

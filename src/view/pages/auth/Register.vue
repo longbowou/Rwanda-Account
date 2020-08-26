@@ -109,7 +109,6 @@
 </style>
 
 <script>
-import { mapState } from "vuex";
 import { REGISTER } from "@/core/services/store/auth.module";
 import { LOGOUT } from "@/core/services/store/auth.module";
 
@@ -201,9 +200,6 @@ export default {
     this.$store.dispatch(SET_HEAD_TITLE, "Register");
   },
   computed: {
-    ...mapState({
-      errors: state => state.auth.errors
-    })
   }
 };
 </script>
