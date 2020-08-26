@@ -45,6 +45,7 @@ import ListWidget8 from "@/view/content/widgets/list/Widget8.vue";
 import ListWidget9 from "@/view/content/widgets/list/Widget9.vue";
 import StatsWidget7 from "@/view/content/widgets/stats/Widget7.vue";
 import StatsWidget12 from "@/view/content/widgets/stats/Widget12.vue";
+import { SET_HEAD_TITLE } from "@/core/services/store/htmlhead.module";
 
 export default {
   name: "dashboard",
@@ -61,6 +62,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Dashboard" }]);
+    this.$store.dispatch(SET_HEAD_TITLE, "Dashboard");
   },
   methods: {
     setActiveTab1(event) {

@@ -47,6 +47,7 @@ import StatsWidget7 from "@/view/content/widgets/stats/Widget7.vue";
 import StatsWidget12 from "@/view/content/widgets/stats/Widget12.vue";
 
 import { queryServices } from "@/graphql/home-queries";
+import { SET_HEAD_TITLE } from "@/core/services/store/htmlhead.module";
 
 export default {
   name: "home",
@@ -68,6 +69,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Home" }]);
+    this.$store.dispatch(SET_HEAD_TITLE, "Home");
   },
   methods: {
     setActiveTab1(event) {
