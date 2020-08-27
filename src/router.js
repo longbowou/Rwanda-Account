@@ -20,6 +20,12 @@ export default new Router({
           name: "dashboard",
           component: () => import("@/view/pages/Dashboard.vue"),
           meta: { requiresAuth: true }
+        },
+        {
+          path: "/profile",
+          name: "profile",
+          component: () => import("@/view/pages/account/Profile.vue"),
+          meta: { requiresAuth: true }
         }
       ]
     },
