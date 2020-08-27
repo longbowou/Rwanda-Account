@@ -24,26 +24,26 @@ export default new Router({
         {
           path: "/profile",
           redirect: "/profile-overview",
-          component: () => import("@/view/pages/account/Profile"),
+          component: () => import("@/view/pages/profile/Layout"),
           meta: { requiresAuth: true },
           children: [
             {
               path: "/profile-overview",
               name: "profile-overview",
-              component: () => import("@/view/pages/account/ProfileOverview"),
+              component: () => import("@/view/pages/profile/ProfileOverview"),
               meta: { requiresAuth: true }
             },
             {
               path: "/personal-information",
               name: "personal-information",
               component: () =>
-                import("@/view/pages/account/PersonalInformation"),
+                import("@/view/pages/profile/PersonalInformation"),
               meta: { requiresAuth: true }
             },
             {
               path: "/change-password",
               name: "change-password",
-              component: () => import("@/view/pages/account/ChangePassword"),
+              component: () => import("@/view/pages/profile/ChangePassword"),
               meta: { requiresAuth: true }
             }
           ]
@@ -89,7 +89,7 @@ export default new Router({
     },
     {
       path: "/",
-      component: () => import("@/view/pages/auth/Auth"),
+      component: () => import("@/view/pages/auth/Layout"),
       children: [
         {
           name: "signin",
