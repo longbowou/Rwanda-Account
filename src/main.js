@@ -21,7 +21,9 @@ import "@/core/plugins/inline-svg";
 import "@/core/plugins/apexcharts";
 import "@/core/plugins/metronic";
 import "@mdi/font/css/materialdesignicons.css";
+
 import { createProvider } from "./vue-apollo";
+import JwtService from "@/core/services/jwt.service";
 
 Vue.config.productionTip = false;
 
@@ -35,6 +37,15 @@ ApiService.init();
 MockService.init();
 
 router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (JwtService.getAuth() === null) {
+      next({
+        name: "signin",
+        query: { next: to.fullPath }
+      });
+    }
+  }
+
   // Ensure we checked auth before each page load.
   Promise.all([]).then(next);
 

@@ -192,7 +192,13 @@ export default {
           auth: result.data.login.auth
         })
         // go to which page after successfully login
-        .then(() => this.$router.push({ name: "dashboard" }));
+        .then(() => {
+          if ("next" in this.$route.query) {
+            this.$router.push({ path: this.$route.query.next });
+          }
+
+          this.$router.push({ name: "dashboard" });
+        });
     }
   },
   computed: {
