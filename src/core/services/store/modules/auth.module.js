@@ -61,10 +61,11 @@ const actions = {
 const mutations = {
   [SET_AUTH](state, payload) {
     state.isAuthenticated = true;
-    if (payload.account !== undefined) {
+    if (typeof payload.account === "object") {
       state.account = payload.account;
     }
-    if (payload.auth !== undefined) {
+
+    if (typeof payload.auth === "object") {
       state.auth = payload.auth;
       JwtService.saveAuth(state.auth);
     }
