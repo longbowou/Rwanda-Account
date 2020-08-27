@@ -1,15 +1,23 @@
-const ID_TOKEN_KEY = "id_token";
+const AUTH_KEY = "AUTH_OBJECT_KEY";
 
-export const getToken = () => {
-  return window.localStorage.getItem(ID_TOKEN_KEY);
+export const getAuth = () => {
+  let auth = window.localStorage.getItem(AUTH_KEY);
+  if (typeof auth === "string") {
+    return JSON.parse(auth);
+  }
+  return null;
 };
 
-export const saveToken = token => {
-  window.localStorage.setItem(ID_TOKEN_KEY, token);
+export const saveAuth = auth => {
+  window.localStorage.setItem(AUTH_KEY, JSON.stringify(auth));
 };
 
-export const destroyToken = () => {
-  window.localStorage.removeItem(ID_TOKEN_KEY);
+export const destroyAuth = () => {
+  window.localStorage.removeItem(AUTH_KEY);
 };
 
-export default { getToken, saveToken, destroyToken };
+export default {
+  getAuth: getAuth,
+  saveAuth: saveAuth,
+  destroyAuth: destroyAuth
+};

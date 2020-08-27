@@ -18,12 +18,12 @@ export default new Router({
       ]
     },
     {
-      path: "/_/",
-      redirect: "/_/dashboard",
+      path: "/",
+      redirect: "/dashboard",
       component: () => import("@/view/layout/AuthLayout"),
       children: [
         {
-          path: "/_/dashboard",
+          path: "/dashboard",
           name: "dashboard",
           component: () => import("@/view/pages/Dashboard.vue")
         },
@@ -429,14 +429,19 @@ export default new Router({
       component: () => import("@/view/pages/auth/Auth"),
       children: [
         {
-          name: "login",
+          name: "signin",
           path: "/login",
           component: () => import("@/view/pages/auth/Login")
         },
         {
-          name: "register",
+          name: "signup",
           path: "/register",
           component: () => import("@/view/pages/auth/Register")
+        },
+        {
+          name: "forgot",
+          path: "/forgot-password",
+          component: () => import("@/view/pages/auth/ForgotPassword")
         }
       ]
     },

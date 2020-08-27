@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 import KTAside from "@/view/layout/aside/Aside.vue";
 import KTHeader from "@/view/layout/header/Header.vue";
 import KTHeaderMobile from "@/view/layout/header/HeaderMobile.vue";
@@ -102,8 +102,8 @@ export default {
     // this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
 
     // check if current user is authenticated
-    if (!this.isAuthenticated) {
-      this.$router.push({name: "login"});
+    if (this.isNotAuthenticated) {
+      this.$router.push({ name: "login" });
     }
 
     // Simulate the delay page loading
@@ -120,6 +120,7 @@ export default {
   computed: {
     ...mapGetters([
       "isAuthenticated",
+      "isNotAuthenticated",
       "breadcrumbs",
       "pageTitle",
       "layoutConfig"

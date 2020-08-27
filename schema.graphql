@@ -100,6 +100,12 @@ type ApproveServicePurchase {
     servicePurchase: ServicePurchaseType
 }
 
+type AuthType {
+    refreshToken: String!
+    token: String!
+    tokenExpiresIn: String!
+}
+
 type CancelServicePurchase {
     errors: [ErrorType]
     servicePurchase: ServicePurchaseType
@@ -217,10 +223,8 @@ type LitigationType {
 
 type LoginAccount {
     account: AccountType
+    auth: AuthType
     errors: [ErrorType]
-    refreshToken: String
-    token: String
-    tokenExpiresIn: Int
 }
 
 type OperationType {
