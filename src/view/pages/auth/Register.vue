@@ -130,13 +130,13 @@
       <!--end::Form group-->
 
       <!--begin::Form group-->
-      <div class="form-group">
-        <label class="checkbox checkbox-lg mb-0">
-          <input type="checkbox" name="agree" />
-          <span class="mr-3"></span>
-          I Agree the terms and conditions.
-        </label>
-      </div>
+      <!--      <div class="form-group">-->
+      <!--        <label class="checkbox checkbox-lg mb-0">-->
+      <!--          <input type="checkbox" name="agree" />-->
+      <!--          <span class="mr-3"></span>-->
+      <!--          I Agree the terms and conditions.-->
+      <!--        </label>-->
+      <!--      </div>-->
       <!--end::Form group-->
 
       <!--begin::Form group-->
@@ -207,7 +207,7 @@ export default {
 
       // set spinner to submit button
       const submitButton = $("#kt_login_signup_submit");
-      submitButton.addClass("spinner", "spinner-light", "spinner-right");
+      submitButton.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
 
@@ -218,18 +218,18 @@ export default {
         }
       });
 
-      submitButton.removeClass("spinner", "spinner-light", "spinner-right");
-
       if (typeof result.errors === "object") {
+        submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
 
       this.errors = result.data.createAccount.errors;
       if (this.errors !== undefined && this.errors.length > 0) {
+        submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
 
-      await this.$router.push({ name: "signin" });
+      await this.$router.push({ name: "signin", query: { registered: "yes" } });
     }
   },
   mounted() {

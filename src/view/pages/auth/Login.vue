@@ -4,7 +4,7 @@
     <!--begin::Form-->
     <form class="form" id="kt_login_signin_form" @submit="onSubmit">
       <!--begin::Title-->
-      <div class="text-center pb-8">
+      <div :class="isRegistered ? 'text-center pb-4' : 'text-center pb-8'">
         <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">
           Sign In
         </h2>
@@ -23,13 +23,34 @@
             </a>
           </router-link>
         </span>
+
+        <div
+          v-if="isRegistered"
+          class="d-flex align-items-center bg-light-success rounded p-5 mt-3 mb-0 gutter-b"
+        >
+          <span
+            class="svg-icon svg-icon-success svg-icon-3x pulse pulse-success"
+          >
+            <span class="pulse-ring"></span>
+            <inline-svg src="media/svg/icons/Code/Compiling.svg" />
+          </span>
+
+          <div class="d-flex flex-column flex-grow-1 mr-9">
+            <p
+              class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"
+            >
+              Successful registration
+            </p>
+            <span class="text-muted font-size-sm">You can now login</span>
+          </div>
+        </div>
       </div>
       <!--end::Title-->
 
       <!--begin::Form group-->
       <div class="form-group">
         <label class="font-size-h6 font-weight-bolder text-dark"
-          >Email or Phone Number</label
+          >Username or Email</label
         >
         <b-form-input
           required
@@ -154,14 +175,14 @@ export default {
         }
       });
 
-      submitButton.removeClass("spinner spinner-light spinner-right");
-
       if (typeof result.errors === "object") {
+        submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
 
       this.errors = result.data.login.errors;
       if (this.errors !== undefined && this.errors.length > 0) {
+        submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
 
@@ -176,6 +197,9 @@ export default {
   },
   computed: {
     ...mapGetters(["isAuthenticated"]),
+    isRegistered() {
+      return "registered" in this.$route.query;
+    },
     loginState() {
       return this.validateState("login");
     },
