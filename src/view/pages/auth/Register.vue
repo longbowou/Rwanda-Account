@@ -2,7 +2,7 @@
   <!--begin::Signup-->
   <div class="login-form login-signup pt-11">
     <!--begin::Form-->
-    <form class="form" novalidate="novalidate" id="kt_login_signup_form">
+    <form class="form" id="kt_login_signup_form" @submit="onSubmit">
       <!--begin::Title-->
       <div class="text-center pb-8">
         <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">
@@ -16,49 +16,116 @@
 
       <!--begin::Form group-->
       <div class="form-group">
-        <input
+        <b-form-input
+          required
+          :state="validateState('username')"
+          v-model="input.username"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
           type="text"
-          placeholder="Fullname"
-          name="fullname"
+          placeholder="Username"
           autocomplete="off"
         />
+        <b-form-invalid-feedback id="input-live-feedback">
+          <p :key="message" v-for="message of errorMessages('username')">
+            {{ message }}
+          </p>
+        </b-form-invalid-feedback>
       </div>
       <!--end::Form group-->
 
       <!--begin::Form group-->
       <div class="form-group">
-        <input
+        <b-form-input
+          required
+          :state="validateState('email')"
+          v-model="input.email"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
           type="email"
           placeholder="Email"
-          name="email"
           autocomplete="off"
         />
+        <b-form-invalid-feedback id="input-live-feedback">
+          <p :key="message" v-for="message of errorMessages('email')">
+            {{ message }}
+          </p>
+        </b-form-invalid-feedback>
       </div>
       <!--end::Form group-->
 
       <!--begin::Form group-->
       <div class="form-group">
-        <input
+        <b-form-input
+          :state="validateState('firstName')"
+          v-model="input.firstName"
+          class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
+          type="text"
+          placeholder="First Name"
+          autocomplete="off"
+        />
+        <b-form-invalid-feedback id="input-live-feedback">
+          <p :key="message" v-for="message of errorMessages('first_name')">
+            {{ message }}
+          </p>
+        </b-form-invalid-feedback>
+      </div>
+      <!--end::Form group-->
+
+      <!--begin::Form group-->
+      <div class="form-group">
+        <b-form-input
+          :state="validateState('lastName')"
+          v-model="input.lastName"
+          class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
+          type="text"
+          placeholder="Last Name"
+          autocomplete="off"
+        />
+        <b-form-invalid-feedback id="input-live-feedback">
+          <p :key="message" v-for="message of errorMessages('lastName')">
+            {{ message }}
+          </p>
+        </b-form-invalid-feedback>
+      </div>
+      <!--end::Form group-->
+
+      <!--begin::Form group-->
+      <div class="form-group">
+        <b-form-input
+          required
+          :state="validateState('password')"
+          v-model="input.password"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
           type="password"
           placeholder="Password"
-          name="password"
           autocomplete="off"
         />
+        <b-form-invalid-feedback id="input-live-feedback">
+          <p :key="message" v-for="message of errorMessages('password')">
+            {{ message }}
+          </p>
+        </b-form-invalid-feedback>
       </div>
       <!--end::Form group-->
 
       <!--begin::Form group-->
       <div class="form-group">
-        <input
+        <b-form-input
+          required
+          :state="validateState('passwordConfirmation')"
+          v-model="input.passwordConfirmation"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
           type="password"
           placeholder="Confirm password"
-          name="cpassword"
           autocomplete="off"
         />
+        <b-form-invalid-feedback id="input-live-feedback">
+          <p
+            :key="message"
+            v-for="message of errorMessages('passwordConfirmation')"
+          >
+            {{ message }}
+          </p>
+        </b-form-invalid-feedback>
       </div>
       <!--end::Form group-->
 
@@ -75,9 +142,9 @@
       <!--begin::Form group-->
       <div class="form-group d-flex flex-wrap flex-center pb-lg-0 pb-3">
         <button
-          type="button"
+          type="submit"
           id="kt_login_signup_submit"
-          class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4"
+          class="btn btn-dark font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4"
         >
           Submit
         </button>
@@ -109,97 +176,65 @@
 </style>
 
 <script>
-import { REGISTER } from "@/core/services/store/modules/auth.module";
 import { LOGOUT } from "@/core/services/store/modules/auth.module";
 
-import { validationMixin } from "vuelidate";
-import { email, required, minLength } from "vuelidate/lib/validators";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
+import { formMixin } from "@/view/mixins";
+import { register } from "@/graphql/auth-mutations";
+import $ from "jquery";
 
 export default {
-  mixins: [validationMixin],
+  mixins: [formMixin],
   name: "register",
   data() {
     return {
-      // Remove this dummy login info
-      form: {
-        email: "admin@demo.com",
-        password: "demo"
+      input: {
+        username: "",
+        email: "",
+        firstName: "",
+        lastName: "",
+        password: "",
+        passwordConfirmation: ""
       }
     };
   },
-  validations: {
-    form: {
-      username: {
-        required,
-        minLength: minLength(3)
-      },
-      email: {
-        required,
-        email
-      },
-      password: {
-        required,
-        minLength: minLength(3)
-      }
-    }
-  },
   methods: {
-    validateState(name) {
-      const { $dirty, $error } = this.$v.form[name];
-      return $dirty ? !$error : null;
-    },
-    resetForm() {
-      this.form = {
-        username: null,
-        email: null,
-        password: null
-      };
-
-      this.$nextTick(() => {
-        this.$v.$reset();
-      });
-    },
-    onSubmit() {
-      this.$v.form.$touch();
-      if (this.$v.form.$anyError) {
-        return;
-      }
-
-      const username = this.$v.form.username.$model;
-      const email = this.$v.form.email.$model;
-      const password = this.$v.form.password.$model;
+    async onSubmit(evt) {
+      evt.preventDefault();
 
       // clear existing errors
       this.$store.dispatch(LOGOUT);
 
       // set spinner to submit button
-      const submitButton = this.$refs["kt_login_signup_submit"];
-      submitButton.classList.add("spinner", "spinner-light", "spinner-right");
+      const submitButton = $("#kt_login_signup_submit");
+      submitButton.addClass("spinner", "spinner-light", "spinner-right");
 
-      // dummy delay
-      setTimeout(() => {
-        // send register request
-        this.$store
-          .dispatch(REGISTER, {
-            email: email,
-            password: password,
-            username: username
-          })
-          .then(() => this.$router.push({ name: "dashboard" }));
+      this.errors = [];
 
-        submitButton.classList.remove(
-          "spinner",
-          "spinner-light",
-          "spinner-right"
-        );
-      }, 2000);
+      let result = await this.$apollo.mutate({
+        mutation: register,
+        variables: {
+          input: this.input
+        }
+      });
+
+      submitButton.removeClass("spinner", "spinner-light", "spinner-right");
+
+      if (typeof result.errors === "object") {
+        return;
+      }
+
+      this.errors = result.data.createAccount.errors;
+      if (this.errors !== undefined && this.errors.length > 0) {
+        return;
+      }
+
+      await this.$router.push({ name: "signin" });
     }
   },
   mounted() {
     this.$store.dispatch(SET_HEAD_TITLE, "Register");
   },
-  computed: {
-  }
+  computed: {}
 };
 </script>

@@ -21,3 +21,18 @@ export const login = gql`
   ${accountFields}
   ${authTokenFields}
 `;
+
+export const register = gql`
+  mutation($input: AccountInput!) {
+    createAccount(input: $input) {
+      errors {
+        ...errorFields
+      }
+      account {
+        ...accountFields
+      }
+    }
+  }
+  ${errorFields}
+  ${accountFields}
+`;

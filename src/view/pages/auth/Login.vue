@@ -2,12 +2,7 @@
   <!--begin::Signin-->
   <div class="login-form login-signin py-11">
     <!--begin::Form-->
-    <form
-      class="form"
-      novalidate="novalidate"
-      id="kt_login_signin_form"
-      @submit="onSubmit"
-    >
+    <form class="form" id="kt_login_signin_form" @submit="onSubmit">
       <!--begin::Title-->
       <div class="text-center pb-8">
         <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">
@@ -37,6 +32,7 @@
           >Email or Phone Number</label
         >
         <b-form-input
+          required
           :state="validateState('login')"
           v-model="input.login"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
@@ -73,6 +69,7 @@
         </div>
 
         <b-form-input
+          required
           :state="validateState('password')"
           v-model="input.password"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
@@ -111,15 +108,14 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { validationMixin } from "vuelidate";
-import { email, minLength, required } from "vuelidate/lib/validators";
 import { LOGIN, LOGOUT } from "@/core/services/store/modules/auth.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { login } from "@/graphql/auth-mutations";
 import $ from "jquery";
+import { formMixin } from "@/view/mixins";
 
 export default {
-  mixins: [validationMixin],
+  mixins: [formMixin],
   name: "login",
   data() {
     return {
@@ -138,39 +134,7 @@ export default {
   mounted() {
     this.$store.dispatch(SET_HEAD_TITLE, "Login");
   },
-  validations: {
-    input: {
-      email: {
-        required,
-        email
-      },
-      password: {
-        required,
-        minLength: minLength(3)
-      }
-    }
-  },
   methods: {
-    validateState(name) {
-      if (Array.isArray(this.errors)) {
-        for (let error of this.errors) {
-          if (error.field === name) {
-            return false;
-          }
-        }
-      }
-      return null;
-    },
-    errorMessages(name) {
-      if (Array.isArray(this.errors)) {
-        for (let error of this.errors) {
-          if (error.field === name) {
-            return error.messages;
-          }
-        }
-      }
-      return [];
-    },
     async onSubmit(evt) {
       evt.preventDefault();
 
@@ -192,7 +156,7 @@ export default {
 
       submitButton.removeClass("spinner spinner-light spinner-right");
 
-      if (result.errors !== undefined && result.errors.length > 0) {
+      if (typeof result.errors === "object") {
         return;
       }
 
