@@ -3,31 +3,76 @@
     <!--begin::Dashboard-->
     <div class="row">
       <div class="col-xxl-4">
-        <MixedWidget1></MixedWidget1>
-      </div>
-      <div class="col-xxl-4">
-        <ListWidget9></ListWidget9>
-      </div>
-      <div class="col-xxl-4">
-        <StatsWidget7></StatsWidget7>
-        <StatsWidget12></StatsWidget12>
+        <!--begin::Stats Widget 29-->
+        <div
+          class="card card-custom bgi-no-repeat card-stretch gutter-b"
+          style="background-position: right top; background-size: 30% auto; background-image: url(media/svg/shapes/abstract-1.svg)"
+        >
+          <!--begin::Body-->
+          <div class="card-body">
+            <span class="svg-icon svg-icon-4x svg-icon-dark">
+              <inline-svg src="media/svg/icons/Shopping/Credit-card.svg" />
+            </span>
+            <span
+              class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block"
+            >
+              {{ currentAccount !== null ? currentAccount.balance : null }}
+              {{ currency }}
+            </span>
+            <span class="font-weight-bold text-muted  font-size-sm"
+              >Balance</span
+            >
+          </div>
+          <!--end::Body-->
+        </div>
       </div>
 
-      <div class="col-xxl-4 order-1 order-xxl-1">
-        <ListWidget1></ListWidget1>
-      </div>
-      <div class="col-xxl-8 order-2 order-xxl-1">
-        <AdvancedTableWidget2></AdvancedTableWidget2>
+      <div class="col-xxl-4">
+        <div
+          class="card card-custom bgi-no-repeat card-stretch gutter-b"
+          style="background-position: right top; background-size: 30% auto; background-image: url(media/svg/shapes/abstract-4.svg)"
+        >
+          <!--begin::Body-->
+          <div class="card-body">
+            <span class="svg-icon svg-icon-4x svg-icon-dark">
+              <inline-svg src="media/svg/icons/Shopping/Cart1.svg" />
+            </span>
+            <span
+              class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block"
+              >{{
+                currentAccount !== null ? currentAccount.purchasesCount : null
+              }}</span
+            >
+            <span class="font-weight-bold text-muted  font-size-sm"
+              >Purchases</span
+            >
+          </div>
+          <!--end::Body-->
+        </div>
       </div>
 
-      <div class="col-xxl-4 order-1 order-xxl-2">
-        <ListWidget3></ListWidget3>
-      </div>
-      <div class="col-xxl-4 order-1 order-xxl-2">
-        <ListWidget4></ListWidget4>
-      </div>
-      <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
-        <ListWidget8></ListWidget8>
+      <div class="col-xxl-4">
+        <div
+          class="card card-custom bgi-no-repeat card-stretch gutter-b"
+          style="background-position: right top; background-size: 30% auto; background-image: url(media/svg/shapes/abstract-3.svg)"
+        >
+          <!--begin::Body-->
+          <div class="card-body">
+            <span class="svg-icon svg-icon-4x svg-icon-dark">
+              <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
+            </span>
+            <span
+              class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block"
+              >{{
+                currentAccount !== null ? currentAccount.servicesCount : null
+              }}</span
+            >
+            <span class="font-weight-bold text-muted  font-size-sm"
+              >Services</span
+            >
+          </div>
+          <!--end::Body-->
+        </div>
       </div>
     </div>
     <!--end::Dashboard-->
@@ -36,29 +81,13 @@
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
-import AdvancedTableWidget2 from "@/view/content/widgets/advance-table/Widget2.vue";
-import MixedWidget1 from "@/view/content/widgets/mixed/Widget1.vue";
-import ListWidget1 from "@/view/content/widgets/list/Widget1.vue";
-import ListWidget3 from "@/view/content/widgets/list/Widget3.vue";
-import ListWidget4 from "@/view/content/widgets/list/Widget4.vue";
-import ListWidget8 from "@/view/content/widgets/list/Widget8.vue";
-import ListWidget9 from "@/view/content/widgets/list/Widget9.vue";
-import StatsWidget7 from "@/view/content/widgets/stats/Widget7.vue";
-import StatsWidget12 from "@/view/content/widgets/stats/Widget12.vue";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
+import { mapGetters } from "vuex";
 
 export default {
   name: "dashboard",
-  components: {
-    AdvancedTableWidget2,
-    MixedWidget1,
-    ListWidget1,
-    ListWidget3,
-    ListWidget4,
-    ListWidget8,
-    ListWidget9,
-    StatsWidget7,
-    StatsWidget12
+  computed: {
+    ...mapGetters(["currentAccount", "currency"])
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Dashboard" }]);

@@ -73,10 +73,12 @@ type AccountType implements UserInterface {
     lastName: String
     litigationSet: [LitigationType!]!
     operationSet: [OperationType!]!
+    purchasesCount: Int!
     refundSet: [RefundType!]!
     serviceSet: [ServiceType!]!
     servicecommentSet: [ServiceCommentType!]!
     servicepurchaseSet: [ServicePurchaseType!]!
+    servicesCount: Int!
     updatedAt: DateTime!
     username: String!
 }

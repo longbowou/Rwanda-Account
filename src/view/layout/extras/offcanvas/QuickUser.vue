@@ -12,7 +12,7 @@
       <span
         class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-2"
       >
-        {{ currentAccount !== undefined ? currentAccount.fullName : null }}
+        {{ currentAccount !== null ? currentAccount.fullName : null }}
       </span>
       <span class="symbol symbol-35">
         <span
@@ -62,7 +62,7 @@
               href="#"
               class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"
             >
-              {{ account !== null ? account.fullName : null }}
+              {{ currentAccount !== null ? currentAccount.fullName : null }}
             </a>
             <div class="navi mt-2">
               <a href="#" class="navi-item">
@@ -75,7 +75,7 @@
                     </span>
                   </span>
                   <span class="navi-text text-muted text-hover-primary">
-                    {{ account !== null ? account.balance : null }}
+                    {{ currentAccount !== null ? currentAccount.balance : null }}
                     {{ currency }}
                   </span>
                 </span>
@@ -94,7 +94,7 @@
                     </span>
                   </span>
                   <span class="navi-text text-muted text-hover-primary">
-                    {{ account !== null ? account.email : null }}
+                    {{ currentAccount !== null ? currentAccount.email : null }}
                   </span>
                 </span>
               </a>
@@ -280,11 +280,6 @@ export default {
   },
   computed: {
     ...mapGetters(["currentAccount", "currency"]),
-    account() {
-      return typeof this.currentAccount === "object"
-        ? this.currentAccount
-        : null;
-    },
     picture() {
       return process.env.BASE_URL + "media/svg/icons/General/User.svg";
     }
