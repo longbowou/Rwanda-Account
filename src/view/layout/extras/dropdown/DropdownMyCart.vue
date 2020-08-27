@@ -8,12 +8,21 @@
       <span class="btn btn-md btn-icon bg-white-o-15 mr-4">
         <i class="flaticon2-shopping-cart-1 text-success" />
       </span>
-      <h4 class="text-white m-0 flex-grow-1 mr-3">My Cart</h4>
-      <button type="button" class="btn btn-success btn-sm">2 Items</button>
+      <h4 class="text-white m-0 flex-grow-1 mr-3">Purchases in progress</h4>
+      <!--      <button type="button" class="btn btn-success btn-sm">2 Items</button>-->
     </div>
     <!--end::Header-->
 
-    <div class="scroll scroll-push">
+    <div
+      class="d-flex flex-center text-center text-muted min-h-200px"
+      v-if="isEmpty"
+    >
+      All caught up!
+      <br />
+      No new purchases.
+    </div>
+
+    <div class="scroll scroll-push" v-if="isNotEmpty">
       <perfect-scrollbar
         class="scroll"
         style="max-height: 30vh; position: relative;"
@@ -59,26 +68,6 @@
         <div class="separator separator-solid"></div>
       </perfect-scrollbar>
     </div>
-
-    <!--begin::Summary-->
-    <div class="p-8">
-      <div class="d-flex align-items-center justify-content-between mb-4">
-        <span class="font-weight-bold text-muted font-size-sm mr-2">Total</span>
-        <span class="font-weight-bolder text-dark-50 text-right">$1840.00</span>
-      </div>
-      <div class="d-flex align-items-center justify-content-between mb-7">
-        <span class="font-weight-bold text-muted font-size-sm mr-2"
-          >Sub total</span
-        >
-        <span class="font-weight-bolder text-primary text-right">$5640.00</span>
-      </div>
-      <div class="text-right">
-        <button type="button" class="btn btn-primary text-weight-bold">
-          Place Order
-        </button>
-      </div>
-    </div>
-    <!--end::Summary-->
   </form>
 </template>
 
@@ -88,38 +77,23 @@ export default {
   data() {
     return {
       list: [
-        {
-          title: "iBlender",
-          desc: "Best kichen badge in 2020",
-          price: "$ 350",
-          quantity: "5",
-          img: process.env.BASE_URL + "media/stock-600x400/img-1.jpg"
-        },
-        {
-          title: "SmartCleaner",
-          desc: "Smart tool for cooking",
-          price: "$ 650",
-          quantity: "4",
-          img: process.env.BASE_URL + "media/stock-600x400/img-2.jpg"
-        },
-        {
-          title: "CameraX",
-          desc: "Professional camera for edge cutting shots",
-          price: "$ 150",
-          quantity: "3",
-          img: process.env.BASE_URL + "media/stock-600x400/img-3.jpg"
-        },
-        {
-          title: "3DPrinted",
-          desc: "Manufactoring unique objects",
-          price: "$ 1450",
-          quantity: "7",
-          img: process.env.BASE_URL + "media/stock-600x400/img-4.jpg"
-        }
+        // {
+        //   title: "iBlender",
+        //   desc: "Best kichen badge in 2020",
+        //   price: "$ 350",
+        //   quantity: "5",
+        //   img: process.env.BASE_URL + "media/stock-600x400/img-1.jpg"
+        // }
       ]
     };
   },
   computed: {
+    isEmpty() {
+      return this.list.length === 0;
+    },
+    isNotEmpty() {
+      return !this.isEmpty;
+    },
     backgroundImage() {
       return process.env.BASE_URL + "media/misc/bg-1.jpg";
     }

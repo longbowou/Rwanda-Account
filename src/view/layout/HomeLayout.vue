@@ -99,13 +99,13 @@ export default {
   },
   mounted() {
     // hide page loading
-    // this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
+    this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
 
     // Simulate the delay page loading
-    setTimeout(() => {
-      // Remove page loader after some time
-      this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
-    }, 1000);
+    // setTimeout(() => {
+    // Remove page loader after some time
+    // this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
+    // }, 1000);
   },
   methods: {
     footerLayout(type) {

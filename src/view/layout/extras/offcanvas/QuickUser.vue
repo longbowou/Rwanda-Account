@@ -70,12 +70,16 @@
                   <span class="navi-icon mr-1">
                     <span class="svg-icon svg-icon-lg svg-icon-primary">
                       <!--begin::Svg Icon-->
-                      <inline-svg src="media/svg/icons/Shopping/Credit-card.svg" />
+                      <inline-svg
+                        src="media/svg/icons/Shopping/Credit-card.svg"
+                      />
                       <!--end::Svg Icon-->
                     </span>
                   </span>
                   <span class="navi-text text-muted text-hover-primary">
-                    {{ currentAccount !== null ? currentAccount.balance : null }}
+                    {{
+                      currentAccount !== null ? currentAccount.balance : null
+                    }}
                     {{ currency }}
                   </span>
                 </span>
@@ -192,43 +196,55 @@
           <!--begin:Heading-->
           <h5 class="mb-5">Recent Notifications</h5>
           <!--end:Heading-->
-          <template v-for="(item, i) in list">
-            <!--begin::Item -->
-            <div
-              class="d-flex align-items-center rounded p-5 gutter-b"
-              v-bind:class="`bg-light-${item.type}`"
-              v-bind:key="i"
-            >
-              <span
-                class="svg-icon mr-5"
-                v-bind:class="`svg-icon-${item.type}`"
+
+          <div
+            class="d-flex flex-center text-center text-muted min-h-200px"
+            v-if="isEmpty"
+          >
+            All caught up!
+            <br />
+            No new notifications.
+          </div>
+
+          <div v-if="isNotEmpty">
+            <template v-for="(item, i) in list">
+              <!--begin::Item -->
+              <div
+                class="d-flex align-items-center rounded p-5 gutter-b"
+                v-bind:class="`bg-light-${item.type}`"
+                v-bind:key="i"
               >
-                <span class="svg-icon svg-icon-lg">
-                  <!--begin::Svg Icon-->
-                  <inline-svg :src="item.svg" />
-                  <!--end::Svg Icon-->
-                </span>
-              </span>
-              <div class="d-flex flex-column flex-grow-1 mr-2">
-                <a
-                  href="#"
-                  class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"
+                <span
+                  class="svg-icon mr-5"
+                  v-bind:class="`svg-icon-${item.type}`"
                 >
-                  {{ item.title }}
-                </a>
-                <span class="text-muted font-size-sm">
-                  {{ item.desc }}
+                  <span class="svg-icon svg-icon-lg">
+                    <!--begin::Svg Icon-->
+                    <inline-svg :src="item.svg" />
+                    <!--end::Svg Icon-->
+                  </span>
+                </span>
+                <div class="d-flex flex-column flex-grow-1 mr-2">
+                  <a
+                    href="#"
+                    class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"
+                  >
+                    {{ item.title }}
+                  </a>
+                  <span class="text-muted font-size-sm">
+                    {{ item.desc }}
+                  </span>
+                </div>
+                <span
+                  class="font-weight-bolder py-1 font-size-lg"
+                  v-bind:class="`text-${item.type}`"
+                >
+                  {{ item.alt }}
                 </span>
               </div>
-              <span
-                class="font-weight-bolder py-1 font-size-lg"
-                v-bind:class="`text-${item.type}`"
-              >
-                {{ item.alt }}
-              </span>
-            </div>
-            <!--end::Item -->
-          </template>
+              <!--end::Item -->
+            </template>
+          </div>
         </div>
         <!--end::Notifications-->
       </perfect-scrollbar>
@@ -280,6 +296,12 @@ export default {
   },
   computed: {
     ...mapGetters(["currentAccount", "currency"]),
+    isEmpty() {
+      return this.list.length === 0;
+    },
+    isNotEmpty() {
+      return !this.isEmpty;
+    },
     picture() {
       return process.env.BASE_URL + "media/svg/icons/General/User.svg";
     }

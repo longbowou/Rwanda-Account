@@ -47,6 +47,7 @@
       <div class="d-flex align-items-center">
         <!--begin::Button-->
         <a
+          v-if="isAuthenticated"
           href="#"
           class="btn btn-transparent-white font-weight-bold py-3 px-6 mr-2"
         >
@@ -60,6 +61,7 @@
 
         <a
           href="#"
+          v-if="isAuthenticated"
           class="btn btn-transparent-white font-weight-bold py-3 px-6 mr-2"
         >
           <span class="svg-icon svg-icon-lg svg-icon-3x">
@@ -109,7 +111,7 @@ export default {
     title: String
   },
   computed: {
-    ...mapGetters(["layoutConfig"]),
+    ...mapGetters(["layoutConfig", "isAuthenticated"]),
 
     /**
      * Check if subheader width is fluid

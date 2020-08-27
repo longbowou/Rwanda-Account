@@ -25,27 +25,21 @@
           <h4 class="text-white pb-3">Quick Links</h4>
           <div class="d-flex align-items-center">
             <div class="d-flex flex-column mr-18">
-              <a href="#" class="text-white opacity-55 text-hover-primary">
-                General Reports
-              </a>
-              <a href="#" class="py-2 text-white opacity-55 text-hover-primary">
-                Dashboart Widgets
-              </a>
-              <a href="#" class="text-white opacity-50 text-hover-primary">
-                Custom Pages
-              </a>
+              <router-link
+                to="/home"
+                v-slot="{ href, navigate, isActive, isExactActive }"
+              >
+                <a
+                  :href="href"
+                  class="text-white opacity-55 text-hover-primary"
+                  @click="navigate"
+                >
+                  Home
+                </a>
+              </router-link>
             </div>
-            <div class="d-flex flex-column">
-              <a href="#" class="text-white opacity-55 text-hover-primary">
-                User Setting
-              </a>
-              <a href="#" class="py-2 text-white opacity-55 text-hover-primary">
-                Custom Pages
-              </a>
-              <a href="#" class="text-white opacity-55 text-hover-primary">
-                Intranet Settings
-              </a>
-            </div>
+
+            <div class="d-flex flex-column"></div>
           </div>
         </div>
         <!--end::Col-->
@@ -62,6 +56,7 @@
               <div class="input-group-append p-0 mr-1">
                 <button
                   class="btn btn-fh btn-sm btn-primary px-6 rounded-left"
+                  style="z-index: 1"
                   type="button"
                 >
                   Join
@@ -91,38 +86,34 @@
             class="logo-sticky max-h-35px"
           />
           <span class="text-muted font-weight-bold mx-2">2020©</span>
-          <a
-            href="http://keenthemes.com/metronic"
-            target="_blank"
-            class="text-primary text-hover-primary"
-          >
-            Keenthemes
+          <a href="#" class="text-primary text-hover-primary">
+            Maison du Digitale
           </a>
         </div>
         <!--end::Copyright-->
         <!--begin::Nav-->
         <div class="d-flex align-items-center order-lg-2 order-1 mb-lg-0 mb-5">
-          <a
-            href="http://keenthemes.com/metronic"
-            target="_blank"
-            class="text-white opacity-55 pl-0 text-hover-primary"
-          >
-            Purchase Lisence
-          </a>
-          <a
-            href="http://keenthemes.com/metronic"
-            target="_blank"
-            class="text-white opacity-55 px-6 text-hover-primary"
-          >
-            Team
-          </a>
-          <a
-            href="http://keenthemes.com/metronic"
-            target="_blank"
-            class="text-white opacity-55 pr-0 text-hover-primary"
-          >
-            Contact
-          </a>
+          <!--          <a-->
+          <!--            href="http://keenthemes.com/metronic"-->
+          <!--            target="_blank"-->
+          <!--            class="text-white opacity-55 pl-0 text-hover-primary"-->
+          <!--          >-->
+          <!--            Purchase Lisence-->
+          <!--          </a>-->
+          <!--          <a-->
+          <!--            href="http://keenthemes.com/metronic"-->
+          <!--            target="_blank"-->
+          <!--            class="text-white opacity-55 px-6 text-hover-primary"-->
+          <!--          >-->
+          <!--            Team-->
+          <!--          </a>-->
+          <!--          <a-->
+          <!--            href="http://keenthemes.com/metronic"-->
+          <!--            target="_blank"-->
+          <!--            class="text-white opacity-55 pr-0 text-hover-primary"-->
+          <!--          >-->
+          <!--            Contact-->
+          <!--          </a>-->
         </div>
         <!--end::Nav-->
       </div>
