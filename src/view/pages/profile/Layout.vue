@@ -16,7 +16,7 @@
             >
               <div
                 class="symbol-label"
-                style="background-image:url('media/users/300_21.jpg')"
+                style="background-image:url('media/svg/icons/General/User.svg')"
               ></div>
               <i class="symbol-badge bg-success"></i>
             </div>
@@ -25,23 +25,8 @@
                 href="#"
                 class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary"
               >
-                James Jones
+                {{ currentAccount !== null ? currentAccount.fullName : null }}
               </a>
-              <div class="text-muted">
-                Application Developer
-              </div>
-              <div class="mt-2">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1"
-                  >Chat</a
-                >
-                <a
-                  href="#"
-                  class="btn btn-sm btn-success font-weight-bold py-2 px-3 px-xxl-5 my-1"
-                  >Follow</a
-                >
-              </div>
             </div>
           </div>
           <!--end::User-->
@@ -49,18 +34,25 @@
           <!--begin::Contact-->
           <div class="py-9">
             <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="font-weight-bold mr-2">Email:</span>
-              <a href="#" class="text-muted text-hover-primary"
-                >matt@fifestudios.com</a
-              >
+              <span class="font-weight-bold mr-2">Username:</span>
+              <span class="text-muted text-hover-primary">{{
+                currentAccount !== null ? currentAccount.username : null
+              }}</span>
             </div>
+
             <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="font-weight-bold mr-2">Phone:</span>
-              <span class="text-muted">44(76)34254578</span>
+              <span class="font-weight-bold mr-2">Email:</span>
+              <span class="text-muted text-hover-primary">{{
+                currentAccount !== null ? currentAccount.email : null
+              }}</span>
             </div>
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="font-weight-bold mr-2">Location:</span>
-              <span class="text-muted">Melbourne</span>
+
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="font-weight-bold mr-2">Balance:</span>
+              <span class="text-muted text-hover-primary">
+                {{ currentAccount !== null ? currentAccount.balance : null }}
+                {{ currency }}
+              </span>
             </div>
           </div>
           <!--end::Contact-->
@@ -164,7 +156,12 @@
 <style scoped></style>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: "Profile"
+  name: "Profile",
+  computed: {
+    ...mapGetters(["currentAccount", "currency"])
+  }
 };
 </script>

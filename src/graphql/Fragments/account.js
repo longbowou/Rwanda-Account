@@ -8,6 +8,7 @@ export const accountFields = gql`
     email
     firstName
     lastName
+    username
     servicesCount
     purchasesCount
   }

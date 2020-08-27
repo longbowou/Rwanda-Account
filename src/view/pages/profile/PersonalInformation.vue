@@ -9,7 +9,7 @@
             Personal Information
           </h3>
           <span class="text-muted font-weight-bold font-size-sm mt-1"
-            >Update your personal informaiton</span
+            >Update your personal information</span
           >
         </div>
         <div class="card-toolbar">
