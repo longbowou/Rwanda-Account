@@ -1,4 +1,6 @@
 import JwtService from "@/core/services/jwt.service";
+import { queryAccount } from "@/graphql/account-queries";
+import { apolloClient } from "@/vue-apollo";
 
 // action types
 export const VERIFY_AUTH = "verifyAuth";
@@ -13,17 +15,21 @@ export const SET_AUTH = "setUser";
 export const SET_ERROR = "setError";
 
 const currentAuth = JwtService.getAuth();
+const isAuthenticated = currentAuth !== null;
+if (isAuthenticated) {
+  apolloClient.query({ query: queryAccount }).then(result => {
+    state.account = result.data.account;
+  });
+}
 
 const state = {
-  account: undefined,
+  account: null,
   auth: currentAuth,
-  isAuthenticated:
-    currentAuth !== null &&
-    parseInt(currentAuth.tokenExpiresIn) > Math.floor(Date.now() / 1000)
+  isAuthenticated: isAuthenticated
 };
 
 const getters = {
-  currentUser(state) {
+  currentAccount(state) {
     return state.account;
   },
   isAuthenticated(state) {
@@ -42,7 +48,10 @@ const actions = {
     });
   },
   [LOGOUT](context) {
-    context.commit(PURGE_AUTH);
+    return new Promise(resolve => {
+      context.commit(PURGE_AUTH);
+      resolve();
+    });
   },
   [UPDATE_USER](context, payload) {
     context.commit(SET_AUTH, payload);
@@ -62,8 +71,8 @@ const mutations = {
   },
   [PURGE_AUTH](state) {
     state.isAuthenticated = false;
-    state.account = undefined;
-    state.auth = undefined;
+    state.account = null;
+    state.auth = null;
     JwtService.destroyAuth();
   }
 };

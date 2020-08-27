@@ -109,12 +109,12 @@
 </style>
 
 <script>
-import { REGISTER } from "@/core/services/store/auth.module";
-import { LOGOUT } from "@/core/services/store/auth.module";
+import { REGISTER } from "@/core/services/store/modules/auth.module";
+import { LOGOUT } from "@/core/services/store/modules/auth.module";
 
 import { validationMixin } from "vuelidate";
 import { email, required, minLength } from "vuelidate/lib/validators";
-import { SET_HEAD_TITLE } from "@/core/services/store/htmlhead.module";
+import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 
 export default {
   mixins: [validationMixin],

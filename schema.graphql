@@ -49,12 +49,10 @@ type AccountMutation {
 }
 
 type AccountQuery {
-    "Account list"
-    accounts(id: UUID): [AccountType]
-    "Admin list"
-    admins(id: UUID): [AdminType]
+    account: AccountType!
     "Litigation list"
     litigation(id: UUID): [LitigationType]
+    parameters: ParametersType
     "ServiceCategory list"
     serviceCategories(id: UUID): [ServiceCategoryType]
     "ServicePurchase list"
@@ -237,6 +235,11 @@ type OperationType {
     servicePurchase: ServicePurchaseType
     type: String!
     updatedAt: DateTime!
+}
+
+type ParametersType {
+    basePrice: String!
+    currency: String!
 }
 
 type Refresh {

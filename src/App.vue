@@ -22,7 +22,7 @@
 </style>
 
 <script>
-import { OVERRIDE_LAYOUT_CONFIG } from "@/core/services/store/config.module";
+import { OVERRIDE_LAYOUT_CONFIG } from "@/core/services/store/modules/config.module";
 
 export default {
   name: "App",

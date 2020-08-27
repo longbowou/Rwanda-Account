@@ -543,7 +543,7 @@
 
 <script>
 import KTCodePreview from "@/view/content/CodePreview.vue";
-import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
+import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 
 const COLORS = ["info", "warning", "error", "success"];
 const ICONS = {

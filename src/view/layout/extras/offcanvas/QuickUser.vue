@@ -10,15 +10,15 @@
         Hi,
       </span>
       <span
-        class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"
+        class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-2"
       >
-        Sean
+        {{ currentAccount !== undefined ? currentAccount.fullName : null }}
       </span>
       <span class="symbol symbol-35">
         <span
           class="symbol-label text-white font-size-h5 font-weight-bold bg-white-o-30"
         >
-          S
+          {{ currentAccount !== undefined ? currentAccount.fullName[0] : null }}
         </span>
       </span>
     </div>
@@ -34,7 +34,7 @@
       >
         <h3 class="font-weight-bold m-0">
           User Profile
-          <small class="text-muted font-size-sm ml-2">12 messages</small>
+          <!--          <small class="text-muted font-size-sm ml-2">12 messages</small>-->
         </h3>
         <a
           href="#"
@@ -62,9 +62,27 @@
               href="#"
               class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"
             >
-              James Jones
+              {{ currentAccount !== null ? currentAccount.fullName : null }}
             </a>
-            <div class="text-muted mt-1">Application Developer</div>
+            <div class="navi mt-2">
+              <a href="#" class="navi-item">
+                <span class="navi-link p-0 pb-2">
+                  <span class="navi-icon mr-1">
+                    <span class="svg-icon svg-icon-lg svg-icon-primary">
+                      <!--begin::Svg Icon-->
+                      <inline-svg src="media/svg/icons/Shopping/Wallet.svg" />
+                      <!--end::Svg Icon-->
+                    </span>
+                  </span>
+                  <span class="navi-text text-muted text-hover-primary">
+                    {{
+                      currentAccount !== null ? currentAccount.balance : null
+                    }}
+                    {{ currency }}
+                  </span>
+                </span>
+              </a>
+            </div>
             <div class="navi mt-2">
               <a href="#" class="navi-item">
                 <span class="navi-link p-0 pb-2">
@@ -78,7 +96,7 @@
                     </span>
                   </span>
                   <span class="navi-text text-muted text-hover-primary">
-                    jm@softplus.com
+                    {{ currentAccount !== null ? currentAccount.email : null }}
                   </span>
                 </span>
               </a>
@@ -259,7 +277,8 @@
 </style>
 
 <script>
-import { LOGOUT } from "@/core/services/store/auth.module";
+import { mapGetters } from "vuex";
+import { LOGOUT } from "@/core/services/store/modules/auth.module";
 import KTLayoutQuickUser from "@/assets/js/layout/extended/quick-user.js";
 import KTOffcanvas from "@/assets/js/components/offcanvas.js";
 
@@ -307,15 +326,16 @@ export default {
     onLogout() {
       this.$store
         .dispatch(LOGOUT)
-        .then(() => this.$router.push({ name: "login" }));
+        .then(() => this.$router.push({ name: "signin" }));
     },
     closeOffcanvas() {
       new KTOffcanvas(KTLayoutQuickUser.getElement()).hide();
     }
   },
   computed: {
+    ...mapGetters(["currentAccount", "currency"]),
     picture() {
-      return process.env.BASE_URL + "media/users/300_21.jpg";
+      return process.env.BASE_URL + "media/svg/icons/General/User.svg";
     }
   }
 };

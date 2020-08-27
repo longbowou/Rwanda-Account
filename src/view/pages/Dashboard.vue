@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
+import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import AdvancedTableWidget2 from "@/view/content/widgets/advance-table/Widget2.vue";
 import MixedWidget1 from "@/view/content/widgets/mixed/Widget1.vue";
 import ListWidget1 from "@/view/content/widgets/list/Widget1.vue";
@@ -45,7 +45,7 @@ import ListWidget8 from "@/view/content/widgets/list/Widget8.vue";
 import ListWidget9 from "@/view/content/widgets/list/Widget9.vue";
 import StatsWidget7 from "@/view/content/widgets/stats/Widget7.vue";
 import StatsWidget12 from "@/view/content/widgets/stats/Widget12.vue";
-import { SET_HEAD_TITLE } from "@/core/services/store/htmlhead.module";
+import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 
 export default {
   name: "dashboard",

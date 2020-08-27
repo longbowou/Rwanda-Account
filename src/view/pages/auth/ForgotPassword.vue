@@ -62,11 +62,11 @@
 </style>
 
 <script>
-import { LOGIN, LOGOUT } from "@/core/services/store/auth.module";
+import { LOGIN, LOGOUT } from "@/core/services/store/modules/auth.module";
 
 import { validationMixin } from "vuelidate";
 import { email, minLength, required } from "vuelidate/lib/validators";
-import { SET_HEAD_TITLE } from "@/core/services/store/htmlhead.module";
+import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 
 export default {
   mixins: [validationMixin],

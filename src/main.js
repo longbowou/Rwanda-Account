@@ -4,7 +4,7 @@ import router from "./router";
 import store from "@/core/services/store";
 import ApiService from "@/core/services/api.service";
 import MockService from "@/core/mock/mock.service";
-import { RESET_LAYOUT_CONFIG } from "@/core/services/store/config.module";
+import { RESET_LAYOUT_CONFIG } from "@/core/services/store/modules/config.module";
 // Global 3rd party plugins
 import "popper.js";
 import "tooltip.js";

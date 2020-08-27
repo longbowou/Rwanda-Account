@@ -3,7 +3,13 @@ const AUTH_KEY = "AUTH_OBJECT_KEY";
 export const getAuth = () => {
   let auth = window.localStorage.getItem(AUTH_KEY);
   if (typeof auth === "string") {
-    return JSON.parse(auth);
+    let currentAuth = JSON.parse(auth);
+    if (
+      currentAuth !== null &&
+      parseInt(currentAuth.tokenExpiresIn) > Math.floor(Date.now() / 1000)
+    ) {
+      return currentAuth;
+    }
   }
   return null;
 };

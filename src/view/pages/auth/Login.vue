@@ -113,8 +113,8 @@
 import { mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 import { email, minLength, required } from "vuelidate/lib/validators";
-import { LOGIN, LOGOUT } from "@/core/services/store/auth.module";
-import { SET_HEAD_TITLE } from "@/core/services/store/htmlhead.module";
+import { LOGIN, LOGOUT } from "@/core/services/store/modules/auth.module";
+import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { login } from "@/graphql/auth-mutations";
 import $ from "jquery";
 

@@ -76,7 +76,7 @@
 </style>
 
 <script>
-import { ADD_BODY_CLASSNAME } from "@/core/services/store/htmlclass.module";
+import { ADD_BODY_CLASSNAME } from "@/core/services/store/modules/htmlclass.module";
 
 export default {
   name: "auth",

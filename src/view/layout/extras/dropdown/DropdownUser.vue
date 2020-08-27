@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { LOGOUT } from "@/core/services/store/auth.module";
+import { LOGOUT } from "@/core/services/store/modules/auth.module";
 
 export default {
   name: "KTDropdownUser",

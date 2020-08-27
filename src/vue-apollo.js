@@ -4,9 +4,17 @@ import {
   createApolloClient,
   restartWebsockets
 } from "vue-cli-plugin-apollo/graphql-client";
+import { HttpLink } from "apollo-link-http";
+import JwtService from "@/core/services/jwt.service";
 
 // Install the vue plugin
 Vue.use(VueApollo);
+
+const currentAuth = JwtService.getAuth();
+let token = null;
+if (currentAuth !== null) {
+  token = "JWT " + currentAuth.token;
+}
 
 // Name of the localStorage item
 const AUTH_TOKEN = "apollo-token";
@@ -20,6 +28,13 @@ export const filesRoot =
   httpEndpoint.substr(0, httpEndpoint.indexOf("/graphql"));
 
 Vue.prototype.$filesRoot = filesRoot;
+
+const httpLink = new HttpLink({
+  uri: httpEndpoint,
+  headers: {
+    Authorization: token
+  }
+});
 
 // Config
 const defaultOptions = {
@@ -36,12 +51,12 @@ const defaultOptions = {
   // You need to pass a `wsEndpoint` for this to work
   websocketsOnly: false,
   // Is being rendered on the server?
-  ssr: false
+  ssr: false,
 
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
   // httpLinkOptions property of defaultOptions.
-  // link: myLink
+  link: httpLink
 
   // Override default cache
   // cache: myCache
@@ -56,17 +71,16 @@ const defaultOptions = {
   // clientState: { resolvers: { ... }, defaults: { ... } }
 };
 
-// Call this in the Vue app file
-export function createProvider(options = {}) {
-  // Create apollo client
-  const { apolloClient, wsClient } = createApolloClient({
-    ...defaultOptions,
-    ...options
-  });
-  apolloClient.wsClient = wsClient;
+// Create apollo client
+export const { apolloClient, wsClient } = createApolloClient({
+  ...defaultOptions
+});
+apolloClient.wsClient = wsClient;
 
+// Call this in the Vue app file
+export function createProvider() {
   // Create vue apollo provider
-  const apolloProvider = new VueApollo({
+  return new VueApollo({
     defaultClient: apolloClient,
     defaultOptions: {
       $query: {
@@ -82,8 +96,6 @@ export function createProvider(options = {}) {
       );
     }
   });
-
-  return apolloProvider;
 }
 
 // Manually call this when user log in

@@ -132,8 +132,28 @@
     <!--end: Language bar -->
 
     <!--begin: User Bar -->
-    <KTQuickUser></KTQuickUser>
+    <KTQuickUser v-if="isAuthenticated"></KTQuickUser>
     <!--end: User Bar -->
+
+    <div class="topbar-item" v-if="isNotAuthenticated">
+      <div
+        id="kt_quick_user_toggle"
+        class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto"
+      >
+        <router-link
+          to="/login"
+          v-slot="{ href, navigate, isActive, isExactActive }"
+        >
+          <a :href="href" @click="navigate">
+            <span
+              class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline p-4"
+            >
+              Login
+            </span>
+          </a>
+        </router-link>
+      </div>
+    </div>
   </div>
   <!-- end:: Header Topbar -->
 </template>
@@ -165,6 +185,7 @@
 </style>
 
 <script>
+import { mapGetters } from "vuex";
 import KTSearchDefault from "@/view/layout/extras/dropdown/SearchDefault.vue";
 import KTDropdownNotification from "@/view/layout/extras/dropdown/DropdownNotification.vue";
 import KTDropdownQuickAction from "@/view/layout/extras/dropdown/DropdownQuickAction.vue";
@@ -199,6 +220,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(["isAuthenticated", "isNotAuthenticated"]),
     getLanguageFlag() {
       return this.onLanguageChanged();
     }

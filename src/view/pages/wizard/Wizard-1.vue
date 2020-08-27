@@ -1047,7 +1047,7 @@
 </style>
 
 <script>
-import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
+import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import KTUtil from "@/assets/js/components/util";
 import KTWizard from "@/assets/js/components/wizard";
 import Swal from "sweetalert2";
