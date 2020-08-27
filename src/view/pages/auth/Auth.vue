@@ -25,7 +25,9 @@
 
           <!--begin::Aside body-->
           <div class="d-flex flex-column-fluid flex-column flex-center">
-            <router-view></router-view>
+            <transition name="fade-in-up">
+              <router-view></router-view>
+            </transition>
           </div>
           <!--end::Aside body-->
         </div>

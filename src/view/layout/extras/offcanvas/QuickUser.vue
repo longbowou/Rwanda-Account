@@ -114,7 +114,7 @@
         <div class="navi navi-spacer-x-0 p-0">
           <!--begin::Item-->
           <router-link
-            to="/profile"
+            to="/profile-overview"
             @click.native="closeOffcanvas"
             class="navi-item"
           >

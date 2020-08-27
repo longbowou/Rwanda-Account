@@ -13,19 +13,40 @@ export default new Router({
         {
           path: "/home",
           name: "home",
-          component: () => import("@/view/pages/Home.vue")
+          component: () => import("@/view/pages/Home")
         },
         {
           path: "/dashboard",
           name: "dashboard",
-          component: () => import("@/view/pages/Dashboard.vue"),
+          component: () => import("@/view/pages/Dashboard"),
           meta: { requiresAuth: true }
         },
         {
           path: "/profile",
-          name: "profile",
-          component: () => import("@/view/pages/account/Profile.vue"),
-          meta: { requiresAuth: true }
+          redirect: "/profile-overview",
+          component: () => import("@/view/pages/account/Profile"),
+          meta: { requiresAuth: true },
+          children: [
+            {
+              path: "/profile-overview",
+              name: "profile-overview",
+              component: () => import("@/view/pages/account/ProfileOverview"),
+              meta: { requiresAuth: true }
+            },
+            {
+              path: "/personal-information",
+              name: "personal-information",
+              component: () =>
+                import("@/view/pages/account/PersonalInformation"),
+              meta: { requiresAuth: true }
+            },
+            {
+              path: "/change-password",
+              name: "change-password",
+              component: () => import("@/view/pages/account/ChangePassword"),
+              meta: { requiresAuth: true }
+            }
+          ]
         }
       ]
     },
