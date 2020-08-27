@@ -62,7 +62,7 @@
               href="#"
               class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"
             >
-              {{ currentAccount !== null ? currentAccount.fullName : null }}
+              {{ account !== null ? account.fullName : null }}
             </a>
             <div class="navi mt-2">
               <a href="#" class="navi-item">
@@ -75,9 +75,7 @@
                     </span>
                   </span>
                   <span class="navi-text text-muted text-hover-primary">
-                    {{
-                      currentAccount !== null ? currentAccount.balance : null
-                    }}
+                    {{ account !== null ? account.balance : null }}
                     {{ currency }}
                   </span>
                 </span>
@@ -96,7 +94,7 @@
                     </span>
                   </span>
                   <span class="navi-text text-muted text-hover-primary">
-                    {{ currentAccount !== null ? currentAccount.email : null }}
+                    {{ account !== null ? account.email : null }}
                   </span>
                 </span>
               </a>
@@ -334,6 +332,11 @@ export default {
   },
   computed: {
     ...mapGetters(["currentAccount", "currency"]),
+    account() {
+      return typeof this.currentAccount === "object"
+        ? this.currentAccount
+        : null;
+    },
     picture() {
       return process.env.BASE_URL + "media/svg/icons/General/User.svg";
     }
