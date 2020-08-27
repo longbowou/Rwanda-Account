@@ -70,7 +70,7 @@
                   <span class="navi-icon mr-1">
                     <span class="svg-icon svg-icon-lg svg-icon-primary">
                       <!--begin::Svg Icon-->
-                      <inline-svg src="media/svg/icons/Shopping/Wallet.svg" />
+                      <inline-svg src="media/svg/icons/Shopping/Credit-card.svg" />
                       <!--end::Svg Icon-->
                     </span>
                   </span>
@@ -130,12 +130,7 @@
               <div class="navi-text">
                 <div class="font-weight-bold">My Profile</div>
                 <div class="text-muted">
-                  Account settings and more
-                  <span
-                    class="label label-light-danger label-inline font-weight-bold"
-                  >
-                    update
-                  </span>
+                  Your account settings
                 </div>
               </div>
             </div>
@@ -153,14 +148,14 @@
                 <div class="symbol-label">
                   <span class="svg-icon svg-icon-md svg-icon-warning">
                     <!--begin::Svg Icon-->
-                    <inline-svg src="media/svg/icons/Shopping/Chart-bar1.svg" />
+                    <inline-svg src="media/svg/icons/Shopping/Cart1.svg" />
                     <!--end::Svg Icon-->
                   </span>
                 </div>
               </div>
               <div class="navi-text">
-                <div class="font-weight-bold">My Messages</div>
-                <div class="text-muted">Inbox and tasks</div>
+                <div class="font-weight-bold">My Purchases</div>
+                <div class="text-muted">Your recent purchases</div>
               </div>
             </div>
           </router-link>
@@ -177,40 +172,14 @@
                 <div class="symbol-label">
                   <span class="svg-icon svg-icon-md svg-icon-danger">
                     <!--begin::Svg Icon-->
-                    <inline-svg src="media/svg/icons/Files/Selected-file.svg" />
+                    <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
                     <!--end::Svg Icon-->
                   </span>
                 </div>
               </div>
               <div class="navi-text">
-                <div class="font-weight-bold">My Activities</div>
-                <div class="text-muted">Logs and notifications</div>
-              </div>
-            </div>
-          </router-link>
-          <!--end:Item-->
-          <!--begin::Item-->
-          <router-link
-            to="/builder"
-            @click.native="closeOffcanvas"
-            href="#"
-            class="navi-item"
-          >
-            <div class="navi-link">
-              <div class="symbol symbol-40 bg-light mr-3">
-                <div class="symbol-label">
-                  <span class="svg-icon svg-icon-md svg-icon-primary">
-                    <!--begin::Svg Icon-->
-                    <inline-svg
-                      src="media/svg/icons/Communication/Mail-opened.svg"
-                    />
-                    <!--end::Svg Icon-->
-                  </span>
-                </div>
-              </div>
-              <div class="navi-text">
-                <div class="font-weight-bold">My Tasks</div>
-                <div class="text-muted">latest tasks and projects</div>
+                <div class="font-weight-bold">My Services</div>
+                <div class="text-muted">Your recent services</div>
               </div>
             </div>
           </router-link>
@@ -285,34 +254,13 @@ export default {
   data() {
     return {
       list: [
-        {
-          title: "Another purpose persuade",
-          desc: "Due in 2 Days",
-          alt: "+28%",
-          svg: "media/svg/icons/Home/Library.svg",
-          type: "warning"
-        },
-        {
-          title: "Would be to people",
-          desc: "Due in 2 Days",
-          alt: "+50%",
-          svg: "media/svg/icons/Communication/Write.svg",
-          type: "success"
-        },
-        {
-          title: "Purpose would be to persuade",
-          desc: "Due in 2 Days",
-          alt: "-27%",
-          svg: "media/svg/icons/Communication/Group-chat.svg",
-          type: "danger"
-        },
-        {
-          title: "The best product",
-          desc: "Due in 2 Days",
-          alt: "+8%",
-          svg: "media/svg/icons/General/Attachment2.svg",
-          type: "info"
-        }
+        // {
+        //   title: "Another purpose persuade",
+        //   desc: "Due in 2 Days",
+        //   alt: "+28%",
+        //   svg: "media/svg/icons/Home/Library.svg",
+        //   type: "warning"
+        // }
       ]
     };
   },
