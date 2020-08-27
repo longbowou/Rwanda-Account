@@ -18,7 +18,7 @@
         <span
           class="symbol-label text-white font-size-h5 font-weight-bold bg-white-o-30"
         >
-          {{ currentAccount !== undefined ? currentAccount.fullName[0] : null }}
+          {{ currentAccount !== null ? currentAccount.fullName[0] : null }}
         </span>
       </span>
     </div>
