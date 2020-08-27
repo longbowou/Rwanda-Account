@@ -7,6 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     command: yarn serve
+    privileged: true
     volumes:
       - .:/app
     ports:
