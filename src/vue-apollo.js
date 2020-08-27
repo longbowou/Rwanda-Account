@@ -4,17 +4,10 @@ import {
   createApolloClient,
   restartWebsockets
 } from "vue-cli-plugin-apollo/graphql-client";
-import { HttpLink } from "apollo-link-http";
 import JwtService from "@/core/services/jwt.service";
 
 // Install the vue plugin
 Vue.use(VueApollo);
-
-const currentAuth = JwtService.getAuth();
-let token = null;
-if (currentAuth !== null) {
-  token = "JWT " + currentAuth.token;
-}
 
 // Name of the localStorage item
 const AUTH_TOKEN = "apollo-token";
@@ -28,13 +21,6 @@ export const filesRoot =
   httpEndpoint.substr(0, httpEndpoint.indexOf("/graphql"));
 
 Vue.prototype.$filesRoot = filesRoot;
-
-const httpLink = new HttpLink({
-  uri: httpEndpoint,
-  headers: {
-    Authorization: token
-  }
-});
 
 // Config
 const defaultOptions = {
@@ -56,13 +42,18 @@ const defaultOptions = {
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
   // httpLinkOptions property of defaultOptions.
-  link: httpLink
+  // link: httpLink,
 
   // Override default cache
   // cache: myCache
 
   // Override the way the Authorization header is set
-  // getAuth: (tokenName) => ...
+  getAuth: () => {
+    const currentAuth = JwtService.getAuth();
+    if (currentAuth !== null) {
+      return "JWT " + currentAuth.token;
+    }
+  }
 
   // Additional ApolloClient options
   // apollo: { ... }
