@@ -16,3 +16,18 @@ export const updateAccount = gql`
   ${errorFields}
   ${accountFields}
 `;
+
+export const changeAccountPassword = gql`
+  mutation($input: ChangeAccountPasswordInput!) {
+    changeAccountPassword(input: $input) {
+      errors {
+        ...errorFields
+      }
+      account {
+        ...accountFields
+      }
+    }
+  }
+  ${errorFields}
+  ${accountFields}
+`;

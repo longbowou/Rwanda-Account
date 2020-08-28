@@ -16,8 +16,7 @@
           <button
             @click="onSubmit"
             id="btn_submit"
-            type="reset"
-            class="btn btn-dark font-weight-bolder mr-2"
+            class="btn btn-success font-weight-bolder"
           >
             Save Changes
           </button>
@@ -74,7 +73,6 @@
             <label class="col-xl-3 col-lg-3 col-form-label">First Name</label>
             <div class="col-lg-9 col-xl-6">
               <b-form-input
-                required
                 :state="validateState('firstName')"
                 v-model="input.firstName"
                 class="form-control form-control-lg form-control-solid"
@@ -94,7 +92,6 @@
             <label class="col-xl-3 col-lg-3 col-form-label">Last Name</label>
             <div class="col-lg-9 col-xl-6">
               <b-form-input
-                required
                 :state="validateState('lastName')"
                 v-model="input.lastName"
                 class="form-control form-control-lg form-control-solid"

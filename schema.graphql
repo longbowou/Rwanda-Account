@@ -22,6 +22,7 @@ type AccountMutation {
     acceptServicePurchase(input: AcceptServicePurchaseInput!): AcceptServicePurchase
     approveServicePurchase(input: ApproveServicePurchaseInput!): ApproveServicePurchase
     cancelServicePurchase(input: CancelServicePurchaseInput!): CancelServicePurchase
+    changeAccountPassword(input: ChangeAccountPasswordInput!): ChangeAccountPassword
     createAccount(input: AccountInput!): CreateAccount
     createDeposit(input: CreateDepositInput!): CreateDeposit
     createLitigation(input: CreateLitigationInput!): CreateLitigation
@@ -109,6 +110,11 @@ type AuthType {
 type CancelServicePurchase {
     errors: [ErrorType]
     servicePurchase: ServicePurchaseType
+}
+
+type ChangeAccountPassword {
+    account: AccountType
+    errors: [ErrorType]
 }
 
 type ChatType {
@@ -422,6 +428,12 @@ input ApproveServicePurchaseInput {
 
 input CancelServicePurchaseInput {
     id: UUID!
+}
+
+input ChangeAccountPasswordInput {
+    currentPassword: String!
+    password: String!
+    passwordConfirmation: String!
 }
 
 input CreateDepositInput {

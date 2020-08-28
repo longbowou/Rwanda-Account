@@ -4,7 +4,13 @@
     <!--begin::Form-->
     <form class="form" id="kt_login_signin_form" @submit="onSubmit">
       <!--begin::Title-->
-      <div :class="isRegistered ? 'text-center pb-4' : 'text-center pb-8'">
+      <div
+        :class="
+          fromPasswordReset || fromRegistration
+            ? 'text-center pb-4'
+            : 'text-center pb-8'
+        "
+      >
         <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">
           Sign In
         </h2>
@@ -25,7 +31,7 @@
         </span>
 
         <div
-          v-if="isRegistered"
+          v-if="fromRegistration"
           class="d-flex align-items-center bg-light-success rounded p-5 mt-3 mb-0 gutter-b"
         >
           <span
@@ -39,7 +45,28 @@
             <p
               class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"
             >
-              Successful registration
+              Registration successful
+            </p>
+            <span class="text-muted font-size-sm">You can now login</span>
+          </div>
+        </div>
+
+        <div
+          v-if="fromPasswordReset"
+          class="d-flex align-items-center bg-light-success rounded p-5 mt-3 mb-0 gutter-b"
+        >
+          <span
+            class="svg-icon svg-icon-success svg-icon-3x pulse pulse-success"
+          >
+            <span class="pulse-ring"></span>
+            <inline-svg src="media/svg/icons/Code/Compiling.svg" />
+          </span>
+
+          <div class="d-flex flex-column flex-grow-1 mr-9">
+            <p
+              class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"
+            >
+              Password successful updated
             </p>
             <span class="text-muted font-size-sm">You can now login</span>
           </div>
@@ -199,8 +226,16 @@ export default {
   },
   computed: {
     ...mapGetters(["isAuthenticated"]),
-    isRegistered() {
-      return "registered" in this.$route.query;
+    fromRegistration() {
+      return (
+        "from" in this.$route.query && this.$route.query.from === "registration"
+      );
+    },
+    fromPasswordReset() {
+      return (
+        "from" in this.$route.query &&
+        this.$route.query.from === "password-reset"
+      );
     },
     loginState() {
       return this.validateState("login");

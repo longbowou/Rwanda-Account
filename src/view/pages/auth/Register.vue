@@ -226,7 +226,10 @@ export default {
         return;
       }
 
-      await this.$router.push({ name: "signin", query: { registered: "yes" } });
+      await this.$router.push({
+        name: "signin",
+        query: { from: "registration" }
+      });
     }
   },
   mounted() {
