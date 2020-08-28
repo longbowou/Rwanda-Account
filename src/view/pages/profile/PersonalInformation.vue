@@ -27,7 +27,7 @@
       <!--end::Header-->
 
       <!--begin::Form-->
-      <form class="form">
+      <form class="form" @submit="onSubmit">
         <!--begin::Body-->
         <div class="card-body">
           <div class="form-group row">
