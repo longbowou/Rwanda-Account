@@ -13,10 +13,15 @@
           >
         </div>
         <div class="card-toolbar">
-          <button type="reset" class="btn btn-success mr-2">
+          <button
+            @click="onSubmit"
+            id="btn_submit"
+            type="reset"
+            class="btn btn-dark font-weight-bolder mr-2"
+          >
             Save Changes
           </button>
-          <button type="reset" class="btn btn-secondary">Cancel</button>
+          <!--          <button type="reset" class="btn btn-secondary">Cancel</button>-->
         </div>
       </div>
       <!--end::Header-->
@@ -25,159 +30,83 @@
       <form class="form">
         <!--begin::Body-->
         <div class="card-body">
-          <div class="row">
-            <label class="col-xl-3"></label>
-            <div class="col-lg-9 col-xl-6">
-              <h5 class="font-weight-bold mb-6">Customer Info</h5>
-            </div>
-          </div>
           <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label">Avatar</label>
+            <label class="col-xl-3 col-lg-3 col-form-label">Username</label>
             <div class="col-lg-9 col-xl-6">
-              <div
-                class="image-input image-input-outline"
-                id="kt_profile_avatar"
-                style="background-image: url(media/users/blank.png)"
-              >
-                <div
-                  class="image-input-wrapper"
-                  style="background-image: url(media/users/300_21.jpg)"
-                ></div>
-
-                <label
-                  class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
-                  data-action="change"
-                  data-toggle="tooltip"
-                  title=""
-                  data-original-title="Change avatar"
-                >
-                  <i class="fa fa-pen icon-sm text-muted"></i>
-                  <input
-                    type="file"
-                    name="profile_avatar"
-                    accept=".png, .jpg, .jpeg"
-                  />
-                  <input type="hidden" name="profile_avatar_remove" />
-                </label>
-
-                <span
-                  class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
-                  data-action="cancel"
-                  data-toggle="tooltip"
-                  title="Cancel avatar"
-                >
-                  <i class="ki ki-bold-close icon-xs text-muted"></i>
-                </span>
-
-                <span
-                  class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
-                  data-action="remove"
-                  data-toggle="tooltip"
-                  title="Remove avatar"
-                >
-                  <i class="ki ki-bold-close icon-xs text-muted"></i>
-                </span>
-              </div>
-              <span class="form-text text-muted"
-                >Allowed file types: png, jpg, jpeg.</span
-              >
+              <b-form-input
+                required
+                :state="validateState('username')"
+                v-model="input.username"
+                class="form-control form-control-lg form-control-solid"
+                type="text"
+                placeholder="Username"
+                autocomplete="off"
+              />
+              <b-form-invalid-feedback id="input-live-feedback">
+                <p :key="message" v-for="message of errorMessages('username')">
+                  {{ message }}
+                </p>
+              </b-form-invalid-feedback>
             </div>
           </div>
+
+          <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Email</label>
+            <div class="col-lg-9 col-xl-6">
+              <b-form-input
+                required
+                :state="validateState('email')"
+                v-model="input.email"
+                class="form-control form-control-lg form-control-solid"
+                type="text"
+                placeholder="Email"
+                autocomplete="off"
+              />
+              <b-form-invalid-feedback id="input-live-feedback">
+                <p :key="message" v-for="message of errorMessages('email')">
+                  {{ message }}
+                </p>
+              </b-form-invalid-feedback>
+            </div>
+          </div>
+
           <div class="form-group row">
             <label class="col-xl-3 col-lg-3 col-form-label">First Name</label>
             <div class="col-lg-9 col-xl-6">
-              <input
+              <b-form-input
+                required
+                :state="validateState('firstName')"
+                v-model="input.firstName"
                 class="form-control form-control-lg form-control-solid"
                 type="text"
-                value="Nick"
+                placeholder="First Name"
+                autocomplete="off"
               />
+              <b-form-invalid-feedback id="input-live-feedback">
+                <p :key="message" v-for="message of errorMessages('firstName')">
+                  {{ message }}
+                </p>
+              </b-form-invalid-feedback>
             </div>
           </div>
+
           <div class="form-group row">
             <label class="col-xl-3 col-lg-3 col-form-label">Last Name</label>
             <div class="col-lg-9 col-xl-6">
-              <input
+              <b-form-input
+                required
+                :state="validateState('lastName')"
+                v-model="input.lastName"
                 class="form-control form-control-lg form-control-solid"
                 type="text"
-                value="Bold"
+                placeholder="Last Name"
+                autocomplete="off"
               />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label">Company Name</label>
-            <div class="col-lg-9 col-xl-6">
-              <input
-                class="form-control form-control-lg form-control-solid"
-                type="text"
-                value="Loop Inc."
-              />
-              <span class="form-text text-muted"
-                >If you want your invoices addressed to a company. Leave blank
-                to use your full name.</span
-              >
-            </div>
-          </div>
-          <div class="row">
-            <label class="col-xl-3"></label>
-            <div class="col-lg-9 col-xl-6">
-              <h5 class="font-weight-bold mt-10 mb-6">Contact Info</h5>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label"
-              >Contact Phone</label
-            >
-            <div class="col-lg-9 col-xl-6">
-              <div class="input-group input-group-lg input-group-solid">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"
-                    ><i class="la la-phone"></i
-                  ></span>
-                </div>
-                <input
-                  type="text"
-                  class="form-control form-control-lg form-control-solid"
-                  value="+35278953712"
-                  placeholder="Phone"
-                />
-              </div>
-              <span class="form-text text-muted"
-                >We'll never share your email with anyone else.</span
-              >
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label"
-              >Email Address</label
-            >
-            <div class="col-lg-9 col-xl-6">
-              <div class="input-group input-group-lg input-group-solid">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="la la-at"></i></span>
-                </div>
-                <input
-                  type="text"
-                  class="form-control form-control-lg form-control-solid"
-                  value="nick.bold@loop.com"
-                  placeholder="Email"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label">Company Site</label>
-            <div class="col-lg-9 col-xl-6">
-              <div class="input-group input-group-lg input-group-solid">
-                <input
-                  type="text"
-                  class="form-control form-control-lg form-control-solid"
-                  placeholder="Username"
-                  value="loop"
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text">.com</span>
-                </div>
-              </div>
+              <b-form-invalid-feedback id="input-live-feedback">
+                <p :key="message" v-for="message of errorMessages('lastName')">
+                  {{ message }}
+                </p>
+              </b-form-invalid-feedback>
             </div>
           </div>
         </div>
@@ -192,12 +121,55 @@
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
+import { formMixin } from "@/view/mixins";
+import _ from "lodash";
+import $ from "jquery";
+import { updateAccount } from "@/graphql/account-mutations";
+import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
   name: "personal-information",
+  mixins: [formMixin],
+  data() {
+    return {
+      input: _.pick(this.$store.state.auth.account, [
+        "username",
+        "email",
+        "firstName",
+        "lastName"
+      ])
+    };
+  },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Personal Information" }]);
     this.$store.dispatch(SET_HEAD_TITLE, "Personal Information");
+  },
+  methods: {
+    async onSubmit() {
+      // set spinner to submit button
+      const submitButton = $("#btn_submit");
+      submitButton.addClass("spinner spinner-light spinner-right");
+
+      this.errors = [];
+
+      let result = await this.$apollo.mutate({
+        mutation: updateAccount,
+        variables: {
+          input: this.input
+        }
+      });
+
+      this.errors = result.data.updateAccount.errors;
+      if (!_.isEmpty(this.errors)) {
+        submitButton.removeClass("spinner spinner-light spinner-right");
+        return;
+      }
+
+      await this.$store.dispatch(UPDATE_USER, {
+        account: result.data.updateAccount.account
+      });
+      submitButton.removeClass("spinner spinner-light spinner-right");
+    }
   }
 };
 </script>

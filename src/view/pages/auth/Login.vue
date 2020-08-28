@@ -134,6 +134,7 @@ import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { login } from "@/graphql/auth-mutations";
 import $ from "jquery";
 import { formMixin } from "@/view/mixins";
+import _ from "lodash";
 
 export default {
   mixins: [formMixin],
@@ -175,13 +176,8 @@ export default {
         }
       });
 
-      if (typeof result.errors === "object") {
-        submitButton.removeClass("spinner spinner-light spinner-right");
-        return;
-      }
-
       this.errors = result.data.login.errors;
-      if (this.errors !== undefined && this.errors.length > 0) {
+      if (!_.isEmpty(this.errors)) {
         submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
@@ -194,7 +190,7 @@ export default {
         // go to which page after successfully login
         .then(() => {
           if ("next" in this.$route.query) {
-            this.$router.push({ path: this.$route.query.next });
+            return this.$router.push({ path: this.$route.query.next });
           }
 
           this.$router.push({ name: "dashboard" });

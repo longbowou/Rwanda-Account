@@ -40,7 +40,7 @@ type AccountMutation {
     refreshToken(refreshToken: String): Refresh
     replyServiceComment(input: ReplyServiceCommentInput!): ReplyServiceComment
     revokeToken(refreshToken: String): Revoke
-    updateAccount(input: AccountUpdateInput!): UpdateAccount
+    updateAccount(input: UpdateAccountInput!): UpdateAccount
     updateService(input: UpdateServiceInput!): UpdateService
     updateServiceComment(input: UpdateServiceCommentInput!): UpdateServiceComment
     updateServiceMedia(input: UpdateServiceMediaInput!): UpdateServiceMedia
@@ -416,13 +416,6 @@ input AccountInput {
     username: String!
 }
 
-input AccountUpdateInput {
-    email: String
-    firstName: String
-    lastName: String
-    username: String
-}
-
 input ApproveServicePurchaseInput {
     id: UUID!
 }
@@ -506,6 +499,13 @@ input ServiceOptionInput {
     description: String
     label: String!
     price: Int!
+}
+
+input UpdateAccountInput {
+    email: String
+    firstName: String
+    lastName: String
+    username: String
 }
 
 input UpdateServiceCommentInput {

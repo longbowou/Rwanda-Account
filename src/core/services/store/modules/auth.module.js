@@ -1,6 +1,7 @@
 import JwtService from "@/core/services/jwt.service";
 import { queryAccount } from "@/graphql/account-queries";
 import { apolloClient } from "@/vue-apollo";
+import _ from "lodash";
 
 // action types
 export const VERIFY_AUTH = "verifyAuth";
@@ -61,11 +62,11 @@ const actions = {
 const mutations = {
   [SET_AUTH](state, payload) {
     state.isAuthenticated = true;
-    if (typeof payload.account === "object") {
+    if (_.isObject(payload.account)) {
       state.account = payload.account;
     }
 
-    if (typeof payload.auth === "object") {
+    if (_.isObject(payload.auth)) {
       state.auth = payload.auth;
       JwtService.saveAuth(state.auth);
     }

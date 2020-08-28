@@ -181,11 +181,13 @@ import { LOGOUT } from "@/core/services/store/modules/auth.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { formMixin } from "@/view/mixins";
 import { register } from "@/graphql/auth-mutations";
+
 import $ from "jquery";
+import _ from "lodash";
 
 export default {
-  mixins: [formMixin],
   name: "register",
+  mixins: [formMixin],
   data() {
     return {
       input: {
@@ -218,13 +220,8 @@ export default {
         }
       });
 
-      if (typeof result.errors === "object") {
-        submitButton.removeClass("spinner spinner-light spinner-right");
-        return;
-      }
-
       this.errors = result.data.createAccount.errors;
-      if (this.errors !== undefined && this.errors.length > 0) {
+      if (!_.isEmpty(this.errors)) {
         submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }

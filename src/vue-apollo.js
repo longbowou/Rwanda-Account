@@ -1,10 +1,17 @@
 import Vue from "vue";
 import VueApollo from "vue-apollo";
+import { onError } from "apollo-link-error";
+import { createHttpLink } from "apollo-link-http";
+import { ApolloLink } from "apollo-link";
 import {
   createApolloClient,
   restartWebsockets
 } from "vue-cli-plugin-apollo/graphql-client";
+
 import JwtService from "@/core/services/jwt.service";
+import router from "@/router";
+import store from "@/core/services/store/index";
+import { LOGOUT } from "@/core/services/store/modules/auth.module";
 
 // Install the vue plugin
 Vue.use(VueApollo);
@@ -21,6 +28,36 @@ export const filesRoot =
   httpEndpoint.substr(0, httpEndpoint.indexOf("/graphql"));
 
 Vue.prototype.$filesRoot = filesRoot;
+
+const httpLink = createHttpLink({ uri: httpEndpoint });
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    for (let error of graphQLErrors) {
+      console.log(
+        `[GraphQL error]: Message: ${error.message}, Location: ${error.locations}, Path: ${error.path}`
+      );
+
+      if (
+        error.message === "Signature has expired" ||
+        error.message === "ACCOUNT_REQUIRED"
+      ) {
+        store.dispatch(LOGOUT).then(() => {
+          router.push({
+            name: "signin",
+            query:
+              store.getters.lastPath !== null
+                ? { next: store.getters.lastPath }
+                : {}
+          });
+        });
+
+        console.log(error.message);
+      }
+    }
+
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
 
 // Config
 const defaultOptions = {
@@ -39,11 +76,12 @@ const defaultOptions = {
   // Is being rendered on the server?
   ssr: false,
 
+  defaultHttpLink: false,
+
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
   // httpLinkOptions property of defaultOptions.
-  // link: httpLink,
-
+  link: ApolloLink.from([errorLink, httpLink]),
   // Override default cache
   // cache: myCache
 

@@ -24,6 +24,7 @@ import "@mdi/font/css/materialdesignicons.css";
 
 import { createProvider } from "./vue-apollo";
 import JwtService from "@/core/services/jwt.service";
+import { UPDATE_LAST_PATH } from "@/core/services/store/modules/router.module";
 
 Vue.config.productionTip = false;
 
@@ -53,9 +54,13 @@ router.beforeEach((to, from, next) => {
   store.dispatch(RESET_LAYOUT_CONFIG);
 
   // Scroll page to top on every route change
-  setTimeout(() => {
-    window.scrollTo(0, 0);
-  }, 100);
+  // setTimeout(() => {
+  //   window.scrollTo(0, 0);
+  // }, 100);
+});
+
+router.afterEach(to => {
+  store.dispatch(UPDATE_LAST_PATH, to.path);
 });
 
 new Vue({
