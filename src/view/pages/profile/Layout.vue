@@ -147,9 +147,7 @@
     </div>
     <!--end::Aside-->
 
-    <transition name="fade-in-up">
-      <router-view />
-    </transition>
+    <router-view />
   </div>
 </template>
 

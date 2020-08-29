@@ -67,6 +67,8 @@ type AccountType implements UserInterface {
     chatSet: [ChatType!]!
     createdAt: DateTime!
     depositSet: [DepositType!]!
+    depositsSum: Int!
+    earningsSum: Int!
     email: String!
     firstName: String
     fullName: String
@@ -76,6 +78,7 @@ type AccountType implements UserInterface {
     operationSet: [OperationType!]!
     purchasesCount: Int!
     refundSet: [RefundType!]!
+    refundsSum: Int!
     serviceSet: [ServiceType!]!
     servicecommentSet: [ServiceCommentType!]!
     servicepurchaseSet: [ServicePurchaseType!]!

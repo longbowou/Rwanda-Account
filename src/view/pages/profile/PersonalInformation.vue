@@ -14,7 +14,7 @@
         </div>
         <div class="card-toolbar">
           <button
-            @click="onSubmit"
+            @click="submitForm"
             id="btn_submit"
             class="btn btn-success font-weight-bolder"
           >
@@ -106,6 +106,8 @@
               </b-form-invalid-feedback>
             </div>
           </div>
+
+          <input id="input_submit" type="submit" style="display: none" />
         </div>
         <!--end::Body-->
       </form>
@@ -168,6 +170,9 @@ export default {
       submitButton.removeClass("spinner spinner-light spinner-right");
 
       this.notifySuccess("Personal information update successfully.");
+    },
+    submitForm() {
+      $("#input_submit").click();
     }
   }
 };

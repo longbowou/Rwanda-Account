@@ -15,7 +15,7 @@
         </div>
         <div class="card-toolbar">
           <button
-            @click="onSubmit"
+            @click="submitForm"
             id="btn_submit"
             class="btn btn-success font-weight-bolder"
           >
@@ -26,7 +26,7 @@
       <!--end::Header-->
 
       <!--begin::Form-->
-      <form class="form" @submit="onSubmit">
+      <form id="form" class="form" @submit="onSubmit">
         <div class="card-body">
           <div class="form-group row">
             <label class="col-xl-3 col-lg-3 col-form-label text-alert"
@@ -51,6 +51,7 @@
               </b-form-invalid-feedback>
             </div>
           </div>
+
           <div class="form-group row">
             <label class="col-xl-3 col-lg-3 col-form-label text-alert"
               >New Password</label
@@ -71,6 +72,7 @@
               </b-form-invalid-feedback>
             </div>
           </div>
+
           <div class="form-group row">
             <label class="col-xl-3 col-lg-3 col-form-label text-alert"
               >New password confirmation</label
@@ -93,6 +95,8 @@
                 </p>
               </b-form-invalid-feedback>
             </div>
+
+            <input id="input_submit" type="submit" style="display: none" />
           </div>
         </div>
       </form>
@@ -133,7 +137,9 @@ export default {
     this.$store.dispatch(SET_HEAD_TITLE, "Change Password");
   },
   methods: {
-    async onSubmit() {
+    async onSubmit(evt) {
+      evt.preventDefault();
+
       // set spinner to submit button
       const submitButton = $("#btn_submit");
       submitButton.addClass("spinner spinner-light spinner-right");
@@ -165,6 +171,9 @@ export default {
       return this.$router.push({
         name: "signin"
       });
+    },
+    submitForm() {
+      $("#input_submit").click();
     }
   }
 };
