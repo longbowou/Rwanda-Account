@@ -70,8 +70,8 @@ export const toast = {
           x: 30
         },
         animate: {
-          enter: "animate__animated animate__bounceInDown",
-          exit: "animate__animated animate__bounceOutUp"
+          enter: "animate__animated animate__bounceInRight",
+          exit: "animate__animated animate__bounceOutRight"
         }
       }
     };
