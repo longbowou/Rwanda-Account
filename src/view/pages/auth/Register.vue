@@ -18,6 +18,7 @@
       <div class="form-group">
         <b-form-input
           required
+          autofocus
           :state="validateState('username')"
           v-model="input.username"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"

@@ -35,6 +35,7 @@
             <div class="col-lg-9 col-xl-6">
               <b-form-input
                 required
+                autofocus
                 :state="validateState('currentPassword')"
                 v-model="input.currentPassword"
                 class="form-control form-control-lg form-control-solid"

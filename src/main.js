@@ -13,6 +13,8 @@ import ClipboardJS from "clipboard";
 // Vue 3rd party plugins
 import i18n from "@/core/plugins/vue-i18n";
 import vuetify from "@/core/plugins/vuetify";
+import _ from "lodash";
+
 import "@/core/plugins/portal-vue";
 import "@/core/plugins/bootstrap-vue";
 import "@/core/plugins/perfect-scrollbar";
@@ -43,7 +45,7 @@ MockService.init();
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (JwtService.getAuth() === null) {
+    if (_.isNull(JwtService.getAuth())) {
       store.dispatch(UPDATE_NEXT_PATH, to.fullPath).then(() => {
         store.dispatch(LOGOUT).then(() => {
           next({

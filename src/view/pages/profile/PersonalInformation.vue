@@ -34,6 +34,7 @@
             <div class="col-lg-9 col-xl-6">
               <b-form-input
                 required
+                autofocus
                 :state="validateState('username')"
                 v-model="input.username"
                 class="form-control form-control-lg form-control-solid"

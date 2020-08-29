@@ -58,6 +58,7 @@
         >
         <b-form-input
           required
+          autofocus
           :state="validateState('login')"
           v-model="input.login"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
@@ -142,6 +143,7 @@ import { login } from "@/graphql/auth-mutations";
 import { formMixin } from "@/view/mixins";
 import { READ_LOGIN_NOTIFICATIONS } from "@/core/services/store/modules/notifications.module";
 import { RESET_NEXT_PATH } from "@/core/services/store/modules/router.module";
+import JwtService from "@/core/services/jwt.service";
 
 export default {
   mixins: [formMixin],
@@ -155,8 +157,8 @@ export default {
       errors: []
     };
   },
-  beforeMount() {
-    if (this.isAuthenticated) {
+  beforeCreate() {
+    if (!_.isNull(JwtService.getAuth())) {
       this.$router.push({ name: "dashboard" });
     }
   },
