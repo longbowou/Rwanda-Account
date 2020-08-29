@@ -118,7 +118,7 @@
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import { formMixin } from "@/view/mixins";
+import { formMixin, toast } from "@/view/mixins";
 import _ from "lodash";
 import $ from "jquery";
 import { updateAccount } from "@/graphql/account-mutations";
@@ -126,7 +126,7 @@ import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
   name: "personal-information",
-  mixins: [formMixin],
+  mixins: [formMixin, toast],
   data() {
     return {
       input: _.pick(this.$store.state.auth.account, [
@@ -166,6 +166,8 @@ export default {
         account: result.data.updateAccount.account
       });
       submitButton.removeClass("spinner spinner-light spinner-right");
+
+      this.notifySuccess("Personal information update successfully.");
     }
   }
 };
