@@ -104,13 +104,16 @@
 <style scoped></style>
 
 <script>
+import $ from "jquery";
+import _ from "lodash";
+
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { formMixin } from "@/view/mixins";
-import $ from "jquery";
 import { changeAccountPassword } from "@/graphql/account-mutations";
-import _ from "lodash";
 import { LOGOUT } from "@/core/services/store/modules/auth.module";
+import { UPDATE_NEXT_PATH } from "@/core/services/store/modules/router.module";
+import { ADD_LOGIN_NOTIFICATION } from "@/core/services/store/modules/notifications.module";
 
 export default {
   name: "change-password",
@@ -150,13 +153,17 @@ export default {
         return;
       }
 
-      await this.$store.dispatch(LOGOUT).then(() => {
-        submitButton.removeClass("spinner spinner-light spinner-right");
+      await this.$store.dispatch(LOGOUT);
 
-        this.$router.push({
-          name: "signin",
-          query: { from: "password-reset", next: this.$route.fullPath }
-        });
+      await this.$store.dispatch(UPDATE_NEXT_PATH, this.$route.fullPath);
+
+      await this.$store.dispatch(ADD_LOGIN_NOTIFICATION, {
+        message: "Password successful updated",
+        otherMessage: "You can now login"
+      });
+
+      return this.$router.push({
+        name: "signin"
       });
     }
   }

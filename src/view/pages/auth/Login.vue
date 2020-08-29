@@ -4,13 +4,7 @@
     <!--begin::Form-->
     <form class="form" id="kt_login_signin_form" @submit="onSubmit">
       <!--begin::Title-->
-      <div
-        :class="
-          fromPasswordReset || fromRegistration
-            ? 'text-center pb-4'
-            : 'text-center pb-8'
-        "
-      >
+      <div :class="['text-center', hasNotifications ? 'pb-4' : 'pb-8']">
         <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">
           Sign In
         </h2>
@@ -30,47 +24,30 @@
           </router-link>
         </span>
 
-        <div
-          v-if="fromRegistration"
-          class="d-flex align-items-center bg-light-success rounded p-5 mt-3 mb-0 gutter-b"
-        >
-          <span
-            class="svg-icon svg-icon-success svg-icon-3x pulse pulse-success"
+        <template v-for="(notification, i) of loginNotifications">
+          <div
+            v-bind:key="i"
+            class="d-flex align-items-center bg-light-success rounded p-5 mt-3 mb-0 gutter-b"
           >
-            <span class="pulse-ring"></span>
-            <inline-svg src="media/svg/icons/Code/Compiling.svg" />
-          </span>
-
-          <div class="d-flex flex-column flex-grow-1 mr-9">
-            <p
-              class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"
+            <span
+              class="svg-icon svg-icon-success svg-icon-3x pulse pulse-success"
             >
-              Registration successful
-            </p>
-            <span class="text-muted font-size-sm">You can now login</span>
-          </div>
-        </div>
+              <span class="pulse-ring"></span>
+              <inline-svg src="media/svg/icons/Code/Compiling.svg" />
+            </span>
 
-        <div
-          v-if="fromPasswordReset"
-          class="d-flex align-items-center bg-light-success rounded p-5 mt-3 mb-0 gutter-b"
-        >
-          <span
-            class="svg-icon svg-icon-success svg-icon-3x pulse pulse-success"
-          >
-            <span class="pulse-ring"></span>
-            <inline-svg src="media/svg/icons/Code/Compiling.svg" />
-          </span>
-
-          <div class="d-flex flex-column flex-grow-1 mr-9">
-            <p
-              class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"
-            >
-              Password successful updated
-            </p>
-            <span class="text-muted font-size-sm">You can now login</span>
+            <div class="d-flex flex-column flex-grow-1 mr-9">
+              <p
+                class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"
+              >
+                {{ notification.message }}
+              </p>
+              <span class="text-muted font-size-sm">{{
+                notification.otherMessage
+              }}</span>
+            </div>
           </div>
-        </div>
+        </template>
       </div>
       <!--end::Title-->
 
@@ -155,13 +132,16 @@
 </style>
 
 <script>
+import $ from "jquery";
+import _ from "lodash";
+
 import { mapGetters } from "vuex";
 import { LOGIN, LOGOUT } from "@/core/services/store/modules/auth.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { login } from "@/graphql/auth-mutations";
-import $ from "jquery";
 import { formMixin } from "@/view/mixins";
-import _ from "lodash";
+import { READ_LOGIN_NOTIFICATIONS } from "@/core/services/store/modules/notifications.module";
+import { RESET_NEXT_PATH } from "@/core/services/store/modules/router.module";
 
 export default {
   mixins: [formMixin],
@@ -209,33 +189,26 @@ export default {
         return;
       }
 
-      this.$store
-        .dispatch(LOGIN, {
-          account: result.data.login.account,
-          auth: result.data.login.auth
-        })
-        // go to which page after successfully login
-        .then(() => {
-          if ("next" in this.$route.query) {
-            return this.$router.push({ path: this.$route.query.next });
-          }
+      await this.$store.dispatch(LOGIN, {
+        account: result.data.login.account,
+        auth: result.data.login.auth
+      });
 
-          this.$router.push({ name: "dashboard" });
-        });
+      await this.$store.dispatch(READ_LOGIN_NOTIFICATIONS);
+
+      if (!_.isNull(this.nextPath)) {
+        await this.$router.push({ path: this.nextPath });
+
+        await this.$store.dispatch(RESET_NEXT_PATH);
+      } else {
+        await this.$router.push({ name: "dashboard" });
+      }
     }
   },
   computed: {
-    ...mapGetters(["isAuthenticated"]),
-    fromRegistration() {
-      return (
-        "from" in this.$route.query && this.$route.query.from === "registration"
-      );
-    },
-    fromPasswordReset() {
-      return (
-        "from" in this.$route.query &&
-        this.$route.query.from === "password-reset"
-      );
+    ...mapGetters(["isAuthenticated", "loginNotifications", "nextPath"]),
+    hasNotifications() {
+      return !_.isEmpty(this.loginNotifications);
     },
     loginState() {
       return this.validateState("login");

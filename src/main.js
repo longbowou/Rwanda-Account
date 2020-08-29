@@ -24,7 +24,10 @@ import "@mdi/font/css/materialdesignicons.css";
 
 import { createProvider } from "./vue-apollo";
 import JwtService from "@/core/services/jwt.service";
-import { UPDATE_LAST_PATH } from "@/core/services/store/modules/router.module";
+import {
+  UPDATE_LAST_PATH,
+  UPDATE_NEXT_PATH
+} from "@/core/services/store/modules/router.module";
 import { LOGOUT } from "@/core/services/store/modules/auth.module";
 
 Vue.config.productionTip = false;
@@ -41,10 +44,11 @@ MockService.init();
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (JwtService.getAuth() === null) {
-      store.dispatch(LOGOUT).then(() => {
-        next({
-          name: "signin",
-          query: { next: to.fullPath }
+      store.dispatch(UPDATE_NEXT_PATH, to.fullPath).then(() => {
+        store.dispatch(LOGOUT).then(() => {
+          next({
+            name: "signin"
+          });
         });
       });
     }

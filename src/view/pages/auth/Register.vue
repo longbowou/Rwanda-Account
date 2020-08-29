@@ -184,6 +184,7 @@ import { register } from "@/graphql/auth-mutations";
 
 import $ from "jquery";
 import _ from "lodash";
+import { ADD_LOGIN_NOTIFICATION } from "@/core/services/store/modules/notifications.module";
 
 export default {
   name: "register",
@@ -205,7 +206,7 @@ export default {
       evt.preventDefault();
 
       // clear existing errors
-      this.$store.dispatch(LOGOUT);
+      await this.$store.dispatch(LOGOUT);
 
       // set spinner to submit button
       const submitButton = $("#kt_login_signup_submit");
@@ -226,9 +227,13 @@ export default {
         return;
       }
 
-      await this.$router.push({
-        name: "signin",
-        query: { from: "registration" }
+      await this.$store.dispatch(ADD_LOGIN_NOTIFICATION, {
+        message: "Registration successful",
+        otherMessage: "You can now login"
+      });
+
+      return this.$router.push({
+        name: "signin"
       });
     }
   },

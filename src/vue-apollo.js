@@ -12,6 +12,7 @@ import JwtService from "@/core/services/jwt.service";
 import router from "@/router";
 import store from "@/core/services/store/index";
 import { LOGOUT } from "@/core/services/store/modules/auth.module";
+import { UPDATE_NEXT_PATH } from "@/core/services/store/modules/router.module";
 
 // Install the vue plugin
 Vue.use(VueApollo);
@@ -42,17 +43,13 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         error.message === "Signature has expired" ||
         error.message === "ACCOUNT_REQUIRED"
       ) {
-        store.dispatch(LOGOUT).then(() => {
-          router.push({
-            name: "signin",
-            query:
-              store.getters.lastPath !== null
-                ? { next: store.getters.lastPath }
-                : {}
+        store.dispatch(UPDATE_NEXT_PATH, store.getters.lastPath).then(() => {
+          store.dispatch(LOGOUT).then(() => {
+            router.push({
+              name: "signin"
+            });
           });
         });
-
-        console.log(error.message);
       }
     }
 
