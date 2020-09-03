@@ -9,7 +9,7 @@
           Sign In
         </h2>
         <span class="text-muted font-weight-bold font-size-h4"
-          >Or
+        >Or
           <router-link
             to="/register"
             v-slot="{ href, navigate, isActive, isExactActive }"

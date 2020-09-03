@@ -1,6 +1,6 @@
 // actions
 export const SET_HEAD_TITLE = "setTitle";
-import $ from "jquery";
+import $ from "jquery  ";
 
 export default {
   state: {},

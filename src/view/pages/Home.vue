@@ -1,8 +1,22 @@
 <template>
   <div>
     <!--begin::Dashboard-->
-    <div class="row">
-      <div class="col-xxl-4">
+    <div class="row" id="kt-home">
+      <div id="nav" >
+        <router-link
+            to="/home"
+            v-slot="{ href, navigate, isActive, isExactActive }"
+        >
+          <a
+              :href="href"
+              class="text-primary font-weight-bolder"
+              @click="navigate"
+          >
+            Create An Account
+          </a>
+        </router-link>
+      </div>
+      <div class="col-xxl-4" >
         <MixedWidget1></MixedWidget1>
       </div>
       <div class="col-xxl-4">
