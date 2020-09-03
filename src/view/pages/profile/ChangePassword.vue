@@ -2,7 +2,7 @@
   <!--begin::Content-->
   <div class="flex-row-fluid ml-lg-8">
     <!--begin::Card-->
-    <div class="card card-custom">
+    <div class="card card-custom card-stretch">
       <!--begin::Header-->
       <div class="card-header py-3">
         <div class="card-title align-items-start flex-column">
@@ -14,122 +14,90 @@
           >
         </div>
         <div class="card-toolbar">
-          <button type="reset" class="btn btn-success mr-2">
+          <button
+            @click="submitForm"
+            id="btn_submit"
+            class="btn btn-success font-weight-bolder"
+          >
             Save Changes
           </button>
-          <button type="reset" class="btn btn-secondary">Cancel</button>
         </div>
       </div>
       <!--end::Header-->
 
       <!--begin::Form-->
-      <form class="form">
+      <form id="form" class="form" @submit="onSubmit">
         <div class="card-body">
-          <!--begin::Alert-->
-          <div
-            class="alert alert-custom alert-light-danger fade show mb-10"
-            role="alert"
-          >
-            <div class="alert-icon">
-              <span class="svg-icon svg-icon-3x svg-icon-danger"
-                ><!--begin::Svg Icon | path:assets/media/svg/icons/Code/Info-circle.svg--><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  width="24px"
-                  height="24px"
-                  viewBox="0 0 24 24"
-                  version="1.1"
-                >
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <rect x="0" y="0" width="24" height="24" />
-                    <circle
-                      fill="#000000"
-                      opacity="0.3"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                    />
-                    <rect
-                      fill="#000000"
-                      x="11"
-                      y="10"
-                      width="2"
-                      height="7"
-                      rx="1"
-                    />
-                    <rect
-                      fill="#000000"
-                      x="11"
-                      y="7"
-                      width="2"
-                      height="2"
-                      rx="1"
-                    />
-                  </g></svg
-                ><!--end::Svg Icon--></span
-              >
-            </div>
-            <div class="alert-text font-weight-bold">
-              Configure user passwords to expire periodically. Users will need
-              warning that their passwords are going to expire,<br />
-              or they might inadvertently get locked out of the system!
-            </div>
-            <div class="alert-close">
-              <button
-                type="button"
-                class="close"
-                data-dismiss="alert"
-                aria-label="Close"
-              >
-                <span aria-hidden="true"><i class="ki ki-close"></i></span>
-              </button>
-            </div>
-          </div>
-          <!--end::Alert-->
           <div class="form-group row">
             <label class="col-xl-3 col-lg-3 col-form-label text-alert"
               >Current Password</label
             >
             <div class="col-lg-9 col-xl-6">
-              <input
+              <b-form-input
+                required
+                autofocus
+                :state="validateState('currentPassword')"
+                v-model="input.currentPassword"
+                class="form-control form-control-lg form-control-solid"
                 type="password"
-                class="form-control form-control-lg form-control-solid mb-2"
-                value=""
                 placeholder="Current password"
               />
-              <a href="#" class="text-sm font-weight-bold">Forgot password ?</a>
+              <b-form-invalid-feedback id="input-live-feedback">
+                <p
+                  :key="message"
+                  v-for="message of errorMessages('currentPassword')"
+                >
+                  {{ message }}
+                </p>
+              </b-form-invalid-feedback>
             </div>
           </div>
+
           <div class="form-group row">
             <label class="col-xl-3 col-lg-3 col-form-label text-alert"
               >New Password</label
             >
             <div class="col-lg-9 col-xl-6">
-              <input
-                type="password"
+              <b-form-input
+                required
+                :state="validateState('password')"
+                v-model="input.password"
                 class="form-control form-control-lg form-control-solid"
-                value=""
+                type="password"
                 placeholder="New password"
               />
+              <b-form-invalid-feedback id="input-live-feedback">
+                <p :key="message" v-for="message of errorMessages('password')">
+                  {{ message }}
+                </p>
+              </b-form-invalid-feedback>
             </div>
           </div>
+
           <div class="form-group row">
             <label class="col-xl-3 col-lg-3 col-form-label text-alert"
-              >Verify Password</label
+              >New password confirmation</label
             >
             <div class="col-lg-9 col-xl-6">
-              <input
-                type="password"
+              <b-form-input
+                required
+                :state="validateState('passwordConfirmation')"
+                v-model="input.passwordConfirmation"
                 class="form-control form-control-lg form-control-solid"
-                value=""
-                placeholder="Verify password"
+                type="password"
+                placeholder="New password confirmation"
               />
+              <b-form-invalid-feedback id="input-live-feedback">
+                <p
+                  :key="message"
+                  v-for="message of errorMessages('passwordConfirmation')"
+                >
+                  {{ message }}
+                </p>
+              </b-form-invalid-feedback>
             </div>
+
+            <input id="input_submit" type="submit" style="display: none" />
           </div>
         </div>
       </form>
@@ -141,14 +109,73 @@
 <style scoped></style>
 
 <script>
+import $ from "jquery";
+import _ from "lodash";
+
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
+import { formMixin } from "@/view/mixins";
+import { changeAccountPassword } from "@/graphql/account-mutations";
+import { LOGOUT } from "@/core/services/store/modules/auth.module";
+import { UPDATE_NEXT_PATH } from "@/core/services/store/modules/router.module";
+import { ADD_LOGIN_NOTIFICATION } from "@/core/services/store/modules/notifications.module";
 
 export default {
   name: "change-password",
+  mixins: [formMixin],
+  data() {
+    return {
+      input: {
+        currentPassword: null,
+        password: null,
+        passwordConfirmation: null
+      },
+      errors: []
+    };
+  },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Change Password" }]);
     this.$store.dispatch(SET_HEAD_TITLE, "Change Password");
+  },
+  methods: {
+    async onSubmit(evt) {
+      evt.preventDefault();
+
+      // set spinner to submit button
+      const submitButton = $("#btn_submit");
+      submitButton.addClass("spinner spinner-light spinner-right");
+
+      this.errors = [];
+
+      let result = await this.$apollo.mutate({
+        mutation: changeAccountPassword,
+        variables: {
+          input: this.input
+        }
+      });
+
+      this.errors = result.data.changeAccountPassword.errors;
+      if (!_.isEmpty(this.errors)) {
+        submitButton.removeClass("spinner spinner-light spinner-right");
+        return;
+      }
+
+      await this.$store.dispatch(LOGOUT);
+
+      await this.$store.dispatch(UPDATE_NEXT_PATH, this.$route.fullPath);
+
+      await this.$store.dispatch(ADD_LOGIN_NOTIFICATION, {
+        message: "Password successful updated",
+        otherMessage: "You can now login"
+      });
+
+      return this.$router.push({
+        name: "signin"
+      });
+    },
+    submitForm() {
+      $("#input_submit").click();
+    }
   }
 };
 </script>

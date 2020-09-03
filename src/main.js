@@ -13,6 +13,8 @@ import ClipboardJS from "clipboard";
 // Vue 3rd party plugins
 import i18n from "@/core/plugins/vue-i18n";
 import vuetify from "@/core/plugins/vuetify";
+import _ from "lodash";
+
 import "@/core/plugins/portal-vue";
 import "@/core/plugins/bootstrap-vue";
 import "@/core/plugins/perfect-scrollbar";
@@ -24,6 +26,11 @@ import "@mdi/font/css/materialdesignicons.css";
 
 import { createProvider } from "./vue-apollo";
 import JwtService from "@/core/services/jwt.service";
+import {
+  UPDATE_LAST_PATH,
+  UPDATE_NEXT_PATH
+} from "@/core/services/store/modules/router.module";
+import { LOGOUT } from "@/core/services/store/modules/auth.module";
 
 Vue.config.productionTip = false;
 
@@ -38,10 +45,13 @@ MockService.init();
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (JwtService.getAuth() === null) {
-      next({
-        name: "signin",
-        query: { next: to.fullPath }
+    if (_.isNull(JwtService.getAuth())) {
+      store.dispatch(UPDATE_NEXT_PATH, to.fullPath).then(() => {
+        store.dispatch(LOGOUT).then(() => {
+          next({
+            name: "signin"
+          });
+        });
       });
     }
   }
@@ -53,9 +63,13 @@ router.beforeEach((to, from, next) => {
   store.dispatch(RESET_LAYOUT_CONFIG);
 
   // Scroll page to top on every route change
-  setTimeout(() => {
-    window.scrollTo(0, 0);
-  }, 100);
+  // setTimeout(() => {
+  //   window.scrollTo(0, 0);
+  // }, 100);
+});
+
+router.afterEach(to => {
+  store.dispatch(UPDATE_LAST_PATH, to.path);
 });
 
 new Vue({

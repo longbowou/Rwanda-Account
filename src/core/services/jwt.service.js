@@ -1,8 +1,10 @@
+import _ from "lodash";
+
 const AUTH_KEY = "AUTH_OBJECT_KEY";
 
 export const getAuth = () => {
   let auth = window.localStorage.getItem(AUTH_KEY);
-  if (typeof auth === "string") {
+  if (_.isString(auth)) {
     let currentAuth = JSON.parse(auth);
     if (
       currentAuth !== null &&

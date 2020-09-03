@@ -18,6 +18,7 @@
       <div class="form-group">
         <b-form-input
           required
+          autofocus
           :state="validateState('username')"
           v-model="input.username"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
@@ -181,11 +182,14 @@ import { LOGOUT } from "@/core/services/store/modules/auth.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { formMixin } from "@/view/mixins";
 import { register } from "@/graphql/auth-mutations";
+
 import $ from "jquery";
+import _ from "lodash";
+import { ADD_LOGIN_NOTIFICATION } from "@/core/services/store/modules/notifications.module";
 
 export default {
-  mixins: [formMixin],
   name: "register",
+  mixins: [formMixin],
   data() {
     return {
       input: {
@@ -203,7 +207,7 @@ export default {
       evt.preventDefault();
 
       // clear existing errors
-      this.$store.dispatch(LOGOUT);
+      await this.$store.dispatch(LOGOUT);
 
       // set spinner to submit button
       const submitButton = $("#kt_login_signup_submit");
@@ -218,18 +222,20 @@ export default {
         }
       });
 
-      if (typeof result.errors === "object") {
-        submitButton.removeClass("spinner spinner-light spinner-right");
-        return;
-      }
-
       this.errors = result.data.createAccount.errors;
-      if (this.errors !== undefined && this.errors.length > 0) {
+      if (!_.isEmpty(this.errors)) {
         submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
 
-      await this.$router.push({ name: "signin", query: { registered: "yes" } });
+      await this.$store.dispatch(ADD_LOGIN_NOTIFICATION, {
+        message: "Registration successful",
+        otherMessage: "You can now login"
+      });
+
+      return this.$router.push({
+        name: "signin"
+      });
     }
   },
   mounted() {

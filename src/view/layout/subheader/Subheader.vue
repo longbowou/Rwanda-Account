@@ -56,7 +56,7 @@
             <inline-svg src="media/svg/icons/Communication/Incoming-box.svg" />
             <!--end::Svg Icon-->
           </span>
-          Deposit
+          Make a deposit
         </a>
 
         <a
@@ -69,7 +69,7 @@
             <inline-svg src="media/svg/icons/Communication/Outgoing-box.svg" />
             <!--end::Svg Icon-->
           </span>
-          Refund
+          Make a refund
         </a>
         <!--end::Button-->
       </div>

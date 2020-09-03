@@ -12,6 +12,7 @@
 @import "assets/plugins/flaticon/flaticon.css";
 @import "assets/plugins/flaticon2/flaticon.css";
 @import "assets/plugins/keenthemes-icons/font/ki.css";
+@import "~animate.css";
 
 // Main demo style scss
 @import "assets/sass/style.vue";
@@ -23,6 +24,7 @@
 
 <script>
 import { OVERRIDE_LAYOUT_CONFIG } from "@/core/services/store/modules/config.module";
+import "bootstrap-notify";
 
 export default {
   name: "App",
