@@ -13,6 +13,7 @@ import router from "@/router";
 import store from "@/core/services/store/index";
 import { LOGOUT } from "@/core/services/store/modules/auth.module";
 import { UPDATE_NEXT_PATH } from "@/core/services/store/modules/router.module";
+import { isDev } from "@/core/env.service";
 
 // Install the vue plugin
 Vue.use(VueApollo);
@@ -35,9 +36,11 @@ const httpLink = createHttpLink({ uri: httpEndpoint });
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     for (let error of graphQLErrors) {
-      console.log(
-        `[GraphQL error]: Message: ${error.message}, Location: ${error.locations}, Path: ${error.path}`
-      );
+      if (isDev()) {
+        console.log(
+          `[GraphQL error]: Message: ${error.message}, Location: ${error.locations}, Path: ${error.path}`
+        );
+      }
 
       if (
         error.message === "Signature has expired" ||
@@ -53,7 +56,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       }
     }
 
-  if (networkError) console.log(`[Network error]: ${networkError}`);
+  if (networkError) {
+    if (isDev()) {
+      console.log(`[Network error]: ${networkError}`);
+    }
+  }
 });
 
 // Config
