@@ -49,6 +49,15 @@
     <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative" >
       <div class="col-xl-12 col-xxl-7" align="center">
         <h1>Services for sale</h1>
+        <div class=" " align="center">
+          <div v-if="services" class="col-xl-6 " align="center">
+            <avatars ></avatars>
+            <h3>{{ services.title }}</h3>
+            <h3>{{ services.delay }} jours</h3>
+            <h3>{{ services.price }} FCFA</h3>
+            </divif>
+
+        </div>
 
       </div>
 
@@ -76,11 +85,13 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { queryServices } from "@/graphql/home-queries";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import wizard from "@/view/pages/wizard/Wizard-1";
+import wizard from "@/view/pages/home/Wizard-1";
+import avatars from "@/view/pages/home/Avatars";
 export default {
   name: "home",
   components: {
    wizard,
+    avatars,
 
 
   },
@@ -90,8 +101,8 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "MDTAFF" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, [{ title: "MDTAFF" }]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "home" }]);
+    this.$store.dispatch(SET_HEAD_TITLE, [{ title: "home" }]);
   },
   methods: {
     setActiveTab1(event) {

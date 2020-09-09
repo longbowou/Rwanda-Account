@@ -385,7 +385,7 @@ export default {
           title: "Another purpose persuade",
           desc: "Due in 2 Days",
           alt: "+28%",
-          svg: "media/svg/icons/Home/Library.svg",
+          svg: "media/svg/icons/home/Library.svg",
           type: "warning"
         },
         {

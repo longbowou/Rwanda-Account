@@ -56,7 +56,7 @@ export default {
         {
           title: "Briefing",
           desc: "Project Manager",
-          svg: "media/svg/icons/Home/Library.svg",
+          svg: "media/svg/icons/home/Library.svg",
           style: "svg-icon-primary"
         },
         {

@@ -153,7 +153,7 @@ export default {
           title: "Briviba SaaS",
           desc: "PHP, SQLite, Artisan CLIмм",
           color: "primary",
-          svg: process.env.BASE_URL + "media/svg/icons/Home/Library.svg"
+          svg: process.env.BASE_URL + "media/svg/icons/home/Library.svg"
         },
         {
           title: "Briviba SaaS",

@@ -67,7 +67,7 @@ export default {
         {
           title: "Create FireStone Logo",
           desc: "Due in 2 Days",
-          svg: "media/svg/icons/Home/Library.svg",
+          svg: "media/svg/icons/home/Library.svg",
           style: "success"
         },
         {
