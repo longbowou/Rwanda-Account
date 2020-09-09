@@ -2,90 +2,77 @@
   <div>
     <!--begin::Dashboard-->
     <div class="row" id="kt-home">
-      <div id="nav" >
-
-      </div>
-
-        <router-link
-            to="/home"
-            v-slot="{ href, navigate, isActive, isExactActive }"
-        >
-          <a
-              :href="href"
-              class="text-primary font-weight-bolder"
-              @click="navigate"
-          >
-
-          </a>
-        </router-link>
+      <div id="nav"></div>
       <router-link
-          to="/home"
-          v-slot="{ href, navigate, isActive, isExactActive }"
+        to="/home"
+        v-slot="{ href, navigate, isActive, isExactActive }"
       >
         <a
-            :href="href"
-            class="text-primary font-weight-bolder"
-            @click="navigate"
+          :href="href"
+          class="text-primary font-weight-bolder"
+          @click="navigate"
         >
-
         </a>
       </router-link>
-      </div>
-    <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative" >
-      <div class="col-xl-12 col-xxl-7">
-      </div>
-
+      <router-link
+        to="/home"
+        v-slot="{ href, navigate, isActive, isExactActive }"
+      >
+        <a
+          :href="href"
+          class="text-primary font-weight-bolder"
+          @click="navigate"
+        >
+        </a>
+      </router-link>
     </div>
-    <div >
-      <div >
+    <div
+      class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
+    >
+      <div class="col-xl-12 col-xxl-7"></div>
+    </div>
+    <div>
+      <div>
         <div class="row" id="kt-bar">
           <wizard></wizard>
-
         </div>
       </div>
-
     </div>
 
-    <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative" >
+    <div
+      class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
+    >
       <div class="col-xl-12 col-xxl-7" align="center">
         <h1>Services for sale</h1>
-        <div class=" " align="center">
-          <div v-if="services" class="col-xl-6 " align="center">
+        <ApolloQuery :query="services">
+          <div class=" " align="center">
             <div v-if="services" class="col-xl-6 " align="center">
-              <div class="col-xl-6 " >
-                <ul>
-                  <li v-for="service of services" class="user">
-                    <h3>{{ service.title }}</h3>
-                    <h3>{{ service.delay }} jours</h3>
-                    <h3>{{ service.price }} FCFA</h3>
-                  </li>
-                </ul>
+              <div v-if="services" class="col-xl-6 " align="center">
+                <div class="col-xl-6 ">
+                  <ul>
+                    <li v-for="service of services">
+                      <img src="public/media/books/1.png" />
+                      <h3>{{ service.title }}</h3>
+                      <h3>{{ service.delay }} jours</h3>
+                      <h3>{{ service.price }} FCFA</h3>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-
-        </div>
-
+        </ApolloQuery>
       </div>
-
     </div>
 
-    <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative" >
-      <div  align="center">
-
-      </div>
-
+    <div
+      class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
+    >
+      <div align="center"></div>
     </div>
+  </div>
 
-
-
-
-
-
-    </div>
-
-    <!--end::Dashboard-->
-
+  <!--end::Dashboard-->
 </template>
 
 <script>
@@ -97,10 +84,7 @@ import wizard from "@/view/pages/home/Wizard-1";
 export default {
   name: "home",
   components: {
-   wizard,
-
-
-
+    wizard
   },
   data() {
     return {
