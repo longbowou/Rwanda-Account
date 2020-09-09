@@ -22,8 +22,8 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: "/deposits",
-          name: "deposits",
+          path: "/make-deposit",
+          name: "make-deposit",
           component: () => import("@/view/pages/user/MakeDeposit"),
           meta: { requiresAuth: true }
         },

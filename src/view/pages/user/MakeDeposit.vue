@@ -68,7 +68,6 @@
                 >
                 <b-form-input
                   required
-                  autofocus
                   :state="validateState('amount')"
                   v-model="input.amount"
                   class="form-control form-control-lg form-control-solid"
@@ -115,7 +114,7 @@ import _ from "lodash";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
-  name: "deposits",
+  name: "make-deposit",
   mixins: [formMixin, toast],
   data() {
     return {
@@ -128,8 +127,8 @@ export default {
     ...mapGetters(["currentAccount", "currency"])
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Deposits" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Deposits");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Make a deposit" }]);
+    this.$store.dispatch(SET_HEAD_TITLE, "Make a deposit");
   },
   methods: {
     async onSubmit(evt) {
