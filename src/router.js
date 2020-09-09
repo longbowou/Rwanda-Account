@@ -18,32 +18,40 @@ export default new Router({
         {
           path: "/dashboard",
           name: "dashboard",
-          component: () => import("@/view/pages/Dashboard"),
+          component: () => import("@/view/pages/user/Dashboard"),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: "/deposits",
+          name: "deposits",
+          component: () => import("@/view/pages/user/MakeDeposit"),
           meta: { requiresAuth: true }
         },
         {
           path: "/profile",
           redirect: "/profile-overview",
-          component: () => import("@/view/pages/profile/Layout"),
+          component: () => import("@/view/pages/user/profile/Layout"),
           meta: { requiresAuth: true },
           children: [
             {
               path: "/profile-overview",
               name: "profile-overview",
-              component: () => import("@/view/pages/profile/ProfileOverview"),
+              component: () =>
+                import("@/view/pages/user/profile/ProfileOverview"),
               meta: { requiresAuth: true }
             },
             {
               path: "/personal-information",
               name: "personal-information",
               component: () =>
-                import("@/view/pages/profile/PersonalInformation"),
+                import("@/view/pages/user/profile/PersonalInformation"),
               meta: { requiresAuth: true }
             },
             {
               path: "/change-password",
               name: "change-password",
-              component: () => import("@/view/pages/profile/ChangePassword"),
+              component: () =>
+                import("@/view/pages/user/profile/ChangePassword"),
               meta: { requiresAuth: true }
             }
           ]
