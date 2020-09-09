@@ -3,6 +3,9 @@
     <!--begin::Dashboard-->
     <div class="row" id="kt-home">
       <div id="nav" >
+
+      </div>
+
         <router-link
             to="/home"
             v-slot="{ href, navigate, isActive, isExactActive }"
@@ -12,69 +15,74 @@
               class="text-primary font-weight-bolder"
               @click="navigate"
           >
-            Create An Account
+
           </a>
         </router-link>
+      <router-link
+          to="/home"
+          v-slot="{ href, navigate, isActive, isExactActive }"
+      >
+        <a
+            :href="href"
+            class="text-primary font-weight-bolder"
+            @click="navigate"
+        >
+
+        </a>
+      </router-link>
       </div>
-      <div class="col-xxl-4" >
-        <MixedWidget1></MixedWidget1>
-      </div>
-      <div class="col-xxl-4">
-        <ListWidget9></ListWidget9>
-      </div>
-      <div class="col-xxl-4">
-        <StatsWidget7></StatsWidget7>
-        <StatsWidget12></StatsWidget12>
+    <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative" >
+      <div class="col-xl-12 col-xxl-7">
       </div>
 
-      <div class="col-xxl-4 order-1 order-xxl-1">
-        <ListWidget1></ListWidget1>
-      </div>
-      <div class="col-xxl-8 order-2 order-xxl-1">
-        <AdvancedTableWidget2></AdvancedTableWidget2>
-      </div>
-
-      <div class="col-xxl-4 order-1 order-xxl-2">
-        <ListWidget3></ListWidget3>
-      </div>
-      <div class="col-xxl-4 order-1 order-xxl-2">
-        <ListWidget4></ListWidget4>
-      </div>
-      <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
-        <ListWidget8></ListWidget8>
-      </div>
     </div>
+    <div >
+      <div >
+        <div class="row" id="kt-bar">
+          <wizard></wizard>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative" >
+      <div class="col-xl-12 col-xxl-7" align="center">
+        <h1>Services for sale</h1>
+
+      </div>
+
+    </div>
+
+    <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative" >
+      <div  align="center">
+
+      </div>
+
+    </div>
+
+
+
+
+
+
+    </div>
+
     <!--end::Dashboard-->
-  </div>
+
 </template>
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
-import AdvancedTableWidget2 from "@/view/content/widgets/advance-table/Widget2.vue";
-import MixedWidget1 from "@/view/content/widgets/mixed/Widget1.vue";
-import ListWidget1 from "@/view/content/widgets/list/Widget1.vue";
-import ListWidget3 from "@/view/content/widgets/list/Widget3.vue";
-import ListWidget4 from "@/view/content/widgets/list/Widget4.vue";
-import ListWidget8 from "@/view/content/widgets/list/Widget8.vue";
-import ListWidget9 from "@/view/content/widgets/list/Widget9.vue";
-import StatsWidget7 from "@/view/content/widgets/stats/Widget7.vue";
-import StatsWidget12 from "@/view/content/widgets/stats/Widget12.vue";
-
 import { queryServices } from "@/graphql/home-queries";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-
+import wizard from "@/view/pages/wizard/Wizard-1";
 export default {
   name: "home",
   components: {
-    AdvancedTableWidget2,
-    MixedWidget1,
-    ListWidget1,
-    ListWidget3,
-    ListWidget4,
-    ListWidget8,
-    ListWidget9,
-    StatsWidget7,
-    StatsWidget12
+   wizard,
+
+
   },
   data() {
     return {
@@ -82,8 +90,8 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Home" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Home");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "MDTAFF" }]);
+    this.$store.dispatch(SET_HEAD_TITLE, [{ title: "MDTAFF" }]);
   },
   methods: {
     setActiveTab1(event) {

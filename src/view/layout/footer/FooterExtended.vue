@@ -11,12 +11,12 @@
       <div class="row">
         <!--begin::Col-->
         <div class="col-lg-4 my-lg-0 my-5">
-          <h4 class="text-white pb-3">About</h4>
+          <h4 class="text-white pb-3">MDTAFF</h4>
           <p class="m-0 text-white opacity-45">
-            Lorem Ipsum is simply dummy text of the printing
-            <br />and typesetting and typesetting industry has been the
-            <br />industry's standard dummy text ever since the 1500s,
-            <br />when an unknown printer took a galley of type.
+            Product of MDCHANGER
+            <br />Platform for buying and selling services
+            <br />in the digital domain,
+            <br />LOME-TOGO.
           </p>
         </div>
         <!--end::Col-->

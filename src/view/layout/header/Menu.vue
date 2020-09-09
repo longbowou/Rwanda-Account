@@ -14,7 +14,7 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Home </span>
+          <span class="menu-text"></span>
         </a>
       </li>
     </router-link>
