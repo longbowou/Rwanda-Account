@@ -55,7 +55,7 @@
                 class="display4 font-weight-bolder my-7 text-dark"
                 style="color: #986923;"
               >
-                MD TAFF
+                {{ brand }}
               </a>
             </router-link>
           </h3>
@@ -88,9 +88,15 @@
 
 <script>
 import { ADD_BODY_CLASSNAME } from "@/core/services/store/modules/htmlclass.module";
+import { BRAND } from "@/core/config/app";
 
 export default {
   name: "auth",
+  data() {
+    return {
+      brand: BRAND
+    };
+  },
   methods: {},
   beforeMount() {
     this.$store.dispatch(ADD_BODY_CLASSNAME, "quick-panel-right");

@@ -2,74 +2,60 @@
   <div>
     <!--begin::Dashboard-->
     <div class="row" id="kt-home">
-      <div id="nav" >
+      <div id="nav"></div>
 
-      </div>
-
-        <router-link
-            to="/home"
-            v-slot="{ href, navigate, isActive, isExactActive }"
-        >
-          <a
-              :href="href"
-              class="text-primary font-weight-bolder"
-              @click="navigate"
-          >
-
-          </a>
-        </router-link>
       <router-link
-          to="/home"
-          v-slot="{ href, navigate, isActive, isExactActive }"
+        to="/home"
+        v-slot="{ href, navigate, isActive, isExactActive }"
       >
         <a
-            :href="href"
-            class="text-primary font-weight-bolder"
-            @click="navigate"
+          :href="href"
+          class="text-primary font-weight-bolder"
+          @click="navigate"
         >
-
         </a>
       </router-link>
-      </div>
-    <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative" >
-      <div class="col-xl-12 col-xxl-7">
-      </div>
-
+      <router-link
+        to="/home"
+        v-slot="{ href, navigate, isActive, isExactActive }"
+      >
+        <a
+          :href="href"
+          class="text-primary font-weight-bolder"
+          @click="navigate"
+        >
+        </a>
+      </router-link>
     </div>
-    <div >
-      <div >
+    <div
+      class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
+    >
+      <div class="col-xl-12 col-xxl-7"></div>
+    </div>
+    <div>
+      <div>
         <div class="row" id="kt-bar">
           <wizard></wizard>
-
         </div>
       </div>
-
     </div>
 
-    <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative" >
+    <div
+      class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
+    >
       <div class="col-xl-12 col-xxl-7" align="center">
         <h1>Services for sale</h1>
-
       </div>
-
     </div>
 
-    <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative" >
-      <div  align="center">
-
-      </div>
-
+    <div
+      class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
+    >
+      <div align="center"></div>
     </div>
+  </div>
 
-
-
-
-
-
-    </div>
-
-    <!--end::Dashboard-->
-
+  <!--end::Dashboard-->
 </template>
 
 <script>
@@ -80,9 +66,7 @@ import wizard from "@/view/pages/wizard/Wizard-1";
 export default {
   name: "home",
   components: {
-   wizard,
-
-
+    wizard
   },
   data() {
     return {
@@ -90,8 +74,8 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "MDTAFF" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, [{ title: "MDTAFF" }]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Home" }]);
+    this.$store.dispatch(SET_HEAD_TITLE, "Home");
   },
   methods: {
     setActiveTab1(event) {
