@@ -11,12 +11,11 @@
       <div class="row">
         <!--begin::Col-->
         <div class="col-lg-4 my-lg-0 my-5">
-          <h4 class="text-white pb-3">MDTAFF</h4>
+          <h4 class="text-white pb-3">{{ brand }}</h4>
           <p class="m-0 text-white opacity-45">
-            Product of MDCHANGER
-            <br />Platform for buying and selling services
-            <br />in the digital domain,
-            <br />LOME-TOGO.
+            Product of Maison du Digitale
+            <br />Platform for buying and selling services <br />in the digital
+            domain, <br />LOME-TOGO.
           </p>
         </div>
         <!--end::Col-->
@@ -125,9 +124,15 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { BRAND } from "@/core/config/app";
 
 export default {
   name: "KTFooter",
+  data() {
+    return {
+      brand: BRAND
+    };
+  },
   computed: {
     ...mapGetters(["layoutConfig"]),
 

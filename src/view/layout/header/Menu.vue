@@ -1,7 +1,7 @@
 <template>
   <ul class="menu-nav">
     <router-link
-      to="/home"
+      :to="{ name: 'home' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
       <li
@@ -21,7 +21,7 @@
 
     <router-link
       v-if="isAuthenticated"
-      to="/dashboard"
+      :to="{ name: 'home' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
       <li
