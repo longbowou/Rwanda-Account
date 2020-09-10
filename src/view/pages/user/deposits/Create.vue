@@ -114,7 +114,7 @@ import _ from "lodash";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
-  name: "make-deposit",
+  name: "deposits-create",
   mixins: [formMixin, toast],
   data() {
     return {

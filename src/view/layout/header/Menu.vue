@@ -21,7 +21,7 @@
 
     <router-link
       v-if="isAuthenticated"
-      :to="{ name: 'home' }"
+      :to="{ name: 'dashboard' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
       <li
@@ -35,6 +35,26 @@
       >
         <a :href="href" class="menu-link" @click="navigate">
           <span class="menu-text"> Dashboard </span>
+        </a>
+      </li>
+    </router-link>
+
+    <router-link
+      v-if="isAuthenticated"
+      :to="{ name: 'deposits' }"
+      v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+        aria-haspopup="true"
+        data-menu-toggle="hover"
+        class="menu-item"
+        :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <span class="menu-text"> Deposits </span>
         </a>
       </li>
     </router-link>

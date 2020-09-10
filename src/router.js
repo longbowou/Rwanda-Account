@@ -22,9 +22,15 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: "/make-deposit",
-          name: "make-deposit",
-          component: () => import("@/view/pages/user/MakeDeposit"),
+          path: "/deposits",
+          name: "deposits",
+          component: () => import("@/view/pages/user/deposits/Datatable"),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: "/deposits-create",
+          name: "deposits-create",
+          component: () => import("@/view/pages/user/deposits/Create"),
           meta: { requiresAuth: true }
         },
         {

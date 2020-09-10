@@ -48,7 +48,7 @@
         <!--begin::Button-->
         <router-link
           v-if="isAuthenticated"
-          :to="{ name: 'make-deposit' }"
+          :to="{ name: 'deposits-create' }"
           v-slot="{ href, navigate, isActive, isExactActive }"
         >
           <a
