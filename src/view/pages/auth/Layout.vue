@@ -46,7 +46,7 @@
         >
           <h3>
             <router-link
-              to="/home"
+              :to="{ name: 'home' }"
               v-slot="{ href, navigate, isActive, isExactActive }"
             >
               <a

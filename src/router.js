@@ -77,6 +77,27 @@ export default new Router({
       ]
     },
     {
+      path: "/",
+      component: () => import("@/view/pages/auth/Layout"),
+      children: [
+        {
+          name: "signin",
+          path: "/login",
+          component: () => import("@/view/pages/auth/Login")
+        },
+        {
+          name: "signup",
+          path: "/register",
+          component: () => import("@/view/pages/auth/Register")
+        },
+        {
+          name: "forgot",
+          path: "/forgot-password",
+          component: () => import("@/view/pages/auth/ForgotPassword")
+        }
+      ]
+    },
+    {
       path: "/error",
       name: "error",
       component: () => import("@/view/pages/error/Error.vue"),
@@ -110,27 +131,6 @@ export default new Router({
           path: "error-6",
           name: "error-6",
           component: () => import("@/view/pages/error/Error-6.vue")
-        }
-      ]
-    },
-    {
-      path: "/",
-      component: () => import("@/view/pages/auth/Layout"),
-      children: [
-        {
-          name: "signin",
-          path: "/login",
-          component: () => import("@/view/pages/auth/Login")
-        },
-        {
-          name: "signup",
-          path: "/register",
-          component: () => import("@/view/pages/auth/Register")
-        },
-        {
-          name: "forgot",
-          path: "/forgot-password",
-          component: () => import("@/view/pages/auth/ForgotPassword")
         }
       ]
     },

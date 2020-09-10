@@ -151,7 +151,7 @@
         </button>
 
         <router-link
-          to="/login"
+          :to="{ name: 'signin' }"
           v-slot="{ href, navigate, isActive, isExactActive }"
         >
           <a

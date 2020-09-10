@@ -287,7 +287,7 @@ export default {
     onLogout() {
       this.$store
         .dispatch(LOGOUT)
-        .then(() => this.$router.push({ name: "signin" }));
+        .then(() => this.$router.push({ name: "home" }));
     },
     closeOffcanvas() {
       new KTOffcanvas(KTLayoutQuickUser.getElement()).hide();
