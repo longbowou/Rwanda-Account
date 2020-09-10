@@ -70,18 +70,31 @@
           </a>
         </router-link>
 
-        <a
-          href="#"
+        <router-link
           v-if="isAuthenticated"
-          class="btn btn-transparent-white font-weight-bold py-3 px-6 mr-2"
+          :to="{ name: 'refunds-create' }"
+          v-slot="{ href, navigate, isActive, isExactActive }"
         >
-          <span class="svg-icon svg-icon-lg svg-icon-3x">
-            <!--begin::Svg Icon-->
-            <inline-svg src="media/svg/icons/Communication/Outgoing-box.svg" />
-            <!--end::Svg Icon-->
-          </span>
-          Make a refund
-        </a>
+          <a
+            :href="href"
+            v-if="isAuthenticated"
+            :class="[
+              'btn btn-transparent-white font-weight-bold py-3 px-6 mr-2',
+              isActive && 'active',
+              isExactActive && 'active'
+            ]"
+          >
+            <span class="svg-icon svg-icon-lg svg-icon-3x">
+              <!--begin::Svg Icon-->
+              <inline-svg
+                src="media/svg/icons/Communication/Outgoing-box.svg"
+              />
+              <!--end::Svg Icon-->
+            </span>
+            Make a refund
+          </a>
+        </router-link>
+
         <!--end::Button-->
       </div>
     </div>

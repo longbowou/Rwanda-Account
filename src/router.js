@@ -34,6 +34,18 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
+          path: "/refunds",
+          name: "refunds",
+          component: () => import("@/view/pages/user/refunds/Datatable"),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: "/refunds-create",
+          name: "refunds-create",
+          component: () => import("@/view/pages/user/refunds/Create"),
+          meta: { requiresAuth: true }
+        },
+        {
           path: "/profile",
           redirect: "/profile-overview",
           component: () => import("@/view/pages/user/profile/Layout"),

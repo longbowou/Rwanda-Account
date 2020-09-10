@@ -49,3 +49,21 @@ export const createDeposit = gql`
   ${errorFields}
   ${accountFields}
 `;
+
+export const createRefund = gql`
+  mutation($input: CreateRefundInput!) {
+    createRefund(input: $input) {
+      errors {
+        ...errorFields
+      }
+      refund {
+        amount
+        account {
+          ...accountFields
+        }
+      }
+    }
+  }
+  ${errorFields}
+  ${accountFields}
+`;
