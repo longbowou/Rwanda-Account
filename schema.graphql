@@ -70,12 +70,12 @@ type AccountQuery {
 }
 
 type AccountType implements UserInterface {
-    balance: Int!
+    balance: String!
     chatSet: [ChatType!]!
     createdAt: DateTime!
     depositSet: [DepositType!]!
-    depositsSum: Int!
-    earningsSum: Int!
+    depositsSum: String!
+    earningsSum: String!
     email: String!
     firstName: String
     fullName: String
@@ -83,13 +83,13 @@ type AccountType implements UserInterface {
     lastName: String
     litigationSet: [LitigationType!]!
     operationSet: [OperationType!]!
-    purchasesCount: Int!
+    purchasesCount: String!
     refundSet: [RefundType!]!
-    refundsSum: Int!
+    refundsSum: String!
     serviceSet: [ServiceType!]!
     servicecommentSet: [ServiceCommentType!]!
     servicepurchaseSet: [ServicePurchaseType!]!
-    servicesCount: Int!
+    servicesCount: String!
     updatedAt: DateTime!
     username: String!
 }

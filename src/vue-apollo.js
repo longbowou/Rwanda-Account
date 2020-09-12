@@ -13,6 +13,7 @@ import router from "@/router";
 import store from "@/core/services/store/index";
 import { LOGOUT } from "@/core/services/store/modules/auth.module";
 import { UPDATE_NEXT_PATH } from "@/core/services/store/modules/router.module";
+import i18nService from "@/core/services/i18n.service";
 
 // Install the vue plugin
 Vue.use(VueApollo);
@@ -30,7 +31,16 @@ export const filesRoot =
 
 Vue.prototype.$filesRoot = filesRoot;
 
-const httpLink = createHttpLink({ uri: httpEndpoint });
+const customFetch = (uri, options) => {
+  options.headers["Accept-Language"] = i18nService.getActiveLanguage();
+  const currentAuth = JwtService.getAuth();
+  if (currentAuth !== null) {
+    options.headers["Authorization"] = "JWT " + currentAuth.token;
+  }
+  return fetch(uri, options);
+};
+
+const httpLink = createHttpLink({ uri: httpEndpoint, fetch: customFetch });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -80,17 +90,17 @@ const defaultOptions = {
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
   // httpLinkOptions property of defaultOptions.
-  link: ApolloLink.from([errorLink, httpLink]),
+  link: ApolloLink.from([errorLink, httpLink])
   // Override default cache
   // cache: myCache
 
   // Override the way the Authorization header is set
-  getAuth: () => {
-    const currentAuth = JwtService.getAuth();
-    if (currentAuth !== null) {
-      return "JWT " + currentAuth.token;
-    }
-  }
+  // getAuth: () => {
+  //   const currentAuth = JwtService.getAuth();
+  //   if (currentAuth !== null) {
+  //     return "JWT " + currentAuth.token;
+  //   }
+  // }
 
   // Additional ApolloClient options
   // apollo: { ... }

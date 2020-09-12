@@ -62,6 +62,7 @@ import { mapGetters } from "vuex";
 import "@/assets/plugins/datatable/datatables.bundle";
 import { refundsUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
+import i18nService from "@/core/services/i18n.service";
 
 export default {
   name: "refunds-datable",
@@ -86,6 +87,7 @@ export default {
       ajax: {
         url: refundsUrl,
         headers: {
+          "Accept-Language": i18nService.getActiveLanguage(),
           Authorization: "JWT " + JwtService.getAuth().token
         }
       }
