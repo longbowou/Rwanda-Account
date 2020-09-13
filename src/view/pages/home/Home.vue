@@ -44,24 +44,51 @@
     >
       <div class="col-xl-12 col-xxl-7" align="center">
         <h1>Services for sale</h1>
-        <ApolloQuery :query="services">
-          <div class=" " align="center">
-            <div v-if="services" class="col-xl-6 " align="center">
-              <div v-if="services" class="col-xl-6 " align="center">
-                <div class="col-xl-6 ">
-                  <ul>
-                    <li v-for="service of services">
-                      <img src="public/media/books/1.png" />
-                      <h3>{{ service.title }}</h3>
-                      <h3>{{ service.delay }} jours</h3>
-                      <h3>{{ service.price }} FCFA</h3>
-                    </li>
-                  </ul>
-                </div>
+        <div
+          class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
+        ></div>
+        <div class=" ">
+          <div >
+            <div class="" align="" width>
+              <div  v-for="service in services" :key="service" >
+                <div class="">
+                <b-card
+                  :img-src="images.image1"
+                  img-alt="Image"
+                  img-top
+                  style="max-width: 20rem;"
+                  class="col-md-6"
+                >
+                  <b-card-text>
+                    <h3>{{ service.title }}</h3>
+                  </b-card-text>
+
+                  <b-button href="#" variant="primary"
+                    >
+                    <span class="text-muted " >
+                    <router-link
+                        to="/detail"
+                        v-slot="{ href, navigate, isActive, isExactActive }"
+                    >
+                      <a
+                          :href="href"
+                          class="text-white font-weight-bolder"
+                          variant="primary"
+                          style="color:white"
+                          @click="navigate"
+                      ><i class="wizard-icon flaticon2-shopping-cart"></i>
+                        Add to Card
+                      </a>
+                    </router-link>
+                    </span>
+                  </b-button
+                  >
+                </b-card>
+              </div>
               </div>
             </div>
           </div>
-        </ApolloQuery>
+        </div>
       </div>
     </div>
 
@@ -88,7 +115,10 @@ export default {
   },
   data() {
     return {
-      services: []
+      services: [],
+      images: {
+        image1: require("@/assets/media/books/1.png")
+      }
     };
   },
   mounted() {
