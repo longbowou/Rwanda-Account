@@ -145,7 +145,9 @@ export default {
     this.$store.dispatch(SET_HEAD_TITLE, "Personal Information");
   },
   methods: {
-    async onSubmit() {
+    async onSubmit(evt) {
+      evt.preventDefault();
+
       // set spinner to submit button
       const submitButton = $("#btn_submit");
       submitButton.addClass("spinner spinner-light spinner-right");

@@ -61,7 +61,7 @@
           <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
             <div class="navi-item mb-2">
               <router-link
-                to="/profile-overview"
+                :to="{ name: 'profile-overview' }"
                 v-slot="{ href, navigate, isActive, isExactActive }"
               >
                 <a
@@ -87,7 +87,7 @@
 
             <div class="navi-item mb-2">
               <router-link
-                to="/personal-information"
+                :to="{ name: 'personal-information' }"
                 v-slot="{ href, navigate, isActive, isExactActive }"
               >
                 <a
@@ -113,7 +113,7 @@
 
             <div class="navi-item mb-2">
               <router-link
-                to="/change-password"
+                :to="{ name: 'change-password' }"
                 v-slot="{ href, navigate, isActive, isExactActive }"
               >
                 <a

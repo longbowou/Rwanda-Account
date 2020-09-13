@@ -12,13 +12,13 @@
       <span
         class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-2"
       >
-        {{ currentAccount !== null ? currentAccount.fullName : null }}
+        {{ currentAccount !== null ? currentAccount.username : null }}
       </span>
       <span class="symbol symbol-35">
         <span
           class="symbol-label text-white font-size-h5 font-weight-bold bg-white-o-30"
         >
-          {{ currentAccount !== null ? currentAccount.fullName[0] : null }}
+          {{ currentAccount !== null ? currentAccount.username[0] : null }}
         </span>
       </span>
     </div>
@@ -114,7 +114,7 @@
         <div class="navi navi-spacer-x-0 p-0">
           <!--begin::Item-->
           <router-link
-            to="/profile-overview"
+            :to="{ name: 'profile-overview' }"
             @click.native="closeOffcanvas"
             class="navi-item"
           >
@@ -287,7 +287,7 @@ export default {
     onLogout() {
       this.$store
         .dispatch(LOGOUT)
-        .then(() => this.$router.push({ name: "signin" }));
+        .then(() => this.$router.push({ name: "home" }));
     },
     closeOffcanvas() {
       new KTOffcanvas(KTLayoutQuickUser.getElement()).hide();

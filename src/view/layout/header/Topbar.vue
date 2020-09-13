@@ -87,7 +87,7 @@
         class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto"
       >
         <router-link
-          to="/login"
+          :to="{ name: 'signin' }"
           v-slot="{ href, navigate, isActive, isExactActive }"
         >
           <a :href="href" @click="navigate">

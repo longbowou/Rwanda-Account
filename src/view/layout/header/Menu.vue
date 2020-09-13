@@ -1,7 +1,7 @@
 <template>
   <ul class="menu-nav">
     <router-link
-      to="/home"
+      :to="{ name: 'home' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
       <li
@@ -14,14 +14,14 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"></span>
+          <span class="menu-text">Home</span>
         </a>
       </li>
     </router-link>
 
     <router-link
       v-if="isAuthenticated"
-      to="/dashboard"
+      :to="{ name: 'dashboard' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
       <li
@@ -35,6 +35,46 @@
       >
         <a :href="href" class="menu-link" @click="navigate">
           <span class="menu-text"> Dashboard </span>
+        </a>
+      </li>
+    </router-link>
+
+    <router-link
+      v-if="isAuthenticated"
+      :to="{ name: 'deposits' }"
+      v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+        aria-haspopup="true"
+        data-menu-toggle="hover"
+        class="menu-item"
+        :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <span class="menu-text"> Deposits </span>
+        </a>
+      </li>
+    </router-link>
+
+    <router-link
+      v-if="isAuthenticated"
+      :to="{ name: 'refunds' }"
+      v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+        aria-haspopup="true"
+        data-menu-toggle="hover"
+        class="menu-item"
+        :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <span class="menu-text"> Refunds </span>
         </a>
       </li>
     </router-link>

@@ -31,3 +31,39 @@ export const changeAccountPassword = gql`
   ${errorFields}
   ${accountFields}
 `;
+
+export const createDeposit = gql`
+  mutation($input: CreateDepositInput!) {
+    createDeposit(input: $input) {
+      errors {
+        ...errorFields
+      }
+      deposit {
+        amount
+        account {
+          ...accountFields
+        }
+      }
+    }
+  }
+  ${errorFields}
+  ${accountFields}
+`;
+
+export const createRefund = gql`
+  mutation($input: CreateRefundInput!) {
+    createRefund(input: $input) {
+      errors {
+        ...errorFields
+      }
+      refund {
+        amount
+        account {
+          ...accountFields
+        }
+      }
+    }
+  }
+  ${errorFields}
+  ${accountFields}
+`;

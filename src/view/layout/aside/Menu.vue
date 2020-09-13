@@ -1,7 +1,7 @@
 <template>
   <ul class="menu-nav">
     <router-link
-      to="/dashboard"
+      :to="{ name: 'dashboard' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
       <li
