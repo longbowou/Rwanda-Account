@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div class="card col-sm-12 card-custom bgi-position-center">
+      <div class="card col-sm-12 card-custom bgi-position-center shadow-sm">
         <div class="card-body p-0">
           <div
             class="wizard wizard-1"
