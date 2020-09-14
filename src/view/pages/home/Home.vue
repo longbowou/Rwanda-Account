@@ -60,38 +60,40 @@
     <div class="row justify-content-center">
       <template v-for="service in services">
         <div :key="service.id" class="col-sm-3">
-          <b-card
-            :title="service.title"
-            img-src="media/books/img-72.jpg"
-            img-alt="cover"
-            img-top
-            img-height="150"
-            body-class="p-5"
-            class="shadow-sm"
+          <router-link
+            :to="{ name: 'service', params: { id: service.id } }"
+            v-slot="{ href, navigate, isActive, isExactActive }"
           >
-            <a href="#" class="d-flex align-items-center mb-5">
-              <div class="symbol symbol-40 symbol-lg-50 symbol-circle bg-light">
-                <img alt="Pic" src="media/stock-600x600/img-11.jpg" />
-              </div>
-              <span class="text-muted font-weight-bold ml-3">by</span>
-              <span class="text-dark-75 font-weight-bold ml-2">{{
-                service.account.fullName
-              }}</span>
-            </a>
-
-            <router-link
-              to="/detail"
-              v-slot="{ href, navigate, isActive, isExactActive }"
-            >
-              <a
-                :href="href"
-                class="btn btn-light btn-lg btn-block btn-square font-weight-bold"
-                @click="navigate"
+            <a :href="href" @click="navigate">
+              <b-card
+                :title="service.title"
+                img-src="media/books/img-72.jpg"
+                img-alt="cover"
+                img-top
+                img-height="150"
+                body-class="p-5"
+                class="shadow-sm"
               >
-                Add to Card
-              </a>
-            </router-link>
-          </b-card>
+                <a href="#" class="d-flex align-items-start mb-5">
+                  <div
+                    class="symbol symbol-40 symbol-lg-50 symbol-circle bg-light"
+                  >
+                    <img alt="Pic" src="media/stock-600x600/img-11.jpg" />
+                  </div>
+                  <span class="text-muted font-weight-bold ml-3">by</span>
+                  <span class="text-dark-75 font-weight-bold ml-2">{{
+                    service.account.fullName
+                  }}</span>
+                </a>
+
+                <button
+                  class="btn btn-light btn-lg btn-block btn-square font-weight-bold"
+                >
+                  Add to Card
+                </button>
+              </b-card>
+            </a>
+          </router-link>
         </div>
       </template>
     </div>
@@ -102,14 +104,19 @@
 <style lang="scss">
 @import "~@/assets/sass/pages/wizard/wizard-1.scss";
 .card-img-top {
-  object-fit: none;
-  object-position: center;
+  object-fit: cover;
+}
+.card-title {
+  color: #3F4254 !important;
+}
+.card-title:hover {
+  color: black !important;
 }
 </style>
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
-import { queryServices } from "@/graphql/home-queries";
+import { queryServices } from "@/graphql/service-queries";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 
 export default {

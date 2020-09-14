@@ -61,6 +61,7 @@ type AccountQuery {
     "Litigation list"
     litigation(id: UUID): [LitigationType]
     parameters: ParametersType
+    service(id: UUID!): ServiceType
     "ServiceCategory list"
     serviceCategories(id: UUID): [ServiceCategoryType]
     "ServicePurchase list"
