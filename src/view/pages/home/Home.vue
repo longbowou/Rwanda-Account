@@ -61,37 +61,11 @@
       <template v-for="service in services">
         <div :key="service.id" class="col-sm-3">
           <router-link
-            :to="{ name: 'service', params: { id: service.id } }"
+            :to="{ name: 'service-detail', params: { id: service.id } }"
             v-slot="{ href, navigate, isActive, isExactActive }"
           >
-            <a :href="href" @click="navigate">
-              <b-card
-                :title="service.title"
-                img-src="media/books/img-72.jpg"
-                img-alt="cover"
-                img-top
-                img-height="150"
-                body-class="p-5"
-                class="shadow-sm"
-              >
-                <a href="#" class="d-flex align-items-start mb-5">
-                  <div
-                    class="symbol symbol-40 symbol-lg-50 symbol-circle bg-light"
-                  >
-                    <img alt="Pic" src="media/stock-600x600/img-11.jpg" />
-                  </div>
-                  <span class="text-muted font-weight-bold ml-3">by</span>
-                  <span class="text-dark-75 font-weight-bold ml-2">{{
-                    service.account.fullName
-                  }}</span>
-                </a>
-
-                <button
-                  class="btn btn-light btn-lg btn-block btn-square font-weight-bold"
-                >
-                  Add to Card
-                </button>
-              </b-card>
+            <a :href="href" @click="href">
+              <service-card :service="service"></service-card>
             </a>
           </router-link>
         </div>
@@ -107,7 +81,7 @@
   object-fit: cover;
 }
 .card-title {
-  color: #3F4254 !important;
+  color: #3f4254 !important;
 }
 .card-title:hover {
   color: black !important;
@@ -118,10 +92,11 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { queryServices } from "@/graphql/service-queries";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
+import ServiceCard from "@/view/pages/service/ServiceCard";
 
 export default {
   name: "home",
-  components: {},
+  components: { ServiceCard },
   data() {
     return {
       services: []

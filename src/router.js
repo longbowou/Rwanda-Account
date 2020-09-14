@@ -17,8 +17,8 @@ export default new Router({
         },
         {
           path: "/service/:id",
-          name: "service",
-          component: () => import("@/view/pages/home/Service")
+          name: "service-detail",
+          component: () => import("@/view/pages/service/ServiceDetail")
         },
         {
           path: "/dashboard",
