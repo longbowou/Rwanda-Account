@@ -1,6 +1,6 @@
 <template>
-  <div class="card card-custom bgi-position-center"  align="center">
-    <div class="card-body p-0" >
+  <div class="card card-custom bgi-position-center" align="center">
+    <div class="card-body p-0">
       <!--begin: Wizard-->
       <div
         class="wizard wizard-1"
@@ -18,16 +18,17 @@
             >
               <div class="wizard-label">
                 <i class="wizard-icon flaticon2-shopping-cart"></i>
-                <h3 class="wizard-title">1. Order a service from your
-                  choice to one of our vendors</h3>
+                <h3 class="wizard-title">
+                  1. Order a service from your choice to one of our vendors
+                </h3>
               </div>
               <i class="wizard-arrow flaticon2-next"></i>
             </div>
             <div class="wizard-step" data-wizard-type="step">
               <div class="wizard-label">
                 <i class="wizard-icon flaticon-chat"></i>
-                <h3 class="wizard-title">2. Exchange by chat on the site up to
-                  safe delivery
+                <h3 class="wizard-title">
+                  2. Exchange by chat on the site up to safe delivery
                 </h3>
               </div>
               <i class="wizard-arrow flaticon2-next"></i>
@@ -42,13 +43,13 @@
             <div class="wizard-step" data-wizard-type="step">
               <div class="wizard-label">
                 <i class="wizard-icon flaticon2-check-mark"></i>
-                <h3 class="wizard-title">4. The seller is paid only after delivery of the service</h3>
+                <h3 class="wizard-title">
+                  4. The seller is paid only after delivery of the service
+                </h3>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
     <!--end: Wizard-->
