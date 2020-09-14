@@ -220,6 +220,7 @@ type DepositType {
     amount: Int!
     createdAt: DateTime!
     id: UUID!
+    phoneNumber: String
     updatedAt: DateTime!
 }
 

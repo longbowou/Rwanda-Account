@@ -67,7 +67,7 @@
                     >
                     <span class="text-muted " >
                     <router-link
-                        to="/detail"
+                        to="/detailinf"
                         v-slot="{ href, navigate, isActive, isExactActive }"
                     >
                       <a

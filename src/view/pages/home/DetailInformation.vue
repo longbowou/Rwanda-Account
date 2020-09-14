@@ -4,33 +4,32 @@
     <div class="row" id="kt-home">
       <div id="nav"></div>
       <router-link
-          to="/detail"
-          v-slot="{ href, navigate, isActive, isExactActive }"
+        to="/detail"
+        v-slot="{ href, navigate, isActive, isExactActive }"
       >
         <a
-            :href="href"
-            class="text-primary font-weight-bolder"
-            @click="navigate"
+          :href="href"
+          class="text-primary font-weight-bolder"
+          @click="navigate"
         >
         </a>
       </router-link>
-      
     </div>
     <div
-        class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
+      class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
     >
       <div class="col-xl-12 col-xxl-7"></div>
     </div>
 
     <div
-        class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
+      class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
     >
       <div align="center"></div>
     </div>
     <detail></detail>
 
     <div
-        class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
+      class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10 position-relative"
     >
       <div align="center"></div>
     </div>
@@ -43,7 +42,7 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { queryServices } from "@/graphql/home-queries";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import detail from  "@/view/pages/home/Badge";
+import detail from "@/view/pages/home/Badge";
 
 export default {
   name: "home",

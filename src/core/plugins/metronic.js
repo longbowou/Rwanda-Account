@@ -96,3 +96,6 @@ window.KTLayoutSearch = KTLayoutSearch;
 
 import $ from "jquery";
 window.$ = $;
+
+import $ from "jquery";
+window.$ = $;
