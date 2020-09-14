@@ -16,9 +16,9 @@ export default new Router({
           component: () => import("@/view/pages/home/Home")
         },
         {
-          path: "/detailinf",
-          name: "detailinf",
-          component: () => import("@/view/pages/home/Detail.")
+          path: "/service/:id",
+          name: "service-detail",
+          component: () => import("@/view/pages/service/ServiceDetail")
         },
         {
           path: "/dashboard",
@@ -78,27 +78,6 @@ export default new Router({
               meta: { requiresAuth: true }
             }
           ]
-        }
-      ]
-    },
-    {
-      path: "/",
-      component: () => import("@/view/pages/auth/Layout"),
-      children: [
-        {
-          name: "signin",
-          path: "/login",
-          component: () => import("@/view/pages/auth/Login")
-        },
-        {
-          name: "signup",
-          path: "/register",
-          component: () => import("@/view/pages/auth/Register")
-        },
-        {
-          name: "forgot",
-          path: "/forgot-password",
-          component: () => import("@/view/pages/auth/ForgotPassword")
         }
       ]
     },
