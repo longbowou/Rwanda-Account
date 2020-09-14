@@ -6,7 +6,7 @@
     img-top
     img-height="150"
     body-class="p-5"
-    class="shadow-sm card-stretch"
+    class="shadow-sm card-custom card-stretch"
   >
     <a href="#" class="d-flex align-items-start mb-5">
       <div class="symbol symbol-40 symbol-lg-50 symbol-circle bg-light">
