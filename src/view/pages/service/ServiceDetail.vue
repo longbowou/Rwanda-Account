@@ -122,7 +122,6 @@ export default {
     window.scrollTo(0, 0);
   },
   beforeMount() {
-    console.log(this.$route.params.id);
     this.fetchService(this.$route.params.id);
   },
   computed: {
