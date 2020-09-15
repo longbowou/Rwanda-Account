@@ -22,3 +22,14 @@ export const updateService = gql`
   }
   ${errorFields}
 `;
+
+export const deleteService = gql`
+  mutation($id: UUID!) {
+    deleteService(id: $id) {
+      errors {
+        ...errorFields
+      }
+    }
+  }
+  ${errorFields}
+`;

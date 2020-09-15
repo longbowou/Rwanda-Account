@@ -27,9 +27,7 @@
                   @click="navigate"
                 >
                   <span class="svg-icon svg-icon-md">
-                    <inline-svg
-                      src="media/svg/icons/Design/Flatten.svg"
-                    />
+                    <inline-svg src="media/svg/icons/Design/Flatten.svg" />
                   </span>
                   Add a Service
                 </a>
@@ -86,9 +84,13 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { servicesUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
+import { deleteService } from "@/graphql/service-mutations";
+import _ from "lodash";
+import { toast } from "@/view/mixins";
 
 export default {
   name: "user-services",
+  mixins: [toast],
   data() {
     return {
       datatable: {}
@@ -152,9 +154,19 @@ export default {
     });
   },
   methods: {
-    deleteService(id, title) {
+    async deleteService(id, title) {
       if (confirm("Do you really want to delete " + title + " ?")) {
-        this.datatable.ajax.reload(null, false);
+        let result = await this.$apollo.mutate({
+          mutation: deleteService,
+          variables: {
+            id: id
+          }
+        });
+
+        if (_.isEmpty(result.data.deleteService.errors)) {
+          this.notifySuccess("Service deleted successfully.");
+          this.datatable.ajax.reload(null, false);
+        }
       }
     }
   }
