@@ -16,6 +16,25 @@
               </span>
               <h3 class="card-label">My Services</h3>
             </div>
+            <div class="card-toolbar">
+              <router-link
+                :to="{ name: 'user-services-create' }"
+                v-slot="{ href, navigate, isActive, isExactActive }"
+              >
+                <a
+                  :href="href"
+                  class="btn btn-primary font-weight-bolder"
+                  @click="navigate"
+                >
+                  <span class="svg-icon svg-icon-md">
+                    <inline-svg
+                      src="media/svg/icons/Design/Flatten.svg"
+                    />
+                  </span>
+                  Add Service
+                </a>
+              </router-link>
+            </div>
           </div>
           <div class="card-body">
             <div class="row justify-content-center">
