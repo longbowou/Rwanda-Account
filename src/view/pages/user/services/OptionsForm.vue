@@ -4,8 +4,8 @@
       <label class="col-sm-12 col-form-label font-weight-bold">Title</label>
       <b-form-input
         required
-        :state="validateState('title')"
-        v-model="input.title"
+        :state="validateState('serviceoptionSet{label}')"
+        v-model="input.serviceOptions"
         class="form-control form-control-lg form-control-solid"
         type="text"
         placeholder="Title"
@@ -21,14 +21,14 @@
 
     <div class="form-group">
       <label class="col-sm-12 col-form-label font-weight-bold">Content</label>
-      <div id="content" style="height: 325px" v-html="contentHtml"></div>
+      <div id="content" style="height: 325px" v-html="input.content"></div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-12 col-form-label font-weight-bold">Category</label>
       <b-form-select
         required
-        v-model="input.serviceCategory"
+        :value.sync="input.serviceCategory"
         :options="options"
         id="service-category"
         class="form-control form-control-lg"
@@ -101,7 +101,6 @@ import {
   queryService,
   queryServiceCategories
 } from "@/graphql/service-queries";
-import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
   name: "service-form",
@@ -112,7 +111,6 @@ export default {
       service: {},
       input: {},
       serviceCategories: [],
-      contentHtml: "",
       contentQuill: {},
       serviceCategorySelect2: {},
       keywordsTagify: {}
@@ -177,16 +175,6 @@ export default {
         return;
       }
 
-      if (this.creating) {
-        await this.$store.dispatch(UPDATE_USER, {
-          account: result.data.createService.service.account
-        });
-      } else {
-        await this.$store.dispatch(UPDATE_USER, {
-          account: result.data.updateService.service.account
-        });
-      }
-
       submitButton.removeClass("spinner spinner-light spinner-right");
 
       await this.$router.push({
@@ -215,7 +203,7 @@ export default {
 
           this.input.id = this.service.id;
           this.input.title = this.service.title;
-          this.contentHtml = this.service.content;
+          this.input.content = this.service.content;
           this.input.serviceCategory = this.service.serviceCategory.id;
           this.input.delay = this.service.delay;
           this.input.keywords = this.service.keywords;

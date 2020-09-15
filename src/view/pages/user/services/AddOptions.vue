@@ -12,7 +12,7 @@
                 <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Add a Service</h3>
+              <h3 class="card-label">Add Options to the service</h3>
             </div>
           </div>
           <div class="card-body">

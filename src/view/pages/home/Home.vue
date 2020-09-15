@@ -71,6 +71,43 @@
         </div>
       </template>
     </div>
+    <div class="row justify-content-center">
+      <p></p>
+      <p></p>
+    </div>
+    <div class="row justify-content" style="background-color: #a2d4ed">
+      <div class="col-md-6">
+        <img src="media/books/img-72.jpg" />
+      </div>
+      <div
+        class="col-md-6 background-color:blue text-center"
+        style="margin-top: 120px"
+      >
+        <h2>Work from home</h2>
+        <h3>earn money by becoming a salesperson on <b>MDTAF</b></h3>
+        <button
+          style="width: 100%"
+          class="btn btn-light btn-lg btn-square btn-block font-weight-bold p-0 text-left"
+        >
+          <router-link
+            to="/register"
+            v-slot="{ href, navigate, isActive, isExactActive }"
+          >
+            <a
+              :href="href"
+              class="text-primary font-weight-bolder"
+              @click="navigate"
+            >
+              <span
+                class="btn btn-dark btn-lg btn-square font-weight-bold"
+                style="width: 65%"
+                >Become a seller
+              </span>
+            </a>
+          </router-link>
+        </button>
+      </div>
+    </div>
   </div>
 
   <!--end::Dashboard-->
