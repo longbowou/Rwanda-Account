@@ -42,7 +42,7 @@
                 <!-- end:: Aside Left -->
 
                 <div class="content-wrapper flex-row-fluid">
-                  <transition name="fade-in-up">
+                  <transition>
                     <router-view />
                   </transition>
                 </div>

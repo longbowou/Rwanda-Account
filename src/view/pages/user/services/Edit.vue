@@ -12,12 +12,12 @@
                 <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Add a Service</h3>
+              <h3 class="card-label">Update a Service</h3>
             </div>
           </div>
           <div class="card-body">
             <div class="row justify-content-center">
-              <service-form />
+              <service-form :service-id="$route.params.id" />
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@ import "@yaireo/tagify/dist/jQuery.tagify.min";
 import ServiceForm from "@/view/pages/user/services/ServiceForm";
 
 export default {
-  name: "user-services-create",
+  name: "user-services-update",
   components: { ServiceForm },
   mixins: [formMixin, toast],
   data() {
@@ -45,8 +45,8 @@ export default {
   },
   computed: {},
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Add a Service" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Add a Service");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Update a Service" }]);
+    this.$store.dispatch(SET_HEAD_TITLE, "Update a Service");
   },
   methods: {}
 };

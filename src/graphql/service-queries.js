@@ -33,13 +33,16 @@ export const queryService = gql`
       title
       content
       delay
+      keywords
+      published
+      stars
       serviceCategory {
+        id
         label
       }
       account {
         fullName
       }
-      stars
       servicemediaSet {
         fileUrl
         url

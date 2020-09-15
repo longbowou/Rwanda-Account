@@ -65,7 +65,7 @@ export default new Router({
         {
           path: "/user/services/:id/edit",
           name: "user-services-edit",
-          component: () => import("@/view/pages/user/services/Datatable"),
+          component: () => import("@/view/pages/user/services/Edit"),
           meta: { requiresAuth: true }
         },
         {

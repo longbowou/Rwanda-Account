@@ -11,3 +11,14 @@ export const createService = gql`
   }
   ${errorFields}
 `;
+
+export const updateService = gql`
+  mutation($input: UpdateServiceInput!) {
+    updateService(input: $input) {
+      errors {
+        ...errorFields
+      }
+    }
+  }
+  ${errorFields}
+`;
