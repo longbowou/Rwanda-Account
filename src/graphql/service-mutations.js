@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 import { errorFields } from "@/graphql/Fragments/global";
+import { accountFields } from "@/graphql/Fragments/account";
 
 export const createService = gql`
   mutation($input: CreateServiceInput!) {
@@ -7,9 +8,15 @@ export const createService = gql`
       errors {
         ...errorFields
       }
+      service {
+        account {
+          ...accountFields
+        }
+      }
     }
   }
   ${errorFields}
+  ${accountFields}
 `;
 
 export const updateService = gql`
@@ -18,9 +25,15 @@ export const updateService = gql`
       errors {
         ...errorFields
       }
+      service {
+        account {
+          ...accountFields
+        }
+      }
     }
   }
   ${errorFields}
+  ${accountFields}
 `;
 
 export const deleteService = gql`
@@ -32,4 +45,5 @@ export const deleteService = gql`
     }
   }
   ${errorFields}
+  ${accountFields}
 `;

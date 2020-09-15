@@ -102,6 +102,7 @@ import {
   queryService,
   queryServiceCategories
 } from "@/graphql/service-queries";
+import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
   name: "service-form",
@@ -175,6 +176,16 @@ export default {
       if (!_.isEmpty(this.errors)) {
         submitButton.removeClass("spinner spinner-light spinner-right");
         return;
+      }
+
+      if (this.creating) {
+        await this.$store.dispatch(UPDATE_USER, {
+          account: result.data.createService.service.account
+        });
+      } else {
+        await this.$store.dispatch(UPDATE_USER, {
+          account: result.data.updateService.service.account
+        });
       }
 
       submitButton.removeClass("spinner spinner-light spinner-right");
