@@ -129,7 +129,7 @@ export default {
   },
   methods: {
     async fetchService(id) {
-      var result = await this.$apollo.query({
+      const result = await this.$apollo.query({
         query: queryService,
         variables: {
           id: id
