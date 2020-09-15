@@ -52,7 +52,7 @@
                 class="btn btn-light-dark btn-lg btn-square font-weight-bold"
                 style="width: 65%"
               >
-                Add to Card
+                Order Now
               </span>
             </button>
 
