@@ -1,6 +1,5 @@
 <template>
   <b-card
-    :title="service.title"
     img-src="media/books/img-72.jpg"
     img-alt="cover"
     img-top
@@ -8,6 +7,7 @@
     body-class="p-5"
     class="shadow-sm card-custom card-stretch"
   >
+    <h5 class="card-title">{{ service.title }}</h5>
     <a href="#" class="d-flex align-items-start mb-5">
       <div class="symbol symbol-40 symbol-lg-50 symbol-circle bg-light">
         <img alt="Pic" src="media/stock-600x600/img-11.jpg" />
@@ -23,6 +23,18 @@
     </button>
   </b-card>
 </template>
+<style>
+.card-img-top {
+  object-fit: cover;
+}
+.card-title {
+  color: #3f4254 !important;
+  min-height: 57px;
+}
+.card-title:hover {
+  color: black !important;
+}
+</style>
 
 <script>
 export default {

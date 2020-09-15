@@ -59,7 +59,7 @@
 
     <div class="row justify-content-center">
       <template v-for="service in services">
-        <div :key="service.id" class="col-sm-3">
+        <div :key="service.id" class="col-sm-3 mb-5">
           <router-link
             :to="{ name: 'service-detail', params: { id: service.id } }"
             v-slot="{ href, navigate, isActive, isExactActive }"
@@ -77,15 +77,6 @@
 </template>
 <style lang="scss">
 @import "~@/assets/sass/pages/wizard/wizard-1.scss";
-.card-img-top {
-  object-fit: cover;
-}
-.card-title {
-  color: #3f4254 !important;
-}
-.card-title:hover {
-  color: black !important;
-}
 </style>
 
 <script>

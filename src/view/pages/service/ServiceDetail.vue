@@ -133,7 +133,8 @@ export default {
         query: queryService,
         variables: {
           id: id
-        }
+        },
+        fetchPolicy: "no-cache"
       });
 
       if (_.isEmpty(result.errors)) {
