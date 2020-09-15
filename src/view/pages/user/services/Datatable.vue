@@ -154,7 +154,6 @@ export default {
   methods: {
     deleteService(id, title) {
       if (confirm("Do you really want to delete " + title + " ?")) {
-        console.log("delete " + id);
         this.datatable.ajax.reload(null, false);
       }
     }
