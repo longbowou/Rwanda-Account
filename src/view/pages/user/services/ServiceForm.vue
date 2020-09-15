@@ -21,14 +21,14 @@
 
     <div class="form-group">
       <label class="col-sm-12 col-form-label font-weight-bold">Content</label>
-      <div id="content" style="height: 325px" v-html="input.content"></div>
+      <div id="content" style="height: 325px" v-html="contentHtml"></div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-12 col-form-label font-weight-bold">Category</label>
       <b-form-select
         required
-        :value.sync="input.serviceCategory"
+        v-model="input.serviceCategory"
         :options="options"
         id="service-category"
         class="form-control form-control-lg"
@@ -112,6 +112,7 @@ export default {
       service: {},
       input: {},
       serviceCategories: [],
+      contentHtml: "",
       contentQuill: {},
       serviceCategorySelect2: {},
       keywordsTagify: {}
@@ -204,7 +205,7 @@ export default {
 
           this.input.id = this.service.id;
           this.input.title = this.service.title;
-          this.input.content = this.service.content;
+          this.contentHtml = this.service.content;
           this.input.serviceCategory = this.service.serviceCategory.id;
           this.input.delay = this.service.delay;
           this.input.keywords = this.service.keywords;
