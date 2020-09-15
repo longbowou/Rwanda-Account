@@ -109,7 +109,6 @@
 <style scoped></style>
 
 <script>
-import $ from "jquery";
 import _ from "lodash";
 
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
@@ -142,7 +141,7 @@ export default {
       evt.preventDefault();
 
       // set spinner to submit button
-      const submitButton = $("#btn_submit");
+      const submitButton = window.$("#btn_submit");
       submitButton.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
@@ -174,7 +173,7 @@ export default {
       });
     },
     submitForm() {
-      $("#input_submit").click();
+      window.$("#input_submit").click();
     }
   }
 };

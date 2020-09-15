@@ -57,13 +57,19 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services/:id",
+          path: "/user/services/create",
+          name: "user-services-create",
+          component: () => import("@/view/pages/user/services/Create"),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: "/user/services/:id/edit",
           name: "user-services-edit",
           component: () => import("@/view/pages/user/services/Datatable"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services/:id/show",
+          path: "/user/services/:id",
           name: "user-services-show",
           component: () => import("@/view/pages/user/Dashboard"),
           meta: { requiresAuth: true }

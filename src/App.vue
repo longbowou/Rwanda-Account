@@ -13,6 +13,9 @@
 @import "assets/plugins/flaticon2/flaticon.css";
 @import "assets/plugins/keenthemes-icons/font/ki.css";
 @import "~animate.css";
+@import "~select2/dist/css/select2.min.css";
+@import "~quill/dist/quill.snow.css";
+@import "~@yaireo/tagify/dist/tagify.css";
 
 // Main demo style scss
 @import "assets/sass/style.vue";

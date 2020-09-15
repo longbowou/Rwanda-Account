@@ -17,6 +17,15 @@ export const queryServices = gql`
   }
 `;
 
+export const queryServiceCategories = gql`
+  query {
+    serviceCategories {
+      id
+      label
+    }
+  }
+`;
+
 export const queryService = gql`
   query service($id: UUID!) {
     service(id: $id) {

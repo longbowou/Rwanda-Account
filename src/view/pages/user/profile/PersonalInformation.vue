@@ -123,7 +123,6 @@ import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { formMixin, toast } from "@/view/mixins";
 import _ from "lodash";
-import $ from "jquery";
 import { updateAccount } from "@/graphql/account-mutations";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
@@ -149,7 +148,7 @@ export default {
       evt.preventDefault();
 
       // set spinner to submit button
-      const submitButton = $("#btn_submit");
+      const submitButton = window.$("#btn_submit");
       submitButton.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
@@ -175,7 +174,7 @@ export default {
       this.notifySuccess("Personal information update successfully.");
     },
     submitForm() {
-      $("#input_submit").click();
+      window.$("#input_submit").click();
     }
   }
 };

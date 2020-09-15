@@ -31,7 +31,7 @@
                       src="media/svg/icons/Design/Flatten.svg"
                     />
                   </span>
-                  Add Service
+                  Add a Service
                 </a>
               </router-link>
             </div>
