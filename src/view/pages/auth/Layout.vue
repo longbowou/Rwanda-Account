@@ -83,7 +83,7 @@
 
 <!-- Load login custom page styles -->
 <style lang="scss">
-@import "@/assets/sass/pages/login/login-2.scss";
+@import "~@/assets/sass/pages/login/login-2.scss";
 </style>
 
 <script>
@@ -105,7 +105,9 @@ export default {
     this.$store.dispatch(ADD_BODY_CLASSNAME, "header-fixed");
     this.$store.dispatch(ADD_BODY_CLASSNAME, "subheader-enabled");
   },
-  mounted() {},
+  mounted() {
+    window.scrollTo(0, 0);
+  },
   computed: {
     className() {
       return this.$route.name;

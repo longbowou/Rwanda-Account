@@ -72,7 +72,7 @@ router.afterEach(to => {
   store.dispatch(UPDATE_LAST_PATH, to.path);
 });
 
-new Vue({
+export const vueInstance = new Vue({
   router,
   store,
   i18n,
