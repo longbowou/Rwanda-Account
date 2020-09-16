@@ -100,3 +100,6 @@ window.jQuery = $;
 
 import Tagify from "@yaireo/tagify";
 window.Tagify = Tagify;
+
+import _ from "lodash";
+window._ = _;

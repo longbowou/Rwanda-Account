@@ -182,9 +182,6 @@ import { LOGOUT } from "@/core/services/store/modules/auth.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { formMixin } from "@/view/mixins";
 import { register } from "@/graphql/auth-mutations";
-
-import $ from "jquery";
-import _ from "lodash";
 import { ADD_LOGIN_NOTIFICATION } from "@/core/services/store/modules/notifications.module";
 
 export default {
@@ -210,8 +207,8 @@ export default {
       await this.$store.dispatch(LOGOUT);
 
       // set spinner to submit button
-      const submitButton = $("#kt_login_signup_submit");
-      submitButton.addClass("spinner spinner-light spinner-right");
+      const submitButton = window.$("#kt_login_signup_submit");
+      submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
 
@@ -223,8 +220,10 @@ export default {
       });
 
       this.errors = result.data.createAccount.errors;
-      if (!_.isEmpty(this.errors)) {
-        submitButton.removeClass("spinner spinner-light spinner-right");
+      if (!window._.isEmpty(this.errors)) {
+        submitButton.removeClass(
+          "disabled spinner spinner-light spinner-right"
+        );
         return;
       }
 
@@ -233,7 +232,7 @@ export default {
         otherMessage: "You can now login"
       });
 
-      return this.$router.push({
+      await this.$router.push({
         name: "signin"
       });
     }

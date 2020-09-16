@@ -85,6 +85,7 @@ type AccountType implements UserInterface {
     lastName: String
     litigationSet: [LitigationType!]!
     operationSet: [OperationType!]!
+    ordersCount: String!
     purchasesCount: String!
     refundSet: [RefundType!]!
     refundsSum: String!
@@ -390,13 +391,13 @@ type ServicePurchaseType {
     chatSet: [ChatType!]!
     commission: Int!
     createdAt: DateTime!
-    delay: Int!
+    delay: String!
     deliveredAt: DateTime
     id: UUID!
     litigation: LitigationType
     mustBeDeliveredAt: DateTime
     operationSet: [OperationType!]!
-    price: Int!
+    price: String!
     service: ServiceType!
     serviceOptions: [ServiceOptionType!]!
     servicepurchaseserviceoptionSet: [ServicePurchaseServiceOptionType!]!
@@ -409,7 +410,7 @@ type ServiceType {
     activated: Boolean!
     content: String!
     createdAt: DateTime!
-    delay: Int!
+    delay: String!
     id: UUID!
     keywords: String
     published: Boolean!

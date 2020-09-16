@@ -11,6 +11,7 @@ export const accountFields = gql`
     username
     servicesCount
     purchasesCount
+    ordersCount
     depositsSum
     refundsSum
     earningsSum

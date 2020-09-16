@@ -133,9 +133,6 @@
 </style>
 
 <script>
-import $ from "jquery";
-import _ from "lodash";
-
 import { mapGetters } from "vuex";
 import { LOGIN, LOGOUT } from "@/core/services/store/modules/auth.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
@@ -158,7 +155,7 @@ export default {
     };
   },
   beforeCreate() {
-    if (!_.isNull(JwtService.getAuth())) {
+    if (!window._.isNull(JwtService.getAuth())) {
       this.$router.push({ name: "dashboard" });
     }
   },
@@ -173,8 +170,8 @@ export default {
       await this.$store.dispatch(LOGOUT);
 
       // set spinner to submit button
-      const submitButton = $("#kt_login_signin_submit");
-      submitButton.addClass("spinner spinner-light spinner-right");
+      const submitButton = window.$("#kt_login_signin_submit");
+      submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
 
@@ -186,8 +183,10 @@ export default {
       });
 
       this.errors = result.data.login.errors;
-      if (!_.isEmpty(this.errors)) {
-        submitButton.removeClass("spinner spinner-light spinner-right");
+      if (!window._.isEmpty(this.errors)) {
+        submitButton.removeClass(
+          "disabled spinner spinner-light spinner-right"
+        );
         return;
       }
 
@@ -198,7 +197,7 @@ export default {
 
       await this.$store.dispatch(READ_LOGIN_NOTIFICATIONS);
 
-      if (!_.isNull(this.nextPath)) {
+      if (!window._.isNull(this.nextPath)) {
         await this.$router.push({ path: this.nextPath });
 
         await this.$store.dispatch(RESET_NEXT_PATH);
@@ -210,7 +209,7 @@ export default {
   computed: {
     ...mapGetters(["isAuthenticated", "loginNotifications", "nextPath"]),
     hasNotifications() {
-      return !_.isEmpty(this.loginNotifications);
+      return !window._.isEmpty(this.loginNotifications);
     },
     loginState() {
       return this.validateState("login");

@@ -87,6 +87,12 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
+          path: "/user/service/purchases",
+          name: "user-service-purchases",
+          component: () => import("@/view/pages/user/purchases/Datatable"),
+          meta: { requiresAuth: true }
+        },
+        {
           path: "/profile",
           redirect: "/profile-overview",
           component: () => import("@/view/pages/user/profile/Layout"),

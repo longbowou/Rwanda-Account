@@ -122,7 +122,6 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { formMixin, toast } from "@/view/mixins";
-import _ from "lodash";
 import { updateAccount } from "@/graphql/account-mutations";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
@@ -131,17 +130,20 @@ export default {
   mixins: [formMixin, toast],
   data() {
     return {
-      input: _.pick(this.$store.state.auth.account, [
-        "username",
-        "email",
-        "firstName",
-        "lastName"
-      ])
+      input: {}
     };
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Personal Information" }]);
     this.$store.dispatch(SET_HEAD_TITLE, "Personal Information");
+
+    this.input = window._.pick(this.$store.state.auth.account, [
+      "username",
+      "email",
+      "firstName",
+      "lastName"
+    ]);
+    this.$forceUpdate();
   },
   methods: {
     async onSubmit(evt) {
@@ -149,7 +151,7 @@ export default {
 
       // set spinner to submit button
       const submitButton = window.$("#btn_submit");
-      submitButton.addClass("spinner spinner-light spinner-right");
+      submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
 
@@ -161,15 +163,17 @@ export default {
       });
 
       this.errors = result.data.updateAccount.errors;
-      if (!_.isEmpty(this.errors)) {
-        submitButton.removeClass("spinner spinner-light spinner-right");
+      if (!window._.isEmpty(this.errors)) {
+        submitButton.removeClass(
+          "disabled spinner spinner-light spinner-right"
+        );
         return;
       }
 
       await this.$store.dispatch(UPDATE_USER, {
         account: result.data.updateAccount.account
       });
-      submitButton.removeClass("spinner spinner-light spinner-right");
+      submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
       this.notifySuccess("Personal information update successfully.");
     },

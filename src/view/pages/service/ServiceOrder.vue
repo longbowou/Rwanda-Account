@@ -200,7 +200,7 @@
                     <h4
                       class="font-size-h6 d-block font-weight-bold text-dark-50"
                     >
-                      Current balance
+                      Wallet Balance
                     </h4>
                     <!--end::Icon-->
 
@@ -214,6 +214,8 @@
               <div class="col-sm-4 mt-7">
                 <b-btn
                   :disabled="cannotProceedPayment"
+                  id="proceed-btn"
+                  @click="initServicePurchase"
                   class="btn btn-success btn-block font-weight-bold btn-square"
                   >Proceed to Payment</b-btn
                 >
@@ -276,12 +278,15 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { queryServiceOrderPreview } from "@/graphql/service-queries";
-import _ from "lodash";
 import { mapGetters } from "vuex";
+import { initServicePurchase } from "@/graphql/purchase-mutations";
+import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
+import { toast } from "@/view/mixins";
 
 export default {
   name: "service-order",
   props: ["serviceOptions"],
+  mixins: [toast],
   components: {},
   data() {
     return {
@@ -334,7 +339,7 @@ export default {
         fetchPolicy: "no-cache"
       });
 
-      if (_.isEmpty(result.errors)) {
+      if (window._.isEmpty(result.errors)) {
         this.serviceOrderPreview = result.data.serviceOrderPreview;
 
         await this.$store.dispatch(SET_BREADCRUMB, [
@@ -345,6 +350,48 @@ export default {
           this.serviceOrderPreview.service.title
         );
       }
+    },
+    async initServicePurchase() {
+      const proceedButton = window.$("#proceed-btn");
+      proceedButton.addClass("disabled spinner spinner-light spinner-right");
+
+      this.errors = [];
+
+      if (this.serviceOptions === undefined) {
+        this.serviceOptions = [];
+      }
+
+      let result = await this.$apollo.mutate({
+        mutation: initServicePurchase,
+        variables: {
+          input: {
+            service: this.$route.params.id,
+            serviceOptions: this.serviceOptions
+          }
+        }
+      });
+
+      this.errors = result.data.initServicePurchase.errors;
+      if (!window._.isEmpty(this.errors)) {
+        proceedButton.removeClass(
+          "disabled spinner spinner-light spinner-right"
+        );
+        return;
+      }
+
+      await this.$store.dispatch(UPDATE_USER, {
+        account: result.data.initServicePurchase.servicePurchase.account
+      });
+      proceedButton.removeClass("disabled spinner spinner-light spinner-right");
+
+      await this.$router.push({
+        name: "user-service-purchases"
+      });
+
+      this.notifySuccess(
+        "You successfully make a purchase of " +
+          this.serviceOrderPreview.service.title
+      );
     }
   }
 };

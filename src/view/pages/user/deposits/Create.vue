@@ -109,8 +109,6 @@ import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
 import { formMixin, toast } from "@/view/mixins";
 import { createDeposit } from "@/graphql/account-mutations";
-import $ from "jquery";
-import _ from "lodash";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
@@ -134,8 +132,8 @@ export default {
     async onSubmit(evt) {
       evt.preventDefault();
 
-      const submitButton = $("#btn_submit");
-      submitButton.addClass("spinner spinner-light spinner-right");
+      const submitButton = window.$("#btn_submit");
+      submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
 
@@ -147,15 +145,21 @@ export default {
       });
 
       this.errors = result.data.createDeposit.errors;
-      if (!_.isEmpty(this.errors)) {
-        submitButton.removeClass("spinner spinner-light spinner-right");
+      if (!window._.isEmpty(this.errors)) {
+        submitButton.removeClass(
+          "disabled spinner spinner-light spinner-right"
+        );
         return;
       }
 
       await this.$store.dispatch(UPDATE_USER, {
         account: result.data.createDeposit.deposit.account
       });
-      submitButton.removeClass("spinner spinner-light spinner-right");
+      submitButton.removeClass("disabled spinner spinner-light spinner-right");
+
+      await this.$router.push({
+        name: "deposits"
+      });
 
       this.notifySuccess(
         "You successfully make a deposit of " +
@@ -163,10 +167,6 @@ export default {
           " " +
           this.currency
       );
-
-      return this.$router.push({
-        name: "dashboard"
-      });
     }
   }
 };
