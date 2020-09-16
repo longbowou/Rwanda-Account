@@ -21,6 +21,12 @@ export default new Router({
           component: () => import("@/view/pages/service/ServiceDetail")
         },
         {
+          path: "/service/:id/order",
+          name: "service-order",
+          component: () => import("@/view/pages/service/ServiceOrder"),
+          meta: { requiresAuth: true }
+        },
+        {
           path: "/dashboard",
           name: "dashboard",
           component: () => import("@/view/pages/user/Dashboard"),

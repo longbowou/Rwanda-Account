@@ -28,6 +28,17 @@ const i18nService = {
    */
   getActiveLanguage() {
     return localStorage.getItem("language") || this.defaultLanguage;
+  },
+
+  getLanguages() {
+    let languages = [];
+    for (const language of this.languages) {
+      if (language.lang !== this.getActiveLanguage()) {
+        languages.push(language);
+      }
+    }
+
+    return languages;
   }
 };
 

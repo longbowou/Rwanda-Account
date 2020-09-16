@@ -7,7 +7,7 @@
         :key="i"
       >
         <a
-          href="#"
+          href="javascript:void(0)"
           class="navi-link"
           v-bind:data-lang="item.lang"
           v-on:click="selectedLanguage"
@@ -29,7 +29,7 @@ export default {
   name: "KTDropdownLanguage",
   data() {
     return {
-      languages: i18nService.languages
+      languages: i18nService.getLanguages()
     };
   },
   methods: {

@@ -64,6 +64,7 @@ type AccountQuery {
     service(id: UUID!): ServiceType
     "ServiceCategory list"
     serviceCategories(id: UUID): [ServiceCategoryType]
+    serviceOrderPreview(service: UUID!, serviceOptions: [UUID!]): ServiceOrderType
     "ServicePurchase list"
     servicePurchases(id: UUID): [ServicePurchaseType]
     "Service list"
@@ -221,7 +222,6 @@ type DepositType {
     amount: Int!
     createdAt: DateTime!
     id: UUID!
-    phoneNumber: String
     updatedAt: DateTime!
 }
 
@@ -343,15 +343,30 @@ type ServiceMediaType {
 
 type ServiceOptionType {
     createdAt: DateTime!
-    delay: Int!
+    delay: String!
     description: String
     id: UUID!
     label: String!
-    price: Int!
+    price: String!
     service: ServiceType!
     servicepurchaseSet: [ServicePurchaseType!]!
     servicepurchaseserviceoptionSet: [ServicePurchaseServiceOptionType!]!
     updatedAt: DateTime!
+}
+
+type ServiceOrderType {
+    basePrice: String!
+    cannotPayWithWallet: Boolean!
+    commission: String!
+    commissionTva: String!
+    mustBeDeliveredAt: String!
+    service: ServiceType
+    serviceOptions: [ServiceOptionType]
+    totalDelay: String!
+    totalOrderPrice: String!
+    totalOrderPriceTtc: String!
+    totalPrice: String!
+    totalPriceTva: String!
 }
 
 type ServicePurchaseServiceOptionType {

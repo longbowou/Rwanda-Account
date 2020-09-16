@@ -50,3 +50,32 @@ export const queryService = gql`
     }
   }
 `;
+
+export const queryServiceOrderPreview = gql`
+  query serviceOrderPreview($service: UUID!, $serviceOptions: [UUID!]) {
+    serviceOrderPreview(service: $service, serviceOptions: $serviceOptions) {
+      totalOrderPrice
+      totalOrderPriceTtc
+      cannotPayWithWallet
+      basePrice
+      commission
+      commissionTva
+      totalPrice
+      totalPriceTva
+      mustBeDeliveredAt
+      totalDelay
+      serviceOptions {
+        id
+        label
+        price
+      }
+      service {
+        id
+        title
+        serviceCategory {
+          label
+        }
+      }
+    }
+  }
+`;

@@ -1,9 +1,17 @@
 <template>
   <div class="row">
-    <div class="col-sm-9">
+    <div class="col-sm-8">
       <div class="card card-custom shadow-sm">
         <div class="card-header">
           <div class="card-title">
+            <span
+              class="svg-icon svg-icon-lg svg-icon-3x svg-icon-primary mr-3"
+            >
+              <!--begin::Svg Icon-->
+              <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
+              <!--end::Svg Icon-->
+            </span>
+
             <h3 class="card-label">
               {{ service.title }}
             </h3>
@@ -24,7 +32,7 @@
       </div>
     </div>
 
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <div class="card card-custom shadow-sm">
         <div class="card-body p-5">
           <h3 class="font-weight-bold">
@@ -41,25 +49,32 @@
 
           <hr />
 
-          <button
-            style="width: 100%"
-            class="btn btn-light btn-lg btn-square btn-block font-weight-bold p-0 text-left"
+          <router-link
+            :to="{ name: 'service-order', params: { id: service.id } }"
+            v-slot="{ href, navigate, isActive, isExactActive }"
           >
-            <span
-              style="width: 35%"
-              class="btn btn-dark btn-lg btn-square font-weight-bold pl-1 pr-1"
+            <a
+              :href="href"
+              @click="navigate"
+              class="btn btn-light btn-lg btn-square btn-block font-weight-bold p-0 text-left"
             >
-              {{ basePrice }} {{ currency }}
-            </span>
-            <span
-              class="btn btn-light-dark btn-lg btn-square font-weight-bold"
-              style="width: 65%"
-            >
-              Order Now
-            </span>
-          </button>
+              <span
+                style="width: 35%"
+                class="btn btn-dark btn-lg btn-square font-weight-bold pl-1 pr-1"
+              >
+                {{ basePrice }} {{ currency }}
+              </span>
+              <span
+                class="btn btn-light-dark btn-lg btn-square font-weight-bold"
+                style="width: 65%"
+              >
+                Order Now
+              </span>
+            </a>
+          </router-link>
 
-          <br />
+          <hr />
+
           <p class="text-center font-weight-bold m-0">
             Payment
             <span class="text-success"
@@ -124,17 +139,17 @@ export default {
     window.scrollTo(0, 0);
   },
   beforeMount() {
-    this.fetchService(this.$route.params.id);
+    this.fetchService();
   },
   computed: {
     ...mapGetters(["basePrice", "currency"])
   },
   methods: {
-    async fetchService(id) {
+    async fetchService() {
       const result = await this.$apollo.query({
         query: queryService,
         variables: {
-          id: id
+          id: this.$route.params.id
         }
       });
 
