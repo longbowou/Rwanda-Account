@@ -97,3 +97,6 @@ window.KTLayoutSearch = KTLayoutSearch;
 import $ from "jquery";
 window.$ = $;
 window.jQuery = $;
+
+import Tagify from "@yaireo/tagify";
+window.Tagify = Tagify;

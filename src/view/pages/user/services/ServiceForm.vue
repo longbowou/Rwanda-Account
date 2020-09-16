@@ -97,6 +97,7 @@ import { createService, updateService } from "@/graphql/service-mutations";
 import _ from "lodash";
 import Quill from "quill";
 import "select2";
+import "@yaireo/tagify/dist/jQuery.tagify.min";
 import {
   queryService,
   queryServiceCategories
@@ -235,6 +236,11 @@ export default {
         },
         placeholder: "Content",
         theme: "snow"
+      });
+
+      this.keywordsTagify = window.$("#keywords").tagify({
+        originalInputValueFormat: valuesArr =>
+          valuesArr.map(item => item.value).join(",")
       });
     }
   },
