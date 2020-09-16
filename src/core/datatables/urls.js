@@ -9,3 +9,6 @@ export const servicesUrl =
 
 export const servicePurchasesUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL + "account/service-purchases.json";
+
+export const serviceOrdersUrl =
+  process.env.VUE_APP_DATATABLES_BASE_URL + "account/service-orders.json";

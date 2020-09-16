@@ -41,6 +41,46 @@
 
     <router-link
       v-if="isAuthenticated"
+      :to="{ name: 'user-service-purchases' }"
+      v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+        aria-haspopup="true"
+        data-menu-toggle="hover"
+        class="menu-item"
+        :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <span class="menu-text"> Purchases </span>
+        </a>
+      </li>
+    </router-link>
+
+    <router-link
+      v-if="isAuthenticated"
+      :to="{ name: 'user-service-orders' }"
+      v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+        aria-haspopup="true"
+        data-menu-toggle="hover"
+        class="menu-item"
+        :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <span class="menu-text"> Orders </span>
+        </a>
+      </li>
+    </router-link>
+
+    <router-link
+      v-if="isAuthenticated"
       :to="{ name: 'deposits' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
@@ -95,26 +135,6 @@
       >
         <a :href="href" class="menu-link" @click="navigate">
           <span class="menu-text"> My Services </span>
-        </a>
-      </li>
-    </router-link>
-
-    <router-link
-      v-if="isAuthenticated"
-      :to="{ name: 'user-service-purchases' }"
-      v-slot="{ href, navigate, isActive, isExactActive }"
-    >
-      <li
-        aria-haspopup="true"
-        data-menu-toggle="hover"
-        class="menu-item"
-        :class="[
-          isActive && 'menu-item-active',
-          isExactActive && 'menu-item-active'
-        ]"
-      >
-        <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> My Purchases </span>
         </a>
       </li>
     </router-link>

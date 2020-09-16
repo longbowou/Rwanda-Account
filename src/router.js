@@ -93,6 +93,12 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
+          path: "/user/service/orders",
+          name: "user-service-orders",
+          component: () => import("@/view/pages/user/orders/Datatable"),
+          meta: { requiresAuth: true }
+        },
+        {
           path: "/profile",
           redirect: "/profile-overview",
           component: () => import("@/view/pages/user/profile/Layout"),

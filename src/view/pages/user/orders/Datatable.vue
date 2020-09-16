@@ -14,7 +14,7 @@
                 <inline-svg src="media/svg/icons/Shopping/Cart1.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Purchases</h3>
+              <h3 class="card-label">Orders</h3>
             </div>
           </div>
 
@@ -23,7 +23,7 @@
               <div class="col-sm-12">
                 <table
                   class="table table-hover dataTable dtr-inline text-center"
-                  id="service-purchases-dataTable"
+                  id="service-orders-dataTable"
                 >
                   <thead>
                     <tr>
@@ -31,7 +31,7 @@
                       <th>Status</th>
                       <th>Delay</th>
                       <th>Price</th>
-                      <th>Will Be Delivered At</th>
+                      <th>Must Be Delivered At</th>
                       <th>Created At</th>
                       <th>Actions</th>
                     </tr>
@@ -42,7 +42,7 @@
                       <th>Status</th>
                       <th>Delay</th>
                       <th>Price</th>
-                      <th>Will Be Delivered At</th>
+                      <th>Must Be Delivered At</th>
                       <th>Created At</th>
                       <th>Actions</th>
                     </tr>
@@ -82,10 +82,10 @@ export default {
     ...mapGetters(["currentAccount", "currency"])
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Purchases" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Purchases");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Orders" }]);
+    this.$store.dispatch(SET_HEAD_TITLE, "Orders");
 
-    this.datatable = window.$("#service-purchases-dataTable").DataTable({
+    this.datatable = window.$("#service-orders-dataTable").DataTable({
       lengthMenu: [
         [10, 50, 100, -1],
         [10, 50, 100, "All"]
