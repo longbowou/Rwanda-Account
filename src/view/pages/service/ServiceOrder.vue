@@ -326,15 +326,16 @@ export default {
       }
     },
     async fetchServiceOrderPreview() {
-      if (this.serviceOptions === undefined) {
-        this.serviceOptions = [];
+      let serviceOptions = [];
+      if (this.serviceOptions !== undefined) {
+        serviceOptions = this.serviceOptions;
       }
 
       const result = await this.$apollo.query({
         query: queryServiceOrderPreview,
         variables: {
           service: this.$route.params.id,
-          serviceOptions: this.serviceOptions
+          serviceOptions: serviceOptions
         },
         fetchPolicy: "no-cache"
       });
@@ -357,8 +358,9 @@ export default {
 
       this.errors = [];
 
-      if (this.serviceOptions === undefined) {
-        this.serviceOptions = [];
+      let serviceOptions = [];
+      if (this.serviceOptions !== undefined) {
+        serviceOptions = this.serviceOptions;
       }
 
       let result = await this.$apollo.mutate({
@@ -366,7 +368,7 @@ export default {
         variables: {
           input: {
             service: this.$route.params.id,
-            serviceOptions: this.serviceOptions
+            serviceOptions: serviceOptions
           }
         }
       });
