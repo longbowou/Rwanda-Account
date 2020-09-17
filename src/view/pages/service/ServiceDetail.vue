@@ -124,7 +124,6 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { queryService } from "@/graphql/service-queries";
-import _ from "lodash";
 import { mapGetters } from "vuex";
 
 export default {
@@ -153,7 +152,7 @@ export default {
         }
       });
 
-      if (_.isEmpty(result.errors)) {
+      if (window._.isEmpty(result.errors)) {
         this.service = result.data.service;
 
         await this.$store.dispatch(SET_BREADCRUMB, [

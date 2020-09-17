@@ -113,7 +113,7 @@ export default {
             const buttons = [];
 
             const showRouter = $this.$router.resolve({
-              name: "service-detail",
+              name: "user-service-purchases-view",
               params: { id: data.id }
             });
 

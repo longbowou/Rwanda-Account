@@ -58,15 +58,13 @@ type AccountMutation {
 
 type AccountQuery {
     account: AccountType!
-    "Litigation list"
-    litigation(id: UUID): [LitigationType]
-    parameters: ParametersType
-    service(id: UUID!): ServiceType
+    litigation(id: UUID!): LitigationType!
+    parameters: ParametersType!
+    service(id: UUID!): ServiceType!
     "ServiceCategory list"
     serviceCategories(id: UUID): [ServiceCategoryType]
-    serviceOrderPreview(service: UUID!, serviceOptions: [UUID!]): ServiceOrderType
-    "ServicePurchase list"
-    servicePurchases(id: UUID): [ServicePurchaseType]
+    serviceOrderPreview(service: UUID!, serviceOptions: [UUID!]): ServiceOrderType!
+    servicePurchase(id: UUID!): ServicePurchaseType!
     "Service list"
     services(id: UUID): [ServiceType]
 }
@@ -378,30 +376,46 @@ type ServicePurchaseServiceOptionType {
     updatedAt: DateTime!
 }
 
+type ServicePurchaseTimeLine {
+    color: String!
+    description: String
+    happenAt: String!
+    status: String!
+}
+
 type ServicePurchaseType {
+    accepted: Boolean!
     acceptedAt: DateTime
     account: AccountType!
+    approved: Boolean!
     approvedAt: DateTime
     canBeAccepted: Boolean!
     canBeApproved: Boolean!
     canBeCanceled: Boolean!
     canBeDelivered: Boolean!
-    canCreateLitigation: Boolean!
+    canBeInDispute: Boolean!
+    canceled: Boolean!
     canceledAt: DateTime
     chatSet: [ChatType!]!
     commission: Int!
     createdAt: DateTime!
     delay: String!
+    delivered: Boolean!
     deliveredAt: DateTime
     id: UUID!
+    inDispute: Boolean!
+    inDisputeAt: DateTime
+    initiated: Boolean!
     litigation: LitigationType
     mustBeDeliveredAt: DateTime
+    number: String!
     operationSet: [OperationType!]!
     price: String!
     service: ServiceType!
     serviceOptions: [ServiceOptionType!]!
     servicepurchaseserviceoptionSet: [ServicePurchaseServiceOptionType!]!
     status: String!
+    timelines: [ServicePurchaseTimeLine]!
     updatedAt: DateTime!
 }
 
