@@ -67,7 +67,7 @@ import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
 import "@/assets/plugins/datatable/datatables.bundle";
-import { servicePurchasesUrl } from "@/core/datatables/urls";
+import { serviceOrdersUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
 
@@ -116,7 +116,7 @@ export default {
       serverSide: true,
       stateSave: true,
       ajax: {
-        url: servicePurchasesUrl,
+        url: serviceOrdersUrl,
         headers: {
           "Accept-Language": i18nService.getActiveLanguage(),
           Authorization: "JWT " + JwtService.getAuth().token
