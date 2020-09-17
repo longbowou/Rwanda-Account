@@ -108,7 +108,7 @@ export default {
             const buttons = [];
 
             const showRouter = $this.$router.resolve({
-              name: "user-service-purchases-view",
+              name: "purchases-view",
               params: { id: data.id }
             });
 
@@ -116,7 +116,7 @@ export default {
             buttons.push(showBtn);
 
             const chatRouter = $this.$router.resolve({
-              name: "user-service-purchases-view",
+              name: "purchases-view",
               params: { id: data.id }
             });
 

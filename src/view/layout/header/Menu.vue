@@ -41,7 +41,7 @@
 
     <router-link
       v-if="isAuthenticated"
-      :to="{ name: 'user-service-purchases' }"
+      :to="{ name: 'purchases' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
       <li
@@ -61,7 +61,7 @@
 
     <router-link
       v-if="isAuthenticated"
-      :to="{ name: 'user-service-orders' }"
+      :to="{ name: 'orders' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
       <li

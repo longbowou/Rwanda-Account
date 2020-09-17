@@ -87,20 +87,20 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/service/purchases",
-          name: "user-service-purchases",
+          path: "/user/purchases",
+          name: "purchases",
           component: () => import("@/view/pages/user/purchases/Datatable"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/service/purchases/:id",
-          name: "user-service-purchases-view",
+          path: "/user/purchases/:id",
+          name: "purchases-view",
           component: () => import("@/view/pages/user/purchases/View"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/service/orders",
-          name: "user-service-orders",
+          path: "/user/orders",
+          name: "orders",
           component: () => import("@/view/pages/user/orders/Datatable"),
           meta: { requiresAuth: true }
         },
