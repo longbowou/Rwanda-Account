@@ -136,9 +136,7 @@ export const purchaseActionsMixin = {
   mixins: [toastMixin],
   methods: {
     async cancelPurchase(id, title, fetchFullFields = false) {
-      if (
-        confirm("Do you really want to cancel the purchase for " + title + " ?")
-      ) {
+      if (confirm(title)) {
         let mutation = cancelServicePurchase;
         if (fetchFullFields) {
           mutation = cancelServicePurchaseFullFields;
@@ -161,11 +159,7 @@ export const purchaseActionsMixin = {
       }
     },
     async approvePurchase(id, title, fetchFullFields = false) {
-      if (
-        confirm(
-          "Do you really want to approve the purchase for " + title + " ?"
-        )
-      ) {
+      if (confirm(title)) {
         let mutation = approveServicePurchase;
         if (fetchFullFields) {
           mutation = approveServicePurchaseFullFields;

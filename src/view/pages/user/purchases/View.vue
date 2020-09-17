@@ -247,9 +247,15 @@ export default {
       }
     },
     async handleCancelPurchase() {
+      const title =
+        "Do you really want to cancel the purchase " +
+        this.servicePurchase.number +
+        " for " +
+        this.servicePurchase.service.title +
+        " ?";
       const result = await this.cancelPurchase(
         this.servicePurchase.id,
-        this.servicePurchase.service.title,
+        title,
         true
       );
 
@@ -260,9 +266,15 @@ export default {
       }
     },
     async handleApprovePurchase() {
+      const title =
+        "Do you really want to approve the purchase " +
+        this.servicePurchase.number +
+        " for " +
+        this.servicePurchase.service.title +
+        " ?";
       const result = await this.approvePurchase(
         this.servicePurchase.id,
-        this.servicePurchase.service.title,
+        title,
         true
       );
 

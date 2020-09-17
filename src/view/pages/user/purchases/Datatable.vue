@@ -124,12 +124,12 @@ export default {
             buttons.push(chatBtn);
 
             if (data.can_be_canceled) {
-              const cancelBtn = `<button class="btn btn-sm btn-clean btn-icon btn-hover-icon-danger btn-icon-sm btn-square btn-cancel" title="Cancel" data-id="${data.id}" data-title="${data.service_title}"><i class="flaticon2-cancel"></i></button>`;
+              const cancelBtn = `<button class="btn btn-sm btn-clean btn-icon btn-hover-icon-danger btn-icon-sm btn-square btn-cancel" title="Cancel" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="flaticon2-cancel"></i></button>`;
               buttons.push(cancelBtn);
             }
 
             if (data.can_be_approved) {
-              const approveBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-square btn-hover-icon-success btn-approve" title="Approve" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
+              const approveBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-square btn-hover-icon-success btn-approve" title="Approve" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
               buttons.push(approveBtn);
             }
 
@@ -154,26 +154,24 @@ export default {
     window
       .$("#service-purchases-dataTable")
       .on("click", ".btn-cancel", function() {
-        $this.handleCancelPurchase(
-          window.$(this)[0].dataset.id,
-          window.$(this)[0].dataset.title,
-          window.$(this)[0]
-        );
+        $this.handleCancelPurchase(window.$(this)[0]);
       });
 
     window
       .$("#service-purchases-dataTable")
       .on("click", ".btn-approve", function() {
-        $this.handleApprovePurchase(
-          window.$(this)[0].dataset.id,
-          window.$(this)[0].dataset.title,
-          window.$(this)[0]
-        );
+        $this.handleApprovePurchase(window.$(this)[0]);
       });
   },
   methods: {
-    async handleCancelPurchase(id, title, btn) {
-      const result = await this.cancelPurchase(id, title);
+    async handleCancelPurchase(btn) {
+      const title =
+        "Do you really want to cancel the purchase " +
+        btn.dataset.number +
+        " for " +
+        btn.dataset.title +
+        " ?";
+      const result = await this.cancelPurchase(btn.dataset.id, title);
 
       if (window._.isObject(result)) {
         this.datatable.ajax.reload(null, false);
@@ -181,8 +179,14 @@ export default {
         btn.blur();
       }
     },
-    async handleApprovePurchase(id, title, btn) {
-      const result = await this.approvePurchase(id, title);
+    async handleApprovePurchase(btn) {
+      const title =
+        "Do you really want to approve the purchase " +
+        btn.dataset.number +
+        " for " +
+        btn.dataset.title +
+        " ?";
+      const result = await this.approvePurchase(btn.dataset.id, title);
 
       if (window._.isObject(result)) {
         this.datatable.ajax.reload(null, false);
