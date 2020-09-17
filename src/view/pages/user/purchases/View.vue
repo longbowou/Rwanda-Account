@@ -143,7 +143,7 @@
                       <div :class="['bg-' + timeline.color]"></div>
                     </div>
 
-                    <div class="timeline-label mb-0 pl-0">
+                    <div class="timeline-label mb-0 pt-1 pl-0">
                       <span
                         :class="['font-weight-bold', 'text-' + timeline.color]"
                         >{{ timeline.happenAt }}</span
