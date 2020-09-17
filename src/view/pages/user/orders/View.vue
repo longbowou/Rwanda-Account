@@ -243,9 +243,15 @@ export default {
       }
     },
     async handleAcceptOrder() {
+      const title =
+        "Do you really want to accept the order " +
+        this.servicePurchase.number +
+        " for " +
+        this.servicePurchase.service.title +
+        " ?";
       const result = await this.acceptOrder(
         this.servicePurchase.id,
-        this.servicePurchase.service.title,
+        title,
         true
       );
 
@@ -256,9 +262,15 @@ export default {
       }
     },
     async handleDeliverOrder() {
+      const title =
+        "Do you really want to mark as deliver the order " +
+        this.servicePurchase.number +
+        " for " +
+        this.servicePurchase.service.title +
+        " ?";
       const result = await this.deliverOrder(
         this.servicePurchase.id,
-        this.servicePurchase.service.title,
+        title,
         true
       );
 

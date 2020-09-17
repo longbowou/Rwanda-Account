@@ -124,12 +124,12 @@ export default {
             buttons.push(chatBtn);
 
             if (data.can_be_accepted) {
-              const acceptBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-accept" title="Accept" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check"></i></button>`;
+              const acceptBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-accept" title="Accept" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="fas fa-check"></i></button>`;
               buttons.push(acceptBtn);
             }
 
             if (data.can_be_delivered) {
-              const deliverBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-deliver" title="Mark as Delivered" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
+              const deliverBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-deliver" title="Mark as Delivered" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
               buttons.push(deliverBtn);
             }
 
@@ -154,26 +154,24 @@ export default {
     window
       .$("#service-orders-dataTable")
       .on("click", ".btn-accept", function() {
-        $this.handleAcceptOrder(
-          window.$(this)[0].dataset.id,
-          window.$(this)[0].dataset.title,
-          window.$(this)[0]
-        );
+        $this.handleAcceptOrder(window.$(this)[0]);
       });
 
     window
       .$("#service-orders-dataTable")
       .on("click", ".btn-deliver", function() {
-        $this.handleDeliverOrder(
-          window.$(this)[0].dataset.id,
-          window.$(this)[0].dataset.title,
-          window.$(this)[0]
-        );
+        $this.handleDeliverOrder(window.$(this)[0]);
       });
   },
   methods: {
-    async handleAcceptOrder(id, title, btn) {
-      const result = await this.acceptOrder(id, title);
+    async handleAcceptOrder(btn) {
+      const title =
+        "Do you really want to accept the order " +
+        btn.dataset.number +
+        " for " +
+        btn.dataset.title +
+        " ?";
+      const result = await this.acceptOrder(btn.dataset.id, title);
 
       if (window._.isObject(result)) {
         this.datatable.ajax.reload(null, false);
@@ -181,8 +179,14 @@ export default {
         btn.blur();
       }
     },
-    async handleDeliverOrder(id, title, btn) {
-      const result = await this.deliverOrder(id, title);
+    async handleDeliverOrder(btn) {
+      const title =
+        "Do you really want to mark as deliver the order " +
+        btn.dataset.number +
+        " for " +
+        btn.dataset.title +
+        " ?";
+      const result = await this.deliverOrder(btn.dataset.id, title);
 
       if (window._.isObject(result)) {
         this.datatable.ajax.reload(null, false);

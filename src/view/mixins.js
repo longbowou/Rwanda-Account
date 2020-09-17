@@ -194,9 +194,7 @@ export const orderActionsMixin = {
   mixins: [toastMixin],
   methods: {
     async acceptOrder(id, title, fetchFullFields = false) {
-      if (
-        confirm("Do you really want to accept the order for " + title + " ?")
-      ) {
+      if (confirm(title)) {
         let mutation = acceptServicePurchase;
         if (fetchFullFields) {
           mutation = acceptServicePurchaseFullFields;
@@ -216,11 +214,7 @@ export const orderActionsMixin = {
       }
     },
     async deliverOrder(id, title, fetchFullFields = false) {
-      if (
-        confirm(
-          "Do you really want to mark as deliver the order for " + title + " ?"
-        )
-      ) {
+      if (confirm(title)) {
         let mutation = deliverServicePurchase;
         if (fetchFullFields) {
           mutation = deliverServicePurchaseFullFields;
