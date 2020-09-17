@@ -50,7 +50,11 @@
               </p>
               <p class="col-sm-3 text-right">
                 {{ serviceOrderPreview.totalDelay }} days <br />
-                {{ serviceOrderPreview.mustBeDeliveredAt }}
+                <span class="text-primary">
+                  Will be delivered at
+                  <strong>{{ serviceOrderPreview.mustBeDeliveredAt }}</strong>
+                  if the order is accepted today
+                </span>
               </p>
             </div>
           </div>
