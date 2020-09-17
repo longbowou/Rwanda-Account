@@ -70,15 +70,11 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { serviceOrdersUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
-import {
-  acceptServicePurchase,
-  deliverServicePurchase
-} from "@/graphql/purchase-mutations";
-import { toastMixin } from "@/view/mixins";
+import { orderActionsMixin } from "@/view/mixins";
 
 export default {
   name: "Purchases",
-  mixins: [toastMixin],
+  mixins: [orderActionsMixin],
   data() {
     return {
       datatable: {}
@@ -119,6 +115,14 @@ export default {
             const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-dark btn-square" title="Show"><i class="flaticon-eye"></i></a>`;
             buttons.push(showBtn);
 
+            const chatRouter = $this.$router.resolve({
+              name: "user-service-purchases-view",
+              params: { id: data.id }
+            });
+
+            const chatBtn = `<a href="${chatRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Show"><i class="flaticon2-chat-1"></i></a>`;
+            buttons.push(chatBtn);
+
             if (data.can_be_accepted) {
               const acceptBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-accept" title="Accept" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check"></i></button>`;
               buttons.push(acceptBtn);
@@ -150,7 +154,7 @@ export default {
     window
       .$("#service-orders-dataTable")
       .on("click", ".btn-accept", function() {
-        $this.acceptOrder(
+        $this.handleAcceptOrder(
           window.$(this)[0].dataset.id,
           window.$(this)[0].dataset.title,
           window.$(this)[0]
@@ -160,7 +164,7 @@ export default {
     window
       .$("#service-orders-dataTable")
       .on("click", ".btn-deliver", function() {
-        $this.deliverOrder(
+        $this.handleDeliverOrder(
           window.$(this)[0].dataset.id,
           window.$(this)[0].dataset.title,
           window.$(this)[0]
@@ -168,42 +172,20 @@ export default {
       });
   },
   methods: {
-    async acceptOrder(id, title, btn) {
-      if (
-        confirm("Do you really want to accept the order for " + title + " ?")
-      ) {
-        let result = await this.$apollo.mutate({
-          mutation: acceptServicePurchase,
-          variables: {
-            input: { id: id }
-          }
-        });
+    async handleAcceptOrder(id, title, btn) {
+      const result = await this.acceptOrder(id, title);
 
-        if (window._.isEmpty(result.data.acceptServicePurchase.errors)) {
-          this.notifySuccess("Purchase accepted successfully.");
-          this.datatable.ajax.reload(null, false);
-        }
+      if (window._.isObject(result)) {
+        this.datatable.ajax.reload(null, false);
       } else {
         btn.blur();
       }
     },
-    async deliverOrder(id, title, btn) {
-      if (
-        confirm(
-          "Do you really want to mark as deliver the order for " + title + " ?"
-        )
-      ) {
-        let result = await this.$apollo.mutate({
-          mutation: deliverServicePurchase,
-          variables: {
-            input: { id: id }
-          }
-        });
+    async handleDeliverOrder(id, title, btn) {
+      const result = await this.deliverOrder(id, title);
 
-        if (window._.isEmpty(result.data.deliverServicePurchase.errors)) {
-          this.notifySuccess("Purchase mark as delivered successfully.");
-          this.datatable.ajax.reload(null, false);
-        }
+      if (window._.isObject(result)) {
+        this.datatable.ajax.reload(null, false);
       } else {
         btn.blur();
       }

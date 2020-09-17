@@ -70,11 +70,11 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { servicePurchasesUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
-import { purchaseActionsMixin, toastMixin } from "@/view/mixins";
+import { purchaseActionsMixin } from "@/view/mixins";
 
 export default {
   name: "Purchases",
-  mixins: [toastMixin, purchaseActionsMixin],
+  mixins: [purchaseActionsMixin],
   data() {
     return {
       datatable: {}

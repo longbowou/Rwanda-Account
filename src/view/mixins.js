@@ -7,6 +7,12 @@ import {
 } from "@/graphql/purchase-mutations";
 import store from "@/core/services/store/index";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
+import {
+  acceptServicePurchase,
+  acceptServicePurchaseFullFields,
+  deliverServicePurchase,
+  deliverServicePurchaseFullFields
+} from "@/graphql/order-mutations";
 
 export const formMixin = {
   data() {
@@ -178,6 +184,58 @@ export const purchaseActionsMixin = {
           });
           this.notifySuccess("Purchase approved successfully.");
           return result.data.approveServicePurchase;
+        }
+      }
+    }
+  }
+};
+
+export const orderActionsMixin = {
+  mixins: [toastMixin],
+  methods: {
+    async acceptOrder(id, title, fetchFullFields = false) {
+      if (
+        confirm("Do you really want to accept the order for " + title + " ?")
+      ) {
+        let mutation = acceptServicePurchase;
+        if (fetchFullFields) {
+          mutation = acceptServicePurchaseFullFields;
+        }
+
+        let result = await this.$apollo.mutate({
+          mutation: mutation,
+          variables: {
+            input: { id: id }
+          }
+        });
+
+        if (window._.isEmpty(result.data.acceptServicePurchase.errors)) {
+          this.notifySuccess("Purchase accepted successfully.");
+          return result.data.acceptServicePurchase;
+        }
+      }
+    },
+    async deliverOrder(id, title, fetchFullFields = false) {
+      if (
+        confirm(
+          "Do you really want to mark as deliver the order for " + title + " ?"
+        )
+      ) {
+        let mutation = deliverServicePurchase;
+        if (fetchFullFields) {
+          mutation = deliverServicePurchaseFullFields;
+        }
+
+        let result = await this.$apollo.mutate({
+          mutation: mutation,
+          variables: {
+            input: { id: id }
+          }
+        });
+
+        if (window._.isEmpty(result.data.deliverServicePurchase.errors)) {
+          this.notifySuccess("Purchase mark as delivered successfully.");
+          return result.data.deliverServicePurchase;
         }
       }
     }

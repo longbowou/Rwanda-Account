@@ -1,8 +1,9 @@
 import gql from "graphql-tag";
 import { errorFields } from "@/graphql/Fragments/global";
 import { accountFields } from "@/graphql/Fragments/account";
-import { servicePurchaseFields } from "@/graphql/Fragments/purchase";
+import { purchaseFields } from "@/graphql/Fragments/purchase";
 
+// Buyer Mutations
 export const initServicePurchase = gql`
   mutation($input: InitServicePurchaseInput!) {
     initServicePurchase(input: $input) {
@@ -44,7 +45,7 @@ export const cancelServicePurchaseFullFields = gql`
         ...errorFields
       }
       servicePurchase {
-        ...servicePurchaseFields
+        ...purchaseFields
         account {
           ...accountFields
         }
@@ -53,29 +54,7 @@ export const cancelServicePurchaseFullFields = gql`
   }
   ${errorFields}
   ${accountFields}
-  ${servicePurchaseFields}
-`;
-
-export const acceptServicePurchase = gql`
-  mutation($input: AcceptServicePurchaseInput!) {
-    acceptServicePurchase(input: $input) {
-      errors {
-        ...errorFields
-      }
-    }
-  }
-  ${errorFields}
-`;
-
-export const deliverServicePurchase = gql`
-  mutation($input: DeliverServicePurchaseInput!) {
-    deliverServicePurchase(input: $input) {
-      errors {
-        ...errorFields
-      }
-    }
-  }
-  ${errorFields}
+  ${purchaseFields}
 `;
 
 export const approveServicePurchase = gql`
@@ -102,7 +81,7 @@ export const approveServicePurchaseFullFields = gql`
         ...errorFields
       }
       servicePurchase {
-        ...servicePurchaseFields
+        ...purchaseFields
         account {
           ...accountFields
         }
@@ -111,5 +90,5 @@ export const approveServicePurchaseFullFields = gql`
   }
   ${errorFields}
   ${accountFields}
-  ${servicePurchaseFields}
+  ${purchaseFields}
 `;

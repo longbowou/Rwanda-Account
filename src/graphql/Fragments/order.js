@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
-export const purchaseFields = gql`
-  fragment purchaseFields on ServicePurchaseType {
+export const orderFields = gql`
+  fragment orderFields on ServicePurchaseType {
     id
     number
     price
@@ -13,9 +13,8 @@ export const purchaseFields = gql`
     canceled
     inDispute
     mustBeDeliveredAt
-    canBeApproved
-    canBeCanceled
-    canBeInDispute
+    canBeAccepted
+    canBeDelivered
     service {
       id
       title
