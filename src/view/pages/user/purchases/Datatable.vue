@@ -71,9 +71,8 @@ import { servicePurchasesUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
 import { cancelServicePurchase } from "@/graphql/purchase-mutations";
-import _ from "lodash";
 import { toast } from "@/view/mixins";
-import {UPDATE_USER} from "@/core/services/store/modules/auth.module";
+import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
   name: "user-service-purchases",
@@ -162,7 +161,7 @@ export default {
           }
         });
 
-        if (_.isEmpty(result.data.cancelServicePurchase.errors)) {
+        if (window._.isEmpty(result.data.cancelServicePurchase.errors)) {
           await this.$store.dispatch(UPDATE_USER, {
             account: result.data.cancelServicePurchase.servicePurchase.account
           });

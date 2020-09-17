@@ -70,9 +70,12 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { serviceOrdersUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
+import { acceptServicePurchase } from "@/graphql/purchase-mutations";
+import { toast } from "@/view/mixins";
 
 export default {
   name: "user-service-purchases",
+  mixins: [toast],
   data() {
     return {
       datatable: {}
@@ -85,6 +88,7 @@ export default {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Orders" }]);
     this.$store.dispatch(SET_HEAD_TITLE, "Orders");
 
+    const $this = this;
     this.datatable = window.$("#service-orders-dataTable").DataTable({
       lengthMenu: [
         [10, 50, 100, -1],
@@ -102,11 +106,22 @@ export default {
           searchable: false,
           targets: [6],
           render: function(data) {
+            const buttons = [];
+
             const showRouter = $this.$router.resolve({
               name: "service-detail",
               params: { id: data.id }
             });
-            return `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
+
+            const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
+            buttons.push(showBtn);
+
+            if (data.can_be_accepted) {
+              const acceptBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-accept" title="Accept" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check"></i></button>`;
+              buttons.push(acceptBtn);
+            }
+
+            return buttons.join("");
           }
         }
       ],
@@ -124,8 +139,31 @@ export default {
       }
     });
 
-    const $this = this;
+    window
+      .$("#service-orders-dataTable")
+      .on("click", ".btn-accept", function() {
+        $this.acceptOrder(
+          window.$(this)[0].dataset.id,
+          window.$(this)[0].dataset.title
+        );
+      });
   },
-  methods: {}
+  methods: {
+    async acceptOrder(id, title) {
+      if (confirm("Do you really want to accept order for " + title + " ?")) {
+        let result = await this.$apollo.mutate({
+          mutation: acceptServicePurchase,
+          variables: {
+            input: { id: id }
+          }
+        });
+
+        if (window._.isEmpty(result.data.acceptServicePurchase.errors)) {
+          this.notifySuccess("Purchase accepted successfully.");
+          this.datatable.ajax.reload(null, false);
+        }
+      }
+    }
+  }
 };
 </script>

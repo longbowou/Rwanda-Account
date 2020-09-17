@@ -35,3 +35,14 @@ export const cancelServicePurchase = gql`
   ${errorFields}
   ${accountFields}
 `;
+
+export const acceptServicePurchase = gql`
+  mutation($input: AcceptServicePurchaseInput!) {
+    acceptServicePurchase(input: $input) {
+      errors {
+        ...errorFields
+      }
+    }
+  }
+  ${errorFields}
+`;
