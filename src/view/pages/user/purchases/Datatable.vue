@@ -115,6 +115,14 @@ export default {
             const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-dark btn-square btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
             buttons.push(showBtn);
 
+            const chatRouter = $this.$router.resolve({
+              name: "user-service-purchases-view",
+              params: { id: data.id }
+            });
+
+            const chatBtn = `<a href="${chatRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Show"><i class="flaticon2-chat-1"></i></a>`;
+            buttons.push(chatBtn);
+
             if (data.can_be_canceled) {
               const cancelBtn = `<button class="btn btn-sm btn-clean btn-icon btn-hover-icon-danger btn-icon-sm btn-square btn-cancel" title="Cancel" data-id="${data.id}" data-title="${data.service_title}"><i class="flaticon2-cancel"></i></button>`;
               buttons.push(cancelBtn);
