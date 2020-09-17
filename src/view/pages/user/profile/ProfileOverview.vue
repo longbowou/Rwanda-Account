@@ -35,7 +35,7 @@ import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 
 export default {
-  name: "profile-overview",
+  name: "ProfileOverview",
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Profile Overview" }]);
     this.$store.dispatch(SET_HEAD_TITLE, "Profile Overview");

@@ -123,7 +123,7 @@ import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import ServiceCard from "@/view/pages/service/ServiceCard";
 
 export default {
-  name: "home",
+  name: "Home",
   components: { ServiceCard },
   data() {
     return {

@@ -73,7 +73,7 @@ import i18nService from "@/core/services/i18n.service";
 import { purchaseActionsMixin, toastMixin } from "@/view/mixins";
 
 export default {
-  name: "user-service-purchases",
+  name: "Purchases",
   mixins: [toastMixin, purchaseActionsMixin],
   data() {
     return {

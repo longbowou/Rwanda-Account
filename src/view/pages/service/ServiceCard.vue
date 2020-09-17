@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  name: "service-card",
+  name: "ServiceCard",
   props: ["service"]
 };
 </script>

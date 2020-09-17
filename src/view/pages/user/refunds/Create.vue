@@ -133,7 +133,7 @@ import { createRefund } from "@/graphql/account-mutations";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
-  name: "refunds-create",
+  name: "RefundsCreate",
   mixins: [formMixin, toastMixin],
   data() {
     return {

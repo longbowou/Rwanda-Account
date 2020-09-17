@@ -105,7 +105,7 @@ import {
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
-  name: "service-form",
+  name: "ServiceForm",
   mixins: [formMixin, toastMixin],
   props: ["serviceId"],
   data() {

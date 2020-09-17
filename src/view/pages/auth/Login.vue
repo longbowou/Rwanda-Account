@@ -144,7 +144,7 @@ import JwtService from "@/core/services/jwt.service";
 
 export default {
   mixins: [formMixin],
-  name: "login",
+  name: "Login",
   data() {
     return {
       input: {

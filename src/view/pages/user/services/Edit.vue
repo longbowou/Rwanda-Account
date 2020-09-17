@@ -36,7 +36,7 @@ import "select2";
 import ServiceForm from "@/view/pages/user/services/ServiceForm";
 
 export default {
-  name: "user-services-update",
+  name: "ServicesEdit",
   components: { ServiceForm },
   mixins: [formMixin, toastMixin],
   data() {

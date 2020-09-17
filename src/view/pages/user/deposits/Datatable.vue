@@ -63,7 +63,7 @@ import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
 
 export default {
-  name: "deposits-datable",
+  name: "DepositsDatable",
   computed: {
     ...mapGetters(["currentAccount", "currency"])
   },

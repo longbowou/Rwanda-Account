@@ -185,7 +185,7 @@ import { register } from "@/graphql/auth-mutations";
 import { ADD_LOGIN_NOTIFICATION } from "@/core/services/store/modules/notifications.module";
 
 export default {
-  name: "register",
+  name: "Register",
   mixins: [formMixin],
   data() {
     return {

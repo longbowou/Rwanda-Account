@@ -112,7 +112,7 @@ import { createDeposit } from "@/graphql/account-mutations";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
-  name: "deposits-create",
+  name: "DepositsCreate",
   mixins: [formMixin, toastMixin],
   data() {
     return {

@@ -88,7 +88,7 @@ import { deleteService } from "@/graphql/service-mutations";
 import { toastMixin } from "@/view/mixins";
 
 export default {
-  name: "user-services",
+  name: "Services",
   mixins: [toastMixin],
   data() {
     return {

@@ -118,7 +118,7 @@ import { UPDATE_NEXT_PATH } from "@/core/services/store/modules/router.module";
 import { ADD_LOGIN_NOTIFICATION } from "@/core/services/store/modules/notifications.module";
 
 export default {
-  name: "change-password",
+  name: "ChangePassword",
   mixins: [formMixin],
   data() {
     return {

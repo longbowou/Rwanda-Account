@@ -157,7 +157,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "Profile",
+  name: "ProfileLayout",
   computed: {
     ...mapGetters(["currentAccount", "currency"])
   }

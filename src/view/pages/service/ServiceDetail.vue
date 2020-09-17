@@ -88,34 +88,7 @@
 
       <br />
 
-      <div class="card card-custom shadow-sm">
-        <div class="card-body p-5">
-          <a href="#" class="d-flex align-items-start mb-5">
-            <div class="symbol symbol-40 symbol-lg-50 symbol-circle bg-light">
-              <img alt="Pic" src="media/stock-600x600/img-11.jpg" />
-            </div>
-            <span class="text-dark-75 font-weight-bold ml-2">{{
-              service.account.fullName
-            }}</span>
-          </a>
-
-          <hr />
-
-          <a
-            href="#"
-            class="btn btn-light btn-lg btn-square font-weight-bold pl-2 pr-2"
-            style="width: 40%"
-            >Contact</a
-          >
-
-          <a
-            href="#"
-            class="btn btn-light btn-lg btn-square font-weight-bold float-right pl-2 pr-2"
-            style="width: 40%"
-            >View Profile</a
-          >
-        </div>
-      </div>
+      <user-card :user="service.account" />
     </div>
   </div>
 </template>
@@ -125,10 +98,11 @@ import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { queryService } from "@/graphql/service-queries";
 import { mapGetters } from "vuex";
+import UserCard from "@/view/pages/UserCard";
 
 export default {
-  name: "service-detail",
-  components: {},
+  name: "ServiceDetail",
+  components: { UserCard },
   data() {
     return {
       service: {}

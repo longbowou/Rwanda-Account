@@ -77,7 +77,7 @@ import {
 import { toastMixin } from "@/view/mixins";
 
 export default {
-  name: "user-service-purchases",
+  name: "Purchases",
   mixins: [toastMixin],
   data() {
     return {
@@ -153,7 +153,7 @@ export default {
         $this.acceptOrder(
           window.$(this)[0].dataset.id,
           window.$(this)[0].dataset.title,
-          window.$(this)[0],
+          window.$(this)[0]
         );
       });
 
