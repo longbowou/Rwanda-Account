@@ -103,6 +103,7 @@ export default {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "My Services" }]);
     this.$store.dispatch(SET_HEAD_TITLE, "My Services");
 
+    const $this = this;
     this.datatable = window.$("#services-dataTable").DataTable({
       lengthMenu: [
         [10, 50, 100, -1],
@@ -115,26 +116,33 @@ export default {
           searchable: false,
           targets: [5],
           render: function(data) {
+            const buttons = [];
+
             const showRouter = $this.$router.resolve({
               name: "service-detail",
               params: { id: data.id }
             });
             const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
+            buttons.push(showBtn);
 
             const editRouter = $this.$router.resolve({
               name: "user-services-edit",
               params: { id: data.id }
             });
             const editBtn = `<a href="${editRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit"><i class="fa fa-edit"></i></a>`;
+            buttons.push(editBtn);
 
             const optionsRouter = $this.$router.resolve({
               name: "user-services-options",
               params: { id: data.id }
             });
             const optionsBtn = `<a href="${optionsRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Options"><i class="flaticon2-layers"></i></a>`;
+            buttons.push(optionsBtn);
 
             const deleteBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-delete" title="Delete" data-id="${data.id}" data-title="${data.title}"><i class="fa fa-trash"></i></button>`;
-            return showBtn + " " + editBtn + " " + optionsBtn + " " + deleteBtn;
+            buttons.push(deleteBtn);
+
+            return buttons.join("");
           }
         }
       ],
@@ -152,7 +160,6 @@ export default {
       }
     });
 
-    const $this = this;
     window.$("#services-dataTable").on("click", ".btn-delete", function() {
       $this.deleteService(
         window.$(this)[0].dataset.id,
