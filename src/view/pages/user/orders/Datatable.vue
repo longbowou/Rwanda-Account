@@ -152,7 +152,8 @@ export default {
       .on("click", ".btn-accept", function() {
         $this.acceptOrder(
           window.$(this)[0].dataset.id,
-          window.$(this)[0].dataset.title
+          window.$(this)[0].dataset.title,
+          window.$(this)[0],
         );
       });
 
@@ -161,12 +162,13 @@ export default {
       .on("click", ".btn-deliver", function() {
         $this.deliverOrder(
           window.$(this)[0].dataset.id,
-          window.$(this)[0].dataset.title
+          window.$(this)[0].dataset.title,
+          window.$(this)[0]
         );
       });
   },
   methods: {
-    async acceptOrder(id, title) {
+    async acceptOrder(id, title, btn) {
       if (
         confirm("Do you really want to accept the order for " + title + " ?")
       ) {
@@ -181,9 +183,11 @@ export default {
           this.notifySuccess("Purchase accepted successfully.");
           this.datatable.ajax.reload(null, false);
         }
+      } else {
+        btn.blur();
       }
     },
-    async deliverOrder(id, title) {
+    async deliverOrder(id, title, btn) {
       if (
         confirm(
           "Do you really want to mark as deliver the order for " + title + " ?"
@@ -200,6 +204,8 @@ export default {
           this.notifySuccess("Purchase mark as delivered successfully.");
           this.datatable.ajax.reload(null, false);
         }
+      } else {
+        btn.blur();
       }
     }
   }

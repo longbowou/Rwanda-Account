@@ -162,12 +162,13 @@ export default {
     window.$("#services-dataTable").on("click", ".btn-delete", function() {
       $this.deleteService(
         window.$(this)[0].dataset.id,
-        window.$(this)[0].dataset.title
+        window.$(this)[0].dataset.title,
+        window.$(this)[0]
       );
     });
   },
   methods: {
-    async deleteService(id, title) {
+    async deleteService(id, title, btn) {
       if (confirm("Do you really want to delete " + title + " ?")) {
         let result = await this.$apollo.mutate({
           mutation: deleteService,
@@ -180,6 +181,8 @@ export default {
           this.notifySuccess("Service deleted successfully.");
           this.datatable.ajax.reload(null, false);
         }
+      } else {
+        btn.blur();
       }
     }
   }

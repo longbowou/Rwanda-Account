@@ -191,7 +191,7 @@ export default {
         btn.blur();
       }
     },
-    async approvePurchase(id, title) {
+    async approvePurchase(id, title, btn) {
       if (
         confirm(
           "Do you really want to approve the purchase for " + title + " ?"
@@ -211,6 +211,8 @@ export default {
           this.notifySuccess("Purchase approved successfully.");
           this.datatable.ajax.reload(null, false);
         }
+      } else {
+        btn.blur();
       }
     }
   }
