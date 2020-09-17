@@ -31,14 +31,11 @@
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import { formMixin, toastMixin } from "@/view/mixins";
-import "select2";
 import ServiceForm from "@/view/pages/user/services/ServiceForm";
 
 export default {
   name: "ServicesEdit",
   components: { ServiceForm },
-  mixins: [formMixin, toastMixin],
   data() {
     return {};
   },

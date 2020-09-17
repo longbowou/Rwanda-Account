@@ -94,7 +94,6 @@
 <script>
 import { formMixin, toastMixin } from "@/view/mixins";
 import { createService, updateService } from "@/graphql/service-mutations";
-import _ from "lodash";
 import Quill from "quill";
 import "select2";
 import "@yaireo/tagify/dist/jQuery.tagify.min";
@@ -173,7 +172,7 @@ export default {
       } else {
         this.errors = result.data.updateService.errors;
       }
-      if (!_.isEmpty(this.errors)) {
+      if (!window._.isEmpty(this.errors)) {
         submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
@@ -211,7 +210,7 @@ export default {
           fetchPolicy: "no-cache"
         });
 
-        if (_.isEmpty(result.errors)) {
+        if (window._.isEmpty(result.errors)) {
           this.service = result.data.service;
 
           this.input.id = this.service.id;
