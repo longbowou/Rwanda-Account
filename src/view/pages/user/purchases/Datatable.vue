@@ -70,7 +70,10 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { servicePurchasesUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
-import { cancelServicePurchase } from "@/graphql/purchase-mutations";
+import {
+  cancelServicePurchase,
+  approveServicePurchase
+} from "@/graphql/purchase-mutations";
 import { toast } from "@/view/mixins";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
@@ -122,6 +125,11 @@ export default {
               buttons.push(cancelBtn);
             }
 
+            if (data.can_be_approved) {
+              const approveBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-approve" title="Approve" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
+              buttons.push(approveBtn);
+            }
+
             return buttons.join("");
           }
         }
@@ -148,11 +156,20 @@ export default {
           window.$(this)[0].dataset.title
         );
       });
+
+    window
+      .$("#service-purchases-dataTable")
+      .on("click", ".btn-approve", function() {
+        $this.approvePurchase(
+          window.$(this)[0].dataset.id,
+          window.$(this)[0].dataset.title
+        );
+      });
   },
   methods: {
     async cancelPurchase(id, title) {
       if (
-        confirm("Do you really want to cancel purchase for " + title + " ?")
+        confirm("Do you really want to cancel the purchase for " + title + " ?")
       ) {
         let result = await this.$apollo.mutate({
           mutation: cancelServicePurchase,
@@ -166,6 +183,28 @@ export default {
             account: result.data.cancelServicePurchase.servicePurchase.account
           });
           this.notifySuccess("Purchase canceled successfully.");
+          this.datatable.ajax.reload(null, false);
+        }
+      }
+    },
+    async approvePurchase(id, title) {
+      if (
+        confirm(
+          "Do you really want to approve the purchase for " + title + " ?"
+        )
+      ) {
+        let result = await this.$apollo.mutate({
+          mutation: approveServicePurchase,
+          variables: {
+            input: { id: id }
+          }
+        });
+
+        if (window._.isEmpty(result.data.approveServicePurchase.errors)) {
+          await this.$store.dispatch(UPDATE_USER, {
+            account: result.data.approveServicePurchase.servicePurchase.account
+          });
+          this.notifySuccess("Purchase approved successfully.");
           this.datatable.ajax.reload(null, false);
         }
       }

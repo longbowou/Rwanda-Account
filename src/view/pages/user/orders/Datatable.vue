@@ -125,8 +125,8 @@ export default {
             }
 
             if (data.can_be_delivered) {
-              const deliveredBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-deliver" title="Mark as Delivered" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
-              buttons.push(deliveredBtn);
+              const deliverBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-deliver" title="Mark as Delivered" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
+              buttons.push(deliverBtn);
             }
 
             return buttons.join("");
