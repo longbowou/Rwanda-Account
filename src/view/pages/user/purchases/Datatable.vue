@@ -31,7 +31,7 @@
                       <th>Status</th>
                       <th>Delay</th>
                       <th>Price</th>
-                      <th>Will Be Delivered At</th>
+                      <th>Deadline</th>
                       <th>Created At</th>
                       <th>Actions</th>
                     </tr>
@@ -42,7 +42,7 @@
                       <th>Status</th>
                       <th>Delay</th>
                       <th>Price</th>
-                      <th>Will Be Delivered At</th>
+                      <th>Deadline</th>
                       <th>Created At</th>
                       <th>Actions</th>
                     </tr>

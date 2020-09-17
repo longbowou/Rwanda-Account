@@ -105,6 +105,12 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
+          path: "/user/orders/:id",
+          name: "orders-view",
+          component: () => import("@/view/pages/user/orders/View"),
+          meta: { requiresAuth: true }
+        },
+        {
           path: "/profile",
           redirect: "/profile-overview",
           component: () => import("@/view/pages/user/profile/Layout"),

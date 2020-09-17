@@ -385,7 +385,7 @@ export default {
       proceedButton.removeClass("disabled spinner spinner-light spinner-right");
 
       await this.$router.push({
-        name: "user-service-purchases"
+        name: "purchases"
       });
 
       this.notifySuccess(

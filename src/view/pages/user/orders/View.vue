@@ -11,11 +11,11 @@
                 class="svg-icon svg-icon-lg svg-icon-3x svg-icon-primary mr-3"
               >
                 <!--begin::Svg Icon-->
-                <inline-svg src="media/svg/icons/Shopping/Cart1.svg" />
+                <inline-svg src="media/svg/icons/Shopping/Bag2.svg" />
                 <!--end::Svg Icon-->
               </span>
               <h3 class="card-label">
-                Purchase
+                Order
               </h3>
               <span
                 class="label label-xl font-weight-bold label-inline label-square label-light-dark"
@@ -44,20 +44,20 @@
             </div>
             <div class="card-toolbar">
               <button
-                ref="btnCancel"
-                @click="handleCancelPurchase"
-                v-if="servicePurchase.canBeCanceled"
-                title="Cancel"
-                class="btn btn-lg btn-icon btn-light-danger mr-2"
+                ref="btnAccept"
+                @click="handleAcceptOrder"
+                v-if="servicePurchase.canBeAccepted"
+                title="Accept"
+                class="btn btn-lg btn-icon btn-light-success mr-2"
               >
-                <i class="flaticon2-cancel"></i>
+                <i class="fas fa-check"></i>
               </button>
 
               <button
-                ref="btnApprove"
-                @click="handleApprovePurchase"
-                v-if="servicePurchase.canBeApproved"
-                title="Approve"
+                ref="btnDeliver"
+                @click="handleDeliverOrder"
+                v-if="servicePurchase.canBeDelivered"
+                title="Mark as Delivered"
                 class="btn btn-lg btn-icon btn-light-success mr-2"
               >
                 <i class="fas fa-check-double"></i>
@@ -73,7 +73,7 @@
             </div>
           </div>
 
-          <div class="card-body pb-3">
+          <div class="card-body">
             <div class="row mb-2">
               <h6 class="col-sm-9 font-weight-bold">
                 {{ servicePurchase.service.title }}
@@ -96,7 +96,7 @@
 
             <hr />
 
-            <div class="row">
+            <div class="row mb-2">
               <h6 class="col-sm-9 font-weight-bold">
                 TOTAL
               </h6>
@@ -104,10 +104,6 @@
                 <h5 class="font-weight-bold">
                   {{ servicePurchase.price }} {{ currency }}
                 </h5>
-                <p class="font-weight-boldest text-success mb-0">
-                  Paid with Wallet <br />
-                  <i class="ml-2 icon-lg text-success flaticon2-correct" />
-                </p>
               </div>
             </div>
           </div>
@@ -201,13 +197,13 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
-import { purchaseActionsMixin, toastMixin } from "@/view/mixins";
-import { queryServicePurchase } from "@/graphql/purchase-queries";
+import { orderActionsMixin, toastMixin } from "@/view/mixins";
+import { queryServicePurchase } from "@/graphql/order-queries";
 import UserCard from "@/view/pages/UserCard";
 
 export default {
   name: "PurchasesView",
-  mixins: [toastMixin, purchaseActionsMixin],
+  mixins: [toastMixin, orderActionsMixin],
   components: { UserCard },
   data() {
     return {
@@ -218,7 +214,7 @@ export default {
     ...mapGetters(["currentAccount", "currency", "basePrice"]),
     getTitle() {
       if (this.servicePurchase.number !== undefined) {
-        return "Purchase " + this.servicePurchase.number;
+        return "Order " + this.servicePurchase.number;
       }
 
       return "";
@@ -228,10 +224,10 @@ export default {
     window.scrollTo(0, 0);
   },
   beforeMount() {
-    this.fetchPurchase();
+    this.fetchOrder();
   },
   methods: {
-    async fetchPurchase() {
+    async fetchOrder() {
       const result = await this.$apollo.query({
         query: queryServicePurchase,
         variables: {
@@ -246,8 +242,8 @@ export default {
         await this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
       }
     },
-    async handleCancelPurchase() {
-      const result = await this.cancelPurchase(
+    async handleAcceptOrder() {
+      const result = await this.acceptOrder(
         this.servicePurchase.id,
         this.servicePurchase.service.title,
         true
@@ -256,11 +252,11 @@ export default {
       if (window._.isObject(result)) {
         this.servicePurchase = result.servicePurchase;
       } else {
-        this.$refs.btnCancel.blur();
+        this.$refs.btnAccept.blur();
       }
     },
-    async handleApprovePurchase() {
-      const result = await this.approvePurchase(
+    async handleDeliverOrder() {
+      const result = await this.deliverOrder(
         this.servicePurchase.id,
         this.servicePurchase.service.title,
         true
@@ -269,7 +265,7 @@ export default {
       if (window._.isObject(result)) {
         this.servicePurchase = result.servicePurchase;
       } else {
-        this.$refs.btnApprove.blur();
+        this.$refs.btnDeliver.blur();
       }
     }
   }
