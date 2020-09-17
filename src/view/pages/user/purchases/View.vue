@@ -30,6 +30,7 @@
                   servicePurchase.accepted && 'label-primary',
                   servicePurchase.delivered && 'label-warning',
                   servicePurchase.approved && 'label-success',
+                  servicePurchase.inDispute && 'label-info',
                   servicePurchase.canceled && 'label-danger'
                 ]"
               >
