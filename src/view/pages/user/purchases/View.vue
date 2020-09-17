@@ -36,6 +36,17 @@
                 {{ servicePurchase.status }}
               </span>
             </div>
+            <div class="card-toolbar">
+              <a href="#" class="btn btn-sm btn-icon btn-light-danger mr-2">
+                <i class="flaticon2-drop"></i>
+              </a>
+              <a href="#" class="btn btn-sm btn-icon btn-light-success mr-2">
+                <i class="flaticon2-gear"></i>
+              </a>
+              <a href="#" class="btn btn-sm btn-icon btn-light-primary">
+                <i class="flaticon2-bell-2"></i>
+              </a>
+            </div>
           </div>
 
           <div class="card-body">

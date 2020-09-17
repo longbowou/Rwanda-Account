@@ -116,16 +116,16 @@ export default {
               params: { id: data.id }
             });
 
-            const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
+            const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-dark btn-square" title="Show"><i class="flaticon-eye"></i></a>`;
             buttons.push(showBtn);
 
             if (data.can_be_accepted) {
-              const acceptBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-accept" title="Accept" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check"></i></button>`;
+              const acceptBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-accept" title="Accept" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check"></i></button>`;
               buttons.push(acceptBtn);
             }
 
             if (data.can_be_delivered) {
-              const deliverBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-deliver" title="Mark as Delivered" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
+              const deliverBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-deliver" title="Mark as Delivered" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
               buttons.push(deliverBtn);
             }
 

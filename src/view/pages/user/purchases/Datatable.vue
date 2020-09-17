@@ -117,16 +117,16 @@ export default {
               params: { id: data.id }
             });
 
-            const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
+            const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-dark btn-square btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
             buttons.push(showBtn);
 
             if (data.can_be_canceled) {
-              const cancelBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-cancel" title="Cancel" data-id="${data.id}" data-title="${data.service_title}"><i class="far fa-times-circle"></i></button>`;
+              const cancelBtn = `<button class="btn btn-sm btn-clean btn-icon btn-hover-icon-danger btn-icon-sm btn-square btn-cancel" title="Cancel" data-id="${data.id}" data-title="${data.service_title}"><i class="far fa-times-circle"></i></button>`;
               buttons.push(cancelBtn);
             }
 
             if (data.can_be_approved) {
-              const approveBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-approve" title="Approve" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
+              const approveBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-square btn-hover-icon-success btn-approve" title="Approve" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
               buttons.push(approveBtn);
             }
 
@@ -153,7 +153,8 @@ export default {
       .on("click", ".btn-cancel", function() {
         $this.cancelPurchase(
           window.$(this)[0].dataset.id,
-          window.$(this)[0].dataset.title
+          window.$(this)[0].dataset.title,
+          window.$(this)[0]
         );
       });
 
@@ -162,12 +163,13 @@ export default {
       .on("click", ".btn-approve", function() {
         $this.approvePurchase(
           window.$(this)[0].dataset.id,
-          window.$(this)[0].dataset.title
+          window.$(this)[0].dataset.title,
+          window.$(this)[0]
         );
       });
   },
   methods: {
-    async cancelPurchase(id, title) {
+    async cancelPurchase(id, title, btn) {
       if (
         confirm("Do you really want to cancel the purchase for " + title + " ?")
       ) {
@@ -185,6 +187,8 @@ export default {
           this.notifySuccess("Purchase canceled successfully.");
           this.datatable.ajax.reload(null, false);
         }
+      } else {
+        btn.blur();
       }
     },
     async approvePurchase(id, title) {
