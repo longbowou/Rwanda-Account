@@ -121,13 +121,13 @@
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import { formMixin, toast } from "@/view/mixins";
+import { formMixin, toastMixin } from "@/view/mixins";
 import { updateAccount } from "@/graphql/account-mutations";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
   name: "personal-information",
-  mixins: [formMixin, toast],
+  mixins: [formMixin, toastMixin],
   data() {
     return {
       input: {}

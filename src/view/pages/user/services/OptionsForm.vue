@@ -92,7 +92,7 @@
 </style>
 
 <script>
-import { formMixin, toast } from "@/view/mixins";
+import { formMixin, toastMixin } from "@/view/mixins";
 import { createService, updateService } from "@/graphql/service-mutations";
 import _ from "lodash";
 import Quill from "quill";
@@ -104,7 +104,7 @@ import {
 
 export default {
   name: "service-form",
-  mixins: [formMixin, toast],
+  mixins: [formMixin, toastMixin],
   props: ["serviceId"],
   data() {
     return {

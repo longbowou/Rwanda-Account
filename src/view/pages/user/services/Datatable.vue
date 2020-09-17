@@ -85,11 +85,11 @@ import { servicesUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
 import { deleteService } from "@/graphql/service-mutations";
-import { toast } from "@/view/mixins";
+import { toastMixin } from "@/view/mixins";
 
 export default {
   name: "user-services",
-  mixins: [toast],
+  mixins: [toastMixin],
   data() {
     return {
       datatable: {}

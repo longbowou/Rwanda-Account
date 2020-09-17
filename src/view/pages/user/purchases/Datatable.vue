@@ -70,16 +70,11 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { servicePurchasesUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
-import {
-  cancelServicePurchase,
-  approveServicePurchase
-} from "@/graphql/purchase-mutations";
-import { toast } from "@/view/mixins";
-import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
+import { purchaseActionsMixin, toastMixin } from "@/view/mixins";
 
 export default {
   name: "user-service-purchases",
-  mixins: [toast],
+  mixins: [toastMixin, purchaseActionsMixin],
   data() {
     return {
       datatable: {}
@@ -121,7 +116,7 @@ export default {
             buttons.push(showBtn);
 
             if (data.can_be_canceled) {
-              const cancelBtn = `<button class="btn btn-sm btn-clean btn-icon btn-hover-icon-danger btn-icon-sm btn-square btn-cancel" title="Cancel" data-id="${data.id}" data-title="${data.service_title}"><i class="far fa-times-circle"></i></button>`;
+              const cancelBtn = `<button class="btn btn-sm btn-clean btn-icon btn-hover-icon-danger btn-icon-sm btn-square btn-cancel" title="Cancel" data-id="${data.id}" data-title="${data.service_title}"><i class="flaticon2-cancel"></i></button>`;
               buttons.push(cancelBtn);
             }
 
@@ -151,7 +146,7 @@ export default {
     window
       .$("#service-purchases-dataTable")
       .on("click", ".btn-cancel", function() {
-        $this.cancelPurchase(
+        $this.handleCancelPurchase(
           window.$(this)[0].dataset.id,
           window.$(this)[0].dataset.title,
           window.$(this)[0]
@@ -161,7 +156,7 @@ export default {
     window
       .$("#service-purchases-dataTable")
       .on("click", ".btn-approve", function() {
-        $this.approvePurchase(
+        $this.handleApprovePurchase(
           window.$(this)[0].dataset.id,
           window.$(this)[0].dataset.title,
           window.$(this)[0]
@@ -169,48 +164,20 @@ export default {
       });
   },
   methods: {
-    async cancelPurchase(id, title, btn) {
-      if (
-        confirm("Do you really want to cancel the purchase for " + title + " ?")
-      ) {
-        let result = await this.$apollo.mutate({
-          mutation: cancelServicePurchase,
-          variables: {
-            input: { id: id }
-          }
-        });
+    async handleCancelPurchase(id, title, btn) {
+      const result = await this.cancelPurchase(id, title);
 
-        if (window._.isEmpty(result.data.cancelServicePurchase.errors)) {
-          await this.$store.dispatch(UPDATE_USER, {
-            account: result.data.cancelServicePurchase.servicePurchase.account
-          });
-          this.notifySuccess("Purchase canceled successfully.");
-          this.datatable.ajax.reload(null, false);
-        }
+      if (window._.isObject(result)) {
+        this.datatable.ajax.reload(null, false);
       } else {
         btn.blur();
       }
     },
-    async approvePurchase(id, title, btn) {
-      if (
-        confirm(
-          "Do you really want to approve the purchase for " + title + " ?"
-        )
-      ) {
-        let result = await this.$apollo.mutate({
-          mutation: approveServicePurchase,
-          variables: {
-            input: { id: id }
-          }
-        });
+    async handleApprovePurchase(id, title, btn) {
+      const result = await this.approvePurchase(id, title);
 
-        if (window._.isEmpty(result.data.approveServicePurchase.errors)) {
-          await this.$store.dispatch(UPDATE_USER, {
-            account: result.data.approveServicePurchase.servicePurchase.account
-          });
-          this.notifySuccess("Purchase approved successfully.");
-          this.datatable.ajax.reload(null, false);
-        }
+      if (window._.isObject(result)) {
+        this.datatable.ajax.reload(null, false);
       } else {
         btn.blur();
       }

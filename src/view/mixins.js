@@ -1,4 +1,12 @@
 import $ from "jquery";
+import {
+  approveServicePurchase,
+  approveServicePurchaseFullFields,
+  cancelServicePurchase,
+  cancelServicePurchaseFullFields
+} from "@/graphql/purchase-mutations";
+import store from "@/core/services/store/index";
+import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export const formMixin = {
   data() {
@@ -30,7 +38,7 @@ export const formMixin = {
   }
 };
 
-export const toast = {
+export const toastMixin = {
   data() {
     return {
       settings: {
@@ -114,6 +122,64 @@ export const toast = {
       }
 
       $.notify(content, this.settings);
+    }
+  }
+};
+
+export const purchaseActionsMixin = {
+  mixins: [toastMixin],
+  methods: {
+    async cancelPurchase(id, title, fetchFullFields = false) {
+      if (
+        confirm("Do you really want to cancel the purchase for " + title + " ?")
+      ) {
+        let mutation = cancelServicePurchase;
+        if (fetchFullFields) {
+          mutation = cancelServicePurchaseFullFields;
+        }
+
+        let result = await this.$apollo.mutate({
+          mutation: mutation,
+          variables: {
+            input: { id: id }
+          }
+        });
+
+        if (window._.isEmpty(result.data.cancelServicePurchase.errors)) {
+          await store.dispatch(UPDATE_USER, {
+            account: result.data.cancelServicePurchase.servicePurchase.account
+          });
+          this.notifySuccess("Purchase canceled successfully.");
+          return result.data.cancelServicePurchase;
+        }
+      }
+    },
+    async approvePurchase(id, title, fetchFullFields = false) {
+      if (
+        confirm(
+          "Do you really want to approve the purchase for " + title + " ?"
+        )
+      ) {
+        let mutation = approveServicePurchase;
+        if (fetchFullFields) {
+          mutation = approveServicePurchaseFullFields;
+        }
+
+        let result = await this.$apollo.mutate({
+          mutation: mutation,
+          variables: {
+            input: { id: id }
+          }
+        });
+
+        if (window._.isEmpty(result.data.approveServicePurchase.errors)) {
+          await store.dispatch(UPDATE_USER, {
+            account: result.data.approveServicePurchase.servicePurchase.account
+          });
+          this.notifySuccess("Purchase approved successfully.");
+          return result.data.approveServicePurchase;
+        }
+      }
     }
   }
 };

@@ -26,25 +26,48 @@
               <span
                 :class="[
                   'ml-3 label label-xl font-weight-bold label-inline label-square',
-                  servicePurchase.initiated && 'label-light-dark',
-                  servicePurchase.accepted && 'label-light-primary',
-                  servicePurchase.delivered && 'label-light-warning',
-                  servicePurchase.approved && 'label-light-success',
-                  servicePurchase.canceled && 'label-light-danger'
+                  servicePurchase.initiated && 'label-dark',
+                  servicePurchase.accepted && 'label-primary',
+                  servicePurchase.delivered && 'label-warning',
+                  servicePurchase.approved && 'label-success',
+                  servicePurchase.canceled && 'label-danger'
                 ]"
               >
                 {{ servicePurchase.status }}
               </span>
+
+              <i
+                v-if="servicePurchase.approved"
+                class="ml-2 icon-lg text-success flaticon2-correct"
+              />
             </div>
             <div class="card-toolbar">
-              <a href="#" class="btn btn-sm btn-icon btn-light-danger mr-2">
-                <i class="flaticon2-drop"></i>
-              </a>
-              <a href="#" class="btn btn-sm btn-icon btn-light-success mr-2">
-                <i class="flaticon2-gear"></i>
-              </a>
-              <a href="#" class="btn btn-sm btn-icon btn-light-primary">
-                <i class="flaticon2-bell-2"></i>
+              <button
+                ref="btnCancel"
+                @click="handleCancelPurchase"
+                v-if="servicePurchase.canBeCanceled"
+                title="Cancel"
+                class="btn btn-lg btn-icon btn-light-danger mr-2"
+              >
+                <i class="flaticon2-cancel"></i>
+              </button>
+
+              <button
+                ref="btnApprove"
+                @click="handleApprovePurchase"
+                v-if="servicePurchase.canBeApproved"
+                title="Approve"
+                class="btn btn-lg btn-icon btn-light-success mr-2"
+              >
+                <i class="fas fa-check-double"></i>
+              </button>
+
+              <a
+                href="javascript:void(0);"
+                title="Chat with the Seller"
+                class="btn btn-lg btn-icon btn-light-primary"
+              >
+                <i class="flaticon2-chat-1"></i>
               </a>
             </div>
           </div>
@@ -82,13 +105,7 @@
                 </h5>
                 <p class="font-weight-boldest text-success">
                   Paid with Wallet <br />
-                  <span
-                    class="svg-icon svg-icon-lg svg-icon-2x svg-icon-success"
-                  >
-                    <!--begin::Svg Icon-->
-                    <inline-svg src="media/svg/icons/Code/Done-circle.svg" />
-                    <!--end::Svg Icon-->
-                  </span>
+                  <i class="ml-2 icon-lg text-success flaticon2-correct" />
                 </p>
               </div>
             </div>
@@ -201,12 +218,12 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
-import { toast } from "@/view/mixins";
+import { purchaseActionsMixin, toastMixin } from "@/view/mixins";
 import { queryServicePurchase } from "@/graphql/purchase-queries";
 
 export default {
   name: "user-service-purchases-view",
-  mixins: [toast],
+  mixins: [toastMixin, purchaseActionsMixin],
   data() {
     return {
       servicePurchase: {}
@@ -240,6 +257,32 @@ export default {
 
         await this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
         await this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
+      }
+    },
+    async handleCancelPurchase() {
+      const result = await this.cancelPurchase(
+        this.servicePurchase.id,
+        this.servicePurchase.service.title,
+        true
+      );
+
+      if (window._.isObject(result)) {
+        this.servicePurchase = result.servicePurchase;
+      } else {
+        this.$refs.btnCancel.blur();
+      }
+    },
+    async handleApprovePurchase() {
+      const result = await this.approvePurchase(
+        this.servicePurchase.id,
+        this.servicePurchase.service.title,
+        true
+      );
+
+      if (window._.isObject(result)) {
+        this.servicePurchase = result.servicePurchase;
+      } else {
+        this.$refs.btnApprove.blur();
       }
     }
   }

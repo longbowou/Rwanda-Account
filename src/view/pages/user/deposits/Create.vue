@@ -107,13 +107,13 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
-import { formMixin, toast } from "@/view/mixins";
+import { formMixin, toastMixin } from "@/view/mixins";
 import { createDeposit } from "@/graphql/account-mutations";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
   name: "deposits-create",
-  mixins: [formMixin, toast],
+  mixins: [formMixin, toastMixin],
   data() {
     return {
       input: {

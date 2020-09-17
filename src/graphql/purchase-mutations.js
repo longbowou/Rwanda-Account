@@ -1,6 +1,7 @@
 import gql from "graphql-tag";
 import { errorFields } from "@/graphql/Fragments/global";
 import { accountFields } from "@/graphql/Fragments/account";
+import { servicePurchaseFields } from "@/graphql/Fragments/purchase";
 
 export const initServicePurchase = gql`
   mutation($input: InitServicePurchaseInput!) {
@@ -34,6 +35,25 @@ export const cancelServicePurchase = gql`
   }
   ${errorFields}
   ${accountFields}
+`;
+
+export const cancelServicePurchaseFullFields = gql`
+  mutation($input: CancelServicePurchaseInput!) {
+    cancelServicePurchase(input: $input) {
+      errors {
+        ...errorFields
+      }
+      servicePurchase {
+        ...servicePurchaseFields
+        account {
+          ...accountFields
+        }
+      }
+    }
+  }
+  ${errorFields}
+  ${accountFields}
+  ${servicePurchaseFields}
 `;
 
 export const acceptServicePurchase = gql`
@@ -73,4 +93,23 @@ export const approveServicePurchase = gql`
   }
   ${errorFields}
   ${accountFields}
+`;
+
+export const approveServicePurchaseFullFields = gql`
+  mutation($input: ApproveServicePurchaseInput!) {
+    approveServicePurchase(input: $input) {
+      errors {
+        ...errorFields
+      }
+      servicePurchase {
+        ...servicePurchaseFields
+        account {
+          ...accountFields
+        }
+      }
+    }
+  }
+  ${errorFields}
+  ${accountFields}
+  ${servicePurchaseFields}
 `;

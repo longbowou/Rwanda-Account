@@ -285,12 +285,12 @@ import { queryServiceOrderPreview } from "@/graphql/service-queries";
 import { mapGetters } from "vuex";
 import { initServicePurchase } from "@/graphql/purchase-mutations";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
-import { toast } from "@/view/mixins";
+import { toastMixin } from "@/view/mixins";
 
 export default {
   name: "service-order",
   props: ["serviceOptions"],
-  mixins: [toast],
+  mixins: [toastMixin],
   components: {},
   data() {
     return {

@@ -74,11 +74,11 @@ import {
   acceptServicePurchase,
   deliverServicePurchase
 } from "@/graphql/purchase-mutations";
-import { toast } from "@/view/mixins";
+import { toastMixin } from "@/view/mixins";
 
 export default {
   name: "user-service-purchases",
-  mixins: [toast],
+  mixins: [toastMixin],
   data() {
     return {
       datatable: {}
