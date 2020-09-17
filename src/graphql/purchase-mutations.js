@@ -46,3 +46,14 @@ export const acceptServicePurchase = gql`
   }
   ${errorFields}
 `;
+
+export const deliverServicePurchase = gql`
+  mutation($input: DeliverServicePurchaseInput!) {
+    deliverServicePurchase(input: $input) {
+      errors {
+        ...errorFields
+      }
+    }
+  }
+  ${errorFields}
+`;

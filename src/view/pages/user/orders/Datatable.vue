@@ -11,7 +11,7 @@
                 class="svg-icon svg-icon-lg svg-icon-3x svg-icon-primary mr-3"
               >
                 <!--begin::Svg Icon-->
-                <inline-svg src="media/svg/icons/Shopping/Cart1.svg" />
+                <inline-svg src="media/svg/icons/Shopping/Bag2.svg" />
                 <!--end::Svg Icon-->
               </span>
               <h3 class="card-label">Orders</h3>
@@ -70,7 +70,10 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { serviceOrdersUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
-import { acceptServicePurchase } from "@/graphql/purchase-mutations";
+import {
+  acceptServicePurchase,
+  deliverServicePurchase
+} from "@/graphql/purchase-mutations";
 import { toast } from "@/view/mixins";
 
 export default {
@@ -121,6 +124,11 @@ export default {
               buttons.push(acceptBtn);
             }
 
+            if (data.can_be_delivered) {
+              const deliveredBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-deliver" title="Mark as Delivered" data-id="${data.id}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
+              buttons.push(deliveredBtn);
+            }
+
             return buttons.join("");
           }
         }
@@ -147,10 +155,21 @@ export default {
           window.$(this)[0].dataset.title
         );
       });
+
+    window
+      .$("#service-orders-dataTable")
+      .on("click", ".btn-deliver", function() {
+        $this.deliverOrder(
+          window.$(this)[0].dataset.id,
+          window.$(this)[0].dataset.title
+        );
+      });
   },
   methods: {
     async acceptOrder(id, title) {
-      if (confirm("Do you really want to accept order for " + title + " ?")) {
+      if (
+        confirm("Do you really want to accept the order for " + title + " ?")
+      ) {
         let result = await this.$apollo.mutate({
           mutation: acceptServicePurchase,
           variables: {
@@ -160,6 +179,25 @@ export default {
 
         if (window._.isEmpty(result.data.acceptServicePurchase.errors)) {
           this.notifySuccess("Purchase accepted successfully.");
+          this.datatable.ajax.reload(null, false);
+        }
+      }
+    },
+    async deliverOrder(id, title) {
+      if (
+        confirm(
+          "Do you really want to mark as deliver the order for " + title + " ?"
+        )
+      ) {
+        let result = await this.$apollo.mutate({
+          mutation: deliverServicePurchase,
+          variables: {
+            input: { id: id }
+          }
+        });
+
+        if (window._.isEmpty(result.data.deliverServicePurchase.errors)) {
+          this.notifySuccess("Purchase mark as delivered successfully.");
           this.datatable.ajax.reload(null, false);
         }
       }
