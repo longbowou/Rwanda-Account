@@ -13,7 +13,10 @@
         autocomplete="off"
       />
       <b-form-invalid-feedback id="input-live-feedback">
-        <p :key="message" v-for="message of errorMessages('title')">
+        <p
+          :key="message"
+          v-for="message of errorMessages('serviceoptionSet{label}')"
+        >
           {{ message }}
         </p>
       </b-form-invalid-feedback>
@@ -97,10 +100,12 @@ import { createService, updateService } from "@/graphql/service-mutations";
 import _ from "lodash";
 import Quill from "quill";
 import "select2";
+import "@yaireo/tagify/dist/jQuery.tagify.min";
 import {
   queryService,
   queryServiceCategories
 } from "@/graphql/service-queries";
+import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
 export default {
   name: "service-form",
@@ -111,6 +116,7 @@ export default {
       service: {},
       input: {},
       serviceCategories: [],
+      contentHtml: "",
       contentQuill: {},
       serviceCategorySelect2: {},
       keywordsTagify: {}
@@ -175,6 +181,16 @@ export default {
         return;
       }
 
+      if (this.creating) {
+        await this.$store.dispatch(UPDATE_USER, {
+          account: result.data.createService.service.account
+        });
+      } else {
+        await this.$store.dispatch(UPDATE_USER, {
+          account: result.data.updateService.service.account
+        });
+      }
+
       submitButton.removeClass("spinner spinner-light spinner-right");
 
       await this.$router.push({
@@ -203,7 +219,7 @@ export default {
 
           this.input.id = this.service.id;
           this.input.title = this.service.title;
-          this.input.content = this.service.content;
+          this.contentHtml = this.service.content;
           this.input.serviceCategory = this.service.serviceCategory.id;
           this.input.delay = this.service.delay;
           this.input.keywords = this.service.keywords;
@@ -223,6 +239,11 @@ export default {
         },
         placeholder: "Content",
         theme: "snow"
+      });
+
+      this.keywordsTagify = window.$("#keywords").tagify({
+        originalInputValueFormat: valuesArr =>
+          valuesArr.map(item => item.value).join(",")
       });
     }
   },

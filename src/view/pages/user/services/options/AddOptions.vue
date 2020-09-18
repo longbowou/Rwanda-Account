@@ -12,7 +12,7 @@
                 <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Add Options to the service</h3>
+              <h3 class="card-label">Add Option to the service</h3>
             </div>
           </div>
           <div class="card-body">
@@ -36,7 +36,7 @@ import "select2";
 import ServiceForm from "@/view/pages/user/services/ServiceForm";
 
 export default {
-  name: "user-services-create",
+  name: "user-services-add-option",
   components: { ServiceForm },
   mixins: [formMixin, toast],
   data() {
@@ -44,8 +44,8 @@ export default {
   },
   computed: {},
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Add a Service" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Add a Service");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Add a Service Option" }]);
+    this.$store.dispatch(SET_HEAD_TITLE, "Add a Service Option");
   },
   methods: {}
 };
