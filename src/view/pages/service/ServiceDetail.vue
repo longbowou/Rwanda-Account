@@ -42,7 +42,7 @@
             >
           </h3>
           <small class="font-weight-bold text-dark-50"
-            >{{ service.delay }} delivery
+            >{{ service.delayDisplay }} delivery
           </small>
 
           <p>Basic service without options</p>

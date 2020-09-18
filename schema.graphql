@@ -239,6 +239,7 @@ type DeliverableType {
     title: String!
     updatedAt: DateTime!
     version: String!
+    versionDisplay: String!
 }
 
 type DeliverableVersionType {
@@ -456,7 +457,8 @@ type ServiceType {
     activated: Boolean!
     content: String!
     createdAt: DateTime!
-    delay: String!
+    delay: Int!
+    delayDisplay: String!
     id: UUID!
     keywords: String
     published: Boolean!

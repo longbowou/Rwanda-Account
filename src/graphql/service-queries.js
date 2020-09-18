@@ -33,6 +33,7 @@ export const queryService = gql`
       title
       content
       delay
+      delayDisplay
       keywords
       published
       stars
