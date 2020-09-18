@@ -25,6 +25,7 @@ type AccountMutation {
     changeAccountPassword(input: ChangeAccountPasswordInput!): ChangeAccountPassword
     createAccount(input: AccountInput!): CreateAccount
     createAdmin(input: AdminInput!): CreateAdmin
+    createDeliverable(input: CreateDeliverableInput!): CreateDeliverable
     createDeposit(input: CreateDepositInput!): CreateDeposit
     createLitigation(input: CreateLitigationInput!): CreateLitigation
     createRefund(input: CreateRefundInput!): CreateRefund
@@ -34,6 +35,7 @@ type AccountMutation {
     createServiceMedia(input: CreateServiceMediaInput!): CreateServiceMedia
     createServiceOption(input: CreateServiceOptionInput!): CreateServiceOption
     deleteAdmin(id: UUID!): DeleteAdmin
+    deleteDeliverable(id: UUID!): DeleteDeliverable
     deleteService(id: UUID!): DeleteService
     deleteServiceCategory(id: UUID!): DeleteServiceCategory
     deleteServiceComment(id: UUID!): DeleteServiceComment
@@ -48,6 +50,7 @@ type AccountMutation {
     revokeToken(refreshToken: String): Revoke
     updateAccount(input: UpdateAccountInput!): UpdateAccount
     updateAdmin(input: AdminUpdateInput!): UpdateAdmin
+    updateDeliverable(input: UpdateDeliverableInput!): UpdateDeliverable
     updateService(input: UpdateServiceInput!): UpdateService
     updateServiceCategory(input: UpdateServiceCategoryInput!): UpdateServiceCategory
     updateServiceComment(input: UpdateServiceCommentInput!): UpdateServiceComment
@@ -58,6 +61,8 @@ type AccountMutation {
 
 type AccountQuery {
     account: AccountType!
+    deliverable(id: UUID!): DeliverableType!
+    deliverableVersions: [DeliverableVersionType!]!
     litigation(id: UUID!): LitigationType!
     parameters: ParametersType!
     service(id: UUID!): ServiceType!
@@ -147,6 +152,11 @@ type CreateAdmin {
     errors: [ErrorType]
 }
 
+type CreateDeliverable {
+    deliverable: DeliverableType
+    errors: [ErrorType]
+}
+
 type CreateDeposit {
     deposit: DepositType
     errors: [ErrorType]
@@ -191,6 +201,10 @@ type DeleteAdmin {
     errors: [ErrorType]
 }
 
+type DeleteDeliverable {
+    errors: [ErrorType]
+}
+
 type DeleteService {
     errors: [ErrorType]
 }
@@ -214,6 +228,22 @@ type DeleteServiceOption {
 type DeliverServicePurchase {
     errors: [ErrorType]
     servicePurchase: ServicePurchaseType
+}
+
+type DeliverableType {
+    createdAt: DateTime!
+    description: String!
+    id: UUID!
+    published: Boolean!
+    servicePurchase: ServicePurchaseType!
+    title: String!
+    updatedAt: DateTime!
+    version: String!
+}
+
+type DeliverableVersionType {
+    label: String!
+    value: String!
 }
 
 type DepositType {
@@ -401,6 +431,7 @@ type ServicePurchaseType {
     commission: Int!
     createdAt: DateTime!
     delay: String!
+    deliverableSet: [DeliverableType!]!
     delivered: Boolean!
     deliveredAt: DateTime
     id: UUID!
@@ -446,6 +477,11 @@ type UpdateAccount {
 
 type UpdateAdmin {
     admin: AdminType
+    errors: [ErrorType]
+}
+
+type UpdateDeliverable {
+    deliverable: DeliverableType
     errors: [ErrorType]
 }
 
@@ -532,6 +568,13 @@ input ChangeAccountPasswordInput {
     currentPassword: String!
     password: String!
     passwordConfirmation: String!
+}
+
+input CreateDeliverableInput {
+    description: String!
+    servicePurchase: ID!
+    title: String!
+    version: String!
 }
 
 input CreateDepositInput {
@@ -628,6 +671,14 @@ input UpdateAccountInput {
     firstName: String
     lastName: String
     username: String
+}
+
+input UpdateDeliverableInput {
+    description: String
+    id: UUID!
+    published: Boolean
+    title: String
+    version: String
 }
 
 input UpdateServiceCategoryInput {

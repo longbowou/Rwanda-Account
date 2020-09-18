@@ -45,5 +45,4 @@ export const deleteService = gql`
     }
   }
   ${errorFields}
-  ${accountFields}
 `;

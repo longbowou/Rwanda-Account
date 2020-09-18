@@ -111,6 +111,19 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
+          path: "/user/orders/:id/deliverables/create",
+          name: "order-deliverables-create",
+          component: () =>
+            import("@/view/pages/user/orders/deliverables/Create"),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: "/user/orders/:id/deliverables/:idDeliverable",
+          name: "order-deliverables-edit",
+          component: () => import("@/view/pages/user/orders/deliverables/Edit"),
+          meta: { requiresAuth: true }
+        },
+        {
           path: "/profile",
           redirect: "/profile-overview",
           component: () => import("@/view/pages/user/profile/Layout"),

@@ -134,12 +134,12 @@ export default {
     }
   },
   beforeMount() {
-    if (this.serviceId !== undefined) {
+    if (this.updating) {
       this.fetchService();
     }
   },
   mounted() {
-    if (this.serviceId === undefined) {
+    if (this.creating) {
       this.initPlugins();
     }
   },
@@ -148,7 +148,7 @@ export default {
       evt.preventDefault();
 
       const submitButton = window.$("#btn_submit");
-      submitButton.addClass("spinner spinner-light spinner-right");
+      submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
       this.input.content = this.contentQuill.root.innerHTML;
@@ -173,7 +173,9 @@ export default {
         this.errors = result.data.updateService.errors;
       }
       if (!window._.isEmpty(this.errors)) {
-        submitButton.removeClass("spinner spinner-light spinner-right");
+        submitButton.removeClass(
+          "disabled spinner spinner-light spinner-right"
+        );
         return;
       }
 
@@ -187,7 +189,7 @@ export default {
         });
       }
 
-      submitButton.removeClass("spinner spinner-light spinner-right");
+      submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
       await this.$router.push({
         name: "user-services"
@@ -201,29 +203,27 @@ export default {
       return this.notifySuccess(message);
     },
     async fetchService() {
-      if (this.serviceId !== undefined) {
-        let result = await this.$apollo.query({
-          query: queryService,
-          variables: {
-            id: this.serviceId
-          },
-          fetchPolicy: "no-cache"
-        });
+      let result = await this.$apollo.query({
+        query: queryService,
+        variables: {
+          id: this.serviceId
+        },
+        fetchPolicy: "no-cache"
+      });
 
-        if (window._.isEmpty(result.errors)) {
-          this.service = result.data.service;
+      if (window._.isEmpty(result.errors)) {
+        this.service = result.data.service;
 
-          this.input.id = this.service.id;
-          this.input.title = this.service.title;
-          this.contentHtml = this.service.content;
-          this.input.serviceCategory = this.service.serviceCategory.id;
-          this.input.delay = this.service.delay;
-          this.input.keywords = this.service.keywords;
-          this.input.published = this.service.published;
+        this.input.id = this.service.id;
+        this.input.title = this.service.title;
+        this.contentHtml = this.service.content;
+        this.input.serviceCategory = this.service.serviceCategory.id;
+        this.input.delay = this.service.delay;
+        this.input.keywords = this.service.keywords;
+        this.input.published = this.service.published;
 
-          await this.$forceUpdate();
-          this.initPlugins();
-        }
+        await this.$forceUpdate();
+        this.initPlugins();
       }
     },
     initPlugins() {

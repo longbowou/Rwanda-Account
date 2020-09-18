@@ -13,7 +13,7 @@
       <div class="card-toolbar">
         <router-link
           v-if="servicePurchase.canAddDeliverable"
-          :to="{ name: 'user-services-create' }"
+          :to="{ name: 'order-deliverables-create' }"
           v-slot="{ href, navigate, isActive, isExactActive }"
         >
           <a
@@ -107,8 +107,8 @@ export default {
             buttons.push(showBtn);
 
             const editRouter = $this.$router.resolve({
-              name: "orders-view",
-              params: { id: data.id }
+              name: "order-deliverables-edit",
+              params: { id: data.service_purchase, idDeliverable: data.id }
             });
 
             const editBtn = `<a href="${editRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-success btn-square btn-icon-sm" title="Edit"><i class="fa fa-edit"></i></a>`;
