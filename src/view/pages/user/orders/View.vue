@@ -118,10 +118,8 @@
           </div>
         </div>
         <!--end::Card-->
-
-        <order-deliverables :service-purchase="servicePurchase" />
+        <router-view />
       </div>
-
       <div class="col-sm-4">
         <div class="card card-custom shadow-sm mb-5">
           <div class="card-header">
@@ -200,14 +198,13 @@ import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
 import { orderActionsMixin, toastMixin } from "@/view/mixins";
-import { queryServicePurchase } from "@/graphql/order-queries";
+import { queryOrder } from "@/graphql/order-queries";
 import UserCard from "@/view/pages/UserCard";
-import OrderDeliverables from "@/view/pages/user/orders/deliverables/Datatable";
 
 export default {
   name: "PurchasesView",
   mixins: [toastMixin, orderActionsMixin],
-  components: { UserCard, OrderDeliverables },
+  components: { UserCard },
   data() {
     return {
       servicePurchase: {}
@@ -232,7 +229,7 @@ export default {
   methods: {
     async fetchOrder() {
       const result = await this.$apollo.query({
-        query: queryServicePurchase,
+        query: queryOrder,
         variables: {
           id: this.$route.params.id
         }

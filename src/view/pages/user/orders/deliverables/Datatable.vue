@@ -12,7 +12,7 @@
 
       <div class="card-toolbar">
         <router-link
-          v-if="servicePurchase.canAddDeliverable"
+          v-if="canAddDeliverable"
           :to="{ name: 'order-deliverables-create' }"
           v-slot="{ href, navigate, isActive, isExactActive }"
         >
@@ -72,16 +72,21 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { deliverablesUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
+import { queryOrder } from "@/graphql/order-queries";
 
 export default {
   name: "OrderDeliverables",
-  props: ["servicePurchase"],
   data() {
     return {
+      servicePurchase: {},
       datatable: {}
     };
   },
-  computed: {},
+  computed: {
+    canAddDeliverable() {
+      return this.servicePurchase.canAddDeliverable;
+    }
+  },
   mounted() {
     const $this = this;
     this.datatable = window.$("#order-deliverables-dataTable").DataTable({
@@ -127,7 +132,7 @@ export default {
       serverSide: true,
       stateSave: true,
       ajax: {
-        url: deliverablesUrl.replace(":pk", this.servicePurchase.id),
+        url: deliverablesUrl.replace(":pk", this.$route.params.id),
         headers: {
           "Accept-Language": i18nService.getActiveLanguage(),
           Authorization: "JWT " + JwtService.getAuth().token
@@ -141,7 +146,9 @@ export default {
         $this.handleAcceptOrder(window.$(this)[0]);
       });
   },
-  beforeMount() {},
+  beforeMount() {
+    this.fetchOrder();
+  },
   methods: {
     async handleDeliverOrder(btn) {
       const title =
@@ -156,6 +163,18 @@ export default {
         this.datatable.ajax.reload(null, false);
       } else {
         btn.blur();
+      }
+    },
+    async fetchOrder() {
+      const result = await this.$apollo.query({
+        query: queryOrder,
+        variables: {
+          id: this.$route.params.id
+        }
+      });
+
+      if (window._.isEmpty(result.errors)) {
+        this.servicePurchase = result.data.servicePurchase;
       }
     }
   }

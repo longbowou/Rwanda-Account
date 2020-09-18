@@ -106,22 +106,31 @@ export default new Router({
         },
         {
           path: "/user/orders/:id",
-          name: "orders-view",
           component: () => import("@/view/pages/user/orders/View"),
-          meta: { requiresAuth: true }
-        },
-        {
-          path: "/user/orders/:id/deliverables/create",
-          name: "order-deliverables-create",
-          component: () =>
-            import("@/view/pages/user/orders/deliverables/Create"),
-          meta: { requiresAuth: true }
-        },
-        {
-          path: "/user/orders/:id/deliverables/:idDeliverable",
-          name: "order-deliverables-edit",
-          component: () => import("@/view/pages/user/orders/deliverables/Edit"),
-          meta: { requiresAuth: true }
+          meta: { requiresAuth: true },
+          children: [
+            {
+              path: "/user/orders/:id",
+              name: "orders-view",
+              component: () =>
+                import("@/view/pages/user/orders/deliverables/Datatable"),
+              meta: { requiresAuth: true }
+            },
+            {
+              path: "/user/orders/:id/deliverables/create",
+              name: "order-deliverables-create",
+              component: () =>
+                import("@/view/pages/user/orders/deliverables/Create"),
+              meta: { requiresAuth: true }
+            },
+            {
+              path: "/user/orders/:id/deliverables/:idDeliverable",
+              name: "order-deliverables-edit",
+              component: () =>
+                import("@/view/pages/user/orders/deliverables/Edit"),
+              meta: { requiresAuth: true }
+            }
+          ]
         },
         {
           path: "/profile",
