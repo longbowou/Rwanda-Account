@@ -18,10 +18,6 @@ export const orderFields = gql`
     service {
       id
       title
-      account {
-        id
-        fullName
-      }
     }
     serviceOptions {
       id

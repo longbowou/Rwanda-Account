@@ -179,7 +179,7 @@
           </div>
         </div>
 
-        <user-card :user="servicePurchase.service.account" />
+        <user-card :user="servicePurchase.account" />
       </div>
     </div>
     <!--end::Dashboard-->
