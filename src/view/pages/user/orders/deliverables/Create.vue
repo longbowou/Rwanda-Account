@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
-import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
+// import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
+// import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import DeliverableForm from "@/view/pages/user/orders/deliverables/DeliverableForm";
 import { queryOrder } from "@/graphql/order-queries";
 
@@ -49,8 +49,8 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
-    this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
+    // this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
+    // this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
   },
   beforeMount() {
     this.fetchOrder();

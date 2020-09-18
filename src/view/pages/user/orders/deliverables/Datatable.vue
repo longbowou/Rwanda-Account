@@ -73,9 +73,12 @@ import { deliverablesUrl } from "@/core/datatables/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
 import { queryOrder } from "@/graphql/order-queries";
+import { deleteDeliverable } from "@/graphql/deliverable-mutations";
+import { toastMixin } from "@/view/mixins";
 
 export default {
   name: "OrderDeliverables",
+  mixins: [toastMixin],
   data() {
     return {
       servicePurchase: {},
@@ -142,25 +145,31 @@ export default {
 
     window
       .$("#order-deliverables-dataTable")
-      .on("click", ".btn-accept", function() {
-        $this.handleAcceptOrder(window.$(this)[0]);
+      .on("click", ".btn-delete", function() {
+        $this.deleteDeliverable(window.$(this)[0]);
       });
   },
   beforeMount() {
     this.fetchOrder();
   },
   methods: {
-    async handleDeliverOrder(btn) {
+    async deleteDeliverable(btn) {
       const title =
-        "Do you really want to mark as deliver the order " +
-        btn.dataset.number +
-        " for " +
+        "Do you really want to delete the deliverable " +
         btn.dataset.title +
         " ?";
-      const result = await this.deliverOrder(btn.dataset.id, title);
+      if (confirm(title)) {
+        let result = await this.$apollo.mutate({
+          mutation: deleteDeliverable,
+          variables: {
+            id: btn.dataset.id
+          }
+        });
 
-      if (window._.isObject(result)) {
-        this.datatable.ajax.reload(null, false);
+        if (window._.isEmpty(result.data.deleteDeliverable.errors)) {
+          this.notifySuccess("Service deleted successfully.");
+          this.datatable.ajax.reload(null, false);
+        }
       } else {
         btn.blur();
       }

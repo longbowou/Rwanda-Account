@@ -9,7 +9,6 @@
         class="form-control form-control-lg form-control-solid"
         type="text"
         placeholder="Title"
-        min="0"
         autocomplete="off"
       />
       <b-form-invalid-feedback id="input-live-feedback">
@@ -21,7 +20,7 @@
 
     <div class="form-group">
       <label class="col-sm-12 col-form-label font-weight-bold">Content</label>
-      <div id="content" style="height: 325px" v-html="contentHtml"></div>
+      <div id="content" style="height: 200px" v-html="contentHtml"></div>
     </div>
 
     <div class="form-group">

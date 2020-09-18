@@ -9,7 +9,6 @@
         class="form-control form-control-lg form-control-solid"
         type="text"
         placeholder="Title"
-        min="0"
         autocomplete="off"
       />
       <b-form-invalid-feedback id="input-live-feedback">
@@ -34,7 +33,7 @@
       <label class="col-sm-12 col-form-label font-weight-bold"
         >Description</label
       >
-      <div id="content" style="height: 325px" v-html="contentHtml"></div>
+      <div id="content" style="height: 200px" v-html="contentHtml"></div>
     </div>
 
     <div class="form-group" v-if="updating">
@@ -124,7 +123,7 @@ export default {
       evt.preventDefault();
 
       const submitButton = window.$("#btn_submit");
-      submitButton.addClass("spinner spinner-light spinner-right");
+      submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
       this.input.description = this.contentQuill.root.innerHTML;
