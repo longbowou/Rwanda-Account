@@ -124,7 +124,7 @@ export default new Router({
               meta: { requiresAuth: true }
             },
             {
-              path: "/user/orders/:id/deliverables/:idDeliverable",
+              path: "/user/orders/:id/deliverables/:deliverableId",
               name: "order-deliverables-edit",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Edit"),

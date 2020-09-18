@@ -21,34 +21,73 @@
     </div>
     <div class="card-body pt-3">
       <div class="row justify-content-center">
-        <deliverable-form :deliverable-id="$route.params.idDeliverable" />
+        <deliverable-form />
       </div>
 
       <div>
         <hr class="mt-5" />
+
+        <div class="d-flex flex-wrap align-items-center mb-10">
+          <!--begin::Symbol-->
+
+          <div class="symbol symbol-60 symbol-2by3 flex-shrink-0">
+            <div
+              class="symbol-label"
+              style="background-image: url('assets/media/stock-600x400/img-20.jpg')"
+            ></div>
+          </div>
+          <!--end::Symbol-->
+
+          <!--begin::Title-->
+          <div class="d-flex flex-column ml-4 flex-grow-1 mr-2">
+            <a
+              href="#"
+              class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1"
+              >Cup &amp; Green</a
+            >
+            <span class="text-muted font-weight-bold">Size: 87KB</span>
+          </div>
+          <!--end::Title-->
+
+          <!--begin::btn-->
+          <span
+            class="label label-lg label-light-primary label-inline mt-lg-0 mb-lg-0 my-2 font-weight-bold py-4"
+            >Approved</span
+          >
+          <!--end::Btn-->
+        </div>
+
+        <hr />
 
         <div class="form-group row">
           <label class="col-lg-3 col-form-label text-lg-right"
             >Upload Files:</label
           >
           <div class="col-lg-9">
-            <div class="dropzone dropzone-multi" id="kt_dropzone_5">
+            <div class="dropzone dropzone-multi" id="file-upload-dropzone">
               <div class="dropzone-panel mb-lg-0 mb-2">
                 <a
                   class="dropzone-select btn btn-light-primary font-weight-bold btn-sm"
-                  >Attach files</a
-                >
+                  >Attach files
+                </a>
               </div>
 
               <div class="dropzone-items">
-                <div class="dropzone-item" style="display:none">
+                <div class="dropzone-item" style="">
                   <div class="dropzone-file">
                     <div
                       class="dropzone-filename"
                       title="some_image_file_name.jpg"
                     >
-                      <span data-dz-name>some_image_file_name.jpg</span>
+                      <span data-dz-name class="mr-2"
+                        >some_image_file_name.jpg</span
+                      >
                       <strong>(<span data-dz-size>340kb</span>)</strong>
+                      <div id="success-div" style="display: none">
+                        <i
+                          class="ml-2 icon-lg text-success flaticon2-correct"
+                        />
+                      </div>
                     </div>
                     <div class="dropzone-error" data-dz-errormessage></div>
                   </div>
@@ -88,6 +127,9 @@
 // import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import DeliverableForm from "@/view/pages/user/orders/deliverables/DeliverableForm";
 import { queryOrder } from "@/graphql/order-queries";
+import Dropzone from "dropzone";
+import { deliverablesUploadUrl } from "@/core/server-side/urls";
+import JwtService from "@/core/services/jwt.service";
 
 export default {
   name: "ServicesEdit",
@@ -101,6 +143,7 @@ export default {
   mounted() {
     // this.$store.dispatch(SET_BREADCRUMB, [{ title: "Update a Deliverable" }]);
     // this.$store.dispatch(SET_HEAD_TITLE, "Update a Deliverable");
+    this.initFileUpload();
   },
   beforeMount() {
     this.fetchOrder();
@@ -113,18 +156,83 @@ export default {
           id: this.$route.params.id
         }
       });
-    }
-  },
-  async fetchOrder() {
-    const result = await this.$apollo.query({
-      query: queryOrder,
-      variables: {
-        id: this.$route.params.id
-      }
-    });
+    },
+    async fetchOrder() {
+      const result = await this.$apollo.query({
+        query: queryOrder,
+        variables: {
+          id: this.$route.params.id
+        }
+      });
 
-    if (window._.isEmpty(result.errors)) {
-      this.servicePurchase = result.data.servicePurchase;
+      if (window._.isEmpty(result.errors)) {
+        this.servicePurchase = result.data.servicePurchase;
+      }
+    },
+    initFileUpload() {
+      const id = "#file-upload-dropzone";
+
+      // set the preview element template
+      const previewNode = window.$(id + " .dropzone-item");
+      previewNode.id = "";
+      const previewTemplate = previewNode.parent(".dropzone-items").html();
+      previewNode.remove();
+
+      const myDropzone5 = new Dropzone(id, {
+        // Make the whole body a dropzone
+        url: deliverablesUploadUrl.replace(
+          ":pk",
+          this.$route.params.deliverableId
+        ), // Set the url for your upload script location
+        parallelUploads: 5,
+        maxFilesize: 1024, // Max filesize in MB
+        previewTemplate: previewTemplate,
+        previewsContainer: id + " .dropzone-items", // Define the container to display the previews
+        clickable: id + " .dropzone-select", // Define the element that should be used as click trigger to select files.
+        headers: {
+          Authorization: "JWT " + JwtService.getAuth().token,
+          "Cache-Control": null,
+          "X-Requested-With": null
+        }
+      });
+
+      myDropzone5.on("addedfile", function(file) {
+        // Hookup the start button
+        window
+          .$(document)
+          .find(id + " .dropzone-item")
+          .css("display", "");
+        console.log(file);
+      });
+
+      // Update the total progress bar
+      myDropzone5.on("totaluploadprogress", function(progress) {
+        window.$(id + " .progress-bar").css("width", progress + "%");
+      });
+
+      myDropzone5.on("sending", function() {
+        // Show the total progress bar when upload starts
+        window.$(id + " .progress-bar").css("opacity", "1");
+      });
+
+      // Hide the total progress bar when nothing's uploading anymore
+      myDropzone5.on("complete", function() {
+        var thisProgressBar = id + " .dz-complete";
+        setTimeout(function() {
+          window
+            .$(
+              thisProgressBar +
+                " .progress-bar, " +
+                thisProgressBar +
+                " .progress"
+            )
+            .css("opacity", "0");
+          window
+            .$(thisProgressBar)
+            .find("#success-div")
+            .css("display", "block");
+        }, 300);
+      });
     }
   }
 };

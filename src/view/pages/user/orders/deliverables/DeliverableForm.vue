@@ -82,7 +82,6 @@ import {
 export default {
   name: "DeliverableForm",
   mixins: [formMixin, toastMixin],
-  props: ["deliverableId", "servicePurchase"],
   data() {
     return {
       deliverable: {},
@@ -95,10 +94,10 @@ export default {
   },
   computed: {
     creating() {
-      return this.deliverableId === undefined;
+      return this.$route.params.deliverableId === undefined;
     },
     updating() {
-      return this.deliverableId !== undefined;
+      return this.$route.params.deliverableId !== undefined;
     },
     options() {
       let options = [];
@@ -180,7 +179,7 @@ export default {
       let result = await this.$apollo.query({
         query: queryDeliverable,
         variables: {
-          id: this.deliverableId
+          id: this.$route.params.deliverableId
         },
         fetchPolicy: "no-cache"
       });

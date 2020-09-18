@@ -69,7 +69,7 @@
 
 <script>
 import "@/assets/plugins/datatable/datatables.bundle";
-import { deliverablesUrl } from "@/core/datatables/urls";
+import { deliverablesUrl } from "@/core/server-side/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
 import { queryOrder } from "@/graphql/order-queries";
