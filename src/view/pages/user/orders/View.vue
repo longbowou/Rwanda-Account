@@ -118,6 +118,8 @@
           </div>
         </div>
         <!--end::Card-->
+
+        <order-deliverables :service-purchase="servicePurchase" />
       </div>
 
       <div class="col-sm-4">
@@ -200,11 +202,12 @@ import { mapGetters } from "vuex";
 import { orderActionsMixin, toastMixin } from "@/view/mixins";
 import { queryServicePurchase } from "@/graphql/order-queries";
 import UserCard from "@/view/pages/UserCard";
+import OrderDeliverables from "@/view/pages/user/orders/deliverables/Datatable";
 
 export default {
   name: "PurchasesView",
   mixins: [toastMixin, orderActionsMixin],
-  components: { UserCard },
+  components: { UserCard, OrderDeliverables },
   data() {
     return {
       servicePurchase: {}

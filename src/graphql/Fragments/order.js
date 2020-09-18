@@ -15,6 +15,7 @@ export const orderFields = gql`
     mustBeDeliveredAt
     canBeAccepted
     canBeDelivered
+    canAddDeliverable
     service {
       id
       title

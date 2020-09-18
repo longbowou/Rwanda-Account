@@ -389,6 +389,7 @@ type ServicePurchaseType {
     account: AccountType!
     approved: Boolean!
     approvedAt: DateTime
+    canAddDeliverable: Boolean!
     canBeAccepted: Boolean!
     canBeApproved: Boolean!
     canBeCanceled: Boolean!
@@ -407,7 +408,7 @@ type ServicePurchaseType {
     inDisputeAt: DateTime
     initiated: Boolean!
     litigation: LitigationType
-    mustBeDeliveredAt: DateTime
+    mustBeDeliveredAt: String
     number: String!
     operationSet: [OperationType!]!
     price: String!

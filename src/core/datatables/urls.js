@@ -12,3 +12,7 @@ export const servicePurchasesUrl =
 
 export const serviceOrdersUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL + "account/service-orders.json";
+
+export const deliverablesUrl =
+  process.env.VUE_APP_DATATABLES_BASE_URL +
+  "account/orders/:pk/deliverables.json";
