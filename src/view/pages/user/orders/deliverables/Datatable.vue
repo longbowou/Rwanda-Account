@@ -167,7 +167,7 @@ export default {
         });
 
         if (window._.isEmpty(result.data.deleteDeliverable.errors)) {
-          this.notifySuccess("Service deleted successfully.");
+          this.notifySuccess("Deliverable deleted successfully.");
           this.datatable.ajax.reload(null, false);
         }
       } else {
