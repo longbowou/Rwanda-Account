@@ -180,8 +180,7 @@ export default {
         query: queryOrder,
         variables: {
           id: this.$route.params.id
-        },
-        fetchPolicy: "network-only"
+        }
       });
 
       if (window._.isEmpty(result.errors)) {

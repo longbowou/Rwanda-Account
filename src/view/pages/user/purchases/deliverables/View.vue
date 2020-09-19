@@ -15,7 +15,7 @@
         <button
           @click="
             $router.push({
-              name: 'orders-view',
+              name: 'purchases-view',
               params: {
                 id: $route.params.id
               }
@@ -25,22 +25,6 @@
         >
           <i class="ki ki-long-arrow-back icon-lg"></i>
           Back
-        </button>
-
-        <button
-          @click="
-            $router.push({
-              name: 'order-deliverables-edit',
-              params: {
-                id: $route.params.id,
-                deliverableId: $route.params.deliverableId
-              }
-            })
-          "
-          class="btn btn-light-primary font-weight-bolder mr-2"
-        >
-          <i class="fa fa-edit icon-lg"></i>
-          Edit
         </button>
       </div>
     </div>
@@ -61,7 +45,7 @@
 // import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 // import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { queryDeliverable } from "@/graphql/deliverable-queries";
-import DeliverableFiles from "@/view/pages/user/orders/deliverables/files/Datatable";
+import DeliverableFiles from "@/view/pages/user/purchases/deliverables/files/Datatable";
 
 export default {
   name: "DeliverableView",
@@ -96,8 +80,7 @@ export default {
         query: queryDeliverable,
         variables: {
           id: this.$route.params.deliverableId
-        },
-        fetchPolicy: "network-only" | "cache-only"
+        }
       });
 
       if (window._.isEmpty(result.errors)) {

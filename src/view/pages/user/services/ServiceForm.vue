@@ -206,8 +206,7 @@ export default {
         query: queryService,
         variables: {
           id: this.serviceId
-        },
-        fetchPolicy: "no-cache"
+        }
       });
 
       if (window._.isEmpty(result.errors)) {

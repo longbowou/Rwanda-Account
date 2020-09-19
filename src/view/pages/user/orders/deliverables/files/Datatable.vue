@@ -3,7 +3,7 @@
     <div class="col-sm-12">
       <table
         class="table table-hover dataTable dtr-inline text-center"
-        id="deliverable-files-dataTable"
+        id="order-deliverable-files-dataTable"
       >
         <thead>
           <tr>
@@ -55,7 +55,7 @@ export default {
   },
   mounted() {
     const $this = this;
-    this.datatable = window.$("#deliverable-files-dataTable").DataTable({
+    this.datatable = window.$("#order-deliverable-files-dataTable").DataTable({
       lengthMenu: [
         [10, 50, 100, -1],
         [10, 50, 100, "All"]
@@ -97,13 +97,13 @@ export default {
     });
 
     window
-      .$("#deliverable-files-dataTable")
+      .$("#order-deliverable-files-dataTable")
       .on("click", ".btn-delete", function() {
         $this.deleteDeliverableFile(window.$(this)[0]);
       });
 
     window
-      .$("#deliverable-files-dataTable")
+      .$("#order-deliverable-files-dataTable")
       .on("click", ".btn-download", function() {
         $this.downloadFile(window.$(this)[0]);
       });
@@ -132,13 +132,7 @@ export default {
       }
     },
     downloadFile(btn) {
-      window
-        .$("#" + btn.dataset.id)
-        .addClass("spinner spinner-success spinner-right");
       FileSaver.saveAs(btn.dataset.file, btn.dataset.name);
-      window
-        .$("#" + btn.dataset.id)
-        .removeClass("spinner spinner-success spinner-right");
       btn.blur();
     }
   }

@@ -128,8 +128,7 @@ export default {
         query: queryDeliverable,
         variables: {
           id: this.$route.params.deliverableId
-        },
-        fetchPolicy: "no-cache"
+        }
       });
 
       if (window._.isEmpty(result.errors)) {

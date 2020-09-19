@@ -15,7 +15,7 @@
         <button
           @click="
             $router.push({
-              name: 'orders-view',
+              name: 'purchases-view',
               params: {
                 id: $route.params.id
               }
@@ -26,33 +26,10 @@
           <i class="ki ki-long-arrow-back icon-lg"></i>
           Back
         </button>
-
-        <button
-          @click="
-            $router.push({
-              name: 'order-deliverables-edit',
-              params: {
-                id: $route.params.id,
-                deliverableId: $route.params.deliverableId
-              }
-            })
-          "
-          class="btn btn-light-primary font-weight-bolder mr-2"
-        >
-          <i class="fa fa-edit icon-lg"></i>
-          Edit
-        </button>
       </div>
     </div>
     <div class="card-body pt-3">
-      <div class="row justify-content-center">
-        <div class="col-sm-12" v-html="deliverable.description"></div>
-        <div class="col-sm-12" v-if="showFilesDatatable">
-          <hr />
-          <h5 class="text-center">Uploaded Files</h5>
-          <deliverable-files />
-        </div>
-      </div>
+      <deliverable-files />
     </div>
   </div>
 </template>
@@ -60,11 +37,11 @@
 <script>
 // import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 // import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
+import DeliverableFiles from "@/view/pages/user/purchases/deliverables/files/Datatable";
 import { queryDeliverable } from "@/graphql/deliverable-queries";
-import DeliverableFiles from "@/view/pages/user/orders/deliverables/files/Datatable";
 
 export default {
-  name: "DeliverableView",
+  name: "DeliverableFilesRoot",
   components: { DeliverableFiles },
   data() {
     return {
@@ -73,19 +50,17 @@ export default {
   },
   computed: {
     getTitle() {
-      return this.deliverable.title;
-    },
-    showFilesDatatable() {
-      if (window._.has(this.deliverable, "filesCount")) {
-        return this.deliverable.filesCount > 0;
+      if (window._.has(this.deliverable, "title")) {
+        return this.deliverable.title + " Uploaded Files";
       }
 
-      return false;
+      return "Deliverable";
     }
   },
   mounted() {
     // this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
     // this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
+    this.initFileUpload();
   },
   beforeMount() {
     this.fetchDeliverable();
@@ -96,8 +71,7 @@ export default {
         query: queryDeliverable,
         variables: {
           id: this.$route.params.deliverableId
-        },
-        fetchPolicy: "network-only" | "cache-only"
+        }
       });
 
       if (window._.isEmpty(result.errors)) {

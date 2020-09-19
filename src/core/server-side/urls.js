@@ -8,14 +8,18 @@ export const servicesUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL + "account/services.json";
 
 export const servicePurchasesUrl =
-  process.env.VUE_APP_DATATABLES_BASE_URL + "account/service-purchases.json";
+  process.env.VUE_APP_DATATABLES_BASE_URL + "account/purchases.json";
 
 export const serviceOrdersUrl =
-  process.env.VUE_APP_DATATABLES_BASE_URL + "account/service-orders.json";
+  process.env.VUE_APP_DATATABLES_BASE_URL + "account/orders.json";
 
-export const deliverablesUrl =
+export const orderDeliverablesUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL +
   "account/orders/:pk/deliverables.json";
+
+export const purchaseDeliverablesUrl =
+  process.env.VUE_APP_DATATABLES_BASE_URL +
+  "account/purchases/:pk/deliverables.json";
 
 export const deliverableFilesUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL +

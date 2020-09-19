@@ -81,8 +81,7 @@ export default {
         query: queryService,
         variables: {
           id: this.$route.params.id
-        },
-        fetchPolicy: "no-cache"
+        }
       });
 
       if (window._.isEmpty(result.errors)) {
