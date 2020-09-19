@@ -12,9 +12,9 @@
       <div class="card-toolbar">
         <button
           @click="routeToOrderView"
-          class="btn btn-light-primary font-weight-bolder mr-2"
+          class="btn btn-light-dark font-weight-bolder mr-2"
         >
-          <i class="ki ki-long-arrow-back icon-xs"></i>
+          <i class="ki ki-long-arrow-back icon-lg"></i>
           Back
         </button>
       </div>
