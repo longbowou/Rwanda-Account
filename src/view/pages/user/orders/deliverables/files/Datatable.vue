@@ -68,7 +68,7 @@ export default {
           render: function(data) {
             const buttons = [];
 
-            const downloadBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-delete" title="Download" data-id="${data.id}" data-title="${data.title}"><i class="fas fa-file-download"></i></button>`;
+            const downloadBtn = `<a href="${data.file_url}" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square" title="Download" data-id="${data.id}" data-title="${data.title}"><i class="fas fa-file-download"></i></a>`;
             buttons.push(downloadBtn);
 
             const deleteBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-danger btn-square btn-delete" title="Delete" data-id="${data.id}" data-title="${data.name}"><i class="fa fa-trash"></i></button>`;
