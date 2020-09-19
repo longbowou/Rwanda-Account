@@ -120,7 +120,7 @@
           </div>
         </div>
         <!--end::Card-->
-        <router-view />
+        <router-view v-on:deliverables-updated="fetchOrder" />
       </div>
       <div class="col-sm-4">
         <div class="card card-custom shadow-sm mb-5">
@@ -234,7 +234,8 @@ export default {
         query: queryOrder,
         variables: {
           id: this.$route.params.id
-        }
+        },
+        fetchPolicy: "network-only"
       });
 
       if (window._.isEmpty(result.errors)) {

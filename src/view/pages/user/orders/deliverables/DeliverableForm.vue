@@ -161,6 +161,8 @@ export default {
 
       submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
+      this.$emit("deliverables-updated");
+
       await this.$router.push({
         name: "orders-view",
         params: {

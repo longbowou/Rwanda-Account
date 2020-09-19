@@ -177,6 +177,7 @@ export default {
         if (window._.isEmpty(result.data.deleteDeliverable.errors)) {
           this.notifySuccess("Deliverable deleted successfully.");
           this.datatable.ajax.reload(null, false);
+          this.$emit("deliverables-updated");
         }
       } else {
         btn.blur();

@@ -30,7 +30,9 @@
     </div>
     <div class="card-body pt-3">
       <div class="row justify-content-center">
-        <deliverable-form :service-purchase="servicePurchase" />
+        <deliverable-form
+          v-on:deliverables-updated="$emit('deliverables-updated')"
+        />
       </div>
     </div>
   </div>
