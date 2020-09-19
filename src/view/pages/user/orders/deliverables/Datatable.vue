@@ -13,7 +13,7 @@
       <div class="card-toolbar">
         <router-link
           v-if="canAddDeliverable"
-          :to="{ name: 'order-deliverables-create' }"
+          :to="{ name: 'deliverables-create' }"
           v-slot="{ href, navigate, isActive, isExactActive }"
         >
           <a
@@ -77,7 +77,7 @@ import { deleteDeliverable } from "@/graphql/deliverable-mutations";
 import { toastMixin } from "@/view/mixins";
 
 export default {
-  name: "OrderDeliverables",
+  name: "Deliverables",
   mixins: [toastMixin],
   data() {
     return {
@@ -115,8 +115,8 @@ export default {
             buttons.push(showBtn);
 
             const editRouter = $this.$router.resolve({
-              name: "order-deliverables-edit",
-              params: { id: data.service_purchase, idDeliverable: data.id }
+              name: "deliverables-edit",
+              params: { id: data.service_purchase, deliverableId: data.id }
             });
 
             const editBtn = `<a href="${editRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-success btn-square btn-icon-sm" title="Edit"><i class="fa fa-edit"></i></a>`;

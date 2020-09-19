@@ -36,7 +36,7 @@
       <div id="content" style="height: 200px" v-html="contentHtml"></div>
     </div>
 
-    <div class="form-group" v-if="updating">
+    <div class="form-group">
       <div class="col-sm-12 checkbox-inline p-0">
         <label class="checkbox checkbox-square checkbox-lg">
           <input
