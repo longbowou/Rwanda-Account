@@ -107,8 +107,8 @@ export default {
             const buttons = [];
 
             const showRouter = $this.$router.resolve({
-              name: "orders-view",
-              params: { id: data.id }
+              name: "deliverables-view",
+              params: { id: data.service_purchase, deliverableId: data.id }
             });
 
             const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-dark btn-square" title="Show"><i class="flaticon-eye"></i></a>`;

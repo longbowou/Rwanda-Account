@@ -125,6 +125,13 @@ export default new Router({
             },
             {
               path: "/user/orders/:id/deliverables/:deliverableId",
+              name: "deliverables-view",
+              component: () =>
+                import("@/view/pages/user/orders/deliverables/View"),
+              meta: { requiresAuth: true }
+            },
+            {
+              path: "/user/orders/:id/deliverables/:deliverableId/edit",
               name: "deliverables-edit",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Edit"),
