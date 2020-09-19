@@ -76,7 +76,9 @@
           <div class="card-body">
             <div class="row mb-2">
               <h6 class="col-sm-9 font-weight-bold">
-                {{ servicePurchase.service.title }}
+                {{
+                  servicePurchase.service ? servicePurchase.service.title : null
+                }}
               </h6>
               <h5 class="col-sm-3 font-weight-bold text-right">
                 {{ basePrice }} {{ currency }}
@@ -202,7 +204,7 @@ import { queryOrder } from "@/graphql/order-queries";
 import UserCard from "@/view/pages/UserCard";
 
 export default {
-  name: "PurchasesView",
+  name: "OrderView",
   mixins: [toastMixin, orderActionsMixin],
   components: { UserCard },
   data() {

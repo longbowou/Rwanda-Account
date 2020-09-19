@@ -34,7 +34,7 @@ import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import ServiceForm from "@/view/pages/user/services/ServiceForm";
 
 export default {
-  name: "ServicesCreate",
+  name: "ServiceCreate",
   components: { ServiceForm },
   data() {
     return {};

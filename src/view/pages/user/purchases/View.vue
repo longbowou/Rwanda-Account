@@ -206,7 +206,7 @@ import { queryServicePurchase } from "@/graphql/purchase-queries";
 import UserCard from "@/view/pages/UserCard";
 
 export default {
-  name: "PurchasesView",
+  name: "PurchaseView",
   mixins: [toastMixin, purchaseActionsMixin],
   components: { UserCard },
   data() {
