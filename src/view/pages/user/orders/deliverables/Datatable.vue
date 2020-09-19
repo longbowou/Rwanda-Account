@@ -122,6 +122,14 @@ export default {
             const editBtn = `<a href="${editRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-success btn-square btn-icon-sm" title="Edit"><i class="fa fa-edit"></i></a>`;
             buttons.push(editBtn);
 
+            const filesRouter = $this.$router.resolve({
+              name: "deliverables-files",
+              params: { id: data.service_purchase, deliverableId: data.id }
+            });
+
+            const filesBtn = `<a href="${filesRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Files"><i class="flaticon2-file"></i></a>`;
+            buttons.push(filesBtn);
+
             const deleteBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-danger btn-square btn-delete" title="Delete" data-id="${data.id}" data-title="${data.title}"><i class="fa fa-trash"></i></button>`;
             buttons.push(deleteBtn);
 

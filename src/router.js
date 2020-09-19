@@ -136,6 +136,13 @@ export default new Router({
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Edit"),
               meta: { requiresAuth: true }
+            },
+            {
+              path: "/user/orders/:id/deliverables/:deliverableId/files",
+              name: "deliverables-files",
+              component: () =>
+                import("@/view/pages/user/orders/deliverables/Files"),
+              meta: { requiresAuth: true }
             }
           ]
         },

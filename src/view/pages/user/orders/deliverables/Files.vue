@@ -22,14 +22,7 @@
       </div>
     </div>
     <div class="card-body pt-3">
-      <div class="row justify-content-center">
-        <div class="col-sm-12" v-html="deliverable.description"></div>
-        <div class="col-sm-12">
-          <hr />
-          <h5 class="text-center">Uploaded Files</h5>
-          <deliverable-files />
-        </div>
-      </div>
+      <deliverable-files />
     </div>
   </div>
 </template>
@@ -41,7 +34,7 @@ import { queryDeliverable } from "@/graphql/deliverable-queries";
 import DeliverableFiles from "@/view/pages/user/orders/deliverables/files/Datatable";
 
 export default {
-  name: "DeliverableView",
+  name: "DeliverableFiles",
   components: { DeliverableFiles },
   data() {
     return {
@@ -50,7 +43,7 @@ export default {
   },
   computed: {
     getTitle() {
-      return this.deliverable.title;
+      return this.deliverable.title + " Files";
     }
   },
   mounted() {
