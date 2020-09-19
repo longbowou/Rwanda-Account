@@ -24,72 +24,64 @@
         <deliverable-form />
       </div>
 
-      <div>
-        <hr class="mt-5" />
+      <hr class="mt-5" />
 
-        <div class="form-group row">
-          <label class="col-lg-3 col-form-label text-lg-right"
-            >Upload Files:</label
-          >
-          <div class="col-lg-9">
-            <div class="dropzone dropzone-multi" id="file-upload-dropzone">
-              <div class="dropzone-panel mb-lg-0 mb-2">
-                <a
-                  class="dropzone-select btn btn-light-primary font-weight-bold btn-sm"
-                  >Attach files
-                </a>
-              </div>
+      <h5 class="text-center">Upload Files</h5>
 
-              <div class="dropzone-items">
-                <div class="dropzone-item" style="">
-                  <div class="dropzone-file">
-                    <div
-                      class="dropzone-filename"
-                      title="some_image_file_name.jpg"
-                    >
-                      <span data-dz-name class="mr-2"
-                        >some_image_file_name.jpg</span
-                      >
-                      <strong>(<span data-dz-size>340kb</span>)</strong>
-                      <div id="success-div" style="display: none">
-                        <i
-                          class="ml-2 icon-lg text-success flaticon2-correct"
-                        />
-                      </div>
-                    </div>
-                    <div class="dropzone-error" data-dz-errormessage></div>
-                  </div>
-                  <div class="dropzone-progress">
-                    <div class="progress">
-                      <div
-                        class="progress-bar bg-primary"
-                        role="progressbar"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                        aria-valuenow="0"
-                        data-dz-uploadprogress
-                      ></div>
-                    </div>
-                  </div>
-                  <div class="dropzone-toolbar">
-                    <span class="dropzone-delete" data-dz-remove
-                      ><i class="flaticon2-cross"></i
-                    ></span>
+      <div class="col-sm-12">
+        <div class="dropzone dropzone-multi" id="file-upload-dropzone">
+          <div class="dropzone-panel mb-lg-0 mb-2">
+            <a
+              class="dropzone-select btn btn-light-primary font-weight-bold btn-sm"
+              >Attach files
+            </a>
+          </div>
+
+          <div class="dropzone-items">
+            <div class="dropzone-item" style="">
+              <div class="dropzone-file">
+                <div class="dropzone-filename" title="some_image_file_name.jpg">
+                  <span data-dz-name class="mr-2"
+                    >some_image_file_name.jpg</span
+                  >
+                  <strong>(<span data-dz-size>340kb</span>)</strong>
+                  <div id="success-div" style="display: none">
+                    <i class="ml-2 icon-lg text-success flaticon2-correct" />
                   </div>
                 </div>
+                <div class="dropzone-error" data-dz-errormessage></div>
+              </div>
+              <div class="dropzone-progress">
+                <div class="progress">
+                  <div
+                    class="progress-bar bg-primary"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                    data-dz-uploadprogress
+                  ></div>
+                </div>
+              </div>
+              <div class="dropzone-toolbar">
+                <span class="dropzone-delete" data-dz-remove
+                  ><i class="flaticon2-cross"></i
+                ></span>
               </div>
             </div>
-            <span class="form-text text-muted"
-              >Max file size is <strong>1GB</strong> and max number of files is
-              <strong>10</strong>.</span
-            >
           </div>
         </div>
-
-        <hr />
-
-        <deliverable-files />
+        <span class="form-text text-muted"
+          >Max file size is <strong>1GB</strong> and max number of files is
+          <strong>10</strong>.</span
+        >
       </div>
+
+      <hr />
+
+      <h5 class="text-center">Uploaded Files</h5>
+
+      <deliverable-files :update-index="updateIndex" />
     </div>
   </div>
 </template>
@@ -109,7 +101,8 @@ export default {
   components: { DeliverableForm, DeliverableFiles },
   data() {
     return {
-      servicePurchase: {}
+      servicePurchase: {},
+      updateIndex: 0
     };
   },
   computed: {},
@@ -143,8 +136,9 @@ export default {
       }
     },
     initFileUpload() {
-      const id = "#file-upload-dropzone";
+      const $this = this;
 
+      const id = "#file-upload-dropzone";
       // set the preview element template
       const previewNode = window.$(id + " .dropzone-item");
       previewNode.id = "";
@@ -169,13 +163,12 @@ export default {
         }
       });
 
-      myDropzone5.on("addedfile", function(file) {
+      myDropzone5.on("addedfile", function() {
         // Hookup the start button
         window
           .$(document)
           .find(id + " .dropzone-item")
           .css("display", "");
-        console.log(file);
       });
 
       // Update the total progress bar
@@ -205,6 +198,8 @@ export default {
             .find("#success-div")
             .css("display", "block");
         }, 300);
+
+        $this.updateIndex++;
       });
     }
   }

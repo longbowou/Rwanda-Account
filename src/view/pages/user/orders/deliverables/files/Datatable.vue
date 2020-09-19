@@ -39,6 +39,7 @@ import { toastMixin } from "@/view/mixins";
 
 export default {
   name: "DeliverableFiles",
+  props: ["updateIndex"],
   mixins: [toastMixin],
   data() {
     return {
@@ -46,6 +47,11 @@ export default {
     };
   },
   computed: {},
+  watch: {
+    updateIndex: function() {
+      this.datatable.ajax.reload(null, false);
+    }
+  },
   mounted() {
     const $this = this;
     this.datatable = window.$("#deliverable-files-dataTable").DataTable({
