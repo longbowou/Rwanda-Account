@@ -98,7 +98,7 @@ import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { queryService } from "@/graphql/service-queries";
 import { mapGetters } from "vuex";
-import UserCard from "@/view/pages/UserCard";
+import UserCard from "@/view/pages/partials/UserCard";
 
 export default {
   name: "ServiceDetail",

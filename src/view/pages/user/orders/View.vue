@@ -146,7 +146,7 @@ import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
 import { orderActionsMixin, toastMixin } from "@/view/mixins";
 import { queryOrder } from "@/graphql/order-queries";
-import UserCard from "@/view/pages/UserCard";
+import UserCard from "@/view/pages/partials/UserCard";
 import Timeline from "@/view/pages/user/purchases/Timeline";
 
 export default {
