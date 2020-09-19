@@ -118,7 +118,7 @@ export default {
             const buttons = [];
 
             const showRouter = $this.$router.resolve({
-              name: "service-detail",
+              name: "user-services-view",
               params: { id: data.id }
             });
             const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-dark btn-square btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;

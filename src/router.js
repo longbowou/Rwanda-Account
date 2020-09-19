@@ -69,15 +69,15 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services/:id/edit",
-          name: "user-services-edit",
-          component: () => import("@/view/pages/user/services/Edit"),
+          path: "/user/services/:id",
+          name: "user-services-view",
+          component: () => import("@/view/pages/user/services/View"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services/:id",
-          name: "user-services-show",
-          component: () => import("@/view/pages/user/Dashboard"),
+          path: "/user/services/:id/edit",
+          name: "user-services-edit",
+          component: () => import("@/view/pages/user/services/Edit"),
           meta: { requiresAuth: true }
         },
         {
