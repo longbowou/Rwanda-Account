@@ -13,7 +13,14 @@
       </div>
       <div class="card-toolbar">
         <button
-          @click="routeToOrderView"
+          @click="
+            $router.push({
+              name: 'orders-view',
+              params: {
+                id: $route.params.id
+              }
+            })
+          "
           class="btn btn-light-dark font-weight-bolder mr-2"
         >
           <i class="ki ki-long-arrow-back icon-lg"></i>
@@ -56,14 +63,6 @@ export default {
     this.fetchOrder();
   },
   methods: {
-    routeToOrderView() {
-      this.$router.push({
-        name: "orders-view",
-        params: {
-          id: this.$route.params.id
-        }
-      });
-    },
     async fetchOrder() {
       const result = await this.$apollo.query({
         query: queryOrder,

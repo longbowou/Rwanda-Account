@@ -13,7 +13,14 @@
       </div>
       <div class="card-toolbar">
         <button
-          @click="routeToOrderView"
+          @click="
+            $router.push({
+              name: 'orders-view',
+              params: {
+                id: $route.params.id
+              }
+            })
+          "
           class="btn btn-light-dark font-weight-bolder mr-2"
         >
           <i class="ki ki-long-arrow-back icon-lg"></i>
@@ -21,7 +28,15 @@
         </button>
 
         <button
-          @click="routeToEdit"
+          @click="
+            $router.push({
+              name: 'deliverables-edit',
+              params: {
+                id: $route.params.id,
+                deliverableId: $route.params.deliverableId
+              }
+            })
+          "
           class="btn btn-light-primary font-weight-bolder mr-2"
         >
           <i class="fa fa-edit icon-lg"></i>
@@ -76,23 +91,6 @@ export default {
     this.fetchDeliverable();
   },
   methods: {
-    routeToOrderView() {
-      this.$router.push({
-        name: "orders-view",
-        params: {
-          id: this.$route.params.id
-        }
-      });
-    },
-    routeToEdit() {
-      this.$router.push({
-        name: "deliverables-edit",
-        params: {
-          id: this.$route.params.id,
-          deliverableId: this.$route.params.deliverableId
-        }
-      });
-    },
     async fetchDeliverable() {
       let result = await this.$apollo.query({
         query: queryDeliverable,
