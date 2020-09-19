@@ -248,6 +248,8 @@ type DeliverableType {
     createdAt: DateTime!
     deliverablefileSet: [DeliverableFileType!]!
     description: String!
+    filesCount: Int!
+    filesCountDisplay: String!
     id: UUID!
     published: Boolean!
     servicePurchase: ServicePurchaseType!

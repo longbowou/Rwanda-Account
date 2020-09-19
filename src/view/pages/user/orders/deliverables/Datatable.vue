@@ -41,7 +41,7 @@
               <tr>
                 <th>Title</th>
                 <th>Version</th>
-                <th>File Counts</th>
+                <th>Files Count</th>
                 <th>Published</th>
                 <th>Created At</th>
                 <th>Actions</th>
@@ -51,7 +51,7 @@
               <tr>
                 <th>Title</th>
                 <th>Version</th>
-                <th>File Counts</th>
+                <th>Files Count</th>
                 <th>Published</th>
                 <th>Created At</th>
                 <th>Actions</th>

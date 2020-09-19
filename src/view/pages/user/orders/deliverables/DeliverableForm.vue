@@ -129,7 +129,7 @@ export default {
       this.input.version = this.versionSelect2.val();
 
       if (this.creating) {
-        this.input.servicePurchase = this.servicePurchase.id;
+        this.input.servicePurchase = this.$route.params.id;
       }
 
       let mutation = createDeliverable;

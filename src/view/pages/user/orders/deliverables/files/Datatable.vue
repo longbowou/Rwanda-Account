@@ -36,6 +36,7 @@ import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
 import { deleteDeliverableFile } from "@/graphql/deliverable-mutations";
 import { toastMixin } from "@/view/mixins";
+import FileSaver from "file-saver";
 
 export default {
   name: "DeliverableFiles",
@@ -68,7 +69,7 @@ export default {
           render: function(data) {
             const buttons = [];
 
-            const downloadBtn = `<a href="${data.file_url}" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square" title="Download" data-id="${data.id}" data-title="${data.title}"><i class="fas fa-file-download"></i></a>`;
+            const downloadBtn = `<button id="download-btn-${data.id}" data-id="download-btn-${data.id}" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-download" title="Download" data-id="${data.id}" data-name="${data.name}" data-file="${data.file_url}"><i class="fas fa-file-download"></i></button>`;
             buttons.push(downloadBtn);
 
             const deleteBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-danger btn-square btn-delete" title="Delete" data-id="${data.id}" data-title="${data.name}"><i class="fa fa-trash"></i></button>`;
@@ -100,6 +101,12 @@ export default {
       .on("click", ".btn-delete", function() {
         $this.deleteDeliverableFile(window.$(this)[0]);
       });
+
+    window
+      .$("#deliverable-files-dataTable")
+      .on("click", ".btn-download", function() {
+        $this.downloadFile(window.$(this)[0]);
+      });
   },
   beforeMount() {},
   methods: {
@@ -123,6 +130,16 @@ export default {
       } else {
         btn.blur();
       }
+    },
+    downloadFile(btn) {
+      window
+        .$("#" + btn.dataset.id)
+        .addClass("spinner spinner-success spinner-right");
+      FileSaver.saveAs(btn.dataset.file, btn.dataset.name);
+      window
+        .$("#" + btn.dataset.id)
+        .removeClass("spinner spinner-success spinner-right");
+      btn.blur();
     }
   }
 };

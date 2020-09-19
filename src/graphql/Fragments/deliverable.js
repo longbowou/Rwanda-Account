@@ -7,5 +7,6 @@ export const deliverableFields = gql`
     version
     description
     published
+    filesCount
   }
 `;

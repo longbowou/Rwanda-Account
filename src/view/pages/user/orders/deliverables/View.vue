@@ -24,7 +24,7 @@
     <div class="card-body pt-3">
       <div class="row justify-content-center">
         <div class="col-sm-12" v-html="deliverable.description"></div>
-        <div class="col-sm-12">
+        <div class="col-sm-12" v-if="showFilesDatatable">
           <hr />
           <h5 class="text-center">Uploaded Files</h5>
           <deliverable-files />
@@ -51,6 +51,13 @@ export default {
   computed: {
     getTitle() {
       return this.deliverable.title;
+    },
+    showFilesDatatable() {
+      if (window._.has(this.deliverable, "filesCount")) {
+        return this.deliverable.filesCount > 0;
+      }
+
+      return false;
     }
   },
   mounted() {
