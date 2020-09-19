@@ -30,7 +30,7 @@
         <button
           @click="
             $router.push({
-              name: 'deliverables-edit',
+              name: 'order-deliverables-edit',
               params: {
                 id: $route.params.id,
                 deliverableId: $route.params.deliverableId

@@ -96,7 +96,30 @@ export default new Router({
           path: "/user/purchases/:id",
           name: "purchases-view",
           component: () => import("@/view/pages/user/purchases/View"),
-          meta: { requiresAuth: true }
+          meta: { requiresAuth: true },
+          children: [
+            {
+              path: "/user/purchases/:id",
+              name: "purchases-view",
+              component: () =>
+                import("@/view/pages/user/purchases/deliverables/Datatable"),
+              meta: { requiresAuth: true }
+            },
+            {
+              path: "/user/purchases/:id/deliverables/:deliverableId",
+              name: "purchase-deliverables-view",
+              component: () =>
+                import("@/view/pages/user/purchases/deliverables/View"),
+              meta: { requiresAuth: true }
+            },
+            {
+              path: "/user/purchases/:id/deliverables/:deliverableId/files",
+              name: "purchase-deliverables-files",
+              component: () =>
+                import("@/view/pages/user/purchases/deliverables/Files"),
+              meta: { requiresAuth: true }
+            }
+          ]
         },
         {
           path: "/user/orders",
@@ -118,28 +141,28 @@ export default new Router({
             },
             {
               path: "/user/orders/:id/deliverables/create",
-              name: "deliverables-create",
+              name: "order-deliverables-create",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Create"),
               meta: { requiresAuth: true }
             },
             {
               path: "/user/orders/:id/deliverables/:deliverableId",
-              name: "deliverables-view",
+              name: "order-deliverables-view",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/View"),
               meta: { requiresAuth: true }
             },
             {
               path: "/user/orders/:id/deliverables/:deliverableId/edit",
-              name: "deliverables-edit",
+              name: "order-deliverables-edit",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Edit"),
               meta: { requiresAuth: true }
             },
             {
               path: "/user/orders/:id/deliverables/:deliverableId/files",
-              name: "deliverables-files",
+              name: "order-deliverables-files",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Files"),
               meta: { requiresAuth: true }

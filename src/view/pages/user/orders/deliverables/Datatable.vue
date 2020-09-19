@@ -13,7 +13,7 @@
       <div class="card-toolbar">
         <router-link
           v-if="canAddDeliverable"
-          :to="{ name: 'deliverables-create' }"
+          :to="{ name: 'order-deliverables-create' }"
           v-slot="{ href, navigate, isActive, isExactActive }"
         >
           <a
@@ -107,7 +107,7 @@ export default {
             const buttons = [];
 
             const showRouter = $this.$router.resolve({
-              name: "deliverables-view",
+              name: "order-deliverables-view",
               params: { id: data.service_purchase, deliverableId: data.id }
             });
 
@@ -115,7 +115,7 @@ export default {
             buttons.push(showBtn);
 
             const editRouter = $this.$router.resolve({
-              name: "deliverables-edit",
+              name: "order-deliverables-edit",
               params: { id: data.service_purchase, deliverableId: data.id }
             });
 
@@ -123,7 +123,7 @@ export default {
             buttons.push(editBtn);
 
             const filesRouter = $this.$router.resolve({
-              name: "deliverables-files",
+              name: "order-deliverables-files",
               params: { id: data.service_purchase, deliverableId: data.id }
             });
 
