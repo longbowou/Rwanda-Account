@@ -34,7 +34,7 @@ import { queryDeliverable } from "@/graphql/deliverable-queries";
 import DeliverableFiles from "@/view/pages/user/orders/deliverables/files/Datatable";
 
 export default {
-  name: "DeliverableFiles",
+  name: "DeliverableFilesRoot",
   components: { DeliverableFiles },
   data() {
     return {
@@ -43,7 +43,11 @@ export default {
   },
   computed: {
     getTitle() {
-      return this.deliverable.title + " Files";
+      if (window._.has(this.deliverable, "title")) {
+        return this.deliverable.title + " Files";
+      }
+
+      return "Deliverable";
     }
   },
   mounted() {
