@@ -42,3 +42,14 @@ export const deleteDeliverable = gql`
   }
   ${errorFields}
 `;
+
+export const deleteDeliverableFile = gql`
+  mutation($id: UUID!) {
+    deleteDeliverableFile(id: $id) {
+      errors {
+        ...errorFields
+      }
+    }
+  }
+  ${errorFields}
+`;

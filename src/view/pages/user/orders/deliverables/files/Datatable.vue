@@ -34,7 +34,7 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { deliverableFilesUrl } from "@/core/server-side/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
-import { deleteDeliverable } from "@/graphql/deliverable-mutations";
+import { deleteDeliverableFile } from "@/graphql/deliverable-mutations";
 import { toastMixin } from "@/view/mixins";
 
 export default {
@@ -71,7 +71,7 @@ export default {
             const downloadBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-delete" title="Download" data-id="${data.id}" data-title="${data.title}"><i class="fas fa-file-download"></i></button>`;
             buttons.push(downloadBtn);
 
-            const deleteBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-danger btn-square btn-delete" title="Delete" data-id="${data.id}" data-title="${data.title}"><i class="fa fa-trash"></i></button>`;
+            const deleteBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-danger btn-square btn-delete" title="Delete" data-id="${data.id}" data-title="${data.name}"><i class="fa fa-trash"></i></button>`;
             buttons.push(deleteBtn);
 
             return buttons.join("");
@@ -98,26 +98,26 @@ export default {
     window
       .$("#deliverable-files-dataTable")
       .on("click", ".btn-delete", function() {
-        $this.deleteDeliverable(window.$(this)[0]);
+        $this.deleteDeliverableFile(window.$(this)[0]);
       });
   },
   beforeMount() {},
   methods: {
-    async deleteDeliverable(btn) {
+    async deleteDeliverableFile(btn) {
       const title =
-        "Do you really want to delete the deliverable " +
+        "Do you really want to delete the deliverable file " +
         btn.dataset.title +
         " ?";
       if (confirm(title)) {
         let result = await this.$apollo.mutate({
-          mutation: deleteDeliverable,
+          mutation: deleteDeliverableFile,
           variables: {
             id: btn.dataset.id
           }
         });
 
-        if (window._.isEmpty(result.data.deleteDeliverable.errors)) {
-          this.notifySuccess("Deliverable deleted successfully.");
+        if (window._.isEmpty(result.data.deleteDeliverableFile.errors)) {
+          this.notifySuccess("Deliverable File deleted successfully.");
           this.datatable.ajax.reload(null, false);
         }
       } else {

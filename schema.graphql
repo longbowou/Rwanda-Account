@@ -36,6 +36,7 @@ type AccountMutation {
     createServiceOption(input: CreateServiceOptionInput!): CreateServiceOption
     deleteAdmin(id: UUID!): DeleteAdmin
     deleteDeliverable(id: UUID!): DeleteDeliverable
+    deleteDeliverableFile(id: UUID!): DeleteDeliverableFile
     deleteService(id: UUID!): DeleteService
     deleteServiceCategory(id: UUID!): DeleteServiceCategory
     deleteServiceComment(id: UUID!): DeleteServiceComment
@@ -205,6 +206,10 @@ type DeleteDeliverable {
     errors: [ErrorType]
 }
 
+type DeleteDeliverableFile {
+    errors: [ErrorType]
+}
+
 type DeleteService {
     errors: [ErrorType]
 }
@@ -230,8 +235,18 @@ type DeliverServicePurchase {
     servicePurchase: ServicePurchaseType
 }
 
+type DeliverableFileType {
+    createdAt: DateTime!
+    deliverable: DeliverableType!
+    file: String!
+    id: UUID!
+    name: String!
+    updatedAt: DateTime!
+}
+
 type DeliverableType {
     createdAt: DateTime!
+    deliverablefileSet: [DeliverableFileType!]!
     description: String!
     id: UUID!
     published: Boolean!
@@ -574,6 +589,7 @@ input ChangeAccountPasswordInput {
 
 input CreateDeliverableInput {
     description: String!
+    published: Boolean
     servicePurchase: ID!
     title: String!
     version: String!
