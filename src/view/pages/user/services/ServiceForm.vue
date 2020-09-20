@@ -35,13 +35,15 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Delay</label>
+      <label class="col-sm-12 col-form-label font-weight-bold"
+        >Delivery Delay (Days)</label
+      >
       <b-form-input
         required
         v-model="input.delay"
         class="form-control form-control-lg form-control-solid"
         type="number"
-        placeholder="Number"
+        placeholder="Delivery Delay (Days)"
         min="0"
       />
     </div>

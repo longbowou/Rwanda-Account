@@ -40,7 +40,68 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="col-sm-12" v-html="service.content"></div>
+            <div class="row">
+              <div class="col-sm-8" v-html="service.content"></div>
+              <div class="col-sm-4">
+                <div class="form-group row">
+                  <label class="col-form-label col-4 text-lg-right text-left"
+                    >Category</label
+                  >
+                  <div class="col-8">
+                    <span class="form-control-plaintext font-weight-bold">{{
+                      service.serviceCategory
+                        ? service.serviceCategory.label
+                        : null
+                    }}</span>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-4 text-lg-right text-left"
+                    >Delivery Delay</label
+                  >
+                  <div class="col-8">
+                    <span class="form-control-plaintext font-weight-bold">{{
+                      service.delayDisplay
+                    }}</span>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-4 text-lg-right text-left"
+                    >Keywords</label
+                  >
+                  <div class="col-8">
+                    <span
+                      class="form-control-plaintext font-weight-bold"
+                      v-if="service.keywords"
+                    >
+                      <template
+                        v-for="(keyword, index) of service.keywords.split(',')"
+                      >
+                        <span
+                          :key="index"
+                          class="ml-3 label label-xl font-weight-bold label-inline label-square mb-2"
+                        >
+                          {{ keyword }}
+                        </span>
+                      </template>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-4 text-lg-right text-left"
+                    >Created at</label
+                  >
+                  <div class="col-8">
+                    <span class="form-control-plaintext font-weight-bold">{{
+                      service.createdAt
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <!--end::Card-->

@@ -61,10 +61,12 @@ router.beforeEach((to, from, next) => {
   // reset config to initial state
   store.dispatch(RESET_LAYOUT_CONFIG);
 
-  // Scroll page to top on every route change
-  setTimeout(() => {
-    window.scrollTo(0, 0);
-  }, 100);
+  if (!to.meta.hasOwnProperty("scrollToTop") || to.meta.scrollToTop) {
+    // Scroll page to top on every route change
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 300);
+  }
 });
 
 router.afterEach(to => {

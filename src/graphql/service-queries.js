@@ -37,6 +37,7 @@ export const queryService = gql`
       keywords
       published
       stars
+      createdAt
       serviceCategory {
         id
         label

@@ -102,21 +102,21 @@ export default new Router({
               name: "purchases-view",
               component: () =>
                 import("@/view/pages/user/purchases/deliverables/Datatable"),
-              meta: { requiresAuth: true }
+              meta: { requiresAuth: true, scrollToTop: false }
             },
             {
               path: "/user/purchases/:id/deliverables/:deliverableId",
               name: "purchase-deliverables-view",
               component: () =>
                 import("@/view/pages/user/purchases/deliverables/View"),
-              meta: { requiresAuth: true }
+              meta: { requiresAuth: true, scrollToTop: false }
             },
             {
               path: "/user/purchases/:id/deliverables/:deliverableId/files",
               name: "purchase-deliverables-files",
               component: () =>
                 import("@/view/pages/user/purchases/deliverables/Files"),
-              meta: { requiresAuth: true }
+              meta: { requiresAuth: true, scrollToTop: false }
             }
           ]
         },
@@ -136,35 +136,35 @@ export default new Router({
               name: "orders-view",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Datatable"),
-              meta: { requiresAuth: true }
+              meta: { requiresAuth: true, scrollToTop: false }
             },
             {
               path: "/user/orders/:id/deliverables/create",
               name: "order-deliverables-create",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Create"),
-              meta: { requiresAuth: true }
+              meta: { requiresAuth: true, scrollToTop: false }
             },
             {
               path: "/user/orders/:id/deliverables/:deliverableId",
               name: "order-deliverables-view",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/View"),
-              meta: { requiresAuth: true }
+              meta: { requiresAuth: true, scrollToTop: false }
             },
             {
               path: "/user/orders/:id/deliverables/:deliverableId/edit",
               name: "order-deliverables-edit",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Edit"),
-              meta: { requiresAuth: true }
+              meta: { requiresAuth: true, scrollToTop: false }
             },
             {
               path: "/user/orders/:id/deliverables/:deliverableId/files",
               name: "order-deliverables-files",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Files"),
-              meta: { requiresAuth: true }
+              meta: { requiresAuth: true, scrollToTop: false }
             }
           ]
         },

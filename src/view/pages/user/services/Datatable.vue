@@ -177,10 +177,16 @@ export default {
           }
         });
 
+        window.$(btn).addClass("disabled spinner spinner-danger spinner-right");
+
         if (window._.isEmpty(result.data.deleteService.errors)) {
           this.notifySuccess("Service deleted successfully.");
           this.datatable.ajax.reload(null, false);
         }
+
+        window
+          .$(btn)
+          .removeClass("disabled spinner spinner-danger spinner-right");
       } else {
         btn.blur();
       }
