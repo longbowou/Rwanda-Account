@@ -94,13 +94,15 @@ export default {
             const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-dark btn-square" title="Show"><i class="flaticon-eye"></i></a>`;
             buttons.push(showBtn);
 
-            const filesRouter = $this.$router.resolve({
-              name: "purchase-deliverables-files",
-              params: { id: data.service_purchase, deliverableId: data.id }
-            });
+            if (data.files_count > 0) {
+              const filesRouter = $this.$router.resolve({
+                name: "purchase-deliverables-files",
+                params: { id: data.service_purchase, deliverableId: data.id }
+              });
 
-            const filesBtn = `<a href="${filesRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Files"><i class="flaticon2-file"></i></a>`;
-            buttons.push(filesBtn);
+              const filesBtn = `<a href="${filesRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Files"><i class="flaticon2-file"></i></a>`;
+              buttons.push(filesBtn);
+            }
 
             return buttons.join("");
           }
