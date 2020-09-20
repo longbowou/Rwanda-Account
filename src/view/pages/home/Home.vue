@@ -117,9 +117,9 @@
 </style>
 
 <script>
-import {SET_BREADCRUMB} from "@/core/services/store/modules/breadcrumbs.module";
-import {queryServices} from "@/graphql/service-queries";
-import {SET_HEAD_TITLE} from "@/core/services/store/modules/htmlhead.module";
+import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
+import { queryServices } from "@/graphql/service-queries";
+import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import ServiceCard from "@/view/pages/service/ServiceCard";
 
 export default {
@@ -131,8 +131,8 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "home" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "home");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Home" }]);
+    this.$store.dispatch(SET_HEAD_TITLE, "Home");
   },
   beforeMount() {
     this.fetchServices();

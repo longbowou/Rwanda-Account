@@ -27,7 +27,8 @@
                 >
                   <thead>
                     <tr>
-                      <th style="width: 30%">Service</th>
+                      <th>Number</th>
+                      <th style="width: 25%">Service</th>
                       <th>Status</th>
                       <th>Delay</th>
                       <th>Price</th>
@@ -38,7 +39,8 @@
                   </thead>
                   <tfoot>
                     <tr>
-                      <th style="width: 30%">Service</th>
+                      <th>Number</th>
+                      <th style="width: 25%">Service</th>
                       <th>Status</th>
                       <th>Delay</th>
                       <th>Price</th>
@@ -93,17 +95,30 @@ export default {
         [10, 50, 100, -1],
         [10, 50, 100, "All"]
       ],
-      order: [[5, "desc"]],
+      order: [[6, "desc"]],
       columnDefs: [
         {
           orderable: false,
           searchable: false,
-          targets: [0]
+          targets: [0],
+          render: function(data) {
+            const showRouter = $this.$router.resolve({
+              name: "orders-view",
+              params: { id: data.id }
+            });
+
+            return `<a href="${showRouter.href}" class="" >${data.number}</a>`;
+          }
         },
         {
           orderable: false,
           searchable: false,
-          targets: [6],
+          targets: [1]
+        },
+        {
+          orderable: false,
+          searchable: false,
+          targets: [7],
           render: function(data) {
             const buttons = [];
 
