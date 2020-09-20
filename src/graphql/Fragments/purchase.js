@@ -12,7 +12,8 @@ export const purchaseFields = gql`
     approved
     canceled
     inDispute
-    mustBeDeliveredAt
+    deadlineAt
+    hasBeenAccepted
     canBeApproved
     canBeCanceled
     canBeInDispute

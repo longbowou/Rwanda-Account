@@ -108,6 +108,8 @@ export default {
     }
   },
   beforeMount() {
+    this.fetchDeliverableVersions();
+
     if (this.updating) {
       this.fetchDeliverable();
     }
@@ -198,6 +200,15 @@ export default {
         this.initPlugins();
       }
     },
+    async fetchDeliverableVersions() {
+      let result = await this.$apollo.query({
+        query: queryDeliverableVersions
+      });
+
+      if (window._.isEmpty(result.errors)) {
+        this.deliverableVersions = result.data.deliverableVersions;
+      }
+    },
     initPlugins() {
       this.versionSelect2 = window.$("#version").select2();
 
@@ -208,12 +219,6 @@ export default {
         placeholder: "Content",
         theme: "snow"
       });
-    }
-  },
-  apollo: {
-    deliverableVersions: {
-      query: queryDeliverableVersions,
-      update: data => data.deliverableVersions
     }
   }
 };

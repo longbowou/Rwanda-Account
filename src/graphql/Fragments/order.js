@@ -12,7 +12,8 @@ export const orderFields = gql`
     approved
     canceled
     inDispute
-    mustBeDeliveredAt
+    deadlineAt
+    hasBeenAccepted
     canBeAccepted
     canBeDelivered
     canAddDeliverable

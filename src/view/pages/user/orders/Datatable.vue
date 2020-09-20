@@ -115,14 +115,6 @@ export default {
             const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-dark btn-square" title="Show"><i class="flaticon-eye"></i></a>`;
             buttons.push(showBtn);
 
-            const chatRouter = $this.$router.resolve({
-              name: "orders-view",
-              params: { id: data.id }
-            });
-
-            const chatBtn = `<a href="${chatRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Show"><i class="flaticon2-chat-1"></i></a>`;
-            buttons.push(chatBtn);
-
             if (data.can_be_accepted) {
               const acceptBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-accept" title="Accept" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="fas fa-check"></i></button>`;
               buttons.push(acceptBtn);
@@ -131,6 +123,16 @@ export default {
             if (data.can_be_delivered) {
               const deliverBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-deliver" title="Mark as Delivered" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
               buttons.push(deliverBtn);
+            }
+
+            if (data.has_been_accepted) {
+              const chatRouter = $this.$router.resolve({
+                name: "orders-view",
+                params: { id: data.id }
+              });
+
+              const chatBtn = `<a href="${chatRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Chat"><i class="flaticon2-chat-1"></i></a>`;
+              buttons.push(chatBtn);
             }
 
             return buttons.join("");
@@ -171,6 +173,9 @@ export default {
         " for " +
         btn.dataset.title +
         " ?";
+
+      window.$(btn).addClass("disabled spinner spinner-success spinner-right");
+
       const result = await this.acceptOrder(btn.dataset.id, title);
 
       if (window._.isObject(result)) {
@@ -178,6 +183,10 @@ export default {
       } else {
         btn.blur();
       }
+
+      window
+        .$(btn)
+        .removeClass("disabled spinner spinner-success spinner-right");
     },
     async handleDeliverOrder(btn) {
       const title =
@@ -186,6 +195,9 @@ export default {
         " for " +
         btn.dataset.title +
         " ?";
+
+      window.$(btn).addClass("disabled spinner spinner-success spinner-right");
+
       const result = await this.deliverOrder(btn.dataset.id, title);
 
       if (window._.isObject(result)) {
@@ -193,6 +205,10 @@ export default {
       } else {
         btn.blur();
       }
+
+      window
+        .$(btn)
+        .removeClass("disabled spinner spinner-success spinner-right");
     }
   }
 };

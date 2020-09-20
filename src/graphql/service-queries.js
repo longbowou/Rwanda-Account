@@ -63,7 +63,7 @@ export const queryServiceOrderPreview = gql`
       commissionTva
       totalPrice
       totalPriceTva
-      mustBeDeliveredAt
+      deadlineAt
       totalDelay
       serviceOptions {
         id

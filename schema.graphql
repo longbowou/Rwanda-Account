@@ -241,6 +241,7 @@ type DeliverableFileType {
     file: String!
     id: UUID!
     name: String!
+    size: Int!
     updatedAt: DateTime!
 }
 
@@ -406,7 +407,7 @@ type ServiceOrderType {
     cannotPayWithWallet: Boolean!
     commission: String!
     commissionTva: String!
-    mustBeDeliveredAt: String!
+    deadlineAt: String!
     service: ServiceType
     serviceOptions: [ServiceOptionType]
     totalDelay: String!
@@ -448,16 +449,18 @@ type ServicePurchaseType {
     chatSet: [ChatType!]!
     commission: Int!
     createdAt: DateTime!
+    deadlineAt: String
     delay: String!
     deliverableSet: [DeliverableType!]!
     delivered: Boolean!
     deliveredAt: DateTime
+    hasBeenAccepted: Boolean!
+    hasFinalDeliverable: Boolean!
     id: UUID!
     inDispute: Boolean!
     inDisputeAt: DateTime
     initiated: Boolean!
     litigation: LitigationType
-    mustBeDeliveredAt: String
     number: String!
     operationSet: [OperationType!]!
     price: String!

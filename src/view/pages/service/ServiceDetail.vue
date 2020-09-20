@@ -56,20 +56,9 @@
             <a
               :href="href"
               @click="navigate"
-              class="btn btn-light btn-lg btn-square btn-block font-weight-bold p-0 text-left"
+              class="btn btn-light-dark btn-lg btn-square btn-block font-weight-bold"
             >
-              <span
-                style="width: 35%"
-                class="btn btn-dark btn-lg btn-square font-weight-bold pl-1 pr-1"
-              >
-                {{ basePrice }} {{ currency }}
-              </span>
-              <span
-                class="btn btn-light-dark btn-lg btn-square font-weight-bold"
-                style="width: 65%"
-              >
-                Order Now
-              </span>
+              Order Now
             </a>
           </router-link>
 

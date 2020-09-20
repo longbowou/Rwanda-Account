@@ -3,6 +3,42 @@
     <!--begin::Dashboard-->
     <div class="row justify-content-center">
       <div class="col-md-8">
+        <div
+          class="card card-custom shadow-sm mb-5"
+          v-if="servicePurchase.initiated"
+        >
+          <div class="card-body p-5">
+            <div
+              class="alert alert-custom alert-notice alert-light-warning fade show m-0"
+              role="alert"
+            >
+              <div class="alert-icon">
+                <span
+                  class="svg-icon svg-icon-lg svg-icon-3x svg-icon-warning mr-3"
+                >
+                  <!--begin::Svg Icon-->
+                  <inline-svg src="media/svg/icons/Code/Warning-1-circle.svg" />
+                  <!--end::Svg Icon-->
+                </span>
+              </div>
+              <div class="alert-text text-justify font-weight-bold">
+                Your purchase <strong>{{ servicePurchase.number }}</strong> has
+                been successfully placed to the seller
+                <strong>{{
+                  servicePurchase.service
+                    ? servicePurchase.service.account.fullName
+                    : null
+                }}</strong
+                >. <br />
+                You must wait for the seller to <strong>accept</strong> the
+                order to continue the process of purchasing the service. <br />
+                You can <strong>cancel</strong> the purchase before the order is
+                accepted by the seller. <br />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!--begin::Card-->
         <div class="card card-custom gutter-b shadow-sm">
           <div class="card-header">
@@ -64,6 +100,7 @@
               </button>
 
               <a
+                v-if="servicePurchase.hasBeenAccepted"
                 href="javascript:void(0);"
                 title="Chat with the Seller"
                 class="btn btn-lg btn-icon btn-light-primary"
@@ -124,13 +161,50 @@
           </div>
         </div>
         <!--end::Card-->
-        <router-view />
+        <router-view v-if="servicePurchase.hasBeenAccepted" />
       </div>
 
       <div class="col-sm-4">
+        <div
+          class="card card-custom shadow-sm mb-5"
+          v-if="servicePurchase.accepted"
+        >
+          <div class="card-body p-5">
+            <div
+              class="alert alert-custom alert-notice alert-secondary fade show m-0"
+              role="alert"
+            >
+              <div class="alert-icon">
+                <span
+                  class="svg-icon svg-icon-lg svg-icon-3x svg-icon-secondary mr-3"
+                >
+                  <!--begin::Svg Icon-->
+                  <inline-svg src="media/svg/icons/Code/Info-circle.svg" />
+                  <!--end::Svg Icon-->
+                </span>
+              </div>
+              <div class="alert-text text-justify font-weight-bold">
+                The seller has accepted your purchase a delivery deadline has
+                been set to
+                <strong>{{ servicePurchase.deadlineAt }}</strong
+                >. <br />
+                <strong
+                  >The seller will publish a deliverable in final version and
+                  mark the order as delivered before the end of this
+                  deadline.</strong
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
         <timeline :timelines="servicePurchase.timelines" />
 
-        <user-card :user="servicePurchase.service.account" />
+        <user-card
+          :user="
+            servicePurchase.service ? servicePurchase.service.account : null
+          "
+        />
       </div>
     </div>
     <!--end::Dashboard-->
@@ -201,6 +275,16 @@ export default {
         " for " +
         this.servicePurchase.service.title +
         " ?";
+
+      window.$(this.$refs.btnCancel).removeClass("btn-light-danger");
+      window
+        .$(this.$refs.btnCancel)
+        .addClass("btn-light disabled spinner spinner-danger spinner-right");
+      window
+        .$(this.$refs.btnCancel)
+        .find("i")
+        .css("display", "none");
+
       const result = await this.cancelPurchase(
         this.servicePurchase.id,
         title,
@@ -212,6 +296,15 @@ export default {
       } else {
         this.$refs.btnCancel.blur();
       }
+
+      window.$(this.$refs.btnCancel).addClass("btn-light-danger");
+      window
+        .$(this.$refs.btnCancel)
+        .removeClass("btn-light disabled spinner spinner-danger spinner-right");
+      window
+        .$(this.$refs.btnCancel)
+        .find("i")
+        .css("display", "");
     },
     async handleApprovePurchase() {
       const title =
@@ -220,6 +313,16 @@ export default {
         " for " +
         this.servicePurchase.service.title +
         " ?";
+
+      window.$(this.$refs.btnApprove).removeClass("btn-light-success");
+      window
+        .$(this.$refs.btnApprove)
+        .addClass("btn-light disabled spinner spinner-success spinner-right");
+      window
+        .$(this.$refs.btnApprove)
+        .find("i")
+        .css("display", "none");
+
       const result = await this.approvePurchase(
         this.servicePurchase.id,
         title,
@@ -231,6 +334,17 @@ export default {
       } else {
         this.$refs.btnApprove.blur();
       }
+
+      window.$(this.$refs.btnApprove).addClass("btn-light-success");
+      window
+        .$(this.$refs.btnApprove)
+        .removeClass(
+          "btn-light disabled spinner spinner-success spinner-right"
+        );
+      window
+        .$(this.$refs.btnApprove)
+        .find("i")
+        .css("display", "");
     }
   }
 };

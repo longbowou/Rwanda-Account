@@ -112,25 +112,27 @@ export default {
               params: { id: data.id }
             });
 
-            const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-dark btn-square btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
+            const showBtn = `<a href="${showRouter.href}" data-toggle="tooltip" class="btn btn-sm btn-clean btn-icon btn-hover-icon-dark btn-square btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
             buttons.push(showBtn);
 
-            const chatRouter = $this.$router.resolve({
-              name: "purchases-view",
-              params: { id: data.id }
-            });
-
-            const chatBtn = `<a href="${chatRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Show"><i class="flaticon2-chat-1"></i></a>`;
-            buttons.push(chatBtn);
-
             if (data.can_be_canceled) {
-              const cancelBtn = `<button class="btn btn-sm btn-clean btn-icon btn-hover-icon-danger btn-icon-sm btn-square btn-cancel" title="Cancel" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="flaticon2-cancel"></i></button>`;
+              const cancelBtn = `<button data-toggle="tooltip" class="btn btn-sm btn-clean btn-icon btn-hover-icon-danger btn-icon-sm btn-square btn-cancel" title="Cancel" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="flaticon2-cancel"></i></button>`;
               buttons.push(cancelBtn);
             }
 
             if (data.can_be_approved) {
-              const approveBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-square btn-hover-icon-success btn-approve" title="Approve" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
+              const approveBtn = `<button data-toggle="tooltip" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-square btn-hover-icon-success btn-approve" title="Approve" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
               buttons.push(approveBtn);
+            }
+
+            if (data.has_been_accepted) {
+              const chatRouter = $this.$router.resolve({
+                name: "purchases-view",
+                params: { id: data.id }
+              });
+
+              const chatBtn = `<a href="${chatRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Chat"><i class="flaticon2-chat-1"></i></a>`;
+              buttons.push(chatBtn);
             }
 
             return buttons.join("");
@@ -171,6 +173,9 @@ export default {
         " for " +
         btn.dataset.title +
         " ?";
+
+      window.$(btn).addClass("disabled spinner spinner-danger spinner-right");
+
       const result = await this.cancelPurchase(btn.dataset.id, title);
 
       if (window._.isObject(result)) {
@@ -178,6 +183,10 @@ export default {
       } else {
         btn.blur();
       }
+
+      window
+        .$(btn)
+        .removeClass("disabled spinner spinner-danger spinner-right");
     },
     async handleApprovePurchase(btn) {
       const title =
@@ -186,6 +195,9 @@ export default {
         " for " +
         btn.dataset.title +
         " ?";
+
+      window.$(btn).addClass("disabled spinner spinner-success spinner-right");
+
       const result = await this.approvePurchase(btn.dataset.id, title);
 
       if (window._.isObject(result)) {
@@ -193,6 +205,10 @@ export default {
       } else {
         btn.blur();
       }
+
+      window
+        .$(btn)
+        .removeClass("disabled spinner spinner-success spinner-right");
     }
   }
 };

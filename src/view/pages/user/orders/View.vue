@@ -3,6 +3,42 @@
     <!--begin::Dashboard-->
     <div class="row justify-content-center">
       <div class="col-md-8">
+        <div
+          class="card card-custom shadow-sm mb-5"
+          v-if="servicePurchase.initiated"
+        >
+          <div class="card-body p-5">
+            <div
+              class="alert alert-custom alert-notice alert-light-warning fade show m-0"
+              role="alert"
+            >
+              <div class="alert-icon">
+                <span
+                  class="svg-icon svg-icon-lg svg-icon-3x svg-icon-warning mr-3"
+                >
+                  <!--begin::Svg Icon-->
+                  <inline-svg src="media/svg/icons/Code/Warning-1-circle.svg" />
+                  <!--end::Svg Icon-->
+                </span>
+              </div>
+              <div class="alert-text text-justify font-weight-bold">
+                <h5>Action Required</h5>
+                New order <strong>{{ servicePurchase.number }}</strong> has been
+                placed by <strong>{{ servicePurchase.account.fullName }}</strong
+                >. <br />
+                You must <strong>accept</strong> the order to continue the
+                process of purchasing the service. <br />
+                The buyer
+                <strong>{{ servicePurchase.account.fullName }}</strong> during
+                this time before you accept the order may at any time
+                <strong>cancel</strong> the order. <br />
+                By responding quickly you <strong>increase</strong> your
+                response time.
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!--begin::Card-->
         <div class="card card-custom gutter-b shadow-sm">
           <div class="card-header">
@@ -64,6 +100,7 @@
               </button>
 
               <a
+                v-if="servicePurchase.hasBeenAccepted"
                 href="javascript:void(0);"
                 title="Chat with the Seller"
                 class="btn btn-lg btn-icon btn-light-primary"
@@ -113,17 +150,49 @@
           <div class="card-footer pt-4 pb-4" v-if="servicePurchase.accepted">
             <h6 class="text-dark-65 m-0">
               Deadline
-              <span class="text-primary">{{
-                servicePurchase.mustBeDeliveredAt
-              }}</span>
+              <span class="text-primary">{{ servicePurchase.deadlineAt }}</span>
             </h6>
           </div>
         </div>
         <!--end::Card-->
-        <router-view v-on:deliverables-updated="fetchOrder" />
+        <router-view
+          v-if="servicePurchase.hasBeenAccepted"
+          v-on:deliverables-updated="fetchOrder"
+        />
       </div>
 
       <div class="col-sm-4">
+        <div
+          class="card card-custom shadow-sm mb-5"
+          v-if="servicePurchase.accepted"
+        >
+          <div class="card-body p-5">
+            <div
+              class="alert alert-custom alert-notice alert-secondary fade show m-0"
+              role="alert"
+            >
+              <div class="alert-icon">
+                <span
+                  class="svg-icon svg-icon-lg svg-icon-3x svg-icon-secondary mr-3"
+                >
+                  <!--begin::Svg Icon-->
+                  <inline-svg src="media/svg/icons/Code/Info-circle.svg" />
+                  <!--end::Svg Icon-->
+                </span>
+              </div>
+              <div class="alert-text text-justify font-weight-bold">
+                By accepting the order a delivery deadline has been set to
+                <strong>{{ servicePurchase.deadlineAt }}</strong>
+                for the order. <br />
+                <strong
+                  >You must publish a deliverable in final version and mark the
+                  order as delivered before the end of this deadline.</strong
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
         <timeline :timelines="servicePurchase.timelines" />
 
         <user-card :user="servicePurchase.account" />
@@ -197,17 +266,37 @@ export default {
         " for " +
         this.servicePurchase.service.title +
         " ?";
+
+      window.$(this.$refs.btnAccept).removeClass("btn-light-success");
+      window
+        .$(this.$refs.btnAccept)
+        .addClass("btn-light disabled spinner spinner-success spinner-right");
+      window
+        .$(this.$refs.btnAccept)
+        .find("i")
+        .css("display", "none");
+
       const result = await this.acceptOrder(
         this.servicePurchase.id,
         title,
         true
       );
-
       if (window._.isObject(result)) {
         this.servicePurchase = result.servicePurchase;
       } else {
         this.$refs.btnAccept.blur();
       }
+
+      window.$(this.$refs.btnAccept).addClass("btn-light-success");
+      window
+        .$(this.$refs.btnAccept)
+        .removeClass(
+          "btn-light disabled spinner spinner-success spinner-right"
+        );
+      window
+        .$(this.$refs.btnAccept)
+        .find("i")
+        .css("display", "");
     },
     async handleDeliverOrder() {
       const title =
@@ -216,6 +305,16 @@ export default {
         " for " +
         this.servicePurchase.service.title +
         " ?";
+
+      window.$(this.$refs.btnDeliver).removeClass("btn-light-success");
+      window
+        .$(this.$refs.btnDeliver)
+        .addClass("btn-light disabled spinner spinner-success spinner-right");
+      window
+        .$(this.$refs.btnDeliver)
+        .find("i")
+        .css("display", "none");
+
       const result = await this.deliverOrder(
         this.servicePurchase.id,
         title,
@@ -227,6 +326,17 @@ export default {
       } else {
         this.$refs.btnDeliver.blur();
       }
+
+      window.$(this.$refs.btnDeliver).addClass("btn-light-success");
+      window
+        .$(this.$refs.btnDeliver)
+        .removeClass(
+          "btn-light disabled spinner spinner-success spinner-right"
+        );
+      window
+        .$(this.$refs.btnDeliver)
+        .find("i")
+        .css("display", "");
     }
   }
 };

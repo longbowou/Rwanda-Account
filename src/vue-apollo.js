@@ -90,7 +90,7 @@ const defaultOptions = {
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
   // httpLinkOptions property of defaultOptions.
-  link: ApolloLink.from([errorLink, httpLink])
+  link: ApolloLink.from([errorLink, httpLink]),
   // Override default cache
   // cache: myCache
 
@@ -103,7 +103,13 @@ const defaultOptions = {
   // }
 
   // Additional ApolloClient options
-  // apollo: { ... }
+  apollo: {
+    defaultOptions: {
+      query: {
+        fetchPolicy: "no-cache"
+      }
+    }
+  }
 
   // Client local data (see apollo-link-state)
   // clientState: { resolvers: { ... }, defaults: { ... } }
@@ -121,9 +127,7 @@ export function createProvider() {
   return new VueApollo({
     defaultClient: apolloClient,
     defaultOptions: {
-      $query: {
-        fetchPolicy: "network-only" | "cache-only"
-      }
+      $query: {}
     },
     errorHandler(error) {
       // eslint-disable-next-line no-console

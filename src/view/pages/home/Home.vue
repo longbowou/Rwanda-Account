@@ -117,9 +117,9 @@
 </style>
 
 <script>
-import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
-import { queryServices } from "@/graphql/service-queries";
-import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
+import {SET_BREADCRUMB} from "@/core/services/store/modules/breadcrumbs.module";
+import {queryServices} from "@/graphql/service-queries";
+import {SET_HEAD_TITLE} from "@/core/services/store/modules/htmlhead.module";
 import ServiceCard from "@/view/pages/service/ServiceCard";
 
 export default {
@@ -134,11 +134,18 @@ export default {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "home" }]);
     this.$store.dispatch(SET_HEAD_TITLE, "home");
   },
-  methods: {},
-  apollo: {
-    services: {
-      query: queryServices,
-      update: data => data.services
+  beforeMount() {
+    this.fetchServices();
+  },
+  methods: {
+    async fetchServices() {
+      const result = await this.$apollo.query({
+        query: queryServices
+      });
+
+      if (window._.isEmpty(result.errors)) {
+        this.services = result.data.services;
+      }
     }
   }
 };

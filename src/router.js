@@ -94,7 +94,6 @@ export default new Router({
         },
         {
           path: "/user/purchases/:id",
-          name: "purchases-view",
           component: () => import("@/view/pages/user/purchases/View"),
           meta: { requiresAuth: true },
           children: [

@@ -21,7 +21,11 @@
         <div class="card-body">
           <div class="row mb-2">
             <h6 class="col-sm-9 font-weight-bold">
-              {{ serviceOrderPreview.service.title }}
+              {{
+                serviceOrderPreview.service
+                  ? serviceOrderPreview.service.title
+                  : null
+              }}
             </h6>
             <h5 class="col-sm-3 font-weight-bold text-right">
               {{ serviceOrderPreview.basePrice }} {{ currency }}
@@ -48,8 +52,9 @@
             <p class="col-sm-3 text-right">
               {{ serviceOrderPreview.totalDelay }} days <br />
               <span class="text-primary">
-                Will be delivered at
-                <strong>{{ serviceOrderPreview.mustBeDeliveredAt }}</strong>
+                Deadline will be set to <br />
+                <strong>{{ serviceOrderPreview.deadlineAt }}</strong>
+                <br />
                 if the order is accepted today
               </span>
             </p>
@@ -167,6 +172,25 @@
           </p>
 
           <div class="row justify-content-center">
+            <div
+              v-if="serviceOrderPreview.cannotPayWithWallet"
+              class="col-sm-6 alert alert-custom alert-light-warning"
+              role="alert"
+            >
+              <div class="alert-icon">
+                <span
+                  class="svg-icon svg-icon-lg svg-icon-3x svg-icon-warning mr-3"
+                >
+                  <!--begin::Svg Icon-->
+                  <inline-svg src="media/svg/icons/Code/Warning-1-circle.svg" />
+                  <!--end::Svg Icon-->
+                </span>
+              </div>
+              <div class="alert-text">
+                <h5>You don't have enough balance to pay with your Wallet.</h5>
+              </div>
+            </div>
+
             <div class="col-md-12 text-center m-5">
               <a
                 id="wallet"
@@ -334,8 +358,7 @@ export default {
         variables: {
           service: this.$route.params.id,
           serviceOptions: serviceOptions
-        },
-        fetchPolicy: "no-cache"
+        }
       });
 
       if (window._.isEmpty(result.errors)) {
@@ -385,7 +408,8 @@ export default {
       proceedButton.removeClass("disabled spinner spinner-light spinner-right");
 
       await this.$router.push({
-        name: "purchases"
+        name: "purchases-view",
+        params: { id: result.data.initServicePurchase.servicePurchase.id }
       });
 
       this.notifySuccess(

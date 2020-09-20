@@ -18,7 +18,9 @@
       }}</span>
     </a>
 
-    <button class="btn btn-light btn-lg btn-block btn-square font-weight-bold">
+    <button
+      class="btn btn-light-dark btn-lg btn-block btn-square font-weight-bold"
+    >
       Order Now
     </button>
   </b-card>
