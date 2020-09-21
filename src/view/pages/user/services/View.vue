@@ -108,6 +108,8 @@
       </div>
     </div>
     <!--end::Dashboard-->
+
+    <service-options />
   </div>
 </template>
 
@@ -115,9 +117,12 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { queryService } from "@/graphql/service-queries";
+import ServiceOptions from "@/view/pages/user/services/options/Datatable";
 
 export default {
   name: "ServiceView",
+  components: { ServiceOptions },
+  comments: { ServiceOptions },
   data() {
     return {
       service: {}

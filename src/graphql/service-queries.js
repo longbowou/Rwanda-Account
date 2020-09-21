@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { serviceOptionFields } from "@/graphql/Fragments/service-option";
 
 export const queryServices = gql`
   query {
@@ -41,9 +42,10 @@ export const queryService = gql`
       delay
       delayDisplay
       keywords
-      published
       stars
       createdAt
+      optionsCount
+      optionsCountDisplay
       serviceCategory {
         id
         label
@@ -55,44 +57,12 @@ export const queryService = gql`
         fileUrl
         url
       }
-      serviceoptionSet {
-        label
-        description
-        price
-        delay
+      options {
+        ...serviceOptionFields
       }
     }
   }
-`;
-export const queryServiceOptions = gql`
-  query {
-    serviceOptions {
-      id
-      label
-      description
-      delay
-      price
-      published
-      service {
-        id
-      }
-    }
-  }
-`;
-export const queryServiceOption = gql`
-  query serviceOption($id: UUID!) {
-    serviceOption(id: $id) {
-      id
-      label
-      description
-      delay
-      price
-      published
-      service {
-        id
-      }
-    }
-  }
+  ${serviceOptionFields}
 `;
 
 export const queryServiceOrderPreview = gql`

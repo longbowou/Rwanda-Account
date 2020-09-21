@@ -88,7 +88,7 @@ import {
   updateServiceOption
 } from "@/graphql/service-mutations";
 import Quill from "quill";
-import { queryServiceOption } from "@/graphql/service-queries";
+import {queryServiceOption} from "@/graphql/service-options-queries";
 
 export default {
   name: "OptionForm",

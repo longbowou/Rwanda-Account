@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-sm-8">
-      <div class="card card-custom shadow-sm">
+      <div class="card card-custom shadow-sm mb-5">
         <div class="card-header">
           <div class="card-title">
             <span
@@ -27,7 +27,45 @@
             alt=""
           />
 
-          <div class="p-5" v-html="service.content"></div>
+          <div class="p-5">
+            <div v-html="service.content"></div>
+
+            <span
+              class="form-control-plaintext font-weight-bold"
+              v-if="service.keywords"
+            >
+              <template v-for="(keyword, index) of service.keywords.split(',')">
+                <span
+                  :key="index"
+                  class="ml-3 label label-xl font-weight-bold text-dark-50 label-inline label-square mb-2"
+                >
+                  {{ keyword }}
+                </span>
+              </template>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-custom shadow-sm">
+        <div class="card-header">
+          <div class="card-title">
+            <span
+              class="svg-icon svg-icon-lg svg-icon-3x svg-icon-primary mr-3"
+            >
+              <!--begin::Svg Icon-->
+              <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
+              <!--end::Svg Icon-->
+            </span>
+
+            <h3 class="card-label">
+              Customize the service
+            </h3>
+          </div>
+        </div>
+
+        <div class="card-body p-5">
+
         </div>
       </div>
     </div>

@@ -198,7 +198,7 @@
           </div>
         </div>
 
-        <timeline :timelines="servicePurchase.timelines" />
+        <timeline :timelines="timelines" />
 
         <user-card
           :user="
@@ -226,6 +226,7 @@ import { purchaseActionsMixin, toastMixin } from "@/view/mixins";
 import { queryServicePurchase } from "@/graphql/purchase-queries";
 import UserCard from "@/view/pages/partials/UserCard";
 import Timeline from "@/view/pages/user/purchases/Timeline";
+import { queryServicePurchaseTimeline } from "@/graphql/service-purchase-queries";
 
 export default {
   name: "PurchaseView",
@@ -233,7 +234,8 @@ export default {
   components: { UserCard, Timeline },
   data() {
     return {
-      servicePurchase: {}
+      servicePurchase: {},
+      timelines: {}
     };
   },
   computed: {
@@ -246,12 +248,15 @@ export default {
       return "";
     }
   },
-  mounted() {
-  },
+  mounted() {},
   beforeMount() {
-    this.fetchPurchase();
+    this.fetchData();
   },
   methods: {
+    fetchData() {
+      this.fetchOrder();
+      this.fetchTimeline();
+    },
     async fetchPurchase() {
       const result = await this.$apollo.query({
         query: queryServicePurchase,
@@ -265,6 +270,18 @@ export default {
 
         await this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
         await this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
+      }
+    },
+    async fetchTimeline() {
+      const result = await this.$apollo.query({
+        query: queryServicePurchaseTimeline,
+        variables: {
+          id: this.$route.params.id
+        }
+      });
+
+      if (window._.isEmpty(result.errors)) {
+        this.timelines = result.data.servicePurchase.timelines;
       }
     },
     async handleCancelPurchase() {

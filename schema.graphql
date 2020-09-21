@@ -69,10 +69,21 @@ type AccountQuery {
     service(id: UUID!): ServiceType!
     "ServiceCategory list"
     serviceCategories(id: UUID): [ServiceCategoryType]
+    serviceOption(id: UUID!): ServiceOptionType
+    "ServiceOption list"
+    serviceOptions(id: UUID): [ServiceOptionType]
     serviceOrderPreview(service: UUID!, serviceOptions: [UUID!]): ServiceOrderType!
     servicePurchase(id: UUID!): ServicePurchaseType!
     "Service list"
-    services(id: UUID): [ServiceType]
+    services(
+        id: UUID,
+        "Number of results to return per page. Default 'default_limit': 5, and 'max_limit': None"
+        limit: Int = 5,
+        "The initial index from which to return the results. Default: 0"
+        offset: Int,
+        "A string or comma delimited string values that indicate the default ordering when obtaining lists of objects."
+        ordering: String
+    ): [ServiceType]
 }
 
 type AccountType implements UserInterface {
@@ -391,11 +402,14 @@ type ServiceMediaType {
 
 type ServiceOptionType {
     createdAt: DateTime!
-    delay: String!
+    delay: Int!
+    delayDisplay: String!
     description: String
     id: UUID!
     label: String!
-    price: String!
+    price: Int!
+    priceDisplay: String!
+    published: Boolean!
     service: ServiceType!
     servicepurchaseSet: [ServicePurchaseType!]!
     servicepurchaseserviceoptionSet: [ServicePurchaseServiceOptionType!]!
@@ -476,11 +490,14 @@ type ServiceType {
     account: AccountType!
     activated: Boolean!
     content: String!
-    createdAt: DateTime!
+    createdAt: String!
     delay: Int!
     delayDisplay: String!
     id: UUID!
     keywords: String
+    options: [ServiceOptionType]!
+    optionsCount: Int!
+    optionsCountDisplay: String!
     published: Boolean!
     serviceCategory: ServiceCategoryType!
     servicecommentSet: [ServiceCommentType!]!
@@ -649,6 +666,7 @@ input CreateServiceOptionInput {
     description: String
     label: String!
     price: Int!
+    published: Boolean
     service: ID!
 }
 
@@ -740,6 +758,7 @@ input UpdateServiceOptionInput {
     id: UUID!
     label: String
     price: Int
+    published: Boolean
 }
 
 
