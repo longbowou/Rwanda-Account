@@ -14,10 +14,24 @@
               </span>
               <h3 class="card-label">Add Options to the service</h3>
             </div>
+            <div class="card-toolbar">
+              <button
+                @click="
+                  $router.push({
+                    name: 'service-options',
+                    params: { id: $route.params.id }
+                  })
+                "
+                class="btn btn-light-dark font-weight-bolder mr-2"
+              >
+                <i class="ki ki-long-arrow-back icon-lg"></i>
+                Back
+              </button>
+            </div>
           </div>
           <div class="card-body">
             <div class="row justify-content-center">
-              <service-form />
+              <option-form />
             </div>
           </div>
         </div>
@@ -31,14 +45,11 @@
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import { formMixin, toastMixin } from "@/view/mixins";
-import "select2";
-import ServiceForm from "@/view/pages/user/services/ServiceForm";
+import OptionForm from "@/view/pages/user/services/options/OptionForm";
 
 export default {
   name: "user-services-create",
-  components: { ServiceForm },
-  mixins: [formMixin, toastMixin],
+  components: { OptionForm },
   data() {
     return {};
   },

@@ -82,18 +82,17 @@
 </template>
 
 <script>
-import { formMixin, toast } from "@/view/mixins";
+import { formMixin, toastMixin } from "@/view/mixins";
 import {
   createServiceOption,
   updateServiceOption
 } from "@/graphql/service-mutations";
-import _ from "lodash";
 import Quill from "quill";
 import { queryServiceOption } from "@/graphql/service-queries";
 
 export default {
   name: "OptionForm",
-  mixins: [formMixin, toast],
+  mixins: [formMixin, toastMixin],
   props: ["serviceOptionId"],
   data() {
     return {
@@ -152,7 +151,7 @@ export default {
       } else {
         this.errors = result.data.updateServiceOption.errors;
       }
-      if (!_.isEmpty(this.errors)) {
+      if (!window._.isEmpty(this.errors)) {
         submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
@@ -160,12 +159,12 @@ export default {
       submitButton.removeClass("spinner spinner-light spinner-right");
 
       await this.$router.push({
-        name: "user-services-options"
+        name: "services-options"
       });
 
       let message = "Service option added successfully.";
       if (this.updating) {
-        message = "Service option  updated successfully.";
+        message = "Service option updated successfully.";
       }
 
       return this.notifySuccess(message);
@@ -179,7 +178,7 @@ export default {
         fetchPolicy: "no-cache"
       });
 
-      if (_.isEmpty(result.errors)) {
+      if (window._.isEmpty(result.errors)) {
         this.serviceOption = result.data.serviceOption;
 
         this.input.id = this.serviceOption.id;

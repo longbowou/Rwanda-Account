@@ -30,6 +30,14 @@
                 Add a Service Option
               </a>
             </router-link>
+
+            <button
+              @click="$router.push({ name: 'user-services' })"
+              class="btn btn-light-dark font-weight-bolder ml-2"
+            >
+              <i class="ki ki-long-arrow-back icon-lg"></i>
+              Back
+            </button>
           </div>
         </div>
         <div class="card-body">
@@ -83,13 +91,12 @@ import { servicesOptionsUrl } from "@/core/server-side/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
 import { deleteServiceOption } from "@/graphql/service-mutations";
-import _ from "lodash";
-import { toast } from "@/view/mixins";
+import { toastMixin } from "@/view/mixins";
 import { queryService } from "@/graphql/service-queries";
 
 export default {
   name: "ServiceOptions",
-  mixins: [toast],
+  mixins: [toastMixin],
   data() {
     return {
       datatable: {},
@@ -125,15 +132,15 @@ export default {
               name: "service-options-view",
               params: { id: data.service, optionId: data.id }
             });
-            const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
+            const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-dark btn-square btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
 
             const editRouter = $this.$router.resolve({
               name: "service-options-edit",
               params: { id: data.service, optionId: data.id }
             });
-            const editBtn = `<a href="${editRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit"><i class="fa fa-edit"></i></a>`;
+            const editBtn = `<a href="${editRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square" title="Edit"><i class="fa fa-edit"></i></a>`;
 
-            const deleteBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-delete" title="Delete" data-id="${data.id}" data-label="${data.label}"><i class="fa fa-trash"></i></button>`;
+            const deleteBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-danger btn-square btn-delete" title="Delete" data-id="${data.id}" data-label="${data.label}"><i class="fa fa-trash"></i></button>`;
             return showBtn + " " + editBtn + " " + deleteBtn;
           }
         }
@@ -158,12 +165,13 @@ export default {
       .on("click", ".btn-delete", function() {
         $this.deleteServiceOption(
           window.$(this)[0].dataset.id,
-          window.$(this)[0].dataset.label
+          window.$(this)[0].dataset.label,
+          window.$(this)[0]
         );
       });
   },
   methods: {
-    async deleteServiceOption(id, label) {
+    async deleteServiceOption(id, label, btn) {
       if (confirm("Do you really want to delete " + label + " ?")) {
         let result = await this.$apollo.mutate({
           mutation: deleteServiceOption,
@@ -172,10 +180,16 @@ export default {
           }
         });
 
-        if (_.isEmpty(result.data.deleteServiceOption.errors)) {
+        window.$(btn).addClass("disabled spinner spinner-danger spinner-right");
+
+        if (window._.isEmpty(result.data.deleteServiceOption.errors)) {
           this.notifySuccess("Service Option deleted successfully.");
           this.datatable.ajax.reload(null, false);
         }
+
+        window
+          .$(btn)
+          .removeClass("disabled spinner spinner-danger spinner-right");
       }
     },
     async fetchService() {
@@ -187,7 +201,7 @@ export default {
         fetchPolicy: "no-cache"
       });
 
-      if (_.isEmpty(result.errors)) {
+      if (window._.isEmpty(result.errors)) {
         this.service = result.data.service;
 
         this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);

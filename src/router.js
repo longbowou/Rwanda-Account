@@ -82,7 +82,7 @@ export default new Router({
         },
         {
           path: "/user/services/:id/options",
-          name: "services-options",
+          name: "service-options",
           component: () =>
             import("@/view/pages/user/services/options/Datatable"),
           meta: { requiresAuth: true }
