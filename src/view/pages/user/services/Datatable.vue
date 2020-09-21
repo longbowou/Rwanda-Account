@@ -128,7 +128,7 @@ export default {
             const editBtn = `<a href="${editRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit"><i class="fa fa-edit"></i></a>`;
 
             const optionsRouter = $this.$router.resolve({
-              name: "user-services-options",
+              name: "services-options",
               params: { id: data.id }
             });
             const optionsBtn = `<a href="${optionsRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Options"><i class="flaticon2-layers"></i></a>`;

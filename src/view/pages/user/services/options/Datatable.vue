@@ -12,11 +12,11 @@
               <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
               <!--end::Svg Icon-->
             </span>
-            <h3 class="card-label">My Service Options</h3>
+            <h3 class="card-label">Service Options</h3>
           </div>
           <div class="card-toolbar">
             <router-link
-              :to="{ name: 'user-services-add-option' }"
+              :to="{ name: 'service-options-create' }"
               v-slot="{ href, navigate, isActive, isExactActive }"
             >
               <a
@@ -85,22 +85,30 @@ import i18nService from "@/core/services/i18n.service";
 import { deleteServiceOption } from "@/graphql/service-mutations";
 import _ from "lodash";
 import { toast } from "@/view/mixins";
+import { queryService } from "@/graphql/service-queries";
 
 export default {
-  name: "user-services-options",
+  name: "ServiceOptions",
   mixins: [toast],
   data() {
     return {
-      datatable: {}
+      datatable: {},
+      service: {}
     };
   },
   computed: {
-    ...mapGetters(["currentAccount", "currency"])
+    ...mapGetters(["currentAccount", "currency"]),
+    getTitle() {
+      if (this.service) {
+        return this.service.title;
+      }
+      return null;
+    }
+  },
+  beforeMount() {
+    this.fetchService();
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "My Services" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "My Services");
-
     this.datatable = window.$("#service-options-dataTable").DataTable({
       lengthMenu: [
         [10, 50, 100, -1],
@@ -114,13 +122,13 @@ export default {
           targets: [5],
           render: function(data) {
             const showRouter = $this.$router.resolve({
-              name: "service-detail",
-              params: { id: data.id }
+              name: "service-options-view",
+              params: { id: data.service, optionId: data.id }
             });
             const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
 
             const editRouter = $this.$router.resolve({
-              name: "user-services-edit-option",
+              name: "service-options-edit",
               params: { id: data.service, optionId: data.id }
             });
             const editBtn = `<a href="${editRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit"><i class="fa fa-edit"></i></a>`;
@@ -168,6 +176,22 @@ export default {
           this.notifySuccess("Service Option deleted successfully.");
           this.datatable.ajax.reload(null, false);
         }
+      }
+    },
+    async fetchService() {
+      let result = await this.$apollo.query({
+        query: queryService,
+        variables: {
+          id: this.$route.params.id
+        },
+        fetchPolicy: "no-cache"
+      });
+
+      if (_.isEmpty(result.errors)) {
+        this.service = result.data.service;
+
+        this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
+        this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
       }
     }
   }

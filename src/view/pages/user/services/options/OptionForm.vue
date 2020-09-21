@@ -92,7 +92,7 @@ import Quill from "quill";
 import { queryServiceOption } from "@/graphql/service-queries";
 
 export default {
-  name: "options-form",
+  name: "OptionForm",
   mixins: [formMixin, toast],
   props: ["serviceOptionId"],
   data() {

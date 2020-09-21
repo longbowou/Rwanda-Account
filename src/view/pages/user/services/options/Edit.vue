@@ -17,7 +17,7 @@
           </div>
           <div class="card-body">
             <div class="row justify-content-center">
-              <options-form />
+              <option-form />
             </div>
           </div>
         </div>
@@ -32,11 +32,11 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { formMixin, toast } from "@/view/mixins";
-import OptionsForm from "@/view/pages/user/services/options/OptionsForm";
+import OptionForm from "@/view/pages/user/services/options/OptionForm";
 
 export default {
-  name: "user-services-edit-option",
-  components: { OptionsForm },
+  name: "ServiceOptionEdit",
+  components: { OptionForm },
   mixins: [formMixin, toast],
   data() {
     return {};
