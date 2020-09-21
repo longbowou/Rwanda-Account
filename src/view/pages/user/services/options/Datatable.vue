@@ -15,6 +15,14 @@
             <h3 class="card-label">Service Options</h3>
           </div>
           <div class="card-toolbar">
+            <button
+              @click="$router.push({ name: 'user-services' })"
+              class="btn btn-light-dark font-weight-bolder mr-2"
+            >
+              <i class="ki ki-long-arrow-back icon-lg"></i>
+              Back
+            </button>
+
             <router-link
               :to="{ name: 'service-options-create' }"
               v-slot="{ href, navigate, isActive, isExactActive }"
@@ -30,14 +38,6 @@
                 Add a Service Option
               </a>
             </router-link>
-
-            <button
-              @click="$router.push({ name: 'user-services' })"
-              class="btn btn-light-dark font-weight-bolder ml-2"
-            >
-              <i class="ki ki-long-arrow-back icon-lg"></i>
-              Back
-            </button>
           </div>
         </div>
         <div class="card-body">
