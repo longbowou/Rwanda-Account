@@ -80,11 +80,6 @@
     </div>
   </form>
 </template>
-<style>
-.select2-selection {
-  min-height: 36px;
-}
-</style>
 
 <script>
 import { formMixin, toast } from "@/view/mixins";
@@ -94,7 +89,6 @@ import {
 } from "@/graphql/service-mutations";
 import _ from "lodash";
 import Quill from "quill";
-import "select2";
 import { queryServiceOption } from "@/graphql/service-queries";
 
 export default {
@@ -112,19 +106,19 @@ export default {
   },
   computed: {
     creating() {
-      return this.serviceOptionId === undefined;
+      return this.$route.params.optionId === undefined;
     },
     updating() {
-      return this.serviceOptionId !== undefined;
+      return !this.creating;
     }
   },
   beforeMount() {
-    if (this.serviceOptionId !== undefined) {
+    if (this.updating) {
       this.fetchServiceOption();
     }
   },
   mounted() {
-    if (this.serviceOptionId === undefined) {
+    if (this.creating) {
       this.initPlugins();
     }
   },
@@ -137,6 +131,9 @@ export default {
 
       this.errors = [];
       this.input.description = this.descriptionQuill.root.innerHTML;
+      if (this.creating) {
+        this.input.service = this.$route.params.id;
+      }
 
       let mutation = createServiceOption;
       if (this.updating) {
@@ -174,29 +171,26 @@ export default {
       return this.notifySuccess(message);
     },
     async fetchServiceOption() {
-      if (this.serviceOptionId !== undefined) {
-        let result = await this.$apollo.query({
-          query: queryServiceOption,
-          variables: {
-            id: this.serviceOptionId
-          },
-          fetchPolicy: "no-cache"
-        });
+      let result = await this.$apollo.query({
+        query: queryServiceOption,
+        variables: {
+          id: this.$route.params.optionId
+        },
+        fetchPolicy: "no-cache"
+      });
 
-        if (_.isEmpty(result.errors)) {
-          this.serviceOption = result.data.serviceOption;
+      if (_.isEmpty(result.errors)) {
+        this.serviceOption = result.data.serviceOption;
 
-          this.input.id = this.serviceOption.id;
-          this.input.label = this.serviceOption.label;
-          this.descriptionHtml = this.serviceOption.description;
-          this.input.price = this.serviceOption.price;
-          this.input.delay = this.serviceOption.delay;
-          this.input.published = this.serviceOption.published;
-          this.$route.params.id = this.serviceOption.service.id;
+        this.input.id = this.serviceOption.id;
+        this.input.label = this.serviceOption.label;
+        this.descriptionHtml = this.serviceOption.description;
+        this.input.price = this.serviceOption.price;
+        this.input.delay = this.serviceOption.delay;
+        this.input.published = this.serviceOption.published;
 
-          await this.$forceUpdate();
-          this.initPlugins();
-        }
+        await this.$forceUpdate();
+        this.initPlugins();
       }
     },
     initPlugins() {
@@ -207,12 +201,6 @@ export default {
         placeholder: "Content",
         theme: "snow"
       });
-    }
-  },
-  apollo: {
-    serviceOption: {
-      query: queryServiceOption,
-      update: data => data.serviceOption
     }
   }
 };

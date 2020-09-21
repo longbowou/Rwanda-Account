@@ -121,7 +121,7 @@ export default {
 
             const editRouter = $this.$router.resolve({
               name: "user-services-edit-option",
-              params: { id: data.id }
+              params: { id: data.service, optionId: data.id }
             });
             const editBtn = `<a href="${editRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit"><i class="fa fa-edit"></i></a>`;
 
@@ -146,16 +146,16 @@ export default {
 
     const $this = this;
     window
-      .$("#serviceOptions-dataTable")
+      .$("#service-options-dataTable")
       .on("click", ".btn-delete", function() {
-        $this.deleteService(
+        $this.deleteServiceOption(
           window.$(this)[0].dataset.id,
           window.$(this)[0].dataset.label
         );
       });
   },
   methods: {
-    async deleteService(id, label) {
+    async deleteServiceOption(id, label) {
       if (confirm("Do you really want to delete " + label + " ?")) {
         let result = await this.$apollo.mutate({
           mutation: deleteServiceOption,

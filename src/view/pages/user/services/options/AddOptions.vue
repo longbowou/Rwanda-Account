@@ -17,7 +17,7 @@
           </div>
           <div class="card-body">
             <div class="row justify-content-center">
-              <options-form :service-id="$route.params.id" />
+              <options-form />
             </div>
           </div>
         </div>
@@ -32,7 +32,6 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { formMixin, toast } from "@/view/mixins";
-import "select2";
 import OptionsForm from "@/view/pages/user/services/options/OptionsForm";
 
 export default {

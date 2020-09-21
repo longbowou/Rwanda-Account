@@ -89,7 +89,7 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services/:id/options/edit-option/:id",
+          path: "/user/services/:id/options/edit-option/:optionId",
           name: "user-services-edit-option",
           component: () =>
             import("@/view/pages/user/services/options/EditOption"),
