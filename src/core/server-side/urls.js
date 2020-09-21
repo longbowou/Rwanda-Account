@@ -25,5 +25,8 @@ export const deliverableFilesUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL +
   "account/deliverables/:pk/files.json";
 
+export const servicesOptionsUrl =
+  process.env.VUE_APP_DATATABLES_BASE_URL + "account/service/:pk/options.json";
+
 export const deliverablesUploadUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL + "account/deliverables/:pk/upload";

@@ -79,7 +79,7 @@ import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
 import "@/assets/plugins/datatable/datatables.bundle";
-import { servicesOptionsUrl } from "@/core/datatables/urls";
+import { servicesOptionsUrl } from "@/core/server-side/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
 import { deleteServiceOption } from "@/graphql/service-mutations";
@@ -144,7 +144,7 @@ export default {
       serverSide: true,
       stateSave: true,
       ajax: {
-        url: servicesOptionsUrl.replace(":id", this.$route.params.id),
+        url: servicesOptionsUrl.replace(":pk", this.$route.params.id),
         headers: {
           "Accept-Language": i18nService.getActiveLanguage(),
           Authorization: "JWT " + JwtService.getAuth().token

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <div class="row">
       <div class="card col-sm-12 card-custom bgi-position-center shadow-sm">
         <div class="card-body p-0">
@@ -58,6 +58,7 @@
     <h1 class="text-center mt-10 mb-5">Services for sale</h1>
 
     <div class="row justify-content-center">
+      <div class="spinner spinner-center" v-if="isFetchingService"></div>
       <template v-for="service in services">
         <div :key="service.id" class="col-sm-3 mb-5">
           <router-link
@@ -124,8 +125,14 @@ export default {
   components: { ServiceCard },
   data() {
     return {
-      services: []
+      services: [],
+      isFetchingService: false
     };
+  },
+  computed() {
+    {
+      return this.isFetchingService;
+    }
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Home" }]);
@@ -136,6 +143,7 @@ export default {
   },
   methods: {
     async fetchServices() {
+      this.isFetchingService = true;
       const result = await this.$apollo.query({
         query: queryServices
       });
@@ -143,6 +151,8 @@ export default {
       if (window._.isEmpty(result.errors)) {
         this.services = result.data.services;
       }
+
+      this.isFetchingService = false;
     }
   }
 };
