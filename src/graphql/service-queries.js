@@ -13,6 +13,12 @@ export const queryServices = gql`
         fileUrl
         url
       }
+      serviceoptionSet {
+        label
+        description
+        price
+        delay
+      }
     }
   }
 `;
@@ -48,6 +54,42 @@ export const queryService = gql`
       servicemediaSet {
         fileUrl
         url
+      }
+      serviceoptionSet {
+        label
+        description
+        price
+        delay
+      }
+    }
+  }
+`;
+export const queryServiceOptions = gql`
+  query {
+    serviceOptions {
+      id
+      label
+      description
+      delay
+      price
+      published
+      service {
+        id
+      }
+    }
+  }
+`;
+export const queryServiceOption = gql`
+  query serviceOption($id: UUID!) {
+    serviceOption(id: $id) {
+      id
+      label
+      description
+      delay
+      price
+      published
+      service {
+        id
       }
     }
   }

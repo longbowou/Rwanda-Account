@@ -82,8 +82,28 @@ export default new Router({
         },
         {
           path: "/user/services/:id/options",
-          name: "user-services-options",
-          component: () => import("@/view/pages/user/services/Datatable"),
+          name: "services-options",
+          component: () =>
+            import("@/view/pages/user/services/options/Datatable"),
+          meta: { requiresAuth: true }
+        },
+
+        {
+          path: "/user/services/:id/options/view",
+          name: "service-options-view",
+          component: () => import("@/view/pages/user/services/options/View"),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: "/user/services/:id/options/create",
+          name: "service-options-create",
+          component: () => import("@/view/pages/user/services/options/Create"),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: "/user/services/:id/options/edit-option/:optionId/edit",
+          name: "service-options-edit",
+          component: () => import("@/view/pages/user/services/options/Edit"),
           meta: { requiresAuth: true }
         },
         {
