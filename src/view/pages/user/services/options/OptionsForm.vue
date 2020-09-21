@@ -4,8 +4,8 @@
       <label class="col-sm-12 col-form-label font-weight-bold">Title</label>
       <b-form-input
         required
-        :state="validateState('serviceoptionSet{label}')"
-        v-model="input.serviceOptions"
+        :state="validateState('label')"
+        v-model="input.label"
         class="form-control form-control-lg form-control-solid"
         type="text"
         placeholder="Title"
@@ -13,29 +13,21 @@
         autocomplete="off"
       />
       <b-form-invalid-feedback id="input-live-feedback">
-        <p
-          :key="message"
-          v-for="message of errorMessages('serviceoptionSet{label}')"
-        >
+        <p :key="message" v-for="message of errorMessages('label')">
           {{ message }}
         </p>
       </b-form-invalid-feedback>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Content</label>
-      <div id="content" style="height: 325px" v-html="input.content"></div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Category</label>
-      <b-form-select
-        required
-        :value.sync="input.serviceCategory"
-        :options="options"
-        id="service-category"
-        class="form-control form-control-lg"
-      ></b-form-select>
+      <label class="col-sm-12 col-form-label font-weight-bold"
+        >Description</label
+      >
+      <div
+        id="description"
+        style="height: 325px"
+        v-html="descriptionHtml"
+      ></div>
     </div>
 
     <div class="form-group">
@@ -51,13 +43,13 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Keywords</label>
+      <label class="col-sm-12 col-form-label font-weight-bold">Price</label>
       <b-form-input
-        v-model="input.keywords"
-        id="keywords"
+        required
+        v-model="input.price"
         class="form-control form-control-lg form-control-solid"
-        type="text"
-        placeholder="Keywords"
+        type="number"
+        placeholder="Number"
         min="0"
       />
     </div>
@@ -96,54 +88,43 @@
 
 <script>
 import { formMixin, toast } from "@/view/mixins";
-import { createService, updateService } from "@/graphql/service-mutations";
+import {
+  createServiceOption,
+  updateServiceOption
+} from "@/graphql/service-mutations";
 import _ from "lodash";
 import Quill from "quill";
 import "select2";
-import "@yaireo/tagify/dist/jQuery.tagify.min";
-import {
-  queryService,
-  queryServiceCategories
-} from "@/graphql/service-queries";
-import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
+import { queryServiceOption } from "@/graphql/service-queries";
 
 export default {
-  name: "service-form",
+  name: "options-form",
   mixins: [formMixin, toast],
-  props: ["serviceId"],
+  props: ["serviceOptionId"],
   data() {
     return {
       service: {},
+      serviceOption: {},
       input: {},
-      serviceCategories: [],
-      contentHtml: "",
-      contentQuill: {},
-      serviceCategorySelect2: {},
-      keywordsTagify: {}
+      descriptionHtml: "",
+      descriptionQuill: {}
     };
   },
   computed: {
     creating() {
-      return this.serviceId === undefined;
+      return this.serviceOptionId === undefined;
     },
     updating() {
-      return this.serviceId !== undefined;
-    },
-    options() {
-      let options = [];
-      for (const category of this.serviceCategories) {
-        options.push({ value: category.id, text: category.label });
-      }
-      return options;
+      return this.serviceOptionId !== undefined;
     }
   },
   beforeMount() {
-    if (this.serviceId !== undefined) {
-      this.fetchService();
+    if (this.serviceOptionId !== undefined) {
+      this.fetchServiceOption();
     }
   },
   mounted() {
-    if (this.serviceId === undefined) {
+    if (this.serviceOptionId === undefined) {
       this.initPlugins();
     }
   },
@@ -155,13 +136,11 @@ export default {
       submitButton.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
-      this.input.content = this.contentQuill.root.innerHTML;
-      this.input.serviceCategory = this.serviceCategorySelect2.val();
-      this.input.keywords = this.keywordsTagify.val();
+      this.input.description = this.descriptionQuill.root.innerHTML;
 
-      let mutation = createService;
+      let mutation = createServiceOption;
       if (this.updating) {
-        mutation = updateService;
+        mutation = updateServiceOption;
       }
 
       let result = await this.$apollo.mutate({
@@ -172,58 +151,48 @@ export default {
       });
 
       if (this.creating) {
-        this.errors = result.data.createService.errors;
+        this.errors = result.data.createServiceOption.errors;
       } else {
-        this.errors = result.data.updateService.errors;
+        this.errors = result.data.updateServiceOption.errors;
       }
       if (!_.isEmpty(this.errors)) {
         submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
 
-      if (this.creating) {
-        await this.$store.dispatch(UPDATE_USER, {
-          account: result.data.createService.service.account
-        });
-      } else {
-        await this.$store.dispatch(UPDATE_USER, {
-          account: result.data.updateService.service.account
-        });
-      }
-
       submitButton.removeClass("spinner spinner-light spinner-right");
 
       await this.$router.push({
-        name: "user-services"
+        name: "user-services-options"
       });
 
-      let message = "Service added successfully.";
+      let message = "Service option added successfully.";
       if (this.updating) {
-        message = "Service updated successfully.";
+        message = "Service option  updated successfully.";
       }
 
       return this.notifySuccess(message);
     },
-    async fetchService() {
-      if (this.serviceId !== undefined) {
+    async fetchServiceOption() {
+      if (this.serviceOptionId !== undefined) {
         let result = await this.$apollo.query({
-          query: queryService,
+          query: queryServiceOption,
           variables: {
-            id: this.serviceId
+            id: this.serviceOptionId
           },
           fetchPolicy: "no-cache"
         });
 
         if (_.isEmpty(result.errors)) {
-          this.service = result.data.service;
+          this.serviceOption = result.data.serviceOption;
 
-          this.input.id = this.service.id;
-          this.input.title = this.service.title;
-          this.contentHtml = this.service.content;
-          this.input.serviceCategory = this.service.serviceCategory.id;
-          this.input.delay = this.service.delay;
-          this.input.keywords = this.service.keywords;
-          this.input.published = this.service.published;
+          this.input.id = this.serviceOption.id;
+          this.input.label = this.serviceOption.label;
+          this.descriptionHtml = this.serviceOption.description;
+          this.input.price = this.serviceOption.price;
+          this.input.delay = this.serviceOption.delay;
+          this.input.published = this.serviceOption.published;
+          this.$route.params.id = this.serviceOption.service.id;
 
           await this.$forceUpdate();
           this.initPlugins();
@@ -231,26 +200,19 @@ export default {
       }
     },
     initPlugins() {
-      this.serviceCategorySelect2 = window.$("#service-category").select2();
-
-      this.contentQuill = new Quill("#content", {
+      this.descriptionQuill = new Quill("#description", {
         modules: {
           toolbar: true
         },
         placeholder: "Content",
         theme: "snow"
       });
-
-      this.keywordsTagify = window.$("#keywords").tagify({
-        originalInputValueFormat: valuesArr =>
-          valuesArr.map(item => item.value).join(",")
-      });
     }
   },
   apollo: {
-    serviceCategories: {
-      query: queryServiceCategories,
-      update: data => data.serviceCategories
+    serviceOption: {
+      query: queryServiceOption,
+      update: data => data.serviceOption
     }
   }
 };

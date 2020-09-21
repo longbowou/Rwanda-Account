@@ -19,31 +19,53 @@ export const createService = gql`
   ${accountFields}
 `;
 
-export const updateService = gql`
-  mutation($input: UpdateServiceInput!) {
-    updateService(input: $input) {
+export const createServiceOption = gql`
+  mutation($input: CreateServiceOptionInput!) {
+    createServiceOption(input: $input) {
       errors {
         ...errorFields
       }
-      service {
-        account {
-          ...accountFields
+      serviceOption {
+        id
+        label
+        description
+        price
+        delay
+        published
+        service {
+          id
         }
       }
     }
   }
   ${errorFields}
-  ${accountFields}
+`;
+export const updateServiceOption = gql`
+  mutation($input: UpdateServiceOptionInput!) {
+    updateServiceOption(input: $input) {
+      errors {
+        ...errorFields
+      }
+      serviceOption {
+        id
+        label
+        description
+        price
+        delay
+        published
+      }
+    }
+  }
+  ${errorFields}
 `;
 
-export const deleteService = gql`
+export const deleteServiceOption = gql`
   mutation($id: UUID!) {
-    deleteService(id: $id) {
+    deleteServiceOption(id: $id) {
       errors {
         ...errorFields
       }
     }
   }
   ${errorFields}
-  ${accountFields}
 `;

@@ -12,12 +12,12 @@
                 <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Add Option to the service</h3>
+              <h3 class="card-label">Update a Service Option</h3>
             </div>
           </div>
           <div class="card-body">
             <div class="row justify-content-center">
-              <options-form :service-id="$route.params.id" />
+              <options-form :serviceOption-id="$route.params.id" />
             </div>
           </div>
         </div>
@@ -32,11 +32,10 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { formMixin, toast } from "@/view/mixins";
-import "select2";
-import OptionsForm from "@/view/pages/user/services/options/OptionsForm";
+import OptionsForm from "@/view/pages/user/services/options/EditOption";
 
 export default {
-  name: "user-services-add-option",
+  name: "user-services-edit-option",
   components: { OptionsForm },
   mixins: [formMixin, toast],
   data() {
@@ -44,8 +43,10 @@ export default {
   },
   computed: {},
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Add a Service Option" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Add a Service Option");
+    this.$store.dispatch(SET_BREADCRUMB, [
+      { title: "Update a Service Option" }
+    ]);
+    this.$store.dispatch(SET_HEAD_TITLE, "Update a Service Option");
   },
   methods: {}
 };

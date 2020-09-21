@@ -64,6 +64,9 @@ type AccountQuery {
     service(id: UUID!): ServiceType
     "ServiceCategory list"
     serviceCategories(id: UUID): [ServiceCategoryType]
+    serviceOption(id: UUID!): ServiceOptionType
+    "ServiceOption list"
+    serviceOptions(id: UUID): [ServiceOptionType]
     "ServicePurchase list"
     servicePurchases(id: UUID): [ServicePurchaseType]
     "Service list"
@@ -221,7 +224,6 @@ type DepositType {
     amount: Int!
     createdAt: DateTime!
     id: UUID!
-    phoneNumber: String
     updatedAt: DateTime!
 }
 
@@ -348,6 +350,7 @@ type ServiceOptionType {
     id: UUID!
     label: String!
     price: Int!
+    published: Boolean!
     service: ServiceType!
     servicepurchaseSet: [ServicePurchaseType!]!
     servicepurchaseserviceoptionSet: [ServicePurchaseServiceOptionType!]!
@@ -552,6 +555,7 @@ input CreateServiceOptionInput {
     description: String
     label: String!
     price: Int!
+    published: Boolean
     service: ID!
 }
 
@@ -635,6 +639,7 @@ input UpdateServiceOptionInput {
     id: UUID!
     label: String
     price: Int
+    published: Boolean
 }
 
 
