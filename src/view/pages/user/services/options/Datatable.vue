@@ -49,7 +49,7 @@
               >
                 <thead>
                   <tr>
-                    <th>Title</th>
+                    <th style="width: 25%">Title</th>
                     <th>Delay</th>
                     <th>Price</th>
                     <th>Published</th>
@@ -60,7 +60,7 @@
 
                 <tfoot>
                   <tr>
-                    <th>Title</th>
+                    <th style="width: 25%">Title</th>
                     <th>Delay</th>
                     <th>Price</th>
                     <th>Published</th>
