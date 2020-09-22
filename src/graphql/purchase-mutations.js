@@ -90,6 +90,6 @@ export const approveServicePurchaseFullFields = gql`
     }
   }
   ${errorFields}
-  ${accountFields}
   ${purchaseFields}
+  ${accountFields}
 `;
