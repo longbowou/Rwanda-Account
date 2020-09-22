@@ -71,7 +71,6 @@ export const queryServiceForView = gql`
       }
     }
   }
-  ${serviceOptionFields}
 `;
 
 export const queryServiceForEdit = gql`
