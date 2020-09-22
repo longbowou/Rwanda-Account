@@ -123,7 +123,7 @@
                 class="col-sm-2 d-flex align-items-center cursor-pointer"
               >
                 <h5 :id="'price-' + option.id">
-                  {{ option.priceDisplay }} {{ currency }}
+                  + {{ option.priceDisplay }} {{ currency }}
                 </h5>
               </div>
               <div class="col-10 mt-3">
