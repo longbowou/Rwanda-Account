@@ -16,7 +16,7 @@
           </div>
           <div class="card-toolbar">
             <button
-              @click="$router.push({ name: 'service-options' })"
+              @click="$router.push({ name: 'user-services' })"
               class="btn btn-light-dark font-weight-bolder mr-2"
             >
               <i class="ki ki-long-arrow-back icon-lg"></i>
