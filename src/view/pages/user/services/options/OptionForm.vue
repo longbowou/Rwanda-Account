@@ -1,14 +1,14 @@
 <template>
   <form class="form col-sm-9" @submit="onSubmit">
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Title</label>
+      <label class="col-sm-12 col-form-label font-weight-bold">Label</label>
       <b-form-input
         required
         :state="validateState('label')"
         v-model="input.label"
         class="form-control form-control-lg form-control-solid"
         type="text"
-        placeholder="Title"
+        placeholder="Label"
         min="0"
         autocomplete="off"
       />
@@ -31,13 +31,15 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Delay</label>
+      <label class="col-sm-12 col-form-label font-weight-bold"
+        >Additional Delivery Delay (Days)</label
+      >
       <b-form-input
         required
         v-model="input.delay"
         class="form-control form-control-lg form-control-solid"
         type="number"
-        placeholder="Number"
+        placeholder="Additional Delivery Delay (Days)"
         min="0"
       />
     </div>
@@ -49,7 +51,7 @@
         v-model="input.price"
         class="form-control form-control-lg form-control-solid"
         type="number"
-        placeholder="Number"
+        placeholder="Price"
         min="0"
       />
     </div>
@@ -83,12 +85,9 @@
 
 <script>
 import { formMixin, toastMixin } from "@/view/mixins";
-import {
-  createServiceOption,
-  updateServiceOption
-} from "@/graphql/service-mutations";
 import Quill from "quill";
-import {queryServiceOption} from "@/graphql/service-options-queries";
+import { queryServiceOption } from "@/graphql/service-options-queries";
+import {createServiceOption, updateServiceOption} from "@/graphql/service-options-mutations";
 
 export default {
   name: "OptionForm",
@@ -126,7 +125,7 @@ export default {
       evt.preventDefault();
 
       const submitButton = window.$("#btn_submit");
-      submitButton.addClass("spinner spinner-light spinner-right");
+      submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
       this.input.description = this.descriptionQuill.root.innerHTML;
@@ -152,14 +151,16 @@ export default {
         this.errors = result.data.updateServiceOption.errors;
       }
       if (!window._.isEmpty(this.errors)) {
-        submitButton.removeClass("spinner spinner-light spinner-right");
+        submitButton.removeClass(
+          "disabled spinner spinner-light spinner-right"
+        );
         return;
       }
 
-      submitButton.removeClass("spinner spinner-light spinner-right");
+      submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
       await this.$router.push({
-        name: "services-options"
+        name: "service-options"
       });
 
       let message = "Service option added successfully.";

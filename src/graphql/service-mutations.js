@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
-import { errorFields } from "@/graphql/Fragments/global";
-import { accountFields } from "@/graphql/Fragments/account";
+import {errorFields} from "@/graphql/Fragments/global";
+import {accountFields} from "@/graphql/Fragments/account";
 
 export const createService = gql`
   mutation($input: CreateServiceInput!) {
@@ -19,53 +19,31 @@ export const createService = gql`
   ${accountFields}
 `;
 
-export const createServiceOption = gql`
-  mutation($input: CreateServiceOptionInput!) {
-    createServiceOption(input: $input) {
+export const updateService = gql`
+  mutation($input: UpdateServiceInput!) {
+    updateService(input: $input) {
       errors {
         ...errorFields
       }
-      serviceOption {
-        id
-        label
-        description
-        price
-        delay
-        published
-        service {
-          id
+      service {
+        account {
+          ...accountFields
         }
       }
     }
   }
   ${errorFields}
+  ${accountFields}
 `;
-export const updateServiceOption = gql`
-  mutation($input: UpdateServiceOptionInput!) {
-    updateServiceOption(input: $input) {
+
+export const deleteService = gql`
+  mutation($id: UUID!) {
+    deleteService(id: $id) {
       errors {
         ...errorFields
-      }
-      serviceOption {
-        id
-        label
-        description
-        price
-        delay
-        published
       }
     }
   }
   ${errorFields}
 `;
 
-export const deleteServiceOption = gql`
-  mutation($id: UUID!) {
-    deleteServiceOption(id: $id) {
-      errors {
-        ...errorFields
-      }
-    }
-  }
-  ${errorFields}
-`;

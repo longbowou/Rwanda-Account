@@ -99,8 +99,8 @@ import Quill from "quill";
 import "select2";
 import "@yaireo/tagify/dist/jQuery.tagify.min";
 import {
-  queryService,
-  queryServiceCategories
+  queryServiceCategories,
+  queryServiceForEdit
 } from "@/graphql/service-queries";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 
@@ -124,7 +124,7 @@ export default {
       return this.serviceId === undefined;
     },
     updating() {
-      return this.serviceId !== undefined;
+      return !this.creating;
     },
     options() {
       let options = [];
@@ -205,7 +205,7 @@ export default {
     },
     async fetchService() {
       let result = await this.$apollo.query({
-        query: queryService,
+        query: queryServiceForEdit,
         variables: {
           id: this.serviceId
         }

@@ -112,26 +112,45 @@
 
           <div class="card-body">
             <div class="row mb-2">
-              <h6 class="col-sm-9 font-weight-bold">
+              <h3 class="col-sm-9 text-primary font-weight-bold">
                 {{
                   servicePurchase.service ? servicePurchase.service.title : null
                 }}
-              </h6>
-              <h5 class="col-sm-3 font-weight-bold text-right">
+              </h3>
+              <h3 class="col-sm-3 text-primary font-weight-bold text-right">
                 {{ basePrice }} {{ currency }}
-              </h5>
+              </h3>
             </div>
 
-            <template v-for="serviceOption of servicePurchase.serviceOptions">
-              <div :key="serviceOption.id" class="row mb-2">
-                <h6 class="col-sm-9 font-weight-bold">
-                  {{ serviceOption.label }}
-                </h6>
-                <h5 class="col-sm-3 font-weight-bold text-right">
-                  {{ serviceOption.price }} {{ currency }}
-                </h5>
+            <div v-if="hasOptions">
+              <div class="row justify-content-center mb-3">
+                <div class="col-10">
+                  <hr />
+                </div>
               </div>
-            </template>
+
+              <template v-for="serviceOption of servicePurchase.serviceOptions">
+                <div
+                  :key="serviceOption.id"
+                  class="row mb-2 justify-content-center"
+                >
+                  <h6 class="col-sm-9 font-weight-bold">
+                    {{ serviceOption.label }} <br />
+                    <small>{{ serviceOption.delayPreviewDisplay }}</small>
+                  </h6>
+                  <h5 class="col-sm-3 font-weight-bold text-right">
+                    {{ serviceOption.price }} {{ currency }}
+                  </h5>
+                  <div class="col-10">
+                    <hr />
+                  </div>
+                </div>
+              </template>
+
+              <p class="text-muted">
+                {{ servicePurchase.delay }}
+              </p>
+            </div>
 
             <hr />
 
@@ -232,11 +251,17 @@ export default {
   computed: {
     ...mapGetters(["currentAccount", "currency", "basePrice"]),
     getTitle() {
-      if (this.servicePurchase.number !== undefined) {
+      if (this.servicePurchase.number) {
         return "Order " + this.servicePurchase.number;
       }
 
       return "";
+    },
+    hasOptions() {
+      if (this.servicePurchase.serviceOptions) {
+        return this.servicePurchase.serviceOptions.length > 0;
+      }
+      return false;
     }
   },
   mounted() {},
@@ -299,6 +324,7 @@ export default {
       );
       if (window._.isObject(result)) {
         this.servicePurchase = result.servicePurchase;
+        await this.fetchTimeline();
       } else {
         this.$refs.btnAccept.blur();
       }
@@ -339,6 +365,7 @@ export default {
 
       if (window._.isObject(result)) {
         this.servicePurchase = result.servicePurchase;
+        await this.fetchTimeline();
       } else {
         this.$refs.btnDeliver.blur();
       }

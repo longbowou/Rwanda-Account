@@ -7,6 +7,10 @@ export const serviceOptionFields = gql`
     description
     delay
     delayDisplay
+    delayPreviewDisplay
     price
+    priceDisplay
+    published
+    publishedDisplay
   }
 `;

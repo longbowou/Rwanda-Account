@@ -1,24 +1,13 @@
 import gql from "graphql-tag";
 import { serviceOptionFields } from "@/graphql/Fragments/service-option";
 
-export const queryServices = gql`
+export const queryServicesForPreview = gql`
   query {
     services {
       id
       title
       account {
         fullName
-      }
-      stars
-      servicemediaSet {
-        fileUrl
-        url
-      }
-      serviceoptionSet {
-        label
-        description
-        price
-        delay
       }
     }
   }
@@ -33,7 +22,7 @@ export const queryServiceCategories = gql`
   }
 `;
 
-export const queryService = gql`
+export const queryServiceForDetail = gql`
   query service($id: UUID!) {
     service(id: $id) {
       id
@@ -46,6 +35,8 @@ export const queryService = gql`
       createdAt
       optionsCount
       optionsCountDisplay
+      basePrice
+      published
       serviceCategory {
         id
         label
@@ -65,6 +56,49 @@ export const queryService = gql`
   ${serviceOptionFields}
 `;
 
+export const queryServiceForView = gql`
+  query service($id: UUID!) {
+    service(id: $id) {
+      id
+      title
+      content
+      delayDisplay
+      keywords
+      createdAt
+      publishedDisplay
+      serviceCategory {
+        label
+      }
+    }
+  }
+  ${serviceOptionFields}
+`;
+
+export const queryServiceForEdit = gql`
+  query service($id: UUID!) {
+    service(id: $id) {
+      id
+      title
+      content
+      delay
+      keywords
+      published
+      serviceCategory {
+        id
+      }
+    }
+  }
+`;
+
+export const queryServiceBasicFields = gql`
+  query service($id: UUID!) {
+    service(id: $id) {
+      id
+      title
+    }
+  }
+`;
+
 export const queryServiceOrderPreview = gql`
   query serviceOrderPreview($service: UUID!, $serviceOptions: [UUID!]) {
     serviceOrderPreview(service: $service, serviceOptions: $serviceOptions) {
@@ -82,6 +116,7 @@ export const queryServiceOrderPreview = gql`
         id
         label
         price
+        delayPreviewDisplay
       }
       service {
         id

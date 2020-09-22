@@ -20,34 +20,55 @@
 
         <div class="card-body">
           <div class="row mb-2">
-            <h6 class="col-sm-9 font-weight-bold">
+            <h3 class="col-sm-9 text-primary font-weight-bold">
               {{
                 serviceOrderPreview.service
                   ? serviceOrderPreview.service.title
                   : null
               }}
-            </h6>
-            <h5 class="col-sm-3 font-weight-bold text-right">
+            </h3>
+            <h3 class="col-sm-3 text-primary font-weight-bold text-right">
               {{ serviceOrderPreview.basePrice }} {{ currency }}
-            </h5>
+            </h3>
           </div>
 
-          <template v-for="serviceOption of serviceOrderPreview.serviceOptions">
-            <div :key="serviceOption.id" class="row mb-2">
-              <h6 class="col-sm-9 font-weight-bold">
-                {{ serviceOption.label }}
-              </h6>
-              <h5 class="col-sm-3 font-weight-bold text-right">
-                {{ serviceOption.price }} {{ currency }}
-              </h5>
+          <div v-if="hasOptions">
+            <div class="row justify-content-center mb-3">
+              <div class="col-10">
+                <hr />
+              </div>
             </div>
-          </template>
+
+            <template
+              v-for="(serviceOption,
+              index) of serviceOrderPreview.serviceOptions"
+            >
+              <div
+                :key="serviceOption.id"
+                class="row justify-content-center mb-2"
+              >
+                <h6 class="col-sm-9 font-weight-bold">
+                  {{ serviceOption.label }}<br />
+                  <small>{{ serviceOption.delayPreviewDisplay }}</small>
+                </h6>
+                <h5 class="col-sm-3 font-weight-bold text-right">
+                  {{ serviceOption.price }} {{ currency }}
+                </h5>
+                <div
+                  class="col-10"
+                  v-if="index < serviceOrderPreview.serviceOptions.length - 1"
+                >
+                  <hr />
+                </div>
+              </div>
+            </template>
+          </div>
 
           <hr />
 
           <div class="row">
             <p class="col-sm-9">
-              Delivery time
+              Delivery days
             </p>
             <p class="col-sm-3 text-right">
               {{ serviceOrderPreview.totalDelay }} days <br />
@@ -304,26 +325,34 @@ import { mapGetters } from "vuex";
 import { initServicePurchase } from "@/graphql/purchase-mutations";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 import { toastMixin } from "@/view/mixins";
+import { RESET_PURCHASE_OPTIONS } from "@/core/services/store/modules/purchase.module";
 
 export default {
   name: "service-order",
-  props: ["serviceOptions"],
   mixins: [toastMixin],
   components: {},
   data() {
     return {
       serviceOrderPreview: {},
-      btnClasses: ["btn", "btn-hover-bg-light"]
+      btnClasses: ["btn", "btn-hover-bg-light"],
+      serviceOptions: []
     };
   },
-  mounted() {
-    // window.scrollTo(0, 0);
-  },
+  mounted() {},
   beforeMount() {
+    if (this.purchaseServiceOptions !== null) {
+      this.serviceOptions = this.purchaseServiceOptions;
+    }
+
     this.fetchServiceOrderPreview();
   },
   computed: {
-    ...mapGetters(["basePrice", "currency", "currentAccount"]),
+    ...mapGetters([
+      "basePrice",
+      "currency",
+      "currentAccount",
+      "purchaseServiceOptions"
+    ]),
     getClasses() {
       return this.btnClasses;
     },
@@ -337,6 +366,12 @@ export default {
       return (
         this.isBtnNotSelected || this.serviceOrderPreview.cannotPayWithWallet
       );
+    },
+    hasOptions() {
+      return this.serviceOptions.length > 0;
+    },
+    getTitle() {
+      return "Order for " + this.serviceOrderPreview.service.title;
     }
   },
   methods: {
@@ -348,29 +383,19 @@ export default {
       }
     },
     async fetchServiceOrderPreview() {
-      let serviceOptions = [];
-      if (this.serviceOptions !== undefined) {
-        serviceOptions = this.serviceOptions;
-      }
-
       const result = await this.$apollo.query({
         query: queryServiceOrderPreview,
         variables: {
           service: this.$route.params.id,
-          serviceOptions: serviceOptions
+          serviceOptions: this.serviceOptions
         }
       });
 
       if (window._.isEmpty(result.errors)) {
         this.serviceOrderPreview = result.data.serviceOrderPreview;
 
-        await this.$store.dispatch(SET_BREADCRUMB, [
-          { title: this.serviceOrderPreview.service.serviceCategory.label }
-        ]);
-        await this.$store.dispatch(
-          SET_HEAD_TITLE,
-          this.serviceOrderPreview.service.title
-        );
+        await this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
+        await this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
       }
     },
     async initServicePurchase() {
@@ -379,17 +404,12 @@ export default {
 
       this.errors = [];
 
-      let serviceOptions = [];
-      if (this.serviceOptions !== undefined) {
-        serviceOptions = this.serviceOptions;
-      }
-
       let result = await this.$apollo.mutate({
         mutation: initServicePurchase,
         variables: {
           input: {
             service: this.$route.params.id,
-            serviceOptions: serviceOptions
+            serviceOptions: this.serviceOptions
           }
         }
       });
@@ -401,6 +421,8 @@ export default {
         );
         return;
       }
+
+      await this.$store.dispatch(RESET_PURCHASE_OPTIONS);
 
       await this.$store.dispatch(UPDATE_USER, {
         account: result.data.initServicePurchase.servicePurchase.account

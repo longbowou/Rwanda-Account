@@ -7,6 +7,7 @@ export const servicePurchaseFields = gql`
     number
     price
     status
+    delay
     initiated
     accepted
     delivered

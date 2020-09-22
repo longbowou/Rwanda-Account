@@ -16,7 +16,7 @@
           </div>
           <div class="card-toolbar">
             <button
-              @click="$router.push({ name: 'user-services' })"
+              @click="$router.push({ name: 'service-options-create' })"
               class="btn btn-light-dark font-weight-bolder mr-2"
             >
               <i class="ki ki-long-arrow-back icon-lg"></i>
@@ -90,9 +90,9 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { servicesOptionsUrl } from "@/core/server-side/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
-import { deleteServiceOption } from "@/graphql/service-mutations";
 import { toastMixin } from "@/view/mixins";
-import { queryService } from "@/graphql/service-queries";
+import { queryServiceBasicFields } from "@/graphql/service-queries";
+import { deleteServiceOption } from "@/graphql/service-options-mutations";
 
 export default {
   name: "ServiceOptions",
@@ -194,7 +194,7 @@ export default {
     },
     async fetchService() {
       let result = await this.$apollo.query({
-        query: queryService,
+        query: queryServiceBasicFields,
         variables: {
           id: this.$route.params.id
         },
