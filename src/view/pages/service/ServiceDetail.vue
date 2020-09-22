@@ -229,7 +229,7 @@
               @click="navigate"
               class="btn btn-light-dark btn-lg btn-square btn-block font-weight-bold"
             >
-              Order Now
+              Order Now ({{ basePrice }} {{ currency }})
             </a>
           </router-link>
 
