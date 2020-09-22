@@ -168,6 +168,10 @@ export default {
       }
     });
 
+    setInterval(function() {
+      $this.datatable.ajax.reload(null, false);
+    }, 10000);
+
     window
       .$("#service-orders-dataTable")
       .on("click", ".btn-accept", function() {
