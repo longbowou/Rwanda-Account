@@ -153,7 +153,8 @@ export default {
           this.$route.params.deliverableId
         ), // Set the url for your upload script location
         parallelUploads: 5,
-        maxFilesize: 1024, // Max filesize in MB
+        timeout: 3600000,
+        maxFilesize: 1100, // Max filesize in MB
         previewTemplate: previewTemplate,
         previewsContainer: id + " .dropzone-items", // Define the container to display the previews
         clickable: id + " .dropzone-select", // Define the element that should be used as click trigger to select files.
