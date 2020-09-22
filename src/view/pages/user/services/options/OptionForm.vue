@@ -159,7 +159,7 @@ export default {
       submitButton.removeClass("spinner spinner-light spinner-right");
 
       await this.$router.push({
-        name: "services-options"
+        name: "service-options"
       });
 
       let message = "Service option added successfully.";
