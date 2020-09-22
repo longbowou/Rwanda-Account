@@ -12,7 +12,7 @@
                 <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Add Options to the service</h3>
+              <h3 class="card-label">Add an Option</h3>
             </div>
             <div class="card-toolbar">
               <button
@@ -55,8 +55,8 @@ export default {
   },
   computed: {},
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Add a Service" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Add a Service");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Add an Option" }]);
+    this.$store.dispatch(SET_HEAD_TITLE, "Add an Option");
   },
   methods: {}
 };
