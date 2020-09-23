@@ -78,7 +78,7 @@
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import { queryServiceOption } from "@/graphql/service-queries";
+import { queryServiceOption } from "@/graphql/service-options-queries";
 
 export default {
   name: "OptionView",
