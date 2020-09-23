@@ -79,7 +79,8 @@ export default {
   mixins: [purchaseActionsMixin],
   data() {
     return {
-      datatable: {}
+      datatable: {},
+      interval: null
     };
   },
   computed: {
@@ -168,7 +169,7 @@ export default {
       }
     });
 
-    setInterval(function() {
+    this.interval = setInterval(function() {
       $this.datatable.ajax.reload(null, false);
     }, 10000);
 
@@ -229,6 +230,9 @@ export default {
         .$(btn)
         .removeClass("disabled spinner spinner-success spinner-right");
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   }
 };
 </script>
