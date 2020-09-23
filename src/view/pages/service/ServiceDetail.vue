@@ -37,7 +37,7 @@
               <template v-for="(keyword, index) of service.keywords.split(',')">
                 <span
                   :key="index"
-                  class="ml-3 label label-xl font-weight-bold text-dark-50 label-inline label-square mb-2"
+                  class="mr-3 label label-xl font-weight-bold text-dark-50 label-inline label-square mb-2"
                 >
                   {{ keyword }}
                 </span>
