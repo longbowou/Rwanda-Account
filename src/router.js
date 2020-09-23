@@ -113,26 +113,26 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/purchases/:id",
+          path: "/purchases/:id",
           component: () => import("@/view/pages/user/purchases/View"),
           meta: { requiresAuth: true },
           children: [
             {
-              path: "/user/purchases/:id",
+              path: "/purchases/:id",
               name: "purchases-view",
               component: () =>
                 import("@/view/pages/user/purchases/deliverables/Datatable"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
             {
-              path: "/user/purchases/:id/deliverables/:deliverableId",
+              path: "/purchases/:id/deliverables/:deliverableId",
               name: "purchase-deliverables-view",
               component: () =>
                 import("@/view/pages/user/purchases/deliverables/View"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
             {
-              path: "/user/purchases/:id/deliverables/:deliverableId/files",
+              path: "/purchases/:id/deliverables/:deliverableId/files",
               name: "purchase-deliverables-files",
               component: () =>
                 import("@/view/pages/user/purchases/deliverables/Files"),
@@ -141,46 +141,46 @@ export default new Router({
           ]
         },
         {
-          path: "/user/orders",
+          path: "/orders",
           name: "orders",
           component: () => import("@/view/pages/user/orders/Datatable"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/orders/:id",
+          path: "/orders/:id",
           component: () => import("@/view/pages/user/orders/View"),
           meta: { requiresAuth: true },
           children: [
             {
-              path: "/user/orders/:id",
+              path: "/orders/:id",
               name: "orders-view",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Datatable"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
             {
-              path: "/user/orders/:id/deliverables/create",
+              path: "/orders/:id/deliverables/create",
               name: "order-deliverables-create",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Create"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
             {
-              path: "/user/orders/:id/deliverables/:deliverableId",
+              path: "/orders/:id/deliverables/:deliverableId",
               name: "order-deliverables-view",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/View"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
             {
-              path: "/user/orders/:id/deliverables/:deliverableId/edit",
+              path: "/orders/:id/deliverables/:deliverableId/edit",
               name: "order-deliverables-edit",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Edit"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
             {
-              path: "/user/orders/:id/deliverables/:deliverableId/files",
+              path: "/orders/:id/deliverables/:deliverableId/files",
               name: "order-deliverables-files",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Files"),
