@@ -83,9 +83,9 @@
             </div>
             <div class="col-9" ref="additionalOptions">
               <h2>{{ service.title }}</h2>
-              <span class="form-text text-dark-50"
-                >{{ service.delayDisplay }} delivery</span
-              >
+              <span class="form-text text-dark-50">{{
+                service.delayDisplay
+              }}</span>
             </div>
           </div>
           <hr />
