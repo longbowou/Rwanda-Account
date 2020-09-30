@@ -32,6 +32,19 @@ export const queryServiceCategories = gql`
   }
 `;
 
+export const queryLitigation = gql`
+  query service($id: UUID!) {
+    litigation(id: $id) {
+      id
+      title
+      description
+      servicePurchase {
+        id
+      }
+    }
+  }
+`;
+
 export const queryService = gql`
   query service($id: UUID!) {
     service(id: $id) {

@@ -19,6 +19,25 @@ export const createService = gql`
   ${accountFields}
 `;
 
+export const createLitigation = gql`
+  mutation($input: CreateLitigationInput!) {
+    createLitigation(input: $input) {
+      errors {
+        ...errorFields
+      }
+      litigation {
+        id
+        title
+        description
+        servicePurchase {
+          id
+        }
+      }
+    }
+  }
+  ${errorFields}
+`;
+
 export const createServiceOption = gql`
   mutation($input: CreateServiceOptionInput!) {
     createServiceOption(input: $input) {
@@ -53,6 +72,24 @@ export const updateServiceOption = gql`
         price
         delay
         published
+      }
+    }
+  }
+  ${errorFields}
+`;
+export const handleLitigation = gql`
+  mutation($input: HandleLitigationInput!) {
+    handleLitigation(input: $input) {
+      errors {
+        ...errorFields
+      }
+      litigation {
+        id
+        title
+        description
+        servicePurchase {
+          id
+        }
       }
     }
   }

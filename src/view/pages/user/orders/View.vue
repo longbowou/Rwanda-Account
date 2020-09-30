@@ -107,6 +107,19 @@
               >
                 <i class="flaticon2-chat-1"></i>
               </a>
+              <a
+                @click="
+                  $router.push({
+                    name: 'orders-litigation',
+                    params: { id: $route.params.id }
+                  })
+                "
+                v-if="servicePurchase.hasBeenAccepted"
+                title="Create a litigation"
+                class="btn btn-lg btn-icon btn-light-danger"
+              >
+                <i class="flaticon-warning-sign"></i>
+              </a>
             </div>
           </div>
 
@@ -237,8 +250,7 @@ export default {
       return "";
     }
   },
-  mounted() {
-  },
+  mounted() {},
   beforeMount() {
     this.fetchOrder();
   },
