@@ -130,7 +130,7 @@
               </div>
 
               <template v-for="serviceOption of servicePurchase.serviceOptions">
-                <div :key="serviceOption.id" class="row mb-2">
+                <div :key="serviceOption.id" class="row mb-2 justify-content-center">
                   <h6 class="col-sm-9 font-weight-bold">
                     {{ serviceOption.label }}<br />
                     <small>{{ serviceOption.delayPreviewDisplay }}</small>
