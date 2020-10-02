@@ -2,7 +2,7 @@
   <div>
     <!--begin::Dashboard-->
     <div class="row justify-content-center">
-      <div class="col-md-8">
+      <div :class="[isNotChatting && 'col-sm-8', isChatting && 'col-sm-7']">
         <div
           class="card card-custom shadow-sm mb-5"
           v-if="servicePurchase.initiated"
@@ -83,6 +83,7 @@
                 ref="btnCancel"
                 @click="handleCancelPurchase"
                 v-if="servicePurchase.canBeCanceled"
+                data-toggle="tooltip"
                 title="Cancel"
                 class="btn btn-lg btn-icon btn-light-danger mr-2"
               >
@@ -93,20 +94,32 @@
                 ref="btnApprove"
                 @click="handleApprovePurchase"
                 v-if="servicePurchase.canBeApproved"
+                data-toggle="tooltip"
                 title="Approve"
                 class="btn btn-lg btn-icon btn-light-success mr-2"
               >
                 <i class="fas fa-check-double"></i>
               </button>
 
-              <a
-                v-if="servicePurchase.hasBeenAccepted"
-                href="javascript:void(0);"
+              <button
+                v-if="servicePurchase.hasBeenAccepted && isNotChatting"
+                @click="toggleChattingStat"
+                data-toggle="tooltip"
                 title="Chat with the Seller"
                 class="btn btn-lg btn-icon btn-light-primary"
               >
                 <i class="flaticon2-chat-1"></i>
-              </a>
+              </button>
+
+              <button
+                id="btn-chat"
+                v-if="isChatting"
+                @click="toggleChattingStat"
+                class="btn btn-light-dark font-weight-bolder mr-2"
+              >
+                <i class="ki ki-long-arrow-back icon-lg"></i>
+                Back
+              </button>
             </div>
           </div>
 
@@ -130,7 +143,10 @@
               </div>
 
               <template v-for="serviceOption of servicePurchase.serviceOptions">
-                <div :key="serviceOption.id" class="row mb-2 justify-content-center">
+                <div
+                  :key="serviceOption.id"
+                  class="row mb-2 justify-content-center"
+                >
                   <h6 class="col-sm-9 font-weight-bold">
                     {{ serviceOption.label }}<br />
                     <small>{{ serviceOption.delayPreviewDisplay }}</small>
@@ -178,47 +194,51 @@
         <router-view v-if="servicePurchase.hasBeenAccepted" />
       </div>
 
-      <div class="col-sm-4">
-        <div
-          class="card card-custom shadow-sm mb-5"
-          v-if="servicePurchase.accepted"
-        >
-          <div class="card-body p-5">
-            <div
-              class="alert alert-custom alert-notice alert-secondary fade show m-0"
-              role="alert"
-            >
-              <div class="alert-icon">
-                <span
-                  class="svg-icon svg-icon-lg svg-icon-3x svg-icon-secondary mr-3"
-                >
-                  <!--begin::Svg Icon-->
-                  <inline-svg src="media/svg/icons/Code/Info-circle.svg" />
-                  <!--end::Svg Icon-->
-                </span>
-              </div>
-              <div class="alert-text text-justify font-weight-bold">
-                The seller has accepted your purchase a delivery deadline has
-                been set to
-                <strong>{{ servicePurchase.deadlineAt }}</strong
-                >. <br />
-                <strong
-                  >The seller will publish a deliverable in final version and
-                  mark the order as delivered before the end of this
-                  deadline.</strong
-                >
+      <div :class="[isNotChatting && 'col-sm-4', isChatting && 'col-sm-5']">
+        <div v-if="isNotChatting">
+          <div
+            class="card card-custom shadow-sm mb-5"
+            v-if="servicePurchase.accepted"
+          >
+            <div class="card-body p-5">
+              <div
+                class="alert alert-custom alert-notice alert-secondary fade show m-0"
+                role="alert"
+              >
+                <div class="alert-icon">
+                  <span
+                    class="svg-icon svg-icon-lg svg-icon-3x svg-icon-secondary mr-3"
+                  >
+                    <!--begin::Svg Icon-->
+                    <inline-svg src="media/svg/icons/Code/Info-circle.svg" />
+                    <!--end::Svg Icon-->
+                  </span>
+                </div>
+                <div class="alert-text text-justify font-weight-bold">
+                  The seller has accepted your purchase a delivery deadline has
+                  been set to
+                  <strong>{{ servicePurchase.deadlineAt }}</strong
+                  >. <br />
+                  <strong
+                    >The seller will publish a deliverable in final version and
+                    mark the order as delivered before the end of this
+                    deadline.</strong
+                  >
+                </div>
               </div>
             </div>
           </div>
+
+          <timeline :timelines="timelines" />
+
+          <user-card
+            :user="
+              servicePurchase.service ? servicePurchase.service.account : null
+            "
+          />
         </div>
 
-        <timeline :timelines="timelines" />
-
-        <user-card
-          :user="
-            servicePurchase.service ? servicePurchase.service.account : null
-          "
-        />
+        <chat v-if="isChatting" :from-purchase="true" />
       </div>
     </div>
     <!--end::Dashboard-->
@@ -241,15 +261,17 @@ import { queryServicePurchase } from "@/graphql/purchase-queries";
 import UserCard from "@/view/pages/partials/UserCard";
 import Timeline from "@/view/pages/user/purchases/Timeline";
 import { queryServicePurchaseTimeline } from "@/graphql/service-purchase-queries";
+import Chat from "@/view/pages/user/Chat";
 
 export default {
   name: "PurchaseView",
   mixins: [toastMixin, purchaseActionsMixin],
-  components: { UserCard, Timeline },
+  components: { UserCard, Timeline, Chat },
   data() {
     return {
       servicePurchase: {},
-      timelines: {}
+      timelines: {},
+      chatting: false
     };
   },
   computed: {
@@ -266,6 +288,12 @@ export default {
         return this.servicePurchase.serviceOptions.length > 0;
       }
       return false;
+    },
+    isChatting() {
+      return this.chatting;
+    },
+    isNotChatting() {
+      return !this.isChatting;
     }
   },
   mounted() {},
@@ -383,6 +411,12 @@ export default {
         .$(this.$refs.btnApprove)
         .find("i")
         .css("display", "");
+    },
+    toggleChattingStat() {
+      if (this.isChatting) {
+        window.$("#btn-chat").blur();
+      }
+      this.chatting = !this.chatting;
     }
   }
 };

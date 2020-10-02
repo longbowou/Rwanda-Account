@@ -32,3 +32,19 @@ export const servicePurchaseTimelineFields = gql`
     }
   }
 `;
+
+export const servicePurchaseChatFields = gql`
+  fragment servicePurchaseChatFields on ServicePurchaseType {
+    chat {
+      id
+      isFile
+      fileName
+      fileUrl
+      content
+      fromCurrentAccount
+      time
+      showDate
+      date
+    }
+  }
+`;

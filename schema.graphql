@@ -25,6 +25,7 @@ type AccountMutation {
     changeAccountPassword(input: ChangeAccountPasswordInput!): ChangeAccountPassword
     createAccount(input: AccountInput!): CreateAccount
     createAdmin(input: AdminInput!): CreateAdmin
+    createChatMessage(input: CreateChatMessageInput!): CreateChatMessage
     createDeliverable(input: CreateDeliverableInput!): CreateDeliverable
     createDeposit(input: CreateDepositInput!): CreateDeposit
     createLitigation(input: CreateLitigationInput!): CreateLitigation
@@ -88,7 +89,7 @@ type AccountQuery {
 
 type AccountType implements UserInterface {
     balance: String!
-    chatSet: [ChatType!]!
+    chatmessageSet: [ChatMessageType!]!
     createdAt: DateTime!
     depositSet: [DepositType!]!
     depositsSum: String!
@@ -145,11 +146,14 @@ type ChangeAccountPassword {
     errors: [ErrorType]
 }
 
-type ChatType {
+type ChatMessageType {
     account: AccountType!
-    content: String!
+    content: String
     createdAt: DateTime!
+    file: String
+    fileName: String
     id: UUID!
+    isFile: Boolean!
     servicePurchase: ServicePurchaseType!
     updatedAt: DateTime!
 }
@@ -161,6 +165,11 @@ type CreateAccount {
 
 type CreateAdmin {
     admin: AdminType
+    errors: [ErrorType]
+}
+
+type CreateChatMessage {
+    chatMessage: ChatMessageType
     errors: [ErrorType]
 }
 
@@ -433,6 +442,18 @@ type ServiceOrderType {
     totalPriceTva: String!
 }
 
+type ServicePurchaseChatMessageType {
+    content: String
+    date: String
+    fileName: String
+    fileUrl: String
+    fromCurrentAccount: Boolean!
+    id: UUID!
+    isFile: Boolean!
+    showDate: Boolean!
+    time: String!
+}
+
 type ServicePurchaseServiceOptionType {
     createdAt: DateTime!
     id: UUID!
@@ -441,7 +462,7 @@ type ServicePurchaseServiceOptionType {
     updatedAt: DateTime!
 }
 
-type ServicePurchaseTimeLine {
+type ServicePurchaseTimeLineType {
     color: String!
     description: String
     happenAt: String!
@@ -462,7 +483,8 @@ type ServicePurchaseType {
     canBeInDispute: Boolean!
     canceled: Boolean!
     canceledAt: DateTime
-    chatSet: [ChatType!]!
+    chat: [ServicePurchaseChatMessageType]!
+    chatmessageSet: [ChatMessageType!]!
     commission: Int!
     createdAt: DateTime!
     deadlineAt: String
@@ -484,7 +506,7 @@ type ServicePurchaseType {
     serviceOptions: [ServiceOptionType!]!
     servicepurchaseserviceoptionSet: [ServicePurchaseServiceOptionType!]!
     status: String!
-    timelines: [ServicePurchaseTimeLine]!
+    timelines: [ServicePurchaseTimeLineType]!
     updatedAt: DateTime!
 }
 
@@ -611,6 +633,11 @@ input ChangeAccountPasswordInput {
     currentPassword: String!
     password: String!
     passwordConfirmation: String!
+}
+
+input CreateChatMessageInput {
+    content: String
+    servicePurchase: ID!
 }
 
 input CreateDeliverableInput {
