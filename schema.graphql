@@ -3,6 +3,7 @@
 schema {
     query: AccountQuery
     mutation: AccountMutation
+    subscription: Subscription
 }
 
 interface UserInterface {
@@ -156,6 +157,10 @@ type ChatMessageType {
     isFile: Boolean!
     servicePurchase: ServicePurchaseType!
     updatedAt: DateTime!
+}
+
+type ChatSubscription {
+    message: ServicePurchaseChatMessageType
 }
 
 type CreateAccount {
@@ -533,6 +538,10 @@ type ServiceType {
     stars: Int!
     title: String!
     updatedAt: DateTime!
+}
+
+type Subscription {
+    chatSubscription(authToken: String!, servicePurchase: UUID!): ChatSubscription
 }
 
 type UpdateAccount {

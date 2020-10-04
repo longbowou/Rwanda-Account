@@ -151,6 +151,8 @@ import Quill from "quill";
 import { queryPurchaseChat } from "@/graphql/purchase-queries";
 import { createChatMessage } from "@/graphql/chat-mutations";
 import { queryOrderChat } from "@/graphql/order-queries";
+import { chatSubscription } from "@/graphql/service-purchase-subscriptions";
+import JwtService from "@/core/services/jwt.service";
 
 export default {
   name: "Chat",
@@ -183,6 +185,7 @@ export default {
   },
   beforeMount() {
     this.fetchChat();
+    this.subscribeToChatMessages();
   },
   mounted() {
     this.initPlugins();
@@ -213,6 +216,27 @@ export default {
         }
       }
     },
+    subscribeToChatMessages() {
+      const observer = this.$apollo.subscribe({
+        query: chatSubscription,
+        variables: {
+          authToken: JwtService.getAuth().token,
+          servicePurchase: this.$route.params.id
+        }
+      });
+
+      const $this = this;
+      observer.subscribe({
+        next(data) {
+          if (data.data.chatSubscription !== undefined) {
+            $this.chat.push(data.data.chatSubscription.message);
+          }
+        },
+        error(error) {
+          console.error(error);
+        }
+      });
+    },
     setActiveTab(index) {
       this.currentTabIndex = index;
     },
@@ -239,8 +263,6 @@ export default {
       input.content = this.messageContentQuill.root.innerHTML;
       input.servicePurchase = this.$route.params.id;
 
-      console.log(this.messageContentQuill.root.innerHTML);
-
       const result = await this.$apollo.mutate({
         mutation: createChatMessage,
         variables: {
@@ -257,7 +279,7 @@ export default {
 
       this.messageContentQuill.root.innerHTML = "";
 
-      await this.fetchChat();
+      // await this.fetchChat();
     },
     scrollToBottom() {
       const messagesContainer = document.querySelector("#messages-container");
