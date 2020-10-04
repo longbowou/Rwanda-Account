@@ -157,6 +157,14 @@ type ChangeAccountPassword {
     errors: [ErrorType]
 }
 
+type ChatFileSubscription {
+    message: ServicePurchaseChatMessageType
+}
+
+type ChatMessageSubscription {
+    message: ServicePurchaseChatMessageType
+}
+
 type ChatMessageType {
     account: AccountType!
     content: String
@@ -168,10 +176,6 @@ type ChatMessageType {
     isFile: Boolean!
     servicePurchase: ServicePurchaseType!
     updatedAt: DateTime!
-}
-
-type ChatSubscription {
-    message: ServicePurchaseChatMessageType
 }
 
 type CreateAccount {
@@ -505,6 +509,7 @@ type ServicePurchaseType {
     canceled: Boolean!
     canceledAt: DateTime
     chat: [ServicePurchaseChatMessageType]!
+    chatFiles: [ServicePurchaseChatMessageType]!
     chatmessageSet: [ChatMessageType!]!
     commission: Int!
     createdAt: DateTime!
@@ -558,7 +563,8 @@ type ServiceType {
 
 type Subscription {
     accountOnlineSubscription(account: UUID!, authToken: String!): AccountOnlineSubscription
-    chatSubscription(authToken: String!, servicePurchase: UUID!): ChatSubscription
+    chatFileSubscription(authToken: String!, servicePurchase: UUID!): ChatFileSubscription
+    chatMessageSubscription(authToken: String!, servicePurchase: UUID!): ChatMessageSubscription
     onlineSubscription(authToken: String!): OnlineSubscription
 }
 

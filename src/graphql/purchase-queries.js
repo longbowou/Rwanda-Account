@@ -1,6 +1,9 @@
 import gql from "graphql-tag";
 import { purchaseFields } from "@/graphql/Fragments/purchase";
-import { servicePurchaseChatFields } from "@/graphql/Fragments/service-purchase";
+import {
+  servicePurchaseChatFields,
+  servicePurchaseChatMessageFields
+} from "@/graphql/Fragments/service-purchase";
 import { accountBasicFields } from "@/graphql/Fragments/account";
 
 export const queryServicePurchase = gql`
@@ -12,7 +15,7 @@ export const queryServicePurchase = gql`
   ${purchaseFields}
 `;
 
-export const queryPurchaseChat = gql`
+export const queryPurchaseChatMessages = gql`
   query servicePurchase($id: UUID!) {
     servicePurchase(id: $id) {
       ...servicePurchaseChatFields
@@ -25,4 +28,15 @@ export const queryPurchaseChat = gql`
   }
   ${servicePurchaseChatFields}
   ${accountBasicFields}
+`;
+
+export const queryPurchaseChatFiles = gql`
+  query servicePurchase($id: UUID!) {
+    servicePurchase(id: $id) {
+      chatFiles {
+        ...servicePurchaseChatMessageFields
+      }
+    }
+  }
+  ${servicePurchaseChatMessageFields}
 `;

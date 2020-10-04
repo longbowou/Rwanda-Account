@@ -74,55 +74,11 @@
           >
             <!--begin::Messages-->
             <div class="messages mt-2 pb-3">
-              <template v-for="message of chat">
-                <div :key="message.id">
-                  <div class="text-center m-2" v-if="message.showDate">
-                    <span class="font-size-h5 text-dark-65 font-weight-bold">{{
-                      message.date
-                    }}</span>
-                  </div>
-                  <div
-                    :class="[
-                      'd-flex flex-column mb-0',
-                      message.fromCurrentAccount && 'align-items-end',
-                      !message.fromCurrentAccount && 'align-items-start'
-                    ]"
-                  >
-                    <div
-                      :class="[
-                        'mt-2 p-2 font-weight-bold font-size-lg max-w-400px ',
-                        message.fromCurrentAccount && 'bg-light text-dark-65',
-                        !message.fromCurrentAccount && 'bg-dark text-white'
-                      ]"
-                    >
-                      <div
-                        v-html="message.content"
-                        v-if="!message.isFile"
-                      ></div>
-                      <div
-                        @click="downloadFile(message.fileName, message.fileUrl)"
-                        v-if="message.isFile"
-                        class="text-hover-success cursor-pointer"
-                      >
-                        <i class="fas fa-file-download mr-1"></i>
-                        {{ message.fileName }} <br />
-                        <p
-                          :class="[
-                            'm-0',
-                            message.fromCurrentAccount && 'text-right',
-                            !message.fromCurrentAccount && 'text-left'
-                          ]"
-                        >
-                          <span>{{ message.fileSize }}</span>
-                        </p>
-                      </div>
-                      <span class="text-muted font-size-sm">{{
-                        message.time
-                      }}</span>
-                    </div>
-                  </div>
-                </div>
-              </template>
+              <chat-message
+                v-for="message of chat"
+                :message="message"
+                :key="message.id"
+              />
             </div>
             <!--end::Messages-->
           </div>
@@ -133,7 +89,25 @@
           style="max-height: 400px;min-height: 400px"
           :class="['tab-pane fade', isFilesTabActive && 'show active']"
           role="tabpanel"
-        ></div>
+        >
+          <!--begin::Scroll-->
+          <div
+            id="files-container"
+            class="scroll scroll-pull"
+            style="height: 400px"
+          >
+            <!--begin::Messages-->
+            <div class="messages mt-2 pb-3">
+              <chat-message
+                v-for="message of files"
+                :message="message"
+                :key="message.id"
+              />
+            </div>
+            <!--end::Messages-->
+          </div>
+          <!--end::Scroll-->
+        </div>
 
         <div
           style="max-height: 400px;min-height: 400px"
@@ -231,25 +205,35 @@
 <script>
 import PerfectScrollbar from "perfect-scrollbar";
 import Quill from "quill";
-import { queryPurchaseChat } from "@/graphql/purchase-queries";
+import {
+  queryPurchaseChatFiles,
+  queryPurchaseChatMessages
+} from "@/graphql/purchase-queries";
 import { createChatMessage } from "@/graphql/chat-mutations";
 import { queryOrderChat } from "@/graphql/order-queries";
-import { chatSubscription } from "@/graphql/service-purchase-subscriptions";
 import JwtService from "@/core/services/jwt.service";
 import { accountOnlineSubscription } from "@/graphql/account-subscriptions";
 import Dropzone from "dropzone";
 import { chatMessagesUploadUrl } from "@/core/server-side/urls";
-import FileSaver from "file-saver";
+import {
+  chatFileSubscription,
+  chatMessageSubscription
+} from "@/graphql/chat-subscriptions";
+import ChatMessage from "@/view/pages/user/chat/ChatMessage";
 
 export default {
   name: "Chat",
+  components: { ChatMessage },
+  comments: { ChatMessage },
   props: ["fromPurchase"],
   data() {
     return {
       chat: [],
+      files: [],
       account: {},
       currentTabIndex: 0,
-      messageContentQuill: {}
+      messageContentQuill: {},
+      chatFileSubscriber: {}
     };
   },
   computed: {
@@ -276,6 +260,19 @@ export default {
       return this.account.isOnline;
     }
   },
+  watch: {
+    isFilesTabActive() {
+      if (this.isFilesTabActive) {
+        if (window._.isEmpty(this.files)) {
+          this.fetchChatFiles();
+        }
+
+        if (window._.isEmpty(this.chatFileSubscriber)) {
+          this.subscribeToChatFile();
+        }
+      }
+    }
+  },
   beforeMount() {
     this.fetchChat();
     this.subscribeToChatMessages();
@@ -290,7 +287,7 @@ export default {
     async fetchChat() {
       let query = queryOrderChat;
       if (this.fromPurchase) {
-        query = queryPurchaseChat;
+        query = queryPurchaseChatMessages;
       }
 
       const result = await this.$apollo.query({
@@ -311,9 +308,22 @@ export default {
         this.subscribeToAccountOnline();
       }
     },
+    async fetchChatFiles() {
+      const result = await this.$apollo.query({
+        query: queryPurchaseChatFiles,
+        variables: {
+          id: this.$route.params.id,
+          isFile: true
+        }
+      });
+
+      if (window._.isEmpty(result.errors)) {
+        this.files = result.data.servicePurchase.chatFiles;
+      }
+    },
     subscribeToChatMessages() {
       const observer = this.$apollo.subscribe({
-        query: chatSubscription,
+        query: chatMessageSubscription,
         variables: {
           authToken: JwtService.getAuth().token,
           servicePurchase: this.$route.params.id
@@ -323,8 +333,8 @@ export default {
       const $this = this;
       observer.subscribe({
         next(data) {
-          if (data.data.chatSubscription !== undefined) {
-            $this.chat.push(data.data.chatSubscription.message);
+          if (data.data.chatMessageSubscription !== undefined) {
+            $this.chat.push(data.data.chatMessageSubscription.message);
           }
         },
         error() {}
@@ -349,6 +359,25 @@ export default {
         error() {}
       });
     },
+    subscribeToChatFile() {
+      const observer = this.$apollo.subscribe({
+        query: chatFileSubscription,
+        variables: {
+          authToken: JwtService.getAuth().token,
+          servicePurchase: this.$route.params.id
+        }
+      });
+
+      const $this = this;
+      this.chatFileSubscriber = observer.subscribe({
+        next(data) {
+          if (data.data.chatFileSubscription !== undefined) {
+            $this.files.push(data.data.chatFileSubscription.message);
+          }
+        },
+        error() {}
+      });
+    },
     setActiveTab(index) {
       this.currentTabIndex = index;
     },
@@ -363,6 +392,11 @@ export default {
       this.messageContentQuill.focus();
 
       new PerfectScrollbar("#messages-container", {
+        suppressScrollX: true,
+        wheelPropagation: false
+      });
+
+      new PerfectScrollbar("#files-container", {
         suppressScrollX: true,
         wheelPropagation: false
       });
@@ -470,9 +504,11 @@ export default {
       if (messagesContainer !== null) {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
-    },
-    downloadFile(fileName, filUrl) {
-      FileSaver.saveAs(filUrl, fileName);
+
+      const filesContainer = document.querySelector("#files-container");
+      if (filesContainer !== null) {
+        filesContainer.scrollTop = filesContainer.scrollHeight;
+      }
     }
   }
 };

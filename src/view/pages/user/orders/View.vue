@@ -252,7 +252,7 @@ import { queryOrder } from "@/graphql/order-queries";
 import UserCard from "@/view/pages/partials/UserCard";
 import Timeline from "@/view/pages/user/purchases/Timeline";
 import { queryServicePurchaseTimeline } from "@/graphql/service-purchase-queries";
-import Chat from "@/view/pages/user/Chat";
+import Chat from "@/view/pages/user/chat/Chat";
 
 export default {
   name: "OrderView",
