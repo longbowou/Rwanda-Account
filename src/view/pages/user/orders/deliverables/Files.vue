@@ -146,7 +146,7 @@ export default {
       previewNode.remove();
 
       Dropzone.autoDiscover = false;
-      const myDropzone5 = new Dropzone(id, {
+      const fileDropzone = new Dropzone(id, {
         // Make the whole body a dropzone
         url: deliverablesUploadUrl.replace(
           ":pk",
@@ -165,7 +165,7 @@ export default {
         }
       });
 
-      myDropzone5.on("addedfile", function() {
+      fileDropzone.on("addedfile", function() {
         // Hookup the start button
         window
           .$(document)
@@ -174,17 +174,17 @@ export default {
       });
 
       // Update the total progress bar
-      myDropzone5.on("totaluploadprogress", function(progress) {
+      fileDropzone.on("totaluploadprogress", function(progress) {
         window.$(id + " .progress-bar").css("width", progress + "%");
       });
 
-      myDropzone5.on("sending", function() {
+      fileDropzone.on("sending", function() {
         // Show the total progress bar when upload starts
         window.$(id + " .progress-bar").css("opacity", "1");
       });
 
       // Hide the total progress bar when nothing's uploading anymore
-      myDropzone5.on("complete", function() {
+      fileDropzone.on("complete", function() {
         var thisProgressBar = id + " .dz-complete";
         setTimeout(function() {
           window

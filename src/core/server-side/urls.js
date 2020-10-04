@@ -30,3 +30,6 @@ export const servicesOptionsUrl =
 
 export const deliverablesUploadUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL + "account/deliverables/:pk/upload";
+
+export const chatMessagesUploadUrl =
+  process.env.VUE_APP_DATATABLES_BASE_URL + "account/chat-messages/:pk/upload";

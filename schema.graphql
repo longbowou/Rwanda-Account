@@ -163,6 +163,7 @@ type ChatMessageType {
     createdAt: DateTime!
     file: String
     fileName: String
+    fileSize: Int!
     id: UUID!
     isFile: Boolean!
     servicePurchase: ServicePurchaseType!
@@ -465,6 +466,7 @@ type ServicePurchaseChatMessageType {
     content: String
     date: String
     fileName: String
+    fileSize: String
     fileUrl: String
     fromCurrentAccount: Boolean!
     id: UUID!

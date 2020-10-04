@@ -39,6 +39,7 @@ export const servicePurchaseChatMessageFields = gql`
     isFile
     fileName
     fileUrl
+    fileSize
     content
     fromCurrentAccount
     time
