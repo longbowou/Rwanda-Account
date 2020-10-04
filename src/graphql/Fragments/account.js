@@ -17,3 +17,13 @@ export const accountFields = gql`
     earningsSum
   }
 `;
+
+export const accountBasicFields = gql`
+  fragment accountBasicFields on AccountType {
+    id
+    fullName
+    balance
+    isOnline
+    lastLogin
+  }
+`;

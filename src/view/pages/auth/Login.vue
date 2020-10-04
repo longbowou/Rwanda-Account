@@ -171,7 +171,8 @@ export default {
 
       // set spinner to submit button
       const submitButton = window.$("#kt_login_signin_submit");
-      submitButton.addClass("disabled spinner spinner-light spinner-right");
+      submitButton.attr("disabled", true);
+      submitButton.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
 
@@ -184,9 +185,8 @@ export default {
 
       this.errors = result.data.login.errors;
       if (!window._.isEmpty(this.errors)) {
-        submitButton.removeClass(
-          "disabled spinner spinner-light spinner-right"
-        );
+        submitButton.removeAttr("disabled");
+        submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
 

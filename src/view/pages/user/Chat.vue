@@ -7,8 +7,16 @@
           {{ account.fullName }}
         </div>
         <div>
-          <span class="label label-lg label-dot label-success mr-2"></span>
-          <span class="font-weight-bold text-muted font-size-sm">Active</span>
+          <span
+            :class="[
+              'label label-lg label-dot mr-2',
+              accountIsOnline && 'label-success',
+              !accountIsOnline && 'label-dark'
+            ]"
+          ></span>
+          <span class="font-weight-bold text-muted font-size-sm">
+            {{ accountIsOnline ? "Active" : account.lastLogin }}
+          </span>
         </div>
       </div>
       <div class="card-toolbar">
@@ -61,14 +69,14 @@
           <!--begin::Scroll-->
           <div
             id="messages-container"
-            class="scroll scrol l-pull"
+            class="scroll scroll-pull"
             style="height: 400px"
           >
             <!--begin::Messages-->
             <div class="messages mt-2 pb-3">
               <template v-for="message of chat">
-                <div :key="message.id" class="">
-                  <div class="text-center" v-if="message.showDate">
+                <div :key="message.id">
+                  <div class="text-center m-2" v-if="message.showDate">
                     <span class="font-size-h5 text-dark-65 font-weight-bold">{{
                       message.date
                     }}</span>
@@ -153,6 +161,7 @@ import { createChatMessage } from "@/graphql/chat-mutations";
 import { queryOrderChat } from "@/graphql/order-queries";
 import { chatSubscription } from "@/graphql/service-purchase-subscriptions";
 import JwtService from "@/core/services/jwt.service";
+import { accountOnlineSubscription } from "@/graphql/account-subscriptions";
 
 export default {
   name: "Chat",
@@ -181,6 +190,12 @@ export default {
         return messageContentText.length === 0;
       }
       return true;
+    },
+    accountIsOnline() {
+      if (window._.isEmpty(this.account)) {
+        return false;
+      }
+      return this.account.isOnline;
     }
   },
   beforeMount() {
@@ -214,6 +229,8 @@ export default {
         } else {
           this.account = result.data.servicePurchase.account;
         }
+
+        this.subscribeToAccountOnline();
       }
     },
     subscribeToChatMessages() {
@@ -232,9 +249,26 @@ export default {
             $this.chat.push(data.data.chatSubscription.message);
           }
         },
-        error(error) {
-          console.error(error);
+        error() {}
+      });
+    },
+    subscribeToAccountOnline() {
+      const observer = this.$apollo.subscribe({
+        query: accountOnlineSubscription,
+        variables: {
+          authToken: JwtService.getAuth().token,
+          account: this.account.id
         }
+      });
+
+      const $this = this;
+      observer.subscribe({
+        next(data) {
+          if (data.data.accountOnlineSubscription !== undefined) {
+            $this.account = data.data.accountOnlineSubscription.account;
+          }
+        },
+        error() {}
       });
     },
     setActiveTab(index) {

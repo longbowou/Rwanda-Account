@@ -76,9 +76,16 @@ import {
   ADD_BODY_CLASSNAME,
   REMOVE_BODY_CLASSNAME
 } from "@/core/services/store/modules/htmlclass.module.js";
+import JwtService from "@/core/services/jwt.service";
+import { onlineSubscription } from "@/graphql/account-subscriptions";
 
 export default {
   name: "Layout",
+  data() {
+    return {
+      subscribe: {}
+    };
+  },
   components: {
     KTAside,
     KTHeader,
@@ -106,10 +113,41 @@ export default {
     // Remove page loader after some time
     // this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
     // }, 1000);
+
+    if (this.isAuthenticated) {
+      this.subscribeToOnline();
+    }
   },
   methods: {
+    subscribeToOnline() {
+      const observer = this.$apollo.subscribe({
+        query: onlineSubscription,
+        variables: {
+          authToken: JwtService.getAuth().token
+        }
+      });
+
+      this.subscribe = observer.subscribe({
+        next() {},
+        error() {}
+      });
+    },
+    unSubscribeToOnline() {
+      if (!window._.isEmpty(this.subscribe)) {
+        this.subscribe.unsubscribe();
+      }
+    },
     footerLayout(type) {
       return this.layoutConfig("footer.layout") === type;
+    }
+  },
+  watch: {
+    isAuthenticated() {
+      if (this.isAuthenticated) {
+        this.subscribeToOnline();
+      } else {
+        this.unSubscribeToOnline();
+      }
     }
   },
   computed: {

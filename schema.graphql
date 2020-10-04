@@ -10,6 +10,8 @@ interface UserInterface {
     email: String!
     firstName: String
     fullName: String
+    isOnline: Boolean!
+    lastLogin: String
     lastName: String
     username: String!
 }
@@ -62,6 +64,10 @@ type AccountMutation {
     verifyToken(token: String): Verify
 }
 
+type AccountOnlineSubscription {
+    account: AccountType
+}
+
 type AccountQuery {
     account: AccountType!
     deliverable(id: UUID!): DeliverableType!
@@ -99,6 +105,8 @@ type AccountType implements UserInterface {
     firstName: String
     fullName: String
     id: UUID!
+    isOnline: Boolean!
+    lastLogin: String
     lastName: String
     litigationSet: [LitigationType!]!
     operationSet: [OperationType!]!
@@ -120,6 +128,8 @@ type AdminType implements UserInterface {
     firstName: String
     fullName: String
     id: UUID!
+    isOnline: Boolean!
+    lastLogin: String
     lastName: String
     litigationSet: [LitigationType!]!
     updatedAt: DateTime!
@@ -341,6 +351,10 @@ type LoginAccount {
     errors: [ErrorType]
 }
 
+type OnlineSubscription {
+    account: AccountType
+}
+
 type OperationType {
     account: AccountType
     amount: Int!
@@ -541,7 +555,9 @@ type ServiceType {
 }
 
 type Subscription {
+    accountOnlineSubscription(account: UUID!, authToken: String!): AccountOnlineSubscription
     chatSubscription(authToken: String!, servicePurchase: UUID!): ChatSubscription
+    onlineSubscription(authToken: String!): OnlineSubscription
 }
 
 type UpdateAccount {

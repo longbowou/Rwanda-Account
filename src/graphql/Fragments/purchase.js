@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 import { servicePurchaseFields } from "@/graphql/Fragments/service-purchase";
+import { accountBasicFields } from "@/graphql/Fragments/account";
 
 export const purchaseFields = gql`
   fragment purchaseFields on ServicePurchaseType {
@@ -11,10 +12,10 @@ export const purchaseFields = gql`
       id
       title
       account {
-        id
-        fullName
+        ...accountBasicFields
       }
     }
   }
   ${servicePurchaseFields}
+  ${accountBasicFields}
 `;
