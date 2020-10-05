@@ -51,7 +51,7 @@
               role="tab"
             >
               <span class="nav-icon"><i class="flaticon-star"></i></span>
-              <span class="nav-text">Stars</span>
+              <span class="nav-text">Marked</span>
             </button>
           </li>
         </ul>
@@ -191,8 +191,7 @@
             </div>
           </div>
           <span class="form-text text-muted"
-            >Max file size is <strong>1GB</strong> and max number of files is
-            <strong>10</strong>.</span
+            >Max file size is <strong>1GB</strong></span
           >
         </div>
       </div>

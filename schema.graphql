@@ -50,6 +50,7 @@ type AccountMutation {
     handleLitigation(input: HandleLitigationInput!): HandleLitigation
     initServicePurchase(input: InitServicePurchaseInput!): InitServicePurchase
     login(input: LoginInput!): LoginAccount
+    markUnmarkChatMessage(chatMessage: UUID!): MarkUnmarkChatMessage
     refreshToken(refreshToken: String): Refresh
     replyServiceComment(input: ReplyServiceCommentInput!): ReplyServiceComment
     revokeToken(refreshToken: String): Revoke
@@ -356,6 +357,10 @@ type LoginAccount {
     errors: [ErrorType]
 }
 
+type MarkUnmarkChatMessage {
+    marked: Boolean!
+}
+
 type OnlineSubscription {
     account: AccountType
 }
@@ -475,6 +480,7 @@ type ServicePurchaseChatMessageType {
     fromCurrentAccount: Boolean!
     id: UUID!
     isFile: Boolean!
+    marked: Boolean!
     showDate: Boolean!
     time: String!
 }
@@ -510,6 +516,7 @@ type ServicePurchaseType {
     canceledAt: DateTime
     chat: [ServicePurchaseChatMessageType]!
     chatFiles: [ServicePurchaseChatMessageType]!
+    chatMarked: [ServicePurchaseChatMessageType]!
     chatmessageSet: [ChatMessageType!]!
     commission: Int!
     createdAt: DateTime!

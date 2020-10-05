@@ -41,6 +41,7 @@ export const servicePurchaseChatMessageFields = gql`
     fileUrl
     fileSize
     content
+    marked
     fromCurrentAccount
     time
     showDate

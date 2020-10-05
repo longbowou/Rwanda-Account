@@ -1,43 +1,57 @@
 <template>
   <div>
-    <div class="text-center m-2" v-if="message.showDate">
+    <div class="text-center m-2" v-if="chatMessage.showDate">
       <span class="font-size-h5 text-dark-65 font-weight-bold">{{
-        message.date
+        chatMessage.date
       }}</span>
     </div>
     <div
       :class="[
         'd-flex flex-column mb-0',
-        message.fromCurrentAccount && 'align-items-end',
-        !message.fromCurrentAccount && 'align-items-start'
+        chatMessage.fromCurrentAccount && 'align-items-end',
+        !chatMessage.fromCurrentAccount && 'align-items-start'
       ]"
     >
       <div
         :class="[
-          'mt-2 p-2 font-weight-bold font-size-lg max-w-400px ',
-          message.fromCurrentAccount && 'bg-light text-dark-65',
-          !message.fromCurrentAccount && 'bg-dark text-white'
+          'mt-2 p-4 font-weight-bold font-size-lg max-w-400px ',
+          chatMessage.fromCurrentAccount && 'bg-light text-dark-65',
+          !chatMessage.fromCurrentAccount && 'bg-dark text-white'
         ]"
       >
-        <div v-html="message.content" v-if="!message.isFile"></div>
+        <div v-html="chatMessage.content" v-if="!chatMessage.isFile"></div>
         <div
-          @click="downloadFile(message.fileName, message.fileUrl)"
-          v-if="message.isFile"
+          @click="downloadFile(chatMessage.fileName, chatMessage.fileUrl)"
+          v-if="chatMessage.isFile"
           class="text-hover-success cursor-pointer"
         >
           <i class="fas fa-file-download mr-1"></i>
-          {{ message.fileName }} <br />
+          {{ chatMessage.fileName }} <br />
           <p
             :class="[
               'm-0',
-              message.fromCurrentAccount && 'text-right',
-              !message.fromCurrentAccount && 'text-left'
+              chatMessage.fromCurrentAccount && 'text-right',
+              !chatMessage.fromCurrentAccount && 'text-left'
             ]"
           >
-            <span>{{ message.fileSize }}</span>
+            <span>{{ chatMessage.fileSize }}</span>
           </p>
         </div>
-        <span class="text-muted font-size-sm">{{ message.time }}</span>
+        <span class="text-muted font-size-sm">{{ chatMessage.time }}</span>
+        <button
+          :id="'btn-mark-' + chatMessage.id"
+          class="btn btn-icon btn-xs btn-hover-text-warning float-right active ml-4"
+          data-toggle="tooltip"
+          data-placement="right"
+          @click="markUnmarkChatMessage(chatMessage.id)"
+          title="Mark"
+          data-original-title="Star"
+        >
+          <i
+            :id="'icon-star-' + chatMessage.id"
+            :class="['flaticon-star', markedClass]"
+          ></i>
+        </button>
       </div>
     </div>
   </div>
@@ -45,13 +59,49 @@
 
 <script>
 import FileSaver from "file-saver";
+import { markUnmarkChatMessage } from "@/graphql/chat-mutations";
 
 export default {
   name: "ChatMessage",
   props: ["message"],
+  data() {
+    return {
+      chatMessage: window._.cloneDeep(this.message)
+    };
+  },
+  computed: {
+    markedClass() {
+      return this.chatMessage.marked ? "text-success" : "text-muted";
+    }
+  },
   methods: {
     downloadFile(fileName, filUrl) {
       FileSaver.saveAs(filUrl, fileName);
+    },
+    async markUnmarkChatMessage(messageId) {
+      const icon = window.$("#icon-star-" + messageId);
+      icon.hide();
+
+      const markButton = window.$("#btn-mark-" + messageId);
+      markButton.attr("disabled", true);
+      markButton.addClass("spinner spinner-success spinner-sm spinner-center");
+
+      const result = await this.$apollo.mutate({
+        mutation: markUnmarkChatMessage,
+        variables: {
+          chatMessage: messageId
+        }
+      });
+
+      icon.show();
+      markButton.removeAttr("disabled");
+      markButton.removeClass(
+        "spinner spinner-success spinner-sm spinner-center"
+      );
+
+      if (window._.isEmpty(result.errors)) {
+        this.chatMessage.marked = result.data.markUnmarkChatMessage.marked;
+      }
     }
   }
 };

@@ -11,3 +11,11 @@ export const createChatMessage = gql`
   }
   ${errorFields}
 `;
+
+export const markUnmarkChatMessage = gql`
+  mutation($chatMessage: UUID!) {
+    markUnmarkChatMessage(chatMessage: $chatMessage) {
+      marked
+    }
+  }
+`;
