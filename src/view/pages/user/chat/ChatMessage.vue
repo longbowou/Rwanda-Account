@@ -1,54 +1,57 @@
 <template>
   <div>
-    <div class="text-center m-2" v-if="chatMessage.showDate">
+    <div class="text-center m-2" v-if="message.showDate">
       <span class="font-size-h5 text-dark-65 font-weight-bold">{{
-        chatMessage.date
+        message.date
       }}</span>
     </div>
     <div
       :class="[
         'd-flex flex-column mb-0',
-        chatMessage.fromCurrentAccount && 'align-items-end',
-        !chatMessage.fromCurrentAccount && 'align-items-start'
+        message.fromCurrentAccount && 'align-items-end',
+        !message.fromCurrentAccount && 'align-items-start'
       ]"
     >
       <div
         :class="[
           'mt-2 p-4 font-weight-bold font-size-lg max-w-400px ',
-          chatMessage.fromCurrentAccount && 'bg-light text-dark-65',
-          !chatMessage.fromCurrentAccount && 'bg-dark text-white'
+          message.fromCurrentAccount && 'bg-light text-dark-65',
+          !message.fromCurrentAccount && 'bg-dark text-white'
         ]"
       >
-        <div v-html="chatMessage.content" v-if="!chatMessage.isFile"></div>
+        <div v-html="message.content" v-if="!message.isFile"></div>
+
         <div
-          @click="downloadFile(chatMessage.fileName, chatMessage.fileUrl)"
-          v-if="chatMessage.isFile"
+          @click="downloadFile(message.fileName, message.fileUrl)"
+          v-if="message.isFile"
           class="text-hover-success cursor-pointer"
         >
           <i class="fas fa-file-download mr-1"></i>
-          {{ chatMessage.fileName }} <br />
+          {{ message.fileName }} <br />
           <p
             :class="[
               'm-0',
-              chatMessage.fromCurrentAccount && 'text-right',
-              !chatMessage.fromCurrentAccount && 'text-left'
+              message.fromCurrentAccount && 'text-right',
+              !message.fromCurrentAccount && 'text-left'
             ]"
           >
-            <span>{{ chatMessage.fileSize }}</span>
+            <span>{{ message.fileSize }}</span>
           </p>
         </div>
-        <span class="text-muted font-size-sm">{{ chatMessage.time }}</span>
+        <span class="text-muted font-size-sm">{{ message.time }}</span>
         <button
-          :id="'btn-mark-' + chatMessage.id"
-          class="btn btn-icon btn-xs btn-hover-text-warning float-right active ml-4"
+          :ref="'btn-mark-' + message.id"
+          :class="[
+            'btn btn-icon btn-xs btn-hover-text-warning float-right active ml-4'
+          ]"
           data-toggle="tooltip"
           data-placement="right"
-          @click="markUnmarkChatMessage(chatMessage.id)"
+          @click="markUnmarkChatMessage(message.id)"
           title="Mark"
           data-original-title="Star"
         >
           <i
-            :id="'icon-star-' + chatMessage.id"
+            :ref="'icon-star-' + message.id"
             :class="['flaticon-star', markedClass]"
           ></i>
         </button>
@@ -65,13 +68,14 @@ export default {
   name: "ChatMessage",
   props: ["message"],
   data() {
-    return {
-      chatMessage: window._.cloneDeep(this.message)
-    };
+    return {};
   },
   computed: {
     markedClass() {
-      return this.chatMessage.marked ? "text-success" : "text-muted";
+      return this.message.marked ? "text-success" : "text-muted";
+    },
+    showDate() {
+      return this.message.showDate;
     }
   },
   methods: {
@@ -79,10 +83,10 @@ export default {
       FileSaver.saveAs(filUrl, fileName);
     },
     async markUnmarkChatMessage(messageId) {
-      const icon = window.$("#icon-star-" + messageId);
+      const icon = window.$(this.$refs["icon-star-" + messageId]);
       icon.hide();
 
-      const markButton = window.$("#btn-mark-" + messageId);
+      const markButton = window.$(this.$refs["btn-mark-" + messageId]);
       markButton.attr("disabled", true);
       markButton.addClass("spinner spinner-success spinner-sm spinner-center");
 
@@ -100,7 +104,11 @@ export default {
       );
 
       if (window._.isEmpty(result.errors)) {
-        this.chatMessage.marked = result.data.markUnmarkChatMessage.marked;
+        this.message.marked = result.data.markUnmarkChatMessage.marked;
+
+        if (!this.message.marked) {
+          this.$emit("chat-message-unmarked", this.message.id);
+        }
       }
     }
   }

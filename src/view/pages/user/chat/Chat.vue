@@ -46,7 +46,7 @@
           <li class="nav-item nav-info">
             <button
               @click="setActiveTab(2)"
-              :class="['nav-link', isStartsTabActive && 'active']"
+              :class="['nav-link', isMarkedTabActive && 'active']"
               data-toggle="tab"
               role="tab"
             >
@@ -77,7 +77,7 @@
               <chat-message
                 v-for="message of chat"
                 :message="message"
-                :key="message.id"
+                :key="'message-' + message.id"
               />
             </div>
             <!--end::Messages-->
@@ -101,7 +101,7 @@
               <chat-message
                 v-for="message of files"
                 :message="message"
-                :key="message.id"
+                :key="'file-' + message.id"
               />
             </div>
             <!--end::Messages-->
@@ -111,9 +111,28 @@
 
         <div
           style="max-height: 400px;min-height: 400px"
-          :class="['tab-pane fade', isStartsTabActive && 'show active']"
+          :class="['tab-pane fade', isMarkedTabActive && 'show active']"
           role="tabpanel"
-        ></div>
+        >
+          <!--begin::Scroll-->
+          <div
+            id="marked-container"
+            class="scroll scroll-pull"
+            style="height: 400px"
+          >
+            <!--begin::Messages-->
+            <div class="messages mt-2 pb-3">
+              <chat-message
+                v-on:chat-message-unmarked="removeFromUnmarked"
+                v-for="message of marked"
+                :message="message"
+                :key="'marked-' + message.id"
+              />
+            </div>
+            <!--end::Messages-->
+          </div>
+          <!--end::Scroll-->
+        </div>
       </div>
     </div>
     <!--end::Body-->
@@ -206,6 +225,7 @@ import PerfectScrollbar from "perfect-scrollbar";
 import Quill from "quill";
 import {
   queryPurchaseChatFiles,
+  queryPurchaseChatMarked,
   queryPurchaseChatMessages
 } from "@/graphql/purchase-queries";
 import { createChatMessage } from "@/graphql/chat-mutations";
@@ -229,6 +249,7 @@ export default {
     return {
       chat: [],
       files: [],
+      marked: [],
       account: {},
       currentTabIndex: 0,
       messageContentQuill: {},
@@ -242,7 +263,7 @@ export default {
     isFilesTabActive() {
       return this.currentTabIndex === 1;
     },
-    isStartsTabActive() {
+    isMarkedTabActive() {
       return this.currentTabIndex === 2;
     },
     messageContentIsEmpty() {
@@ -268,6 +289,13 @@ export default {
 
         if (window._.isEmpty(this.chatFileSubscriber)) {
           this.subscribeToChatFile();
+        }
+      }
+    },
+    isMarkedTabActive() {
+      if (this.isMarkedTabActive) {
+        if (window._.isEmpty(this.marked)) {
+          this.fetchChatMarked();
         }
       }
     }
@@ -311,14 +339,51 @@ export default {
       const result = await this.$apollo.query({
         query: queryPurchaseChatFiles,
         variables: {
-          id: this.$route.params.id,
-          isFile: true
+          id: this.$route.params.id
         }
       });
 
       if (window._.isEmpty(result.errors)) {
         this.files = result.data.servicePurchase.chatFiles;
       }
+    },
+    async fetchChatMarked() {
+      const result = await this.$apollo.query({
+        query: queryPurchaseChatMarked,
+        variables: {
+          id: this.$route.params.id
+        }
+      });
+
+      if (window._.isEmpty(result.errors)) {
+        this.marked = result.data.servicePurchase.chatMarked;
+      }
+    },
+    async sendChatMessage() {
+      const submitButton = window.$("#btn_submit");
+      submitButton.addClass("disabled spinner spinner-light spinner-right");
+
+      let input = {};
+      input.content = this.messageContentQuill.root.innerHTML;
+      input.servicePurchase = this.$route.params.id;
+
+      const result = await this.$apollo.mutate({
+        mutation: createChatMessage,
+        variables: {
+          input: input
+        }
+      });
+
+      submitButton.removeClass("disabled spinner spinner-light spinner-right");
+      window.$("#btn_submit").blur();
+
+      if (!window._.isEmpty(result.errors)) {
+        return;
+      }
+
+      this.messageContentQuill.root.innerHTML = "";
+
+      // await this.fetchChat();
     },
     subscribeToChatMessages() {
       const observer = this.$apollo.subscribe({
@@ -400,6 +465,11 @@ export default {
         wheelPropagation: false
       });
 
+      new PerfectScrollbar("#marked-container", {
+        suppressScrollX: true,
+        wheelPropagation: false
+      });
+
       this.initFileUpload();
     },
     initFileUpload() {
@@ -468,46 +538,49 @@ export default {
         }, 1000);
       });
     },
-    async sendChatMessage() {
-      const submitButton = window.$("#btn_submit");
-      submitButton.addClass("disabled spinner spinner-light spinner-right");
-
-      let input = {};
-      input.content = this.messageContentQuill.root.innerHTML;
-      input.servicePurchase = this.$route.params.id;
-
-      const result = await this.$apollo.mutate({
-        mutation: createChatMessage,
-        variables: {
-          input: input
+    scrollToBottom() {
+      if (this.isMessagesTabActive) {
+        const messagesContainer = document.querySelector("#messages-container");
+        if (messagesContainer !== null) {
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-      });
-
-      submitButton.removeClass("disabled spinner spinner-light spinner-right");
-      window.$("#btn_submit").blur();
-
-      if (!window._.isEmpty(result.errors)) {
-        return;
       }
 
-      this.messageContentQuill.root.innerHTML = "";
+      if (this.isFilesTabActive) {
+        const filesContainer = document.querySelector("#files-container");
+        if (filesContainer !== null) {
+          filesContainer.scrollTop = filesContainer.scrollHeight;
+        }
+      }
 
-      // await this.fetchChat();
+      if (this.isMarkedTabActive) {
+        const markedContainer = document.querySelector("#marked-container");
+        if (markedContainer !== null) {
+          markedContainer.scrollTop = markedContainer.scrollHeight;
+        }
+      }
     },
     chooseFile() {
       document.getElementById("attach-file").click();
       document.getElementById("btn-attach-file").blur();
     },
-    scrollToBottom() {
-      const messagesContainer = document.querySelector("#messages-container");
-      if (messagesContainer !== null) {
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    removeFromUnmarked(messageId) {
+      const chatMessageIndex = window._.findIndex(this.marked, function(item) {
+        return item.id === messageId;
+      });
+
+      const chatMessageNextIndex = chatMessageIndex + 1;
+      if (
+        this.marked[chatMessageIndex].showDate &&
+        this.marked.length > chatMessageNextIndex
+      ) {
+        this.marked[chatMessageNextIndex].showDate = true;
       }
 
-      const filesContainer = document.querySelector("#files-container");
-      if (filesContainer !== null) {
-        filesContainer.scrollTop = filesContainer.scrollHeight;
-      }
+      window._.remove(this.marked, function(item) {
+        return item.id === messageId;
+      });
+      this.$forceUpdate();
     }
   }
 };

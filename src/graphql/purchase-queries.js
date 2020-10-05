@@ -40,3 +40,14 @@ export const queryPurchaseChatFiles = gql`
   }
   ${servicePurchaseChatMessageFields}
 `;
+
+export const queryPurchaseChatMarked = gql`
+  query servicePurchase($id: UUID!) {
+    servicePurchase(id: $id) {
+      chatMarked {
+        ...servicePurchaseChatMessageFields
+      }
+    }
+  }
+  ${servicePurchaseChatMessageFields}
+`;
