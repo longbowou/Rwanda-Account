@@ -473,7 +473,9 @@ type ServiceOrderType {
 
 type ServicePurchaseChatMessageType {
     content: String
-    date: String
+    createdAt: Float!
+    date: Int!
+    dateDisplay: String!
     fileName: String
     fileSize: String
     fileUrl: String

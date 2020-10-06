@@ -75,6 +75,7 @@
             <!--begin::Messages-->
             <div class="messages mt-2 pb-3">
               <chat-message
+                v-on:chat-message-updated="chatMessageUpdated"
                 v-for="message of chat"
                 :message="message"
                 :key="'message-' + message.id"
@@ -99,6 +100,7 @@
             <!--begin::Messages-->
             <div class="messages mt-2 pb-3">
               <chat-message
+                v-on:chat-message-updated="chatMessageUpdated"
                 v-for="message of files"
                 :message="message"
                 :key="'file-' + message.id"
@@ -123,7 +125,7 @@
             <!--begin::Messages-->
             <div class="messages mt-2 pb-3">
               <chat-message
-                v-on:chat-message-unmarked="removeFromUnmarked"
+                v-on:chat-message-updated="chatMessageUpdated"
                 v-for="message of marked"
                 :message="message"
                 :key="'marked-' + message.id"
@@ -234,10 +236,7 @@ import JwtService from "@/core/services/jwt.service";
 import { accountOnlineSubscription } from "@/graphql/account-subscriptions";
 import Dropzone from "dropzone";
 import { chatMessagesUploadUrl } from "@/core/server-side/urls";
-import {
-  chatFileSubscription,
-  chatMessageSubscription
-} from "@/graphql/chat-subscriptions";
+import { chatMessageSubscription } from "@/graphql/chat-subscriptions";
 import ChatMessage from "@/view/pages/user/chat/ChatMessage";
 
 export default {
@@ -252,8 +251,7 @@ export default {
       marked: [],
       account: {},
       currentTabIndex: 0,
-      messageContentQuill: {},
-      chatFileSubscriber: {}
+      messageContentQuill: {}
     };
   },
   computed: {
@@ -286,10 +284,6 @@ export default {
         if (window._.isEmpty(this.files)) {
           this.fetchChatFiles();
         }
-
-        if (window._.isEmpty(this.chatFileSubscriber)) {
-          this.subscribeToChatFile();
-        }
       }
     },
     isMarkedTabActive() {
@@ -307,9 +301,7 @@ export default {
   mounted() {
     this.initPlugins();
   },
-  updated() {
-    this.scrollToBottom();
-  },
+  updated() {},
   methods: {
     async fetchChat() {
       let query = queryOrderChat;
@@ -332,6 +324,10 @@ export default {
           this.account = result.data.servicePurchase.account;
         }
 
+        this.$nextTick(() => {
+          this.scrollToBottom();
+        });
+
         this.subscribeToAccountOnline();
       }
     },
@@ -345,6 +341,10 @@ export default {
 
       if (window._.isEmpty(result.errors)) {
         this.files = result.data.servicePurchase.chatFiles;
+
+        this.$nextTick(() => {
+          this.scrollToBottom();
+        });
       }
     },
     async fetchChatMarked() {
@@ -357,6 +357,10 @@ export default {
 
       if (window._.isEmpty(result.errors)) {
         this.marked = result.data.servicePurchase.chatMarked;
+
+        this.$nextTick(() => {
+          this.scrollToBottom();
+        });
       }
     },
     async sendChatMessage() {
@@ -382,8 +386,6 @@ export default {
       }
 
       this.messageContentQuill.root.innerHTML = "";
-
-      // await this.fetchChat();
     },
     subscribeToChatMessages() {
       const observer = this.$apollo.subscribe({
@@ -398,7 +400,17 @@ export default {
       observer.subscribe({
         next(data) {
           if (data.data.chatMessageSubscription !== undefined) {
-            $this.chat.push(data.data.chatMessageSubscription.message);
+            const message = data.data.chatMessageSubscription.message;
+            $this.chat.push(message);
+
+            if (message.isFile && !window._.isEmpty($this.files)) {
+              $this.files.push(message);
+              $this.files = $this.prettify($this.files);
+            }
+
+            $this.$nextTick(() => {
+              $this.scrollToBottom();
+            });
           }
         },
         error() {}
@@ -418,25 +430,6 @@ export default {
         next(data) {
           if (data.data.accountOnlineSubscription !== undefined) {
             $this.account = data.data.accountOnlineSubscription.account;
-          }
-        },
-        error() {}
-      });
-    },
-    subscribeToChatFile() {
-      const observer = this.$apollo.subscribe({
-        query: chatFileSubscription,
-        variables: {
-          authToken: JwtService.getAuth().token,
-          servicePurchase: this.$route.params.id
-        }
-      });
-
-      const $this = this;
-      this.chatFileSubscriber = observer.subscribe({
-        next(data) {
-          if (data.data.chatFileSubscription !== undefined) {
-            $this.files.push(data.data.chatFileSubscription.message);
           }
         },
         error() {}
@@ -564,26 +557,52 @@ export default {
       document.getElementById("attach-file").click();
       document.getElementById("btn-attach-file").blur();
     },
-    removeFromUnmarked(messageId) {
-      const chatMessageIndex = window._.findIndex(this.marked, function(item) {
-        return item.id === messageId;
-      });
-
-      const chatMessageNextIndex = chatMessageIndex + 1;
-      if (
-        this.marked[chatMessageIndex].showDate &&
-        this.marked.length > chatMessageNextIndex
-      ) {
-        this.marked[chatMessageNextIndex].showDate = true;
+    chatMessageUpdated(message) {
+      if (!this.isMessagesTabActive) {
+        const chatMessageIndex = window._.findIndex(this.chat, function(item) {
+          return item.id === message.id;
+        });
+        if (chatMessageIndex !== -1) {
+          this.chat[chatMessageIndex] = message;
+          this.chat = this.prettify(this.chat);
+        }
       }
 
-      window._.remove(this.marked, function(item) {
-        return item.id === messageId;
-      });
+      if (!this.isFilesTabActive && !window._.isEmpty(this.files)) {
+        const chatMessageIndex = window._.findIndex(this.files, function(item) {
+          return item.id === message.id;
+        });
+        if (chatMessageIndex !== -1) {
+          this.files[chatMessageIndex] = message;
+          this.files = this.prettify(this.files);
+        }
+      }
+
+      if (message.marked) {
+        if (!window._.isEmpty(this.marked)) {
+          this.marked.push(message);
+          this.marked = this.prettify(this.marked);
+        }
+      } else {
+        window._.remove(this.marked, function(item) {
+          return item.id === message.id;
+        });
+        this.marked = this.prettify(this.marked);
+      }
+
       this.$forceUpdate();
+    },
+    prettify(messages) {
+      messages = window._.orderBy(messages, ["createdAt"], ["asc"]);
+
+      let lastDate = null;
+      for (const message of messages) {
+        message.showDate = lastDate == null || lastDate !== message.date;
+        lastDate = message.date;
+      }
+
+      return messages;
     }
   }
 };
 </script>
-
-<style scoped></style>

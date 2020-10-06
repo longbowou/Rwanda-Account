@@ -17,20 +17,3 @@ export const chatMessageSubscription = gql`
   }
   ${servicePurchaseChatMessageFields}
 `;
-
-export const chatFileSubscription = gql`
-  subscription chatFileSubscription(
-    $authToken: String!
-    $servicePurchase: UUID!
-  ) {
-    chatFileSubscription(
-      authToken: $authToken
-      servicePurchase: $servicePurchase
-    ) {
-      message {
-        ...servicePurchaseChatMessageFields
-      }
-    }
-  }
-  ${servicePurchaseChatMessageFields}
-`;

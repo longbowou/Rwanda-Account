@@ -2,7 +2,7 @@
   <div>
     <div class="text-center m-2" v-if="message.showDate">
       <span class="font-size-h5 text-dark-65 font-weight-bold">{{
-        message.date
+        message.dateDisplay
       }}</span>
     </div>
     <div
@@ -106,9 +106,7 @@ export default {
       if (window._.isEmpty(result.errors)) {
         this.message.marked = result.data.markUnmarkChatMessage.marked;
 
-        if (!this.message.marked) {
-          this.$emit("chat-message-unmarked", this.message.id);
-        }
+        this.$emit("chat-message-updated", this.message);
       }
     }
   }

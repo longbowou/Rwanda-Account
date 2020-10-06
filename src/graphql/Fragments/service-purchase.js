@@ -46,6 +46,8 @@ export const servicePurchaseChatMessageFields = gql`
     time
     showDate
     date
+    dateDisplay
+    createdAt
   }
 `;
 
