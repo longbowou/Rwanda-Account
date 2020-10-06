@@ -158,10 +158,6 @@ type ChangeAccountPassword {
     errors: [ErrorType]
 }
 
-type ChatFileSubscription {
-    message: ServicePurchaseChatMessageType
-}
-
 type ChatMessageSubscription {
     message: ServicePurchaseChatMessageType
 }
@@ -571,10 +567,9 @@ type ServiceType {
 }
 
 type Subscription {
-    accountOnlineSubscription(account: UUID!, authToken: String!): AccountOnlineSubscription
-    chatFileSubscription(authToken: String!, servicePurchase: UUID!): ChatFileSubscription
-    chatMessageSubscription(authToken: String!, servicePurchase: UUID!): ChatMessageSubscription
-    onlineSubscription(authToken: String!): OnlineSubscription
+    accountOnlineSubscription(account: UUID!): AccountOnlineSubscription
+    chatMessageSubscription(servicePurchase: UUID!): ChatMessageSubscription
+    onlineSubscription: OnlineSubscription
 }
 
 type UpdateAccount {

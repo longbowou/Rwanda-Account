@@ -225,18 +225,14 @@
 <script>
 import PerfectScrollbar from "perfect-scrollbar";
 import Quill from "quill";
-import {
-  queryPurchaseChatFiles,
-  queryPurchaseChatMarked,
-  queryPurchaseChatMessages
-} from "@/graphql/purchase-queries";
-import { createChatMessage } from "@/graphql/chat-mutations";
-import { queryOrderChat } from "@/graphql/order-queries";
+import {queryPurchaseChatFiles, queryPurchaseChatMarked, queryPurchaseChatMessages} from "@/graphql/purchase-queries";
+import {createChatMessage} from "@/graphql/chat-mutations";
+import {queryOrderChat} from "@/graphql/order-queries";
 import JwtService from "@/core/services/jwt.service";
-import { accountOnlineSubscription } from "@/graphql/account-subscriptions";
+import {accountOnlineSubscription} from "@/graphql/account-subscriptions";
 import Dropzone from "dropzone";
-import { chatMessagesUploadUrl } from "@/core/server-side/urls";
-import { chatMessageSubscription } from "@/graphql/chat-subscriptions";
+import {chatMessagesUploadUrl} from "@/core/server-side/urls";
+import {chatMessageSubscription} from "@/graphql/chat-subscriptions";
 import ChatMessage from "@/view/pages/user/chat/ChatMessage";
 
 export default {
@@ -391,7 +387,6 @@ export default {
       const observer = this.$apollo.subscribe({
         query: chatMessageSubscription,
         variables: {
-          authToken: JwtService.getAuth().token,
           servicePurchase: this.$route.params.id
         }
       });
@@ -420,7 +415,6 @@ export default {
       const observer = this.$apollo.subscribe({
         query: accountOnlineSubscription,
         variables: {
-          authToken: JwtService.getAuth().token,
           account: this.account.id
         }
       });

@@ -263,6 +263,7 @@ import { mapGetters } from "vuex";
 import { LOGOUT } from "@/core/services/store/modules/auth.module";
 import KTLayoutQuickUser from "@/assets/js/layout/extended/quick-user.js";
 import KTOffcanvas from "@/assets/js/components/offcanvas.js";
+import { initRestartWebsockets } from "@/vue-apollo";
 
 export default {
   name: "KTQuickUser",
@@ -284,10 +285,15 @@ export default {
     KTLayoutQuickUser.init(this.$refs["kt_quick_user"]);
   },
   methods: {
-    onLogout() {
-      this.$store
-        .dispatch(LOGOUT)
-        .then(() => this.$router.push({ name: "home" }));
+    async onLogout() {
+      document.cookie =
+        "authToken=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+
+      await initRestartWebsockets();
+
+      await this.$store.dispatch(LOGOUT);
+
+      await this.$router.push({ name: "home" });
     },
     closeOffcanvas() {
       new KTOffcanvas(KTLayoutQuickUser.getElement()).hide();

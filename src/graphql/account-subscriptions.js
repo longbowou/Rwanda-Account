@@ -2,8 +2,8 @@ import gql from "graphql-tag";
 import { accountBasicFields } from "@/graphql/Fragments/account";
 
 export const onlineSubscription = gql`
-  subscription onlineSubscription($authToken: String!) {
-    onlineSubscription(authToken: $authToken) {
+  subscription onlineSubscription {
+    onlineSubscription {
       account {
         ...accountBasicFields
       }
@@ -13,8 +13,8 @@ export const onlineSubscription = gql`
 `;
 
 export const accountOnlineSubscription = gql`
-  subscription accountOnlineSubscription($authToken: String!, $account: UUID!) {
-    accountOnlineSubscription(authToken: $authToken, account: $account) {
+  subscription accountOnlineSubscription($account: UUID!) {
+    accountOnlineSubscription(account: $account) {
       account {
         ...accountBasicFields
       }

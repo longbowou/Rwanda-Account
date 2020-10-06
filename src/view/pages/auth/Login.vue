@@ -141,6 +141,7 @@ import { formMixin } from "@/view/mixins";
 import { READ_LOGIN_NOTIFICATIONS } from "@/core/services/store/modules/notifications.module";
 import { RESET_NEXT_PATH } from "@/core/services/store/modules/router.module";
 import JwtService from "@/core/services/jwt.service";
+import { initRestartWebsockets } from "@/vue-apollo";
 
 export default {
   mixins: [formMixin],
@@ -189,6 +190,17 @@ export default {
         submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
+
+      const date = new Date();
+      date.setTime(result.data.login.auth.tokenExpiresIn);
+      document.cookie =
+        "authToken=" +
+        result.data.login.auth.token +
+        ";expires=" +
+        date.toUTCString() +
+        ";path=/";
+
+      await initRestartWebsockets();
 
       await this.$store.dispatch(LOGIN, {
         account: result.data.login.account,

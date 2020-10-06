@@ -76,7 +76,6 @@ import {
   ADD_BODY_CLASSNAME,
   REMOVE_BODY_CLASSNAME
 } from "@/core/services/store/modules/htmlclass.module.js";
-import JwtService from "@/core/services/jwt.service";
 import { onlineSubscription } from "@/graphql/account-subscriptions";
 
 export default {
@@ -121,10 +120,7 @@ export default {
   methods: {
     subscribeToOnline() {
       const observer = this.$apollo.subscribe({
-        query: onlineSubscription,
-        variables: {
-          authToken: JwtService.getAuth().token
-        }
+        query: onlineSubscription
       });
 
       this.subscribe = observer.subscribe({

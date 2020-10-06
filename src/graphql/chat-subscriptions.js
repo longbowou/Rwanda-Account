@@ -2,14 +2,8 @@ import gql from "graphql-tag";
 import { servicePurchaseChatMessageFields } from "@/graphql/Fragments/service-purchase";
 
 export const chatMessageSubscription = gql`
-  subscription chatMessageSubscription(
-    $authToken: String!
-    $servicePurchase: UUID!
-  ) {
-    chatMessageSubscription(
-      authToken: $authToken
-      servicePurchase: $servicePurchase
-    ) {
+  subscription chatMessageSubscription($servicePurchase: UUID!) {
+    chatMessageSubscription(servicePurchase: $servicePurchase) {
       message {
         ...servicePurchaseChatMessageFields
       }

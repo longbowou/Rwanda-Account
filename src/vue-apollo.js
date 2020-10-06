@@ -122,6 +122,7 @@ const defaultOptions = {
 export const { apolloClient, wsClient } = createApolloClient({
   ...defaultOptions
 });
+apolloClient.wsClient = wsClient;
 
 // Call this in the Vue app file
 export function createProvider() {
@@ -143,7 +144,7 @@ export function createProvider() {
 }
 
 // Manually call this when user log in
-export async function onLogin() {
+export async function initRestartWebsockets() {
   if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient);
   try {
     await apolloClient.resetStore();
