@@ -192,9 +192,9 @@ export default {
       }
 
       const date = new Date();
-      date.setTime(result.data.login.auth.tokenExpiresIn);
+      date.setTime(date.getTime() + 2 * 24 * 24 * 1000);
       document.cookie =
-        "authToken=" +
+        "auth_token=" +
         result.data.login.auth.token +
         ";expires=" +
         date.toUTCString() +

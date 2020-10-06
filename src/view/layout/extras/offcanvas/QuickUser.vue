@@ -287,7 +287,7 @@ export default {
   methods: {
     async onLogout() {
       document.cookie =
-        "authToken=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+        "auth_token=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
 
       await initRestartWebsockets();
 
