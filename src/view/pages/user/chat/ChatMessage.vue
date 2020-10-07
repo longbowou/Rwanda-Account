@@ -106,7 +106,7 @@ export default {
       if (window._.isEmpty(result.errors)) {
         this.message.marked = result.data.markUnmarkChatMessage.marked;
 
-        this.$emit("chat-message-updated", this.message);
+        this.$emit("chat-message-updated", window._.cloneDeep(this.message));
       }
     }
   }

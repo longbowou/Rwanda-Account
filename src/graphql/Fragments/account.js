@@ -21,6 +21,7 @@ export const accountFields = gql`
 export const accountBasicFields = gql`
   fragment accountBasicFields on AccountType {
     id
+    username
     fullName
     balance
     isOnline

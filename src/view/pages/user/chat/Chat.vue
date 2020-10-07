@@ -4,7 +4,7 @@
     <div class="card-header card-header-tabs-line align-items-center px-4 py-3">
       <div class="flex-grow-1 ml-2">
         <div class="text-dark-75 font-weight-bold font-size-h5">
-          {{ account.fullName }}
+          {{ account.username }}
         </div>
         <div>
           <span
@@ -225,14 +225,18 @@
 <script>
 import PerfectScrollbar from "perfect-scrollbar";
 import Quill from "quill";
-import {queryPurchaseChatFiles, queryPurchaseChatMarked, queryPurchaseChatMessages} from "@/graphql/purchase-queries";
-import {createChatMessage} from "@/graphql/chat-mutations";
-import {queryOrderChat} from "@/graphql/order-queries";
+import {
+  queryPurchaseChatFiles,
+  queryPurchaseChatMarked,
+  queryPurchaseChatMessages
+} from "@/graphql/purchase-queries";
+import { createChatMessage } from "@/graphql/chat-mutations";
+import { queryOrderChat } from "@/graphql/order-queries";
 import JwtService from "@/core/services/jwt.service";
-import {accountOnlineSubscription} from "@/graphql/account-subscriptions";
+import { accountOnlineSubscription } from "@/graphql/account-subscriptions";
 import Dropzone from "dropzone";
-import {chatMessagesUploadUrl} from "@/core/server-side/urls";
-import {chatMessageSubscription} from "@/graphql/chat-subscriptions";
+import { chatMessagesUploadUrl } from "@/core/server-side/urls";
+import { chatMessageSubscription } from "@/graphql/chat-subscriptions";
 import ChatMessage from "@/view/pages/user/chat/ChatMessage";
 
 export default {
@@ -396,11 +400,12 @@ export default {
         next(data) {
           if (data.data.chatMessageSubscription !== undefined) {
             const message = data.data.chatMessageSubscription.message;
-            $this.chat.push(message);
+            $this.chat.push(window._.cloneDeep(message));
 
+            console.log($this.files);
             if (message.isFile && !window._.isEmpty($this.files)) {
-              $this.files.push(message);
-              $this.files = $this.prettify($this.files);
+              $this.files.push(window._.cloneDeep(message));
+              $this.prettify($this.files);
             }
 
             $this.$nextTick(() => {
@@ -557,8 +562,8 @@ export default {
           return item.id === message.id;
         });
         if (chatMessageIndex !== -1) {
-          this.chat[chatMessageIndex] = message;
-          this.chat = this.prettify(this.chat);
+          this.$set(this.chat, chatMessageIndex, message);
+          this.prettify(this.chat);
         }
       }
 
@@ -567,35 +572,34 @@ export default {
           return item.id === message.id;
         });
         if (chatMessageIndex !== -1) {
-          this.files[chatMessageIndex] = message;
-          this.files = this.prettify(this.files);
+          this.$set(this.files, chatMessageIndex, message);
+          this.prettify(this.files);
         }
       }
 
       if (message.marked) {
         if (!window._.isEmpty(this.marked)) {
           this.marked.push(message);
-          this.marked = this.prettify(this.marked);
+          this.prettify(this.marked);
         }
       } else {
-        window._.remove(this.marked, function(item) {
+        const chatMessageIndex = window._.findIndex(this.marked, function(
+          item
+        ) {
           return item.id === message.id;
         });
-        this.marked = this.prettify(this.marked);
+        this.$delete(this.marked, chatMessageIndex);
+        this.prettify(this.marked);
       }
-
-      this.$forceUpdate();
     },
     prettify(messages) {
-      messages = window._.orderBy(messages, ["createdAt"], ["asc"]);
+      window._.orderBy(messages, ["createdAt"], ["asc"]);
 
       let lastDate = null;
       for (const message of messages) {
-        message.showDate = lastDate == null || lastDate !== message.date;
+        message.showDate = lastDate === null || lastDate !== message.date;
         lastDate = message.date;
       }
-
-      return messages;
     }
   }
 };
