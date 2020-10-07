@@ -166,6 +166,7 @@ type ChatMessageType {
     account: AccountType!
     content: String
     createdAt: DateTime!
+    display: ServicePurchaseChatMessageType!
     file: String
     fileName: String
     fileSize: Int!

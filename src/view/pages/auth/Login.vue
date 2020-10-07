@@ -191,21 +191,12 @@ export default {
         return;
       }
 
-      const date = new Date();
-      date.setTime(date.getTime() + 2 * 24 * 24 * 1000);
-      document.cookie =
-        "auth_token=" +
-        result.data.login.auth.token +
-        ";expires=" +
-        date.toUTCString() +
-        ";path=/";
-
-      await initRestartWebsockets();
-
       await this.$store.dispatch(LOGIN, {
         account: result.data.login.account,
         auth: result.data.login.auth
       });
+
+      await initRestartWebsockets();
 
       await this.$store.dispatch(READ_LOGIN_NOTIFICATIONS);
 

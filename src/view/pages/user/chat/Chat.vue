@@ -386,6 +386,16 @@ export default {
       }
 
       this.messageContentQuill.root.innerHTML = "";
+
+      this.$nextTick(() => {
+        this.chatMessageAdded(
+          result.data.createChatMessage.chatMessage.display
+        );
+      });
+
+      this.$nextTick(() => {
+        this.scrollToBottom();
+      });
     },
     subscribeToChatMessages() {
       const observer = this.$apollo.subscribe({
@@ -399,14 +409,9 @@ export default {
       observer.subscribe({
         next(data) {
           if (data.data.chatMessageSubscription !== undefined) {
-            const message = data.data.chatMessageSubscription.message;
-            $this.chat.push(window._.cloneDeep(message));
-
-            console.log($this.files);
-            if (message.isFile && !window._.isEmpty($this.files)) {
-              $this.files.push(window._.cloneDeep(message));
-              $this.prettify($this.files);
-            }
+            $this.$nextTick(() => {
+              $this.chatMessageAdded(data.data.chatMessageSubscription.message);
+            });
 
             $this.$nextTick(() => {
               $this.scrollToBottom();
@@ -556,6 +561,25 @@ export default {
       document.getElementById("attach-file").click();
       document.getElementById("btn-attach-file").blur();
     },
+    chatMessageAdded(message) {
+      const chatMessageIndex = window._.findIndex(this.chat, function(item) {
+        return item.id === message.id;
+      });
+      if (chatMessageIndex === -1) {
+        this.chat.push(window._.cloneDeep(message));
+        this.chat = this.prettify(window._.cloneDeep(this.chat));
+      }
+
+      if (message.isFile && !window._.isEmpty(this.files)) {
+        const chatMessageIndex = window._.findIndex(this.files, function(item) {
+          return item.id === message.id;
+        });
+        if (chatMessageIndex === -1) {
+          this.files.push(window._.cloneDeep(message));
+          this.files = this.prettify(window._.cloneDeep(this.files));
+        }
+      }
+    },
     chatMessageUpdated(message) {
       if (!this.isMessagesTabActive) {
         const chatMessageIndex = window._.findIndex(this.chat, function(item) {
@@ -563,7 +587,7 @@ export default {
         });
         if (chatMessageIndex !== -1) {
           this.$set(this.chat, chatMessageIndex, message);
-          this.prettify(this.chat);
+          this.chat = this.prettify(window._.cloneDeep(this.chat));
         }
       }
 
@@ -573,14 +597,14 @@ export default {
         });
         if (chatMessageIndex !== -1) {
           this.$set(this.files, chatMessageIndex, message);
-          this.prettify(this.files);
+          this.files = this.prettify(window._.cloneDeep(this.files));
         }
       }
 
       if (message.marked) {
         if (!window._.isEmpty(this.marked)) {
           this.marked.push(message);
-          this.prettify(this.marked);
+          this.marked = this.prettify(window._.cloneDeep(this.marked));
         }
       } else {
         const chatMessageIndex = window._.findIndex(this.marked, function(
@@ -589,17 +613,19 @@ export default {
           return item.id === message.id;
         });
         this.$delete(this.marked, chatMessageIndex);
-        this.prettify(this.marked);
+        this.marked = this.prettify(window._.cloneDeep(this.marked));
       }
     },
     prettify(messages) {
-      window._.orderBy(messages, ["createdAt"], ["asc"]);
+      messages = window._.orderBy(messages, ["createdAt"], ["asc"]);
 
       let lastDate = null;
       for (const message of messages) {
         message.showDate = lastDate === null || lastDate !== message.date;
         lastDate = message.date;
       }
+
+      return messages;
     }
   }
 };

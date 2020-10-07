@@ -14,6 +14,9 @@ import store from "@/core/services/store/index";
 import { LOGOUT } from "@/core/services/store/modules/auth.module";
 import { UPDATE_NEXT_PATH } from "@/core/services/store/modules/router.module";
 import i18nService from "@/core/services/i18n.service";
+import { WebSocketLink } from "apollo-link-ws";
+import { getMainDefinition } from "apollo-utilities";
+import { SubscriptionClient } from "subscriptions-transport-ws";
 
 // Install the vue plugin
 Vue.use(VueApollo);
@@ -44,6 +47,37 @@ const customFetch = (uri, options) => {
 };
 
 const httpLink = createHttpLink({ uri: httpEndpoint, fetch: customFetch });
+
+const wsClient = new SubscriptionClient(wsEndpoint, {
+  reconnect: true,
+  timeout: 20000,
+  connectionParams: () => {
+    let params = { "Accept-Language": i18nService.getActiveLanguage() };
+    const currentAuth = JwtService.getAuth();
+    if (currentAuth !== null) {
+      params["AuthToken"] = currentAuth.token;
+    }
+    return params;
+  }
+});
+
+// Create the subscription websocket link
+const wsLink = new WebSocketLink(wsClient);
+
+// using the ability to split links, you can send data to each link
+// depending on what kind of operation is being sent
+const httpLinkWithSubscription = ApolloLink.split(
+  // split based on operation type
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  wsLink,
+  httpLink
+);
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -77,7 +111,7 @@ const defaultOptions = {
   // httpEndpoint,
   // You can use `wss` for secure connection (recommended in production)
   // Use `null` to disable subscriptions
-  wsEndpoint: wsEndpoint,
+  // wsEndpoint: wsEndpoint,
   // LocalStorage token
   tokenName: AUTH_TOKEN,
   // Enable Automatic Query persisting with Apollo Engine
@@ -93,7 +127,7 @@ const defaultOptions = {
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
   // httpLinkOptions property of defaultOptions.
-  link: ApolloLink.from([errorLink, httpLink]),
+  link: ApolloLink.from([errorLink, httpLinkWithSubscription]),
   // Override default cache
   // cache: myCache
 
@@ -119,7 +153,7 @@ const defaultOptions = {
 };
 
 // Create apollo client
-export const { apolloClient, wsClient } = createApolloClient({
+export const { apolloClient } = createApolloClient({
   ...defaultOptions
 });
 apolloClient.wsClient = wsClient;

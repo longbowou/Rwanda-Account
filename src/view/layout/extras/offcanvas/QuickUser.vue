@@ -286,12 +286,9 @@ export default {
   },
   methods: {
     async onLogout() {
-      document.cookie =
-        "auth_token=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+      await this.$store.dispatch(LOGOUT);
 
       await initRestartWebsockets();
-
-      await this.$store.dispatch(LOGOUT);
 
       await this.$router.push({ name: "home" });
     },
