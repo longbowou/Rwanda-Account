@@ -392,10 +392,6 @@ export default {
           result.data.createChatMessage.chatMessage.display
         );
       });
-
-      this.$nextTick(() => {
-        this.scrollToBottom();
-      });
     },
     subscribeToChatMessages() {
       const observer = this.$apollo.subscribe({
@@ -411,10 +407,6 @@ export default {
           if (data.data.chatMessageSubscription !== undefined) {
             $this.$nextTick(() => {
               $this.chatMessageAdded(data.data.chatMessageSubscription.message);
-            });
-
-            $this.$nextTick(() => {
-              $this.scrollToBottom();
             });
           }
         },
@@ -582,6 +574,10 @@ export default {
           this.files = this.prettify(window._.cloneDeep(this.files));
         }
       }
+
+      this.$nextTick(() => {
+        this.scrollToBottom();
+      });
     },
     chatMessageUpdated(message) {
       if (!this.isMessagesTabActive) {
