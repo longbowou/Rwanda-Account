@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { initRestartWebsockets } from "@/vue-apollo";
 
 const AUTH_KEY = "AUTH_OBJECT_KEY";
 
@@ -18,10 +19,12 @@ export const getAuth = () => {
 
 export const saveAuth = auth => {
   window.localStorage.setItem(AUTH_KEY, JSON.stringify(auth));
+  initRestartWebsockets().then(() => {});
 };
 
 export const destroyAuth = () => {
   window.localStorage.removeItem(AUTH_KEY);
+  initRestartWebsockets().then(() => {});
 };
 
 export default {

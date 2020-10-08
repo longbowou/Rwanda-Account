@@ -151,6 +151,7 @@ export default {
 
       // set spinner to submit button
       const submitButton = window.$("#btn_submit");
+      submitButton.attr("disabled", true);
       submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
@@ -164,6 +165,7 @@ export default {
 
       this.errors = result.data.updateAccount.errors;
       if (!window._.isEmpty(this.errors)) {
+        submitButton.removeAttr("disabled");
         submitButton.removeClass(
           "disabled spinner spinner-light spinner-right"
         );

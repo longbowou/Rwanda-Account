@@ -124,6 +124,7 @@ export default {
       evt.preventDefault();
 
       const submitButton = window.$("#btn_submit");
+      submitButton.attr("disabled", true);
       submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
@@ -155,12 +156,14 @@ export default {
       }
 
       if (!window._.isEmpty(this.errors)) {
+        submitButton.removeAttr("disabled");
         submitButton.removeClass(
           "disabled spinner spinner-light spinner-right"
         );
         return;
       }
 
+      submitButton.removeAttr("disabled");
       submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
       this.$emit("deliverables-updated");

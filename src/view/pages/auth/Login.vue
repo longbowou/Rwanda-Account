@@ -141,7 +141,6 @@ import { formMixin } from "@/view/mixins";
 import { READ_LOGIN_NOTIFICATIONS } from "@/core/services/store/modules/notifications.module";
 import { RESET_NEXT_PATH } from "@/core/services/store/modules/router.module";
 import JwtService from "@/core/services/jwt.service";
-import { initRestartWebsockets } from "@/vue-apollo";
 
 export default {
   mixins: [formMixin],
@@ -195,8 +194,6 @@ export default {
         account: result.data.login.account,
         auth: result.data.login.auth
       });
-
-      await initRestartWebsockets();
 
       await this.$store.dispatch(READ_LOGIN_NOTIFICATIONS);
 

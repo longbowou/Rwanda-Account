@@ -400,6 +400,7 @@ export default {
     },
     async initServicePurchase() {
       const proceedButton = window.$("#proceed-btn");
+      proceedButton.attr("disabled", true);
       proceedButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
@@ -416,6 +417,7 @@ export default {
 
       this.errors = result.data.initServicePurchase.errors;
       if (!window._.isEmpty(this.errors)) {
+        proceedButton.removeAttr("disabled");
         proceedButton.removeClass(
           "disabled spinner spinner-light spinner-right"
         );
@@ -427,6 +429,8 @@ export default {
       await this.$store.dispatch(UPDATE_USER, {
         account: result.data.initServicePurchase.servicePurchase.account
       });
+
+      proceedButton.removeAttr("disabled");
       proceedButton.removeClass("disabled spinner spinner-light spinner-right");
 
       await this.$router.push({

@@ -155,6 +155,7 @@ export default {
       evt.preventDefault();
 
       const submitButton = window.$("#btn_submit");
+      submitButton.attr("disabled", true);
       submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
@@ -168,6 +169,7 @@ export default {
 
       this.errors = result.data.createRefund.errors;
       if (!window._.isEmpty(this.errors)) {
+        submitButton.removeAttr("disabled");
         submitButton.removeClass(
           "disabled spinner spinner-light spinner-right"
         );
@@ -177,6 +179,7 @@ export default {
       await this.$store.dispatch(UPDATE_USER, {
         account: result.data.createRefund.refund.account
       });
+      submitButton.removeAttr("disabled");
       submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
       await this.$router.push({

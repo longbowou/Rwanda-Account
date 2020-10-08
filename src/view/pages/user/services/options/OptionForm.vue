@@ -87,7 +87,10 @@
 import { formMixin, toastMixin } from "@/view/mixins";
 import Quill from "quill";
 import { queryServiceOption } from "@/graphql/service-options-queries";
-import {createServiceOption, updateServiceOption} from "@/graphql/service-options-mutations";
+import {
+  createServiceOption,
+  updateServiceOption
+} from "@/graphql/service-options-mutations";
 
 export default {
   name: "OptionForm",
@@ -125,6 +128,7 @@ export default {
       evt.preventDefault();
 
       const submitButton = window.$("#btn_submit");
+      submitButton.attr("disabled", true);
       submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
@@ -151,12 +155,14 @@ export default {
         this.errors = result.data.updateServiceOption.errors;
       }
       if (!window._.isEmpty(this.errors)) {
+        submitButton.removeAttr("disabled");
         submitButton.removeClass(
           "disabled spinner spinner-light spinner-right"
         );
         return;
       }
 
+      submitButton.removeAttr("disabled");
       submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
       await this.$router.push({

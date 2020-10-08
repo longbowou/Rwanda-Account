@@ -263,7 +263,6 @@ import { mapGetters } from "vuex";
 import { LOGOUT } from "@/core/services/store/modules/auth.module";
 import KTLayoutQuickUser from "@/assets/js/layout/extended/quick-user.js";
 import KTOffcanvas from "@/assets/js/components/offcanvas.js";
-import { initRestartWebsockets } from "@/vue-apollo";
 
 export default {
   name: "KTQuickUser",
@@ -287,8 +286,6 @@ export default {
   methods: {
     async onLogout() {
       await this.$store.dispatch(LOGOUT);
-
-      await initRestartWebsockets();
 
       await this.$router.push({ name: "home" });
     },
