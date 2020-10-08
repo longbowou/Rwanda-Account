@@ -159,7 +159,10 @@ export default {
         previewsContainer: id + " .dropzone-items", // Define the container to display the previews
         clickable: id + " .dropzone-select", // Define the element that should be used as click trigger to select files.
         headers: {
-          Authorization: "JWT " + JwtService.getAuth().token,
+          Authorization:
+            JwtService.getAuth() !== null
+              ? "JWT " + JwtService.getAuth().token
+              : null,
           "Cache-Control": null,
           "X-Requested-With": null
         }
