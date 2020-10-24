@@ -113,7 +113,7 @@
                 v-if="isChatting"
                 @click="toggleChattingStat"
                 title="Timeline"
-                class="btn btn-light-dark font-weight-bolder"
+                class="btn btn-lg btn-light-dark font-weight-bolder"
               >
                 <i class="flaticon2-time p-0"></i>
               </button>
