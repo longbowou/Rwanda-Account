@@ -112,10 +112,10 @@
                 id="btn-chat"
                 v-if="isChatting"
                 @click="toggleChattingStat"
-                class="btn btn-light-dark font-weight-bolder mr-2"
+                title="Timeline"
+                class="btn btn-light-dark font-weight-bolder"
               >
-                <i class="ki ki-long-arrow-back icon-lg"></i>
-                Back
+                <i class="flaticon2-time p-0"></i>
               </button>
             </div>
           </div>
@@ -239,6 +239,7 @@
 .timeline-item:after {
   border-right: transparent !important;
 }
+
 .timeline-content {
   background-color: transparent !important;
 }
