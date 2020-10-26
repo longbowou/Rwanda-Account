@@ -54,7 +54,7 @@
             >
             <div
               id="description"
-              style="height: 325px"
+              style="height: 225px"
               v-html="contentHtml"
             ></div>
           </div>
@@ -79,7 +79,7 @@
 <script>
 import { formMixin, toastMixin } from "@/view/mixins";
 import Quill from "quill";
-import { createServicePurchaseUpdateRequest } from "@/graphql/purchase-mutations";
+import { initiateServicePurchaseUpdateRequest } from "@/graphql/purchase-mutations";
 
 export default {
   name: "UpdateRequestCreate",
@@ -106,7 +106,7 @@ export default {
       this.input.servicePurchase = this.$route.params.id;
 
       let result = await this.$apollo.mutate({
-        mutation: createServicePurchaseUpdateRequest,
+        mutation: initiateServicePurchaseUpdateRequest,
         variables: {
           input: this.input
         }
@@ -116,14 +116,16 @@ export default {
       submitButton.removeClass("spinner spinner-light spinner-right");
 
       if (
-        !window._.isEmpty(result.data.createServicePurchaseUpdateRequest.errors)
+        !window._.isEmpty(
+          result.data.initiateServicePurchaseUpdateRequest.errors
+        )
       ) {
         return;
       }
 
       this.$emit(
         "update-request-created",
-        result.data.createServicePurchaseUpdateRequest
+        result.data.initiateServicePurchaseUpdateRequest
           .servicePurchaseUpdateRequest
       );
 

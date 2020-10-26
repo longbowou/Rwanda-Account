@@ -5,9 +5,9 @@ import { purchaseFields } from "@/graphql/Fragments/purchase";
 import { servicePurchaseUpdateRequestFields } from "@/graphql/Fragments/service-purchase";
 
 // Buyer Mutations
-export const initServicePurchase = gql`
-  mutation($input: InitServicePurchaseInput!) {
-    initServicePurchase(input: $input) {
+export const initiateServicePurchase = gql`
+  mutation($input: InitiateServicePurchaseInput!) {
+    initiateServicePurchase(input: $input) {
       errors {
         ...errorFields
       }
@@ -95,9 +95,9 @@ export const approveServicePurchaseFullFields = gql`
   ${accountFields}
 `;
 
-export const createServicePurchaseUpdateRequest = gql`
-  mutation($input: CreateServicePurchaseUpdateRequestInput!) {
-    createServicePurchaseUpdateRequest(input: $input) {
+export const initiateServicePurchaseUpdateRequest = gql`
+  mutation($input: InitiateServicePurchaseUpdateRequestInput!) {
+    initiateServicePurchaseUpdateRequest(input: $input) {
       errors {
         ...errorFields
       }

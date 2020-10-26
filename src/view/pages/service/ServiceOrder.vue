@@ -322,7 +322,7 @@ import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { queryServiceOrderPreview } from "@/graphql/service-queries";
 import { mapGetters } from "vuex";
-import { initServicePurchase } from "@/graphql/purchase-mutations";
+import { initiateServicePurchase } from "@/graphql/purchase-mutations";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 import { toastMixin } from "@/view/mixins";
 import { RESET_PURCHASE_OPTIONS } from "@/core/services/store/modules/purchase.module";
@@ -406,7 +406,7 @@ export default {
       this.errors = [];
 
       let result = await this.$apollo.mutate({
-        mutation: initServicePurchase,
+        mutation: initiateServicePurchase,
         variables: {
           input: {
             service: this.$route.params.id,
@@ -415,7 +415,7 @@ export default {
         }
       });
 
-      this.errors = result.data.initServicePurchase.errors;
+      this.errors = result.data.initiateServicePurchase.errors;
       if (!window._.isEmpty(this.errors)) {
         proceedButton.removeAttr("disabled");
         proceedButton.removeClass(
@@ -427,7 +427,7 @@ export default {
       await this.$store.dispatch(RESET_PURCHASE_OPTIONS);
 
       await this.$store.dispatch(UPDATE_USER, {
-        account: result.data.initServicePurchase.servicePurchase.account
+        account: result.data.initiateServicePurchase.servicePurchase.account
       });
 
       proceedButton.removeAttr("disabled");
@@ -435,7 +435,7 @@ export default {
 
       await this.$router.push({
         name: "purchases-view",
-        params: { id: result.data.initServicePurchase.servicePurchase.id }
+        params: { id: result.data.initiateServicePurchase.servicePurchase.id }
       });
 
       this.notifySuccess(

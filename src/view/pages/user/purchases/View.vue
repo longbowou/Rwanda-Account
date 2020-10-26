@@ -63,15 +63,16 @@
                 :class="[
                   'ml-3 label label-xl font-weight-bold label-inline label-square',
                   servicePurchase.initiated && 'label-dark',
+                  servicePurchase.updateInitiated && 'label-dark',
                   servicePurchase.accepted && 'label-primary',
                   servicePurchase.updateAccepted && 'label-primary',
                   servicePurchase.delivered && 'label-warning',
-                  servicePurchase.requestUpdate && 'label-warning',
+                  servicePurchase.updateDelivered && 'label-warning',
                   servicePurchase.approved && 'label-success',
                   servicePurchase.inDispute && 'label-info',
-                  servicePurchase.rejected && 'label-danger',
+                  servicePurchase.refused && 'label-danger',
                   servicePurchase.canceled && 'label-danger',
-                  servicePurchase.updateRejected && 'label-danger'
+                  servicePurchase.updateRefused && 'label-danger'
                 ]"
               >
                 {{ servicePurchase.status }}
@@ -132,9 +133,7 @@
 
               <button
                 ref="btnChat"
-                v-if="
-                  viewChat || viewUpdateRequestCreate || viewUpdateRequestView
-                "
+                v-if="!viewTimeline"
                 @click="showTimelineComponent"
                 title="Timeline"
                 class="btn btn-lg btn-icon btn-light-dark"
@@ -261,6 +260,7 @@
         />
 
         <update-request-view
+          :from-purchase="true"
           v-if="viewUpdateRequestView"
           :update-request="updateRequest"
         />

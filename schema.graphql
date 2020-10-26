@@ -44,7 +44,6 @@ type AccountMutation {
     createServiceComment(input: CreateServiceCommentInput!): CreateServiceComment
     createServiceMedia(input: CreateServiceMediaInput!): CreateServiceMedia
     createServiceOption(input: CreateServiceOptionInput!): CreateServiceOption
-    createServicePurchaseUpdateRequest(input: CreateServicePurchaseUpdateRequestInput!): CreateServicePurchaseUpdateRequest
     deleteAdmin(id: UUID!): DeleteAdmin
     deleteDeliverable(id: UUID!): DeleteDeliverable
     deleteDeliverableFile(id: UUID!): DeleteDeliverableFile
@@ -54,12 +53,14 @@ type AccountMutation {
     deleteServiceMedia(id: UUID!): DeleteServiceMedia
     deleteServiceOption(id: UUID!): DeleteServiceOption
     deliverServicePurchase(input: DeliverServicePurchaseInput!): DeliverServicePurchase
+    deliverServicePurchaseUpdateRequest(input: DeliverServicePurchaseUpdateRequestInput!): DeliverServicePurchaseUpdateRequest
     handleLitigation(input: HandleLitigationInput!): HandleLitigation
-    initServicePurchase(input: InitServicePurchaseInput!): InitServicePurchase
+    initiateServicePurchase(input: InitiateServicePurchaseInput!): InitiateServicePurchase
+    initiateServicePurchaseUpdateRequest(input: InitiateServicePurchaseUpdateRequestInput!): InitiateServicePurchaseUpdateRequest
     login(input: LoginInput!): LoginAccount
     markUnmarkChatMessage(chatMessage: UUID!): MarkUnmarkChatMessage
     refreshToken(refreshToken: String): Refresh
-    rejectServicePurchaseUpdateRequest(input: RejectServicePurchaseUpdateRequestInput!): RejectServicePurchaseUpdateRequest
+    refuseServicePurchaseUpdateRequest(input: RefuseServicePurchaseUpdateRequestInput!): RefuseServicePurchaseUpdateRequest
     replyServiceComment(input: ReplyServiceCommentInput!): ReplyServiceComment
     revokeToken(refreshToken: String): Revoke
     updateAccount(input: UpdateAccountInput!): UpdateAccount
@@ -244,11 +245,6 @@ type CreateServiceOption {
     serviceOption: ServiceOptionType
 }
 
-type CreateServicePurchaseUpdateRequest {
-    errors: [ErrorType]
-    servicePurchaseUpdateRequest: ServicePurchaseUpdateRequestType
-}
-
 type DeleteAdmin {
     errors: [ErrorType]
 }
@@ -284,6 +280,11 @@ type DeleteServiceOption {
 type DeliverServicePurchase {
     errors: [ErrorType]
     servicePurchase: ServicePurchaseType
+}
+
+type DeliverServicePurchaseUpdateRequest {
+    errors: [ErrorType]
+    servicePurchaseUpdateRequest: ServicePurchaseUpdateRequestType
 }
 
 type DeliverableFileType {
@@ -343,9 +344,14 @@ type HandleLitigation {
     litigation: LitigationType
 }
 
-type InitServicePurchase {
+type InitiateServicePurchase {
     errors: [ErrorType]
     servicePurchase: ServicePurchaseType
+}
+
+type InitiateServicePurchaseUpdateRequest {
+    errors: [ErrorType]
+    servicePurchaseUpdateRequest: ServicePurchaseUpdateRequestType
 }
 
 type LitigationType {
@@ -408,7 +414,7 @@ type RefundType {
     updatedAt: DateTime!
 }
 
-type RejectServicePurchaseUpdateRequest {
+type RefuseServicePurchaseUpdateRequest {
     errors: [ErrorType]
     servicePurchaseUpdateRequest: ServicePurchaseUpdateRequestType
 }
@@ -553,8 +559,7 @@ type ServicePurchaseType {
     number: String!
     operationSet: [OperationType!]!
     price: String!
-    rejected: Boolean!
-    requestUpdate: Boolean!
+    refused: Boolean!
     service: ServiceType!
     serviceOptions: [ServiceOptionType!]!
     servicepurchaseserviceoptionSet: [ServicePurchaseServiceOptionType!]!
@@ -562,7 +567,9 @@ type ServicePurchaseType {
     status: String!
     timelines: [ServicePurchaseTimeLineType]!
     updateAccepted: Boolean!
-    updateRejected: Boolean!
+    updateDelivered: Boolean!
+    updateInitiated: Boolean!
+    updateRefused: Boolean!
     updateRequest: ServicePurchaseUpdateRequestType
     updatedAt: DateTime!
 }
@@ -571,12 +578,17 @@ type ServicePurchaseUpdateRequestType {
     accepted: Boolean!
     acceptedAt: DateTime
     canBeAccepted: Boolean!
-    canBeRejected: Boolean!
-    content: String
+    canBeDelivered: Boolean!
+    canBeRefused: Boolean!
+    content: String!
+    createdAt: DateTime!
+    deadlineAt: String
+    delivered: Boolean!
+    deliveredAt: DateTime
     id: UUID!
     initiated: Boolean!
-    rejected: Boolean!
-    rejectedAt: DateTime
+    refused: Boolean!
+    refusedAt: DateTime
     servicePurchase: ServicePurchaseType!
     status: String!
     title: String!
@@ -783,13 +795,11 @@ input CreateServiceOptionInput {
     service: ID!
 }
 
-input CreateServicePurchaseUpdateRequestInput {
-    content: String
-    servicePurchase: ID!
-    title: String!
+input DeliverServicePurchaseInput {
+    id: UUID!
 }
 
-input DeliverServicePurchaseInput {
+input DeliverServicePurchaseUpdateRequestInput {
     id: UUID!
 }
 
@@ -799,9 +809,15 @@ input HandleLitigationInput {
     id: UUID!
 }
 
-input InitServicePurchaseInput {
+input InitiateServicePurchaseInput {
     service: ID!
     serviceOptions: [ID]
+}
+
+input InitiateServicePurchaseUpdateRequestInput {
+    content: String!
+    servicePurchase: ID!
+    title: String!
 }
 
 input LoginInput {
@@ -809,7 +825,7 @@ input LoginInput {
     password: String!
 }
 
-input RejectServicePurchaseUpdateRequestInput {
+input RefuseServicePurchaseUpdateRequestInput {
     id: UUID!
 }
 

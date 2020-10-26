@@ -2,7 +2,7 @@
   <div>
     <!--begin::Dashboard-->
     <div class="row justify-content-center">
-      <div :class="[isNotChatting && 'col-sm-8', isChatting && 'col-sm-7']">
+      <div :class="mainDivClasses">
         <div
           class="card card-custom shadow-sm mb-5"
           v-if="servicePurchase.initiated"
@@ -63,11 +63,16 @@
                 :class="[
                   'ml-3 label label-xl font-weight-bold label-inline label-square',
                   servicePurchase.initiated && 'label-dark',
+                  servicePurchase.updateInitiated && 'label-dark',
                   servicePurchase.accepted && 'label-primary',
+                  servicePurchase.updateAccepted && 'label-primary',
                   servicePurchase.delivered && 'label-warning',
+                  servicePurchase.updateDelivered && 'label-warning',
                   servicePurchase.approved && 'label-success',
                   servicePurchase.inDispute && 'label-info',
-                  servicePurchase.canceled && 'label-danger'
+                  servicePurchase.refused && 'label-danger',
+                  servicePurchase.canceled && 'label-danger',
+                  servicePurchase.updateRefused && 'label-danger'
                 ]"
               >
                 {{ servicePurchase.status }}
@@ -100,22 +105,33 @@
               </button>
 
               <button
-                v-if="servicePurchase.hasBeenAccepted && isNotChatting"
+                ref="btnAskUpdate"
+                @click="showUpdateRequestComponent"
+                v-if="updateRequest !== null && !viewUpdateRequestView"
+                data-toggle="tooltip"
+                title="Make an update request"
+                class="btn btn-lg btn-icon btn-light-warning mr-2"
+              >
+                <i class="fas fa-retweet"></i>
+              </button>
+
+              <button
+                v-if="servicePurchase.hasBeenAccepted && !viewChat"
                 title="Chat with the Buyer"
-                @click="toggleChattingStat"
-                class="btn btn-lg btn-icon btn-light-primary"
+                @click="showChatComponent"
+                class="btn btn-lg btn-icon btn-light-primary mr-2"
               >
                 <i class="flaticon2-chat-1"></i>
               </button>
 
               <button
-                id="btn-chat"
-                v-if="isChatting"
-                @click="toggleChattingStat"
+                ref="btnChat"
+                v-if="!viewTimeline"
+                @click="showTimelineComponent"
                 title="Timeline"
-                class="btn btn-lg btn-light-dark font-weight-bolder"
+                class="btn btn-lg btn-icon btn-light-dark"
               >
-                <i class="flaticon2-time p-0"></i>
+                <i class="fas fa-history"></i>
               </button>
             </div>
           </div>
@@ -190,8 +206,8 @@
         />
       </div>
 
-      <div :class="[isNotChatting && 'col-sm-4', isChatting && 'col-sm-5']">
-        <div v-if="isNotChatting">
+      <div :class="sideDivClasses">
+        <div v-if="viewTimeline">
           <div
             class="card card-custom shadow-sm mb-5"
             v-if="servicePurchase.accepted"
@@ -225,45 +241,44 @@
           </div>
 
           <timeline :timelines="timelines" />
-
-          <user-card :user="servicePurchase.account" />
         </div>
 
-        <chat v-if="isChatting" />
+        <chat v-if="viewChat" />
+
+        <update-request-view
+          v-on:update-request-updated="updateRequestUpdated"
+          v-if="viewUpdateRequestView"
+          :update-request="updateRequest"
+        />
       </div>
     </div>
     <!--end::Dashboard-->
   </div>
 </template>
-<style>
-.timeline-item:after {
-  border-right: transparent !important;
-}
-
-.timeline-content {
-  background-color: transparent !important;
-}
-</style>
+<style></style>
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
 import { orderActionsMixin, toastMixin } from "@/view/mixins";
 import { queryOrder } from "@/graphql/order-queries";
-import UserCard from "@/view/pages/partials/UserCard";
 import Timeline from "@/view/pages/user/purchases/Timeline";
 import { queryServicePurchaseTimeline } from "@/graphql/service-purchase-queries";
 import Chat from "@/view/pages/user/chat/Chat";
+import UpdateRequestView from "@/view/pages/user/update-requests/View";
 
 export default {
   name: "OrderView",
   mixins: [toastMixin, orderActionsMixin],
-  components: { UserCard, Timeline, Chat },
+  components: { Timeline, Chat, UpdateRequestView },
   data() {
     return {
       servicePurchase: {},
       timelines: {},
-      chatting: false
+      viewTimeline: true,
+      viewChat: false,
+      viewUpdateRequestView: false,
+      updateRequest: null
     };
   },
   computed: {
@@ -281,11 +296,19 @@ export default {
       }
       return false;
     },
-    isChatting() {
-      return this.chatting;
+    mainDivClasses() {
+      if (this.viewChat || this.viewUpdateRequestView) {
+        return "col-sm-7";
+      }
+
+      return "col-sm-8";
     },
-    isNotChatting() {
-      return !this.isChatting;
+    sideDivClasses() {
+      if (this.viewChat || this.viewUpdateRequestView) {
+        return "col-sm-5";
+      }
+
+      return "col-sm-4";
     }
   },
   mounted() {},
@@ -307,6 +330,11 @@ export default {
 
       if (window._.isEmpty(result.errors)) {
         this.servicePurchase = result.data.servicePurchase;
+        this.updateRequest = result.data.servicePurchase.updateRequest;
+
+        if (this.updateRequest !== null) {
+          this.showUpdateRequestComponent();
+        }
 
         await this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
         await this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
@@ -405,11 +433,28 @@ export default {
         .find("i")
         .css("display", "");
     },
-    toggleChattingStat() {
-      if (this.isChatting) {
-        window.$("#btn-chat").blur();
-      }
-      this.chatting = !this.chatting;
+    updateRequestUpdated(updateRequest) {
+      this.updateRequest = updateRequest;
+      this.fetchData();
+    },
+    showChatComponent() {
+      this.viewChat = true;
+      this.viewUpdateRequestView = false;
+      this.viewTimeline = false;
+    },
+    showUpdateRequestComponent() {
+      this.viewUpdateRequestView = true;
+      this.viewTimeline = false;
+      this.viewChat = false;
+    },
+    showTimelineComponent() {
+      this.viewTimeline = true;
+      this.viewChat = false;
+      this.viewUpdateRequestCreate = false;
+      this.viewUpdateRequestView = false;
+
+      this.$refs.btnChat.blur();
+      this.$refs.btnAskUpdate.blur();
     }
   }
 };
