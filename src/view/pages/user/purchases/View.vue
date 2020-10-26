@@ -251,12 +251,6 @@
           </div>
 
           <timeline :timelines="timelines" />
-
-          <user-card
-            :user="
-              servicePurchase.service ? servicePurchase.service.account : null
-            "
-          />
         </div>
 
         <chat v-if="viewChat" :from-purchase="true" />
@@ -282,7 +276,6 @@ import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
 import { purchaseActionsMixin, toastMixin } from "@/view/mixins";
 import { queryServicePurchase } from "@/graphql/purchase-queries";
-import UserCard from "@/view/pages/partials/UserCard";
 import Timeline from "@/view/pages/user/purchases/Timeline";
 import { queryServicePurchaseTimeline } from "@/graphql/service-purchase-queries";
 import Chat from "@/view/pages/user/chat/Chat";
@@ -293,7 +286,6 @@ export default {
   name: "PurchaseView",
   mixins: [toastMixin, purchaseActionsMixin],
   components: {
-    UserCard,
     Timeline,
     Chat,
     UpdateRequestCreate,
