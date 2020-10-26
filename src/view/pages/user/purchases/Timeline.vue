@@ -53,8 +53,15 @@
     </div>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+.timeline-item:after {
+  border-right: transparent !important;
+}
 
+.timeline-content {
+  background-color: transparent !important;
+}
+</style>
 <script>
 export default {
   name: "Timeline",

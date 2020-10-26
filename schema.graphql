@@ -21,8 +21,14 @@ type AcceptServicePurchase {
     servicePurchase: ServicePurchaseType
 }
 
+type AcceptServicePurchaseUpdateRequest {
+    errors: [ErrorType]
+    servicePurchaseUpdateRequest: ServicePurchaseUpdateRequestType
+}
+
 type AccountMutation {
     acceptServicePurchase(input: AcceptServicePurchaseInput!): AcceptServicePurchase
+    acceptServicePurchaseUpdateRequest(input: AcceptServicePurchaseUpdateRequestInput!): AcceptServicePurchaseUpdateRequest
     approveServicePurchase(input: ApproveServicePurchaseInput!): ApproveServicePurchase
     cancelServicePurchase(input: CancelServicePurchaseInput!): CancelServicePurchase
     changeAccountPassword(input: ChangeAccountPasswordInput!): ChangeAccountPassword
@@ -38,6 +44,7 @@ type AccountMutation {
     createServiceComment(input: CreateServiceCommentInput!): CreateServiceComment
     createServiceMedia(input: CreateServiceMediaInput!): CreateServiceMedia
     createServiceOption(input: CreateServiceOptionInput!): CreateServiceOption
+    createServicePurchaseUpdateRequest(input: CreateServicePurchaseUpdateRequestInput!): CreateServicePurchaseUpdateRequest
     deleteAdmin(id: UUID!): DeleteAdmin
     deleteDeliverable(id: UUID!): DeleteDeliverable
     deleteDeliverableFile(id: UUID!): DeleteDeliverableFile
@@ -52,6 +59,7 @@ type AccountMutation {
     login(input: LoginInput!): LoginAccount
     markUnmarkChatMessage(chatMessage: UUID!): MarkUnmarkChatMessage
     refreshToken(refreshToken: String): Refresh
+    rejectServicePurchaseUpdateRequest(input: RejectServicePurchaseUpdateRequestInput!): RejectServicePurchaseUpdateRequest
     replyServiceComment(input: ReplyServiceCommentInput!): ReplyServiceComment
     revokeToken(refreshToken: String): Revoke
     updateAccount(input: UpdateAccountInput!): UpdateAccount
@@ -236,6 +244,11 @@ type CreateServiceOption {
     serviceOption: ServiceOptionType
 }
 
+type CreateServicePurchaseUpdateRequest {
+    errors: [ErrorType]
+    servicePurchaseUpdateRequest: ServicePurchaseUpdateRequestType
+}
+
 type DeleteAdmin {
     errors: [ErrorType]
 }
@@ -395,6 +408,11 @@ type RefundType {
     updatedAt: DateTime!
 }
 
+type RejectServicePurchaseUpdateRequest {
+    errors: [ErrorType]
+    servicePurchaseUpdateRequest: ServicePurchaseUpdateRequestType
+}
+
 type ReplyServiceComment {
     errors: [ErrorType]
     serviceComment: ServiceCommentType
@@ -506,6 +524,7 @@ type ServicePurchaseType {
     approved: Boolean!
     approvedAt: DateTime
     canAddDeliverable: Boolean!
+    canAskForUpdate: Boolean!
     canBeAccepted: Boolean!
     canBeApproved: Boolean!
     canBeCanceled: Boolean!
@@ -534,12 +553,33 @@ type ServicePurchaseType {
     number: String!
     operationSet: [OperationType!]!
     price: String!
+    rejected: Boolean!
+    requestUpdate: Boolean!
     service: ServiceType!
     serviceOptions: [ServiceOptionType!]!
     servicepurchaseserviceoptionSet: [ServicePurchaseServiceOptionType!]!
+    servicepurchaseupdaterequestSet: [ServicePurchaseUpdateRequestType!]!
     status: String!
     timelines: [ServicePurchaseTimeLineType]!
+    updateAccepted: Boolean!
+    updateRejected: Boolean!
+    updateRequest: ServicePurchaseUpdateRequestType
     updatedAt: DateTime!
+}
+
+type ServicePurchaseUpdateRequestType {
+    accepted: Boolean!
+    acceptedAt: DateTime
+    canBeAccepted: Boolean!
+    canBeRejected: Boolean!
+    content: String
+    id: UUID!
+    initiated: Boolean!
+    rejected: Boolean!
+    rejectedAt: DateTime
+    servicePurchase: ServicePurchaseType!
+    status: String!
+    title: String!
 }
 
 type ServiceType {
@@ -626,6 +666,10 @@ enum LitigationDecision {
 }
 
 input AcceptServicePurchaseInput {
+    id: UUID!
+}
+
+input AcceptServicePurchaseUpdateRequestInput {
     id: UUID!
 }
 
@@ -739,6 +783,12 @@ input CreateServiceOptionInput {
     service: ID!
 }
 
+input CreateServicePurchaseUpdateRequestInput {
+    content: String
+    servicePurchase: ID!
+    title: String!
+}
+
 input DeliverServicePurchaseInput {
     id: UUID!
 }
@@ -757,6 +807,10 @@ input InitServicePurchaseInput {
 input LoginInput {
     login: String!
     password: String!
+}
+
+input RejectServicePurchaseUpdateRequestInput {
+    id: UUID!
 }
 
 input ReplyServiceCommentInput {

@@ -1,6 +1,19 @@
 import gql from "graphql-tag";
 import { serviceOptionFields } from "@/graphql/Fragments/service-option";
 
+export const servicePurchaseUpdateRequestFields = gql`
+  fragment servicePurchaseUpdateRequestFields on ServicePurchaseUpdateRequestType {
+    title
+    content
+    initiated
+    accepted
+    rejected
+    status
+    canBeAccepted
+    canBeRejected
+  }
+`;
+
 export const servicePurchaseFields = gql`
   fragment servicePurchaseFields on ServicePurchaseType {
     id
@@ -10,16 +23,24 @@ export const servicePurchaseFields = gql`
     delay
     initiated
     accepted
+    rejected
     delivered
     approved
     inDispute
+    requestUpdate
+    updateAccepted
+    updateRejected
     deadlineAt
     hasBeenAccepted
     serviceOptions {
       ...serviceOptionFields
     }
+    updateRequest {
+      ...servicePurchaseUpdateRequestFields
+    }
   }
   ${serviceOptionFields}
+  ${servicePurchaseUpdateRequestFields}
 `;
 
 export const servicePurchaseTimelineFields = gql`

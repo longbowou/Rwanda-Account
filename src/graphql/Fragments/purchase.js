@@ -8,6 +8,7 @@ export const purchaseFields = gql`
     canBeApproved
     canBeCanceled
     canBeInDispute
+    canAskForUpdate
     service {
       id
       title
