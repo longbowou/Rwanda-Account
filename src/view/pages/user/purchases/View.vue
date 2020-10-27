@@ -215,6 +215,60 @@
       </div>
 
       <div :class="sideDivClasses">
+        <div
+          v-if="lastUpdateRequest !== null"
+          :class="[
+            'alert alert-custom alert-notice fade show m-0 mb-5',
+            lastUpdateRequest.delivered && 'alert-light-warning',
+            lastUpdateRequest.refused && 'alert-light-danger'
+          ]"
+          role="alert"
+        >
+          <div class="alert-icon">
+            <span
+              :class="[
+                'svg-icon svg-icon-lg svg-icon-3x mr-3',
+                lastUpdateRequest.delivered && 'svg-icon-warning',
+                lastUpdateRequest.refused && 'svg-icon-danger'
+              ]"
+            >
+              <!--begin::Svg Icon-->
+              <inline-svg
+                v-if="lastUpdateRequest.delivered"
+                src="media/svg/icons/Code/Info-circle.svg"
+              />
+
+              <inline-svg
+                v-if="lastUpdateRequest.refused"
+                src="media/svg/icons/Code/Warning-1-circle.svg"
+              />
+              <!--end::Svg Icon-->
+            </span>
+          </div>
+          <div class="alert-text text-justify font-weight-bold">
+            <div v-if="lastUpdateRequest.delivered">
+              Your update request
+              <strong>{{ lastUpdateRequest.title }}</strong> has been mark as
+              delivered. <br />
+            </div>
+
+            <div v-if="lastUpdateRequest.refused">
+              Your update request
+              <strong>{{ lastUpdateRequest.title }}</strong> has been refused.
+              <br />
+              <strong>Reason:</strong> {{ lastUpdateRequest.reason }}
+              <br />
+            </div>
+
+            You can now
+            <strong
+              >approve, create a new update request or even open a
+              litigation</strong
+            >
+            in order to continue the process of purchasing the service.
+          </div>
+        </div>
+
         <div v-if="viewTimeline">
           <div
             class="card card-custom shadow-sm mb-5"
@@ -299,7 +353,8 @@ export default {
       viewChat: false,
       viewUpdateRequestCreate: false,
       viewUpdateRequestView: false,
-      updateRequest: null
+      updateRequest: null,
+      lastUpdateRequest: null
     };
   },
   computed: {
@@ -360,6 +415,7 @@ export default {
       if (window._.isEmpty(result.errors)) {
         this.servicePurchase = result.data.servicePurchase;
         this.updateRequest = result.data.servicePurchase.updateRequest;
+        this.lastUpdateRequest = result.data.servicePurchase.lastUpdateRequest;
 
         if (this.updateRequest !== null) {
           this.showUpdateRequestComponent();

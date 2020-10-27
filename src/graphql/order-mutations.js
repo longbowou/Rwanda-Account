@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 import { errorFields } from "@/graphql/Fragments/global";
 import { orderFields } from "@/graphql/Fragments/order";
-import { servicePurchaseUpdateRequestFields } from "@/graphql/Fragments/service-purchase";
+import { servicePurchaseUpdateRequestOrderFields } from "@/graphql/order-queries";
 
 export const acceptServicePurchase = gql`
   mutation($input: AcceptServicePurchaseInput!) {
@@ -70,12 +70,12 @@ export const acceptServicePurchaseUpdateRequest = gql`
         ...errorFields
       }
       servicePurchaseUpdateRequest {
-        ...servicePurchaseUpdateRequestFields
+        ...servicePurchaseUpdateRequestOrderFields
       }
     }
   }
   ${errorFields}
-  ${servicePurchaseUpdateRequestFields}
+  ${servicePurchaseUpdateRequestOrderFields}
 `;
 
 export const refuseServicePurchaseUpdateRequest = gql`
@@ -85,12 +85,12 @@ export const refuseServicePurchaseUpdateRequest = gql`
         ...errorFields
       }
       servicePurchaseUpdateRequest {
-        ...servicePurchaseUpdateRequestFields
+        ...servicePurchaseUpdateRequestOrderFields
       }
     }
   }
   ${errorFields}
-  ${servicePurchaseUpdateRequestFields}
+  ${servicePurchaseUpdateRequestOrderFields}
 `;
 
 export const deliverServicePurchaseUpdateRequest = gql`
@@ -100,10 +100,10 @@ export const deliverServicePurchaseUpdateRequest = gql`
         ...errorFields
       }
       servicePurchaseUpdateRequest {
-        ...servicePurchaseUpdateRequestFields
+        ...servicePurchaseUpdateRequestOrderFields
       }
     }
   }
   ${errorFields}
-  ${servicePurchaseUpdateRequestFields}
+  ${servicePurchaseUpdateRequestOrderFields}
 `;

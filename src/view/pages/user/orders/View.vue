@@ -334,6 +334,8 @@ export default {
 
         if (this.updateRequest !== null) {
           this.showUpdateRequestComponent();
+        } else {
+          this.showTimelineComponent();
         }
 
         await this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
@@ -453,8 +455,12 @@ export default {
       this.viewUpdateRequestCreate = false;
       this.viewUpdateRequestView = false;
 
-      this.$refs.btnChat.blur();
-      this.$refs.btnAskUpdate.blur();
+      if (this.$refs.btnChat !== undefined) {
+        this.$refs.btnChat.blur();
+      }
+      if (this.$refs.btnAskUpdate !== undefined) {
+        this.$refs.btnAskUpdate.blur();
+      }
     }
   }
 };

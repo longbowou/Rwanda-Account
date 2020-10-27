@@ -12,9 +12,7 @@ export const servicePurchaseUpdateRequestFields = gql`
     delivered
     status
     deadlineAt
-    canBeAccepted
-    canBeRefused
-    canBeDelivered
+    reason
   }
 `;
 
@@ -39,9 +37,6 @@ export const servicePurchaseFields = gql`
     hasBeenAccepted
     serviceOptions {
       ...serviceOptionFields
-    }
-    updateRequest {
-      ...servicePurchaseUpdateRequestFields
     }
   }
   ${serviceOptionFields}

@@ -555,6 +555,7 @@ type ServicePurchaseType {
     inDispute: Boolean!
     inDisputeAt: DateTime
     initiated: Boolean!
+    lastUpdateRequest: ServicePurchaseUpdateRequestType
     litigation: LitigationType
     number: String!
     operationSet: [OperationType!]!
@@ -587,6 +588,7 @@ type ServicePurchaseUpdateRequestType {
     deliveredAt: DateTime
     id: UUID!
     initiated: Boolean!
+    reason: String
     refused: Boolean!
     refusedAt: DateTime
     servicePurchase: ServicePurchaseType!
@@ -827,6 +829,7 @@ input LoginInput {
 
 input RefuseServicePurchaseUpdateRequestInput {
     id: UUID!
+    reason: String!
 }
 
 input ReplyServiceCommentInput {

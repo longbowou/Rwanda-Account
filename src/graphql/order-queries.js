@@ -1,12 +1,28 @@
 import gql from "graphql-tag";
 import { orderFields } from "@/graphql/Fragments/order";
-import { servicePurchaseChatFields } from "@/graphql/Fragments/service-purchase";
+import {
+  servicePurchaseChatFields,
+  servicePurchaseUpdateRequestFields
+} from "@/graphql/Fragments/service-purchase";
 import { accountBasicFields } from "@/graphql/Fragments/account";
+
+export const servicePurchaseUpdateRequestOrderFields = gql`
+  fragment servicePurchaseUpdateRequestOrderFields on ServicePurchaseUpdateRequestType {
+    ...servicePurchaseUpdateRequestFields
+    canBeAccepted
+    canBeDelivered
+    canBeRefused
+  }
+  ${servicePurchaseUpdateRequestFields}
+`;
 
 export const queryOrder = gql`
   query servicePurchase($id: UUID!) {
     servicePurchase(id: $id) {
       ...orderFields
+      updateRequest {
+        ...servicePurchaseUpdateRequestOrderFields
+      }
       account {
         ...accountBasicFields
       }
@@ -14,6 +30,7 @@ export const queryOrder = gql`
   }
   ${orderFields}
   ${accountBasicFields}
+  ${servicePurchaseUpdateRequestOrderFields}
 `;
 
 export const queryOrderChat = gql`

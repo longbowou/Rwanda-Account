@@ -10,6 +10,12 @@ export const queryServicePurchase = gql`
   query servicePurchase($id: UUID!) {
     servicePurchase(id: $id) {
       ...purchaseFields
+      updateRequest {
+        ...servicePurchaseUpdateRequestFields
+      }
+      lastUpdateRequest {
+        ...servicePurchaseUpdateRequestFields
+      }
     }
   }
   ${purchaseFields}

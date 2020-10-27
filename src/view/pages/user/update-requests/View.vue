@@ -82,10 +82,10 @@
 
           <button
             ref="btnRefuse"
-            @click="refuse"
+            @click="$refs.refuseModal.show()"
             v-if="updateRequest.canBeRefused"
             data-toggle="tooltip"
-            title="Cancel"
+            title="Refuse"
             class="btn btn-lg btn-icon btn-light-danger"
           >
             <i class="flaticon2-cancel"></i>
@@ -106,6 +106,55 @@
         </h6>
       </div>
     </div>
+
+    <b-modal ref="refuseModal" class="modal fade">
+      <template #modal-header="{close}">
+        <h5 class="modal-title">
+          Do you really want to refuse the update request ?
+        </h5>
+        <button type="button" class="close" @click="close()">
+          <i aria-hidden="true" class="ki ki-close"></i>
+        </button>
+      </template>
+
+      <template #default>
+        <form @submit="refuse" action="#">
+          <h3>{{ updateRequest.title }}</h3>
+          <br />
+          <b-textarea
+            required
+            autofocus
+            v-model="refuseReason"
+            rows="4"
+            class="form-control form-control-lg form-control-solid"
+            type="text"
+            placeholder="Reason why"
+            autocomplete="off"
+          />
+
+          <input ref="submitModal" type="submit" style="display: none" />
+        </form>
+      </template>
+
+      <template #modal-footer="{ ok, cancel, hide }">
+        <button
+          type="button"
+          class="btn btn-square btn-light-primary font-weight-bold"
+          @click="hide()"
+        >
+          Cancel
+        </button>
+
+        <button
+          id="btnSubmit"
+          type="button"
+          @click="$refs.submitModal.click()"
+          class="btn btn-square btn-light-danger font-weight-bold"
+        >
+          Refuse
+        </button>
+      </template>
+    </b-modal>
   </div>
 </template>
 
@@ -121,6 +170,11 @@ export default {
   name: "UpdateRequestView",
   props: ["updateRequest", "fromPurchase"],
   mixins: [toastMixin],
+  data() {
+    return {
+      refuseReason: null
+    };
+  },
   methods: {
     async accept() {
       const title =
@@ -167,7 +221,7 @@ export default {
         return;
       }
 
-      this.notifySuccess("Update request accepted successfully.");
+      this.notifySuccess("Update request accepted.");
 
       this.$emit(
         "update-request-updated",
@@ -175,44 +229,24 @@ export default {
           .servicePurchaseUpdateRequest
       );
     },
-    async refuse() {
-      const title =
-        "Do you really want to refuse the update request " +
-        this.updateRequest.title +
-        " ?";
+    async refuse(evt) {
+      evt.preventDefault();
 
-      if (!confirm(title)) {
-        return;
-      }
-
-      window.$(this.$refs.btnRefuse).removeClass("btn-light-danger");
-      window
-        .$(this.$refs.btnRefuse)
-        .addClass("btn-light disabled spinner spinner-success spinner-right");
-      window.$(this.$refs.btnRefuse).attr("disabled", "");
-      window
-        .$(this.$refs.btnRefuse)
-        .find("i")
-        .css("display", "none");
+      const submitButton = window.$("#btnSubmit");
+      submitButton.attr("disabled", true);
+      submitButton.addClass("spinner spinner-light spinner-right");
 
       let result = await this.$apollo.mutate({
         mutation: refuseServicePurchaseUpdateRequest,
         variables: {
-          input: { id: this.updateRequest.id }
+          input: { id: this.updateRequest.id, reason: this.refuseReason }
         }
       });
 
-      window.$(this.$refs.btnRefuse).addClass("btn-light-success");
-      window.$(this.$refs.btnRefuse).removeAttr("disabled");
-      window
-        .$(this.$refs.btnRefuse)
-        .removeClass(
-          "btn-light disabled spinner spinner-success spinner-right"
-        );
-      window
-        .$(this.$refs.btnRefuse)
-        .find("i")
-        .css("display", "");
+      this.$refs.refuseModal.hide();
+
+      submitButton.removeAttr("disabled");
+      submitButton.removeClass("spinner spinner-light spinner-right");
 
       if (
         !window._.isEmpty(result.data.refuseServicePurchaseUpdateRequest.errors)
@@ -220,7 +254,7 @@ export default {
         return;
       }
 
-      this.notifySuccess("Update request refused successfully.");
+      this.notifySuccess("Update request refused.");
 
       this.$emit(
         "update-request-updated",
@@ -275,7 +309,7 @@ export default {
         return;
       }
 
-      this.notifySuccess("Update request mark as deliver successfully.");
+      this.notifySuccess("Update request mark as deliver.");
 
       this.$emit(
         "update-request-updated",
