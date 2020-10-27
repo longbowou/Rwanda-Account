@@ -363,14 +363,14 @@ export default {
         this.updateRequest = result.data.servicePurchase.updateRequest;
         this.litigation = result.data.servicePurchase.litigation;
 
-        if (this.updateRequest !== null) {
-          this.showUpdateRequestComponent();
-        } else {
-          this.showTimelineComponent();
-        }
+        if (this.updateRequest !== null || this.litigation !== null) {
+          if (this.updateRequest !== null) {
+            this.showUpdateRequestComponent();
+          }
 
-        if (this.litigation !== null) {
-          this.showLitigationComponent();
+          if (this.litigation !== null) {
+            this.showLitigationComponent();
+          }
         } else {
           this.showTimelineComponent();
         }

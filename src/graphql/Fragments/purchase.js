@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
-import { servicePurchaseFields } from "@/graphql/Fragments/service-purchase";
 import { accountBasicFields } from "@/graphql/Fragments/account";
+import { servicePurchaseFields } from "@/graphql/Fragments/service-purchase";
 
 export const purchaseFields = gql`
   fragment purchaseFields on ServicePurchaseType {
@@ -9,6 +9,7 @@ export const purchaseFields = gql`
     canBeCanceled
     canBeInDispute
     canAskForUpdate
+    canBeCommented
     service {
       id
       title

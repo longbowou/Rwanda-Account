@@ -538,6 +538,7 @@ type ServicePurchaseType {
     canBeAccepted: Boolean!
     canBeApproved: Boolean!
     canBeCanceled: Boolean!
+    canBeCommented: Boolean!
     canBeDelivered: Boolean!
     canBeInDispute: Boolean!
     canceled: Boolean!

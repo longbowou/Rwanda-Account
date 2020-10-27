@@ -146,6 +146,20 @@
               </button>
 
               <button
+                ref="btnComment"
+                @click="showLitigationComponent"
+                v-if="servicePurchase.canBeCommented"
+                title="Write a comment"
+                class="btn btn-lg btn-icon btn-light-dark mr-2"
+              >
+                <span class="svg-icon svg-icon-lg svg-icon-2x">
+                  <!--begin::Svg Icon-->
+                  <inline-svg src="media/svg/icons/Communication/Chat4.svg" />
+                  <!--end::Svg Icon-->
+                </span>
+              </button>
+
+              <button
                 v-if="servicePurchase.hasBeenAccepted && !viewChat"
                 @click="showChatComponent"
                 data-toggle="tooltip"
@@ -463,14 +477,14 @@ export default {
         this.lastUpdateRequest = result.data.servicePurchase.lastUpdateRequest;
         this.litigation = result.data.servicePurchase.litigation;
 
-        if (this.updateRequest !== null) {
-          this.showUpdateRequestComponent();
-        } else {
-          this.showTimelineComponent();
-        }
+        if (this.updateRequest !== null || this.litigation !== null) {
+          if (this.updateRequest !== null) {
+            this.showUpdateRequestComponent();
+          }
 
-        if (this.litigation !== null) {
-          this.showLitigationComponent();
+          if (this.litigation !== null) {
+            this.showLitigationComponent();
+          }
         } else {
           this.showTimelineComponent();
         }
