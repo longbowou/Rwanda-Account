@@ -109,10 +109,24 @@
                 @click="showUpdateRequestComponent"
                 v-if="updateRequest !== null && !viewUpdateRequestView"
                 data-toggle="tooltip"
-                title="Make an update request"
+                title="View update request"
                 class="btn btn-lg btn-icon btn-light-warning mr-2"
               >
                 <i class="fas fa-retweet"></i>
+              </button>
+
+              <button
+                ref="btnPutInDispute"
+                @click="showLitigationComponent"
+                v-if="litigation !== null && !viewLitigationView"
+                title="View litigation"
+                class="btn btn-lg btn-icon btn-light-danger mr-2"
+              >
+                <span class="svg-icon svg-icon-lg svg-icon-2x">
+                  <!--begin::Svg Icon-->
+                  <inline-svg src="media/svg/icons/Code/Github.svg" />
+                  <!--end::Svg Icon-->
+                </span>
               </button>
 
               <button
@@ -247,8 +261,13 @@
 
         <update-request-view
           v-on:update-request-updated="updateRequestUpdated"
-          v-if="viewUpdateRequestView"
+          v-if="viewUpdateRequestView && updateRequest !== null"
           :update-request="updateRequest"
+        />
+
+        <litigation-view
+          :litigation="litigation"
+          v-if="viewLitigationView && litigation !== null"
         />
       </div>
     </div>
@@ -266,11 +285,12 @@ import Timeline from "@/view/pages/user/purchases/Timeline";
 import { queryServicePurchaseTimeline } from "@/graphql/service-purchase-queries";
 import Chat from "@/view/pages/user/chat/Chat";
 import UpdateRequestView from "@/view/pages/user/update-requests/View";
+import LitigationView from "@/view/pages/user/litigation/View";
 
 export default {
   name: "OrderView",
   mixins: [toastMixin, orderActionsMixin],
-  components: { Timeline, Chat, UpdateRequestView },
+  components: { Timeline, Chat, UpdateRequestView, LitigationView },
   data() {
     return {
       servicePurchase: {},
@@ -278,7 +298,9 @@ export default {
       viewTimeline: true,
       viewChat: false,
       viewUpdateRequestView: false,
-      updateRequest: null
+      viewLitigationView: false,
+      updateRequest: null,
+      litigation: null
     };
   },
   computed: {
@@ -297,14 +319,22 @@ export default {
       return false;
     },
     mainDivClasses() {
-      if (this.viewChat || this.viewUpdateRequestView) {
+      if (
+        this.viewChat ||
+        this.viewUpdateRequestView ||
+        this.viewLitigationView
+      ) {
         return "col-sm-7";
       }
 
       return "col-sm-8";
     },
     sideDivClasses() {
-      if (this.viewChat || this.viewUpdateRequestView) {
+      if (
+        this.viewChat ||
+        this.viewUpdateRequestView ||
+        this.viewLitigationView
+      ) {
         return "col-sm-5";
       }
 
@@ -331,9 +361,16 @@ export default {
       if (window._.isEmpty(result.errors)) {
         this.servicePurchase = result.data.servicePurchase;
         this.updateRequest = result.data.servicePurchase.updateRequest;
+        this.litigation = result.data.servicePurchase.litigation;
 
         if (this.updateRequest !== null) {
           this.showUpdateRequestComponent();
+        } else {
+          this.showTimelineComponent();
+        }
+
+        if (this.litigation !== null) {
+          this.showLitigationComponent();
         } else {
           this.showTimelineComponent();
         }
@@ -442,18 +479,26 @@ export default {
     showChatComponent() {
       this.viewChat = true;
       this.viewUpdateRequestView = false;
+      this.viewLitigationView = false;
       this.viewTimeline = false;
     },
     showUpdateRequestComponent() {
       this.viewUpdateRequestView = true;
+      this.viewLitigationView = false;
+      this.viewTimeline = false;
+      this.viewChat = false;
+    },
+    showLitigationComponent() {
+      this.viewLitigationView = true;
+      this.viewUpdateRequestView = false;
       this.viewTimeline = false;
       this.viewChat = false;
     },
     showTimelineComponent() {
       this.viewTimeline = true;
       this.viewChat = false;
-      this.viewUpdateRequestCreate = false;
       this.viewUpdateRequestView = false;
+      this.viewLitigationView = false;
 
       if (this.$refs.btnChat !== undefined) {
         this.$refs.btnChat.blur();

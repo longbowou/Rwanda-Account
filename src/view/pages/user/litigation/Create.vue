@@ -1,19 +1,19 @@
 <template>
   <div>
     <div
-      class="alert alert-custom alert-notice alert-light-warning fade show m-0"
+      class="alert alert-custom alert-notice alert-light-danger fade show m-0"
       role="alert"
     >
       <div class="alert-icon">
-        <span class="svg-icon svg-icon-lg svg-icon-3x svg-icon-warning mr-3">
+        <span class="svg-icon svg-icon-lg svg-icon-3x svg-icon-danger mr-3">
           <!--begin::Svg Icon-->
           <inline-svg src="media/svg/icons/Code/Info-circle.svg" />
           <!--end::Svg Icon-->
         </span>
       </div>
       <div class="alert-text text-justify font-weight-bold">
-        You can ask an update by <strong>making an update request</strong>. If
-        the seller accept it the <strong>deadline will be reset</strong>.
+        You can open a litigation by <strong>filling the form bellow</strong>.
+        Administrators will <strong>handle</strong> it a soon as possible.
       </div>
     </div>
 
@@ -21,7 +21,7 @@
       <div class="card-header">
         <div class="card-title">
           <h3 class="card-label">
-            Make an update request
+            Open a litigation
           </h3>
         </div>
       </div>
@@ -64,7 +64,7 @@
           <div class="col-sm-12 text-center">
             <button
               id="btn_submit"
-              class="col-sm-6 btn btn-warning btn-lg font-weight-bolder"
+              class="col-sm-6 btn btn-danger btn-lg font-weight-bolder"
             >
               Submit
             </button>
@@ -78,11 +78,11 @@
 
 <script>
 import { formMixin, toastMixin } from "@/view/mixins";
+import { createLitigation } from "@/graphql/purchase-mutations";
 import Quill from "quill";
-import { initiateServicePurchaseUpdateRequest } from "@/graphql/purchase-mutations";
 
 export default {
-  name: "UpdateRequestCreate",
+  name: "LitigationCreate",
   mixins: [formMixin, toastMixin],
   data() {
     return {
@@ -106,7 +106,7 @@ export default {
       this.input.servicePurchase = this.$route.params.id;
 
       let result = await this.$apollo.mutate({
-        mutation: initiateServicePurchaseUpdateRequest,
+        mutation: createLitigation,
         variables: {
           input: this.input
         }
@@ -115,21 +115,13 @@ export default {
       submitButton.removeAttr("disabled");
       submitButton.removeClass("spinner spinner-light spinner-right");
 
-      if (
-        !window._.isEmpty(
-          result.data.initiateServicePurchaseUpdateRequest.errors
-        )
-      ) {
+      if (!window._.isEmpty(result.data.createLitigation.errors)) {
         return;
       }
 
-      this.$emit(
-        "update-request-created",
-        result.data.initiateServicePurchaseUpdateRequest
-          .servicePurchaseUpdateRequest
-      );
+      this.$emit("litigation-created", result.data.createLitigation.litigation);
 
-      return this.notifySuccess("Update request made successfully.");
+      return this.notifySuccess("Litigation opened.");
     },
     initPlugins() {
       this.contentQuill = new Quill("#description", {

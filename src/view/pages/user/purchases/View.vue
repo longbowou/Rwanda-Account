@@ -115,10 +115,34 @@
                     !viewUpdateRequestView
                 "
                 data-toggle="tooltip"
-                title="Make an update request"
+                :title="
+                  updateRequest == null
+                    ? 'Make an update request'
+                    : 'View update request'
+                "
                 class="btn btn-lg btn-icon btn-light-warning mr-2"
               >
                 <i class="fas fa-retweet"></i>
+              </button>
+
+              <button
+                ref="btnPutInDispute"
+                @click="showLitigationComponent"
+                v-if="
+                  (servicePurchase.canBeInDispute || litigation !== null) &&
+                    !viewLitigationCreate &&
+                    !viewLitigationView
+                "
+                :title="
+                  litigation == null ? 'Open a litigation' : 'View litigation'
+                "
+                class="btn btn-lg btn-icon btn-light-danger mr-2"
+              >
+                <span class="svg-icon svg-icon-lg svg-icon-2x">
+                  <!--begin::Svg Icon-->
+                  <inline-svg src="media/svg/icons/Code/Github.svg" />
+                  <!--end::Svg Icon-->
+                </span>
               </button>
 
               <button
@@ -315,8 +339,18 @@
 
         <update-request-view
           :from-purchase="true"
-          v-if="viewUpdateRequestView"
+          v-if="viewUpdateRequestView && updateRequest !== null"
           :update-request="updateRequest"
+        />
+
+        <litigation-create
+          v-on:litigation-created="viewLitigationCreate"
+          v-if="viewLitigationCreate"
+        />
+
+        <litigation-view
+          :litigation="litigation"
+          v-if="viewLitigationView && litigation !== null"
         />
       </div>
     </div>
@@ -335,6 +369,8 @@ import { queryServicePurchaseTimeline } from "@/graphql/service-purchase-queries
 import Chat from "@/view/pages/user/chat/Chat";
 import UpdateRequestCreate from "@/view/pages/user/update-requests/Create";
 import UpdateRequestView from "@/view/pages/user/update-requests/View";
+import LitigationCreate from "@/view/pages/user/litigation/Create";
+import LitigationView from "@/view/pages/user/litigation/View";
 
 export default {
   name: "PurchaseView",
@@ -343,7 +379,9 @@ export default {
     Timeline,
     Chat,
     UpdateRequestCreate,
-    UpdateRequestView
+    UpdateRequestView,
+    LitigationCreate,
+    LitigationView
   },
   data() {
     return {
@@ -353,8 +391,11 @@ export default {
       viewChat: false,
       viewUpdateRequestCreate: false,
       viewUpdateRequestView: false,
+      viewLitigationCreate: false,
+      viewLitigationView: false,
       updateRequest: null,
-      lastUpdateRequest: null
+      lastUpdateRequest: null,
+      litigation: null
     };
   },
   computed: {
@@ -376,7 +417,9 @@ export default {
       if (
         this.viewChat ||
         this.viewUpdateRequestCreate ||
-        this.viewUpdateRequestView
+        this.viewUpdateRequestView ||
+        this.viewLitigationCreate ||
+        this.viewLitigationView
       ) {
         return "col-sm-7";
       }
@@ -387,7 +430,9 @@ export default {
       if (
         this.viewChat ||
         this.viewUpdateRequestCreate ||
-        this.viewUpdateRequestView
+        this.viewUpdateRequestView ||
+        this.viewLitigationCreate ||
+        this.viewLitigationView
       ) {
         return "col-sm-5";
       }
@@ -416,9 +461,18 @@ export default {
         this.servicePurchase = result.data.servicePurchase;
         this.updateRequest = result.data.servicePurchase.updateRequest;
         this.lastUpdateRequest = result.data.servicePurchase.lastUpdateRequest;
+        this.litigation = result.data.servicePurchase.litigation;
 
         if (this.updateRequest !== null) {
           this.showUpdateRequestComponent();
+        } else {
+          this.showTimelineComponent();
+        }
+
+        if (this.litigation !== null) {
+          this.showLitigationComponent();
+        } else {
+          this.showTimelineComponent();
         }
 
         await this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
@@ -521,11 +575,17 @@ export default {
       this.updateRequest = updateRequest;
       this.fetchData();
     },
+    updateLitigationCreated(litigation) {
+      this.litigation = litigation;
+      this.fetchData();
+    },
     showChatComponent() {
       this.viewChat = true;
       this.viewUpdateRequestCreate = false;
       this.viewUpdateRequestView = false;
       this.viewTimeline = false;
+      this.viewLitigationCreate = false;
+      this.viewLitigationView = false;
     },
     showUpdateRequestComponent() {
       if (this.updateRequest !== null) {
@@ -537,15 +597,36 @@ export default {
       }
       this.viewTimeline = false;
       this.viewChat = false;
+      this.viewLitigationCreate = false;
+      this.viewLitigationView = false;
+    },
+    showLitigationComponent() {
+      if (this.litigation !== null) {
+        this.viewLitigationView = true;
+        this.viewLitigationCreate = false;
+      } else {
+        this.viewLitigationCreate = true;
+        this.viewLitigationView = false;
+      }
+      this.viewTimeline = false;
+      this.viewChat = false;
+      this.viewUpdateRequestCreate = false;
+      this.viewUpdateRequestView = false;
     },
     showTimelineComponent() {
       this.viewTimeline = true;
       this.viewChat = false;
       this.viewUpdateRequestCreate = false;
       this.viewUpdateRequestView = false;
+      this.viewLitigationCreate = false;
+      this.viewLitigationView = false;
 
-      this.$refs.btnChat.blur();
-      this.$refs.btnAskUpdate.blur();
+      if (this.$refs.btnChat !== undefined) {
+        this.$refs.btnChat.blur();
+      }
+      if (this.$refs.btnAskUpdate !== undefined) {
+        this.$refs.btnAskUpdate.blur();
+      }
     }
   }
 };

@@ -2,7 +2,10 @@ import gql from "graphql-tag";
 import { errorFields } from "@/graphql/Fragments/global";
 import { accountFields } from "@/graphql/Fragments/account";
 import { purchaseFields } from "@/graphql/Fragments/purchase";
-import { servicePurchaseUpdateRequestFields } from "@/graphql/Fragments/service-purchase";
+import {
+  litigationFields,
+  servicePurchaseUpdateRequestFields
+} from "@/graphql/Fragments/service-purchase";
 
 // Buyer Mutations
 export const initiateServicePurchase = gql`
@@ -108,4 +111,19 @@ export const initiateServicePurchaseUpdateRequest = gql`
   }
   ${errorFields}
   ${servicePurchaseUpdateRequestFields}
+`;
+
+export const createLitigation = gql`
+  mutation($input: CreateLitigationInput!) {
+    createLitigation(input: $input) {
+      errors {
+        ...errorFields
+      }
+      litigation {
+        ...litigationFields
+      }
+    }
+  }
+  ${errorFields}
+  ${litigationFields}
 `;

@@ -357,12 +357,16 @@ type InitiateServicePurchaseUpdateRequest {
 type LitigationType {
     account: AccountType!
     admin: AdminType
+    approved: Boolean!
+    canceled: Boolean!
+    content: String!
     createdAt: DateTime!
-    decision: LitigationDecision
-    description: String!
+    decision: String
     handled: Boolean!
     id: UUID!
+    opened: Boolean!
     servicePurchase: ServicePurchaseType!
+    status: String!
     title: String!
     updatedAt: DateTime!
 }
@@ -671,14 +675,6 @@ type Verify {
     payload: GenericScalar!
 }
 
-"An enumeration."
-enum LitigationDecision {
-    "APPROVED"
-    APPROVED
-    "CANCELED"
-    CANCELED
-}
-
 input AcceptServicePurchaseInput {
     id: UUID!
 }
@@ -749,7 +745,7 @@ input CreateDepositInput {
 }
 
 input CreateLitigationInput {
-    description: String!
+    content: String!
     servicePurchase: ID!
     title: String!
 }

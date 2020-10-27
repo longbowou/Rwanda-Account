@@ -16,6 +16,18 @@ export const servicePurchaseUpdateRequestFields = gql`
   }
 `;
 
+export const litigationFields = gql`
+  fragment litigationFields on LitigationType {
+    id
+    title
+    content
+    opened
+    handled
+    status
+    decision
+  }
+`;
+
 export const servicePurchaseFields = gql`
   fragment servicePurchaseFields on ServicePurchaseType {
     id
@@ -38,9 +50,13 @@ export const servicePurchaseFields = gql`
     serviceOptions {
       ...serviceOptionFields
     }
+    litigation {
+      ...litigationFields
+    }
   }
   ${serviceOptionFields}
   ${servicePurchaseUpdateRequestFields}
+  ${litigationFields}
 `;
 
 export const servicePurchaseTimelineFields = gql`
