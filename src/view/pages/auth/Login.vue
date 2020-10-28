@@ -63,6 +63,7 @@
           v-model="input.login"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
           type="text"
+          placeholder="Username or Email"
           autocomplete="off"
         />
         <b-form-invalid-feedback id="input-live-feedback">
@@ -100,6 +101,7 @@
           v-model="input.password"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
           type="password"
+          placeholder="Password"
           autocomplete="off"
         />
         <b-form-invalid-feedback id="input-live-feedback">
@@ -183,10 +185,11 @@ export default {
         }
       });
 
+      submitButton.removeAttr("disabled");
+      submitButton.removeClass("spinner spinner-light spinner-right");
+
       this.errors = result.data.login.errors;
       if (!window._.isEmpty(this.errors)) {
-        submitButton.removeAttr("disabled");
-        submitButton.removeClass("spinner spinner-light spinner-right");
         return;
       }
 
@@ -210,12 +213,6 @@ export default {
     ...mapGetters(["isAuthenticated", "loginNotifications", "nextPath"]),
     hasNotifications() {
       return !window._.isEmpty(this.loginNotifications);
-    },
-    loginState() {
-      return this.validateState("login");
-    },
-    loginErrorMessages() {
-      return this.errorMessages("login");
     }
   }
 };

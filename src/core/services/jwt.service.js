@@ -1,11 +1,10 @@
-import _ from "lodash";
 import { initRestartWebsockets } from "@/vue-apollo";
 
 const AUTH_KEY = "AUTH_OBJECT_KEY";
 
 export const getAuth = () => {
   let auth = window.localStorage.getItem(AUTH_KEY);
-  if (_.isString(auth)) {
+  if (window._.isString(auth)) {
     let currentAuth = JSON.parse(auth);
     if (
       currentAuth !== null &&

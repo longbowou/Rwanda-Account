@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { accountFields } from "@/graphql/Fragments/account";
+import { accountFields } from "@/graphql/fragments/account";
 
 export const queryAccount = gql`
   query {

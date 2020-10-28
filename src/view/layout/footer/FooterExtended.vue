@@ -84,7 +84,7 @@
             src="media/logos/logo.png"
             class="logo-sticky max-h-35px"
           />
-          <span class="text-muted font-weight-bold mx-2">2020©</span>
+          <span class="text-muted font-weight-bold mx-2">2020 ©</span>
           <a href="#" class="text-primary text-hover-primary">
             Maison du Digitale
           </a>
@@ -92,27 +92,13 @@
         <!--end::Copyright-->
         <!--begin::Nav-->
         <div class="d-flex align-items-center order-lg-2 order-1 mb-lg-0 mb-5">
-          <!--          <a-->
-          <!--            href="http://keenthemes.com/metronic"-->
-          <!--            target="_blank"-->
-          <!--            class="text-white opacity-55 pl-0 text-hover-primary"-->
-          <!--          >-->
-          <!--            Purchase Lisence-->
-          <!--          </a>-->
-          <!--          <a-->
-          <!--            href="http://keenthemes.com/metronic"-->
-          <!--            target="_blank"-->
-          <!--            class="text-white opacity-55 px-6 text-hover-primary"-->
-          <!--          >-->
-          <!--            Team-->
-          <!--          </a>-->
-          <!--          <a-->
-          <!--            href="http://keenthemes.com/metronic"-->
-          <!--            target="_blank"-->
-          <!--            class="text-white opacity-55 pr-0 text-hover-primary"-->
-          <!--          >-->
-          <!--            Contact-->
-          <!--          </a>-->
+          <a
+            href="https://gitlab.com/longbowou"
+            target="_blank"
+            class="text-white opacity-55 pl-0 text-hover-primary"
+          >
+            Powered by Longbowou
+          </a>
         </div>
         <!--end::Nav-->
       </div>

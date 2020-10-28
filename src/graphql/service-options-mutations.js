@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { errorFields } from "@/graphql/Fragments/global";
+import { errorFields } from "@/graphql/fragments/global";
 
 export const createServiceOption = gql`
   mutation($input: CreateServiceOptionInput!) {

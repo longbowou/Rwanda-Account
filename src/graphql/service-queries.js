@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { serviceOptionFields } from "@/graphql/Fragments/service-option";
+import { serviceOptionFields } from "@/graphql/fragments/service-option";
 
 export const queryServicesForPreview = gql`
   query {

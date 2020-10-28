@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { deliverableFields } from "@/graphql/Fragments/deliverable";
+import { deliverableFields } from "@/graphql/fragments/deliverable";
 
 export const queryDeliverable = gql`
   query deliverable($id: UUID!) {

@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
-import { errorFields } from "@/graphql/Fragments/global";
-import { orderFields } from "@/graphql/Fragments/order";
+import { errorFields } from "@/graphql/fragments/global";
+import { orderFields } from "@/graphql/fragments/order";
 import { servicePurchaseUpdateRequestOrderFields } from "@/graphql/order-queries";
 
 export const acceptServicePurchase = gql`

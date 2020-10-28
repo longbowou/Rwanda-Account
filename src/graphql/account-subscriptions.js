@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { accountBasicFields } from "@/graphql/Fragments/account";
+import { accountBasicFields } from "@/graphql/fragments/account";
 
 export const onlineSubscription = gql`
   subscription onlineSubscription {

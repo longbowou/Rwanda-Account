@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
-import { errorFields } from "@/graphql/Fragments/global";
-import { accountFields } from "@/graphql/Fragments/account";
-import { authTokenFields } from "@/graphql/Fragments/global";
+import { errorFields } from "@/graphql/fragments/global";
+import { accountFields } from "@/graphql/fragments/account";
+import { authTokenFields } from "@/graphql/fragments/global";
 
 export const login = gql`
   mutation($input: LoginInput!) {

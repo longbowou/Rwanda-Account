@@ -1,10 +1,10 @@
 import gql from "graphql-tag";
-import { orderFields } from "@/graphql/Fragments/order";
+import { orderFields } from "@/graphql/fragments/order";
 import {
   servicePurchaseChatFields,
   servicePurchaseUpdateRequestFields
-} from "@/graphql/Fragments/service-purchase";
-import { accountBasicFields } from "@/graphql/Fragments/account";
+} from "@/graphql/fragments/service-purchase";
+import { accountBasicFields } from "@/graphql/fragments/account";
 
 export const servicePurchaseUpdateRequestOrderFields = gql`
   fragment servicePurchaseUpdateRequestOrderFields on ServicePurchaseUpdateRequestType {

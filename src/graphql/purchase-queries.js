@@ -1,11 +1,11 @@
 import gql from "graphql-tag";
-import { purchaseFields } from "@/graphql/Fragments/purchase";
+import { purchaseFields } from "@/graphql/fragments/purchase";
 import {
   servicePurchaseChatFields,
   servicePurchaseChatMessageFields,
   servicePurchaseUpdateRequestFields
-} from "@/graphql/Fragments/service-purchase";
-import { accountBasicFields } from "@/graphql/Fragments/account";
+} from "@/graphql/fragments/service-purchase";
+import { accountBasicFields } from "@/graphql/fragments/account";
 
 export const queryServicePurchase = gql`
   query servicePurchase($id: UUID!) {

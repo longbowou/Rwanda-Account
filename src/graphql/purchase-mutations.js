@@ -1,11 +1,11 @@
 import gql from "graphql-tag";
-import { errorFields } from "@/graphql/Fragments/global";
-import { accountFields } from "@/graphql/Fragments/account";
-import { purchaseFields } from "@/graphql/Fragments/purchase";
+import { errorFields } from "@/graphql/fragments/global";
+import { accountFields } from "@/graphql/fragments/account";
+import { purchaseFields } from "@/graphql/fragments/purchase";
 import {
   litigationFields,
   servicePurchaseUpdateRequestFields
-} from "@/graphql/Fragments/service-purchase";
+} from "@/graphql/fragments/service-purchase";
 
 // Buyer Mutations
 export const initiateServicePurchase = gql`

@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
-import { accountFields } from "@/graphql/Fragments/account";
-import { errorFields } from "@/graphql/Fragments/global";
+import { accountFields } from "@/graphql/fragments/account";
+import { errorFields } from "@/graphql/fragments/global";
 
 export const updateAccount = gql`
   mutation($input: UpdateAccountInput!) {

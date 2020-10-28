@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
-import { errorFields } from "@/graphql/Fragments/global";
-import { deliverableFields } from "@/graphql/Fragments/deliverable";
+import { errorFields } from "@/graphql/fragments/global";
+import { deliverableFields } from "@/graphql/fragments/deliverable";
 
 export const createDeliverable = gql`
   mutation($input: CreateDeliverableInput!) {
