@@ -221,6 +221,50 @@
       </div>
 
       <div :class="sideDivClasses">
+        <div
+          v-if="servicePurchase.approved || servicePurchase.canceled"
+          :class="[
+            'alert alert-custom alert-notice fade show m-0 mb-5',
+            servicePurchase.approved && 'alert-light-success',
+            servicePurchase.canceled && 'alert-light-danger'
+          ]"
+          role="alert"
+        >
+          <div class="alert-icon">
+            <span
+              :class="[
+                'svg-icon svg-icon-lg svg-icon-3x mr-3',
+                servicePurchase.approved && 'svg-icon-success',
+                servicePurchase.canceled && 'svg-icon-danger'
+              ]"
+            >
+              <!--begin::Svg Icon-->
+              <inline-svg
+                v-if="servicePurchase.approved"
+                src="media/svg/icons/Code/Info-circle.svg"
+              />
+
+              <inline-svg
+                v-if="servicePurchase.canceled"
+                src="media/svg/icons/Code/Warning-1-circle.svg"
+              />
+              <!--end::Svg Icon-->
+            </span>
+          </div>
+          <div class="alert-text text-justify font-weight-bold">
+            <div v-if="servicePurchase.approved">
+              The order has been <strong>approved</strong> by the buyer.<br />
+              Checkout your wallet
+            </div>
+
+            <div v-if="servicePurchase.canceled">
+              The order has been
+              <strong>canceled</strong> by the buyer.
+              <br />
+            </div>
+          </div>
+        </div>
+
         <div v-if="viewTimeline">
           <div
             class="card card-custom shadow-sm mb-5"
