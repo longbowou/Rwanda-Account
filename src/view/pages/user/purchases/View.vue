@@ -368,6 +368,7 @@
         />
 
         <comment-create
+          v-on:comment-created="commentCreated"
           :service="servicePurchase.service"
           v-if="viewCommentCreate"
         />
@@ -602,6 +603,9 @@ export default {
     updateLitigationCreated(litigation) {
       this.litigation = litigation;
       this.fetchData();
+    },
+    commentCreated() {
+      this.showTimelineComponent();
     },
     showChatComponent() {
       this.viewChat = true;

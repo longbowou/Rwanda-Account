@@ -54,7 +54,7 @@
             >
             <div
               id="description"
-              style="height: 225px"
+              style="height: 200px"
               v-html="contentHtml"
             ></div>
           </div>

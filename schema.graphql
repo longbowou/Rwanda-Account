@@ -49,7 +49,6 @@ type AccountMutation {
     deleteDeliverableFile(id: UUID!): DeleteDeliverableFile
     deleteService(id: UUID!): DeleteService
     deleteServiceCategory(id: UUID!): DeleteServiceCategory
-    deleteServiceComment(id: UUID!): DeleteServiceComment
     deleteServiceMedia(id: UUID!): DeleteServiceMedia
     deleteServiceOption(id: UUID!): DeleteServiceOption
     deliverServicePurchase(input: DeliverServicePurchaseInput!): DeliverServicePurchase
@@ -68,7 +67,6 @@ type AccountMutation {
     updateDeliverable(input: UpdateDeliverableInput!): UpdateDeliverable
     updateService(input: UpdateServiceInput!): UpdateService
     updateServiceCategory(input: UpdateServiceCategoryInput!): UpdateServiceCategory
-    updateServiceComment(input: UpdateServiceCommentInput!): UpdateServiceComment
     updateServiceMedia(input: UpdateServiceMediaInput!): UpdateServiceMedia
     updateServiceOption(input: UpdateServiceOptionInput!): UpdateServiceOption
     verifyToken(token: String): Verify
@@ -87,6 +85,7 @@ type AccountQuery {
     service(id: UUID!): ServiceType!
     "ServiceCategory list"
     serviceCategories(id: UUID): [ServiceCategoryType]
+    serviceCommentTypes: [ServiceCommentTypeType]
     serviceOption(id: UUID!): ServiceOptionType
     "ServiceOption list"
     serviceOptions(id: UUID): [ServiceOptionType]
@@ -262,10 +261,6 @@ type DeleteService {
 }
 
 type DeleteServiceCategory {
-    errors: [ErrorType]
-}
-
-type DeleteServiceComment {
     errors: [ErrorType]
 }
 
@@ -446,11 +441,17 @@ type ServiceCommentType {
     content: String!
     createdAt: DateTime!
     id: UUID!
-    positive: Boolean!
+    published: Boolean!
     replyAt: DateTime
     replyContent: String
-    service: ServiceType!
+    servicePurchase: ServicePurchaseType
+    type: String!
     updatedAt: DateTime!
+}
+
+type ServiceCommentTypeType {
+    name: String!
+    value: String!
 }
 
 type ServiceMediaType {
@@ -568,6 +569,7 @@ type ServicePurchaseType {
     refused: Boolean!
     service: ServiceType!
     serviceOptions: [ServiceOptionType!]!
+    servicecommentSet: [ServiceCommentType!]!
     servicepurchaseserviceoptionSet: [ServicePurchaseServiceOptionType!]!
     servicepurchaseupdaterequestSet: [ServicePurchaseUpdateRequestType!]!
     status: String!
@@ -617,7 +619,6 @@ type ServiceType {
     published: Boolean!
     publishedDisplay: String!
     serviceCategory: ServiceCategoryType!
-    servicecommentSet: [ServiceCommentType!]!
     servicemediaSet: [ServiceMediaType!]!
     serviceoptionSet: [ServiceOptionType!]!
     servicepurchaseSet: [ServicePurchaseType!]!
@@ -655,11 +656,6 @@ type UpdateService {
 type UpdateServiceCategory {
     errors: [ErrorType]
     serviceCategory: ServiceCategoryType
-}
-
-type UpdateServiceComment {
-    errors: [ErrorType]
-    serviceComment: ServiceCommentType
 }
 
 type UpdateServiceMedia {
@@ -763,8 +759,8 @@ input CreateServiceCategoryInput {
 
 input CreateServiceCommentInput {
     content: String!
-    positive: Boolean
-    service: ID!
+    servicePurchase: UUID!
+    type: String!
 }
 
 input CreateServiceInput {
@@ -865,12 +861,6 @@ input UpdateServiceCategoryInput {
     description: String
     id: UUID!
     label: String
-}
-
-input UpdateServiceCommentInput {
-    content: String
-    id: UUID!
-    positive: Boolean
 }
 
 input UpdateServiceInput {

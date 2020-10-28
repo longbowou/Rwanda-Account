@@ -169,16 +169,15 @@ export default {
         }
       });
 
+      submitButton.removeAttr("disabled");
+      submitButton.removeClass("disabled spinner spinner-light spinner-right");
+
       if (this.creating) {
         this.errors = result.data.createService.errors;
       } else {
         this.errors = result.data.updateService.errors;
       }
       if (!window._.isEmpty(this.errors)) {
-        submitButton.removeAttr("disabled");
-        submitButton.removeClass(
-          "disabled spinner spinner-light spinner-right"
-        );
         return;
       }
 
@@ -191,9 +190,6 @@ export default {
           account: result.data.updateService.service.account
         });
       }
-
-      submitButton.removeAttr("disabled");
-      submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
       await this.$router.push({
         name: "user-services"

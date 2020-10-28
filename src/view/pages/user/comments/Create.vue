@@ -1,11 +1,11 @@
 <template>
   <div>
     <div
-      class="alert alert-custom alert-notice alert-light-dark fade show m-0"
+      class="alert alert-custom alert-notice alert-light-primary fade show m-0"
       role="alert"
     >
       <div class="alert-icon">
-        <span class="svg-icon svg-icon-lg svg-icon-3x svg-icon-dark mr-3">
+        <span class="svg-icon svg-icon-lg svg-icon-3x svg-icon-primary mr-3">
           <!--begin::Svg Icon-->
           <inline-svg src="media/svg/icons/Code/Info-circle.svg" />
           <!--end::Svg Icon-->
@@ -33,7 +33,7 @@
             <label class="col-sm-12 col-form-label font-weight-bold"
               >Content</label
             >
-            <div id="content" style="height: 325px" v-html="contentHtml"></div>
+            <div id="content" style="height: 200px" v-html="contentHtml"></div>
           </div>
 
           <div class="form-group">
@@ -54,7 +54,7 @@
           <div class="col-sm-12 text-center">
             <button
               id="btn_submit"
-              class="col-sm-6 btn btn-light-dark btn-lg font-weight-bolder"
+              class="col-sm-6 btn btn-light-primary btn-lg font-weight-bolder"
             >
               Submit
             </button>
@@ -64,7 +64,7 @@
     </div>
   </div>
 </template>
-<style scoped>
+<style>
 .select2-selection {
   min-height: 36px;
 }
@@ -73,24 +73,64 @@
 <script>
 import Quill from "quill";
 import "select2";
+import { queryServiceCommentTypes } from "@/graphql/purchase-queries";
+import { createServiceComment } from "@/graphql/purchase-mutations";
+import { formMixin, toastMixin } from "@/view/mixins";
 
 export default {
   name: "CommentCreate",
   props: ["service"],
+  mixins: [formMixin, toastMixin],
   data() {
     return {
       input: {},
       contentHtml: "",
       contentQuill: {},
-      typeSelect2: {}
+      typeSelect2: {},
+      types: []
     };
   },
   mounted() {
     this.initPlugins();
   },
+  computed: {
+    options() {
+      let options = [];
+      for (const type of this.types) {
+        options.push({ value: type.value, text: type.name });
+      }
+      return options;
+    }
+  },
   methods: {
     async onSubmit(evt) {
       evt.preventDefault();
+
+      const submitButton = window.$("#btn_submit");
+      submitButton.attr("disabled", true);
+      submitButton.addClass("spinner spinner-light spinner-right");
+
+      this.input.content = this.contentQuill.root.innerHTML;
+      this.input.servicePurchase = this.$route.params.id;
+      this.input.type = this.typeSelect2.val();
+
+      let result = await this.$apollo.mutate({
+        mutation: createServiceComment,
+        variables: {
+          input: this.input
+        }
+      });
+
+      submitButton.removeAttr("disabled");
+      submitButton.removeClass("disabled spinner spinner-light spinner-right");
+
+      if (!window._.isEmpty(result.data.createServiceComment.errors)) {
+        return;
+      }
+
+      this.$emit("comment-created");
+
+      return this.notifySuccess("Your comment sent successfully.");
     },
     initPlugins() {
       this.typeSelect2 = window.$("#type").select2();
@@ -102,6 +142,12 @@ export default {
         placeholder: "Content",
         theme: "snow"
       });
+    }
+  },
+  apollo: {
+    types: {
+      query: queryServiceCommentTypes,
+      update: data => data.serviceCommentTypes
     }
   }
 };

@@ -59,3 +59,12 @@ export const queryPurchaseChatMarked = gql`
   }
   ${servicePurchaseChatMessageFields}
 `;
+
+export const queryServiceCommentTypes = gql`
+  query queryServiceCommentTypes {
+    serviceCommentTypes {
+      name
+      value
+    }
+  }
+`;

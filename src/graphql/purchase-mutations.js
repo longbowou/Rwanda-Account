@@ -127,3 +127,14 @@ export const createLitigation = gql`
   ${errorFields}
   ${litigationFields}
 `;
+
+export const createServiceComment = gql`
+  mutation($input: CreateServiceCommentInput!) {
+    createServiceComment(input: $input) {
+      errors {
+        ...errorFields
+      }
+    }
+  }
+  ${errorFields}
+`;
