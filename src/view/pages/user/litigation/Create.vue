@@ -64,7 +64,7 @@
           <div class="col-sm-12 text-center">
             <button
               id="btn_submit"
-              class="col-sm-6 btn btn-danger btn-lg font-weight-bolder"
+              class="col-sm-6 btn btn-light-danger btn-lg font-weight-bolder"
             >
               Submit
             </button>

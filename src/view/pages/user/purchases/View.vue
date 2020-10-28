@@ -147,8 +147,8 @@
 
               <button
                 ref="btnComment"
-                @click="showLitigationComponent"
-                v-if="servicePurchase.canBeCommented"
+                @click="showCommentCreate"
+                v-if="servicePurchase.canBeCommented && !viewCommentCreate"
                 title="Write a comment"
                 class="btn btn-lg btn-icon btn-light-dark mr-2"
               >
@@ -366,6 +366,11 @@
           :litigation="litigation"
           v-if="viewLitigationView && litigation !== null"
         />
+
+        <comment-create
+          :service="servicePurchase.service"
+          v-if="viewCommentCreate"
+        />
       </div>
     </div>
     <!--end::Dashboard-->
@@ -385,6 +390,7 @@ import UpdateRequestCreate from "@/view/pages/user/update-requests/Create";
 import UpdateRequestView from "@/view/pages/user/update-requests/View";
 import LitigationCreate from "@/view/pages/user/litigation/Create";
 import LitigationView from "@/view/pages/user/litigation/View";
+import CommentCreate from "@/view/pages/user/comments/Create";
 
 export default {
   name: "PurchaseView",
@@ -395,7 +401,8 @@ export default {
     UpdateRequestCreate,
     UpdateRequestView,
     LitigationCreate,
-    LitigationView
+    LitigationView,
+    CommentCreate
   },
   data() {
     return {
@@ -407,6 +414,7 @@ export default {
       viewUpdateRequestView: false,
       viewLitigationCreate: false,
       viewLitigationView: false,
+      viewCommentCreate: false,
       updateRequest: null,
       lastUpdateRequest: null,
       litigation: null
@@ -433,7 +441,8 @@ export default {
         this.viewUpdateRequestCreate ||
         this.viewUpdateRequestView ||
         this.viewLitigationCreate ||
-        this.viewLitigationView
+        this.viewLitigationView ||
+        this.viewCommentCreate
       ) {
         return "col-sm-7";
       }
@@ -446,7 +455,8 @@ export default {
         this.viewUpdateRequestCreate ||
         this.viewUpdateRequestView ||
         this.viewLitigationCreate ||
-        this.viewLitigationView
+        this.viewLitigationView ||
+        this.viewCommentCreate
       ) {
         return "col-sm-5";
       }
@@ -600,6 +610,7 @@ export default {
       this.viewTimeline = false;
       this.viewLitigationCreate = false;
       this.viewLitigationView = false;
+      this.viewCommentCreate = false;
     },
     showUpdateRequestComponent() {
       if (this.updateRequest !== null) {
@@ -613,6 +624,7 @@ export default {
       this.viewChat = false;
       this.viewLitigationCreate = false;
       this.viewLitigationView = false;
+      this.viewCommentCreate = false;
     },
     showLitigationComponent() {
       if (this.litigation !== null) {
@@ -626,6 +638,7 @@ export default {
       this.viewChat = false;
       this.viewUpdateRequestCreate = false;
       this.viewUpdateRequestView = false;
+      this.viewCommentCreate = false;
     },
     showTimelineComponent() {
       this.viewTimeline = true;
@@ -634,6 +647,7 @@ export default {
       this.viewUpdateRequestView = false;
       this.viewLitigationCreate = false;
       this.viewLitigationView = false;
+      this.viewCommentCreate = false;
 
       if (this.$refs.btnChat !== undefined) {
         this.$refs.btnChat.blur();
@@ -641,6 +655,15 @@ export default {
       if (this.$refs.btnAskUpdate !== undefined) {
         this.$refs.btnAskUpdate.blur();
       }
+    },
+    showCommentCreate() {
+      this.viewCommentCreate = true;
+      this.viewChat = false;
+      this.viewUpdateRequestCreate = false;
+      this.viewUpdateRequestView = false;
+      this.viewTimeline = false;
+      this.viewLitigationCreate = false;
+      this.viewLitigationView = false;
     }
   }
 };
