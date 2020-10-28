@@ -286,6 +286,7 @@ import { queryServicePurchaseTimeline } from "@/graphql/service-purchase-queries
 import Chat from "@/view/pages/user/chat/Chat";
 import UpdateRequestView from "@/view/pages/user/update-requests/View";
 import LitigationView from "@/view/pages/user/litigation/View";
+import { orderSubscription } from "@/graphql/order-subscriptions";
 
 export default {
   name: "OrderView",
@@ -344,6 +345,7 @@ export default {
   mounted() {},
   beforeMount() {
     this.fetchData();
+    this.subscribeToOrder();
   },
   methods: {
     fetchData() {
@@ -359,21 +361,7 @@ export default {
       });
 
       if (window._.isEmpty(result.errors)) {
-        this.servicePurchase = result.data.servicePurchase;
-        this.updateRequest = result.data.servicePurchase.updateRequest;
-        this.litigation = result.data.servicePurchase.litigation;
-
-        if (this.updateRequest !== null || this.litigation !== null) {
-          if (this.updateRequest !== null) {
-            this.showUpdateRequestComponent();
-          }
-
-          if (this.litigation !== null) {
-            this.showLitigationComponent();
-          }
-        } else {
-          this.showTimelineComponent();
-        }
+        this.updateUI(result.data.servicePurchase);
 
         await this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
         await this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
@@ -471,6 +459,47 @@ export default {
         .$(this.$refs.btnDeliver)
         .find("i")
         .css("display", "");
+    },
+    subscribeToOrder() {
+      const observer = this.$apollo.subscribe({
+        query: orderSubscription,
+        variables: {
+          id: this.$route.params.id
+        }
+      });
+
+      const $this = this;
+      observer.subscribe({
+        next(data) {
+          if (data.data.servicePurchaseSubscription.servicePurchase !== null) {
+            $this.updateUI(
+              data.data.servicePurchaseSubscription.servicePurchase
+            );
+          }
+        },
+        error() {}
+      });
+    },
+    updateUI(servicePurchase) {
+      this.servicePurchase = servicePurchase;
+      this.updateRequest = servicePurchase.updateRequest;
+      this.litigation = servicePurchase.litigation;
+
+      if (servicePurchase.timelines !== undefined) {
+        this.timelines = servicePurchase.timelines;
+      }
+
+      if (this.updateRequest !== null || this.litigation !== null) {
+        if (this.updateRequest !== null) {
+          this.showUpdateRequestComponent();
+        }
+
+        if (this.litigation !== null) {
+          this.showLitigationComponent();
+        }
+      } else {
+        this.showTimelineComponent();
+      }
     },
     updateRequestUpdated(updateRequest) {
       this.updateRequest = updateRequest;

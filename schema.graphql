@@ -445,7 +445,7 @@ type ServiceCommentType {
     replyAt: DateTime
     replyContent: String
     servicePurchase: ServicePurchaseType
-    type: String!
+    type: String
     updatedAt: DateTime!
 }
 
@@ -519,6 +519,10 @@ type ServicePurchaseServiceOptionType {
     serviceOption: ServiceOptionType!
     servicePurchase: ServicePurchaseType!
     updatedAt: DateTime!
+}
+
+type ServicePurchaseSubscription {
+    servicePurchase: ServicePurchaseType
 }
 
 type ServicePurchaseTimeLineType {
@@ -631,6 +635,7 @@ type Subscription {
     accountOnlineSubscription(account: UUID!): AccountOnlineSubscription
     chatMessageSubscription(servicePurchase: UUID!): ChatMessageSubscription
     onlineSubscription: OnlineSubscription
+    servicePurchaseSubscription(id: UUID!): ServicePurchaseSubscription
 }
 
 type UpdateAccount {

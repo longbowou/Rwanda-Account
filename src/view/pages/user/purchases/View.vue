@@ -392,6 +392,7 @@ import UpdateRequestView from "@/view/pages/user/update-requests/View";
 import LitigationCreate from "@/view/pages/user/litigation/Create";
 import LitigationView from "@/view/pages/user/litigation/View";
 import CommentCreate from "@/view/pages/user/comments/Create";
+import { purchaseSubscription } from "@/graphql/purchase-subscriptions";
 
 export default {
   name: "PurchaseView",
@@ -468,6 +469,7 @@ export default {
   mounted() {},
   beforeMount() {
     this.fetchData();
+    this.subscribeToPurchase();
   },
   methods: {
     fetchData() {
@@ -483,22 +485,7 @@ export default {
       });
 
       if (window._.isEmpty(result.errors)) {
-        this.servicePurchase = result.data.servicePurchase;
-        this.updateRequest = result.data.servicePurchase.updateRequest;
-        this.lastUpdateRequest = result.data.servicePurchase.lastUpdateRequest;
-        this.litigation = result.data.servicePurchase.litigation;
-
-        if (this.updateRequest !== null || this.litigation !== null) {
-          if (this.updateRequest !== null) {
-            this.showUpdateRequestComponent();
-          }
-
-          if (this.litigation !== null) {
-            this.showLitigationComponent();
-          }
-        } else {
-          this.showTimelineComponent();
-        }
+        this.updateUI(result.data.servicePurchase);
 
         await this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
         await this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
@@ -595,6 +582,48 @@ export default {
         .$(this.$refs.btnApprove)
         .find("i")
         .css("display", "");
+    },
+    subscribeToPurchase() {
+      const observer = this.$apollo.subscribe({
+        query: purchaseSubscription,
+        variables: {
+          id: this.$route.params.id
+        }
+      });
+
+      const $this = this;
+      observer.subscribe({
+        next(data) {
+          if (data.data.servicePurchaseSubscription.servicePurchase !== null) {
+            $this.updateUI(
+              data.data.servicePurchaseSubscription.servicePurchase
+            );
+          }
+        },
+        error() {}
+      });
+    },
+    updateUI(servicePurchase) {
+      this.servicePurchase = servicePurchase;
+      this.updateRequest = servicePurchase.updateRequest;
+      this.lastUpdateRequest = servicePurchase.lastUpdateRequest;
+      this.litigation = servicePurchase.litigation;
+
+      if (servicePurchase.timelines !== undefined) {
+        this.timelines = servicePurchase.timelines;
+      }
+
+      if (this.updateRequest !== null || this.litigation !== null) {
+        if (this.updateRequest !== null) {
+          this.showUpdateRequestComponent();
+        }
+
+        if (this.litigation !== null) {
+          this.showLitigationComponent();
+        }
+      } else {
+        this.showTimelineComponent();
+      }
     },
     updateRequestCreated(updateRequest) {
       this.updateRequest = updateRequest;
