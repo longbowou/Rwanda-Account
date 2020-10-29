@@ -79,7 +79,8 @@ export default {
   mixins: [orderActionsMixin],
   data() {
     return {
-      datatable: {}
+      datatable: {},
+      interval: null
     };
   },
   computed: {
@@ -168,6 +169,10 @@ export default {
       }
     });
 
+    this.interval = setInterval(function() {
+      $this.datatable.ajax.reload(null, false);
+    }, 10000);
+
     window
       .$("#service-orders-dataTable")
       .on("click", ".btn-accept", function() {
@@ -225,6 +230,9 @@ export default {
         .$(btn)
         .removeClass("disabled spinner spinner-success spinner-right");
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   }
 };
 </script>

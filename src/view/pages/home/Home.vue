@@ -116,7 +116,7 @@
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
-import { queryServices } from "@/graphql/service-queries";
+import { queryServicesForPreview } from "@/graphql/service-queries";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import ServiceCard from "@/view/pages/service/ServiceCard";
 
@@ -145,7 +145,7 @@ export default {
     async fetchServices() {
       this.isFetchingService = true;
       const result = await this.$apollo.query({
-        query: queryServices
+        query: queryServicesForPreview
       });
 
       if (window._.isEmpty(result.errors)) {

@@ -97,7 +97,7 @@ export default {
       return this.$route.params.deliverableId === undefined;
     },
     updating() {
-      return this.$route.params.deliverableId !== undefined;
+      return !this.creating;
     },
     options() {
       let options = [];

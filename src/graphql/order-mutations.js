@@ -12,6 +12,7 @@ export const acceptServicePurchase = gql`
   }
   ${errorFields}
 `;
+
 export const acceptServicePurchaseFullFields = gql`
   mutation($input: AcceptServicePurchaseInput!) {
     acceptServicePurchase(input: $input) {
@@ -20,12 +21,17 @@ export const acceptServicePurchaseFullFields = gql`
       }
       servicePurchase {
         ...orderFields
+        account {
+          id
+          fullName
+        }
       }
     }
   }
   ${errorFields}
   ${orderFields}
 `;
+
 export const deliverServicePurchase = gql`
   mutation($input: DeliverServicePurchaseInput!) {
     deliverServicePurchase(input: $input) {
@@ -36,6 +42,7 @@ export const deliverServicePurchase = gql`
   }
   ${errorFields}
 `;
+
 export const deliverServicePurchaseFullFields = gql`
   mutation($input: DeliverServicePurchaseInput!) {
     deliverServicePurchase(input: $input) {
@@ -44,6 +51,10 @@ export const deliverServicePurchaseFullFields = gql`
       }
       servicePurchase {
         ...orderFields
+        account {
+          id
+          fullName
+        }
       }
     }
   }

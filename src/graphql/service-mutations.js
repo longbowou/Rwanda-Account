@@ -19,86 +19,26 @@ export const createService = gql`
   ${accountFields}
 `;
 
-export const createLitigation = gql`
-  mutation($input: CreateLitigationInput!) {
-    createLitigation(input: $input) {
+export const updateService = gql`
+  mutation($input: UpdateServiceInput!) {
+    updateService(input: $input) {
       errors {
         ...errorFields
       }
-      litigation {
-        id
-        title
-        description
-        servicePurchase {
-          id
+      service {
+        account {
+          ...accountFields
         }
       }
     }
   }
   ${errorFields}
+  ${accountFields}
 `;
 
-export const createServiceOption = gql`
-  mutation($input: CreateServiceOptionInput!) {
-    createServiceOption(input: $input) {
-      errors {
-        ...errorFields
-      }
-      serviceOption {
-        id
-        label
-        description
-        price
-        delay
-        published
-        service {
-          id
-        }
-      }
-    }
-  }
-  ${errorFields}
-`;
-export const updateServiceOption = gql`
-  mutation($input: UpdateServiceOptionInput!) {
-    updateServiceOption(input: $input) {
-      errors {
-        ...errorFields
-      }
-      serviceOption {
-        id
-        label
-        description
-        price
-        delay
-        published
-      }
-    }
-  }
-  ${errorFields}
-`;
-export const handleLitigation = gql`
-  mutation($input: HandleLitigationInput!) {
-    handleLitigation(input: $input) {
-      errors {
-        ...errorFields
-      }
-      litigation {
-        id
-        title
-        description
-        servicePurchase {
-          id
-        }
-      }
-    }
-  }
-  ${errorFields}
-`;
-
-export const deleteServiceOption = gql`
+export const deleteService = gql`
   mutation($id: UUID!) {
-    deleteServiceOption(id: $id) {
+    deleteService(id: $id) {
       errors {
         ...errorFields
       }

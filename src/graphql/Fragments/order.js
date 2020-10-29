@@ -1,19 +1,9 @@
 import gql from "graphql-tag";
+import { servicePurchaseFields } from "@/graphql/Fragments/service-purchase";
 
 export const orderFields = gql`
   fragment orderFields on ServicePurchaseType {
-    id
-    number
-    price
-    status
-    initiated
-    accepted
-    delivered
-    approved
-    canceled
-    inDispute
-    deadlineAt
-    hasBeenAccepted
+    ...servicePurchaseFields
     canBeAccepted
     canBeDelivered
     canAddDeliverable
@@ -21,17 +11,6 @@ export const orderFields = gql`
       id
       title
     }
-    serviceOptions {
-      id
-      label
-      delay
-      price
-    }
-    timelines {
-      happenAt
-      status
-      color
-      description
-    }
   }
+  ${servicePurchaseFields}
 `;

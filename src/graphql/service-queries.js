@@ -1,23 +1,13 @@
 import gql from "graphql-tag";
+import { serviceOptionFields } from "@/graphql/Fragments/service-option";
 
-export const queryServices = gql`
+export const queryServicesForPreview = gql`
   query {
     services {
       id
       title
       account {
         fullName
-      }
-      stars
-      servicemediaSet {
-        fileUrl
-        url
-      }
-      serviceoptionSet {
-        label
-        description
-        price
-        delay
       }
     }
   }
@@ -32,20 +22,7 @@ export const queryServiceCategories = gql`
   }
 `;
 
-export const queryLitigation = gql`
-  query service($id: UUID!) {
-    litigation(id: $id) {
-      id
-      title
-      description
-      servicePurchase {
-        id
-      }
-    }
-  }
-`;
-
-export const queryService = gql`
+export const queryServiceForDetail = gql`
   query service($id: UUID!) {
     service(id: $id) {
       id
@@ -54,9 +31,12 @@ export const queryService = gql`
       delay
       delayDisplay
       keywords
-      published
       stars
       createdAt
+      optionsCount
+      optionsCountDisplay
+      basePrice
+      published
       serviceCategory {
         id
         label
@@ -68,42 +48,52 @@ export const queryService = gql`
         fileUrl
         url
       }
-      serviceoptionSet {
+      options {
+        ...serviceOptionFields
+      }
+    }
+  }
+  ${serviceOptionFields}
+`;
+
+export const queryServiceForView = gql`
+  query service($id: UUID!) {
+    service(id: $id) {
+      id
+      title
+      content
+      delayDisplay
+      keywords
+      createdAt
+      publishedDisplay
+      serviceCategory {
         label
-        description
-        price
-        delay
       }
     }
   }
 `;
-export const queryServiceOptions = gql`
-  query {
-    serviceOptions {
+
+export const queryServiceForEdit = gql`
+  query service($id: UUID!) {
+    service(id: $id) {
       id
-      label
-      description
+      title
+      content
       delay
-      price
+      keywords
       published
-      service {
+      serviceCategory {
         id
       }
     }
   }
 `;
-export const queryServiceOption = gql`
-  query serviceOption($id: UUID!) {
-    serviceOption(id: $id) {
+
+export const queryServiceBasicFields = gql`
+  query service($id: UUID!) {
+    service(id: $id) {
       id
-      label
-      description
-      delay
-      price
-      published
-      service {
-        id
-      }
+      title
     }
   }
 `;
@@ -125,6 +115,7 @@ export const queryServiceOrderPreview = gql`
         id
         label
         price
+        delayPreviewDisplay
       }
       service {
         id

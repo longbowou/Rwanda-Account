@@ -92,6 +92,17 @@
 
                 <div class="form-group row">
                   <label class="col-form-label col-4 text-lg-right text-left"
+                    >Published</label
+                  >
+                  <div class="col-8">
+                    <span class="form-control-plaintext font-weight-bold">{{
+                      service.publishedDisplay
+                    }}</span>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-4 text-lg-right text-left"
                     >Created at</label
                   >
                   <div class="col-8">
@@ -108,16 +119,21 @@
       </div>
     </div>
     <!--end::Dashboard-->
+
+    <service-options />
   </div>
 </template>
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import { queryService } from "@/graphql/service-queries";
+import { queryServiceForView } from "@/graphql/service-queries";
+import ServiceOptions from "@/view/pages/user/services/options/Datatable";
 
 export default {
   name: "ServiceView",
+  components: { ServiceOptions },
+  comments: { ServiceOptions },
   data() {
     return {
       service: {}
@@ -139,7 +155,7 @@ export default {
   methods: {
     async fetchService() {
       let result = await this.$apollo.query({
-        query: queryService,
+        query: queryServiceForView,
         variables: {
           id: this.$route.params.id
         }

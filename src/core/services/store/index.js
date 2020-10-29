@@ -9,6 +9,7 @@ import htmlHead from "./modules/htmlhead.module";
 import parameters from "./modules/parameters.module";
 import router from "./modules/router.module";
 import notifications from "./modules/notifications.module";
+import purchase from "./modules/purchase.module";
 
 Vue.use(Vuex);
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     htmlHead,
     parameters,
     router,
-    notifications
+    notifications,
+    purchase
   }
 });

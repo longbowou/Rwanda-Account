@@ -15,6 +15,14 @@
             <h3 class="card-label">Service Options</h3>
           </div>
           <div class="card-toolbar">
+            <button
+              @click="$router.push({ name: 'user-services' })"
+              class="btn btn-light-dark font-weight-bolder mr-2"
+            >
+              <i class="ki ki-long-arrow-back icon-lg"></i>
+              Back
+            </button>
+
             <router-link
               :to="{ name: 'service-options-create' }"
               v-slot="{ href, navigate, isActive, isExactActive }"
@@ -30,14 +38,6 @@
                 Add a Service Option
               </a>
             </router-link>
-
-            <button
-              @click="$router.push({ name: 'user-services' })"
-              class="btn btn-light-dark font-weight-bolder ml-2"
-            >
-              <i class="ki ki-long-arrow-back icon-lg"></i>
-              Back
-            </button>
           </div>
         </div>
         <div class="card-body">
@@ -49,7 +49,7 @@
               >
                 <thead>
                   <tr>
-                    <th>Title</th>
+                    <th style="width: 25%">Title</th>
                     <th>Delay</th>
                     <th>Price</th>
                     <th>Published</th>
@@ -60,7 +60,7 @@
 
                 <tfoot>
                   <tr>
-                    <th>Title</th>
+                    <th style="width: 25%">Title</th>
                     <th>Delay</th>
                     <th>Price</th>
                     <th>Published</th>
@@ -90,9 +90,9 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { servicesOptionsUrl } from "@/core/server-side/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
-import { deleteServiceOption } from "@/graphql/service-mutations";
 import { toastMixin } from "@/view/mixins";
-import { queryService } from "@/graphql/service-queries";
+import { queryServiceBasicFields } from "@/graphql/service-queries";
+import { deleteServiceOption } from "@/graphql/service-options-mutations";
 
 export default {
   name: "ServiceOptions",
@@ -194,7 +194,7 @@ export default {
     },
     async fetchService() {
       let result = await this.$apollo.query({
-        query: queryService,
+        query: queryServiceBasicFields,
         variables: {
           id: this.$route.params.id
         },

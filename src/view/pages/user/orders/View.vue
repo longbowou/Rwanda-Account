@@ -125,26 +125,45 @@
 
           <div class="card-body">
             <div class="row mb-2">
-              <h6 class="col-sm-9 font-weight-bold">
+              <h3 class="col-sm-9 text-primary font-weight-bold">
                 {{
                   servicePurchase.service ? servicePurchase.service.title : null
                 }}
-              </h6>
-              <h5 class="col-sm-3 font-weight-bold text-right">
+              </h3>
+              <h3 class="col-sm-3 text-primary font-weight-bold text-right">
                 {{ basePrice }} {{ currency }}
-              </h5>
+              </h3>
             </div>
 
-            <template v-for="serviceOption of servicePurchase.serviceOptions">
-              <div :key="serviceOption.id" class="row mb-2">
-                <h6 class="col-sm-9 font-weight-bold">
-                  {{ serviceOption.label }}
-                </h6>
-                <h5 class="col-sm-3 font-weight-bold text-right">
-                  {{ serviceOption.price }} {{ currency }}
-                </h5>
+            <div v-if="hasOptions">
+              <div class="row justify-content-center mb-3">
+                <div class="col-10">
+                  <hr />
+                </div>
               </div>
-            </template>
+
+              <template v-for="serviceOption of servicePurchase.serviceOptions">
+                <div
+                  :key="serviceOption.id"
+                  class="row mb-2 justify-content-center"
+                >
+                  <h6 class="col-sm-9 font-weight-bold">
+                    {{ serviceOption.label }} <br />
+                    <small>{{ serviceOption.delayPreviewDisplay }}</small>
+                  </h6>
+                  <h5 class="col-sm-3 font-weight-bold text-right">
+                    {{ serviceOption.price }} {{ currency }}
+                  </h5>
+                  <div class="col-10">
+                    <hr />
+                  </div>
+                </div>
+              </template>
+
+              <p class="text-muted">
+                {{ servicePurchase.delay }}
+              </p>
+            </div>
 
             <hr />
 
@@ -170,7 +189,7 @@
         <!--end::Card-->
         <router-view
           v-if="servicePurchase.hasBeenAccepted"
-          v-on:deliverables-updated="fetchOrder"
+          v-on:deliverables-updated="fetchData"
         />
       </div>
 
@@ -206,7 +225,7 @@
           </div>
         </div>
 
-        <timeline :timelines="servicePurchase.timelines" />
+        <timeline :timelines="timelines" />
 
         <user-card :user="servicePurchase.account" />
       </div>
@@ -230,6 +249,7 @@ import { orderActionsMixin, toastMixin } from "@/view/mixins";
 import { queryOrder } from "@/graphql/order-queries";
 import UserCard from "@/view/pages/partials/UserCard";
 import Timeline from "@/view/pages/user/purchases/Timeline";
+import { queryServicePurchaseTimeline } from "@/graphql/service-purchase-queries";
 
 export default {
   name: "OrderView",
@@ -237,24 +257,35 @@ export default {
   components: { UserCard, Timeline },
   data() {
     return {
-      servicePurchase: {}
+      servicePurchase: {},
+      timelines: {}
     };
   },
   computed: {
     ...mapGetters(["currentAccount", "currency", "basePrice"]),
     getTitle() {
-      if (this.servicePurchase.number !== undefined) {
+      if (this.servicePurchase.number) {
         return "Order " + this.servicePurchase.number;
       }
 
       return "";
+    },
+    hasOptions() {
+      if (this.servicePurchase.serviceOptions) {
+        return this.servicePurchase.serviceOptions.length > 0;
+      }
+      return false;
     }
   },
   mounted() {},
   beforeMount() {
-    this.fetchOrder();
+    this.fetchData();
   },
   methods: {
+    fetchData() {
+      this.fetchOrder();
+      this.fetchTimeline();
+    },
     async fetchOrder() {
       const result = await this.$apollo.query({
         query: queryOrder,
@@ -268,6 +299,18 @@ export default {
 
         await this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
         await this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
+      }
+    },
+    async fetchTimeline() {
+      const result = await this.$apollo.query({
+        query: queryServicePurchaseTimeline,
+        variables: {
+          id: this.$route.params.id
+        }
+      });
+
+      if (window._.isEmpty(result.errors)) {
+        this.timelines = result.data.servicePurchase.timelines;
       }
     },
     async handleAcceptOrder() {
@@ -294,6 +337,7 @@ export default {
       );
       if (window._.isObject(result)) {
         this.servicePurchase = result.servicePurchase;
+        await this.fetchTimeline();
       } else {
         this.$refs.btnAccept.blur();
       }
@@ -334,6 +378,7 @@ export default {
 
       if (window._.isObject(result)) {
         this.servicePurchase = result.servicePurchase;
+        await this.fetchTimeline();
       } else {
         this.$refs.btnDeliver.blur();
       }
