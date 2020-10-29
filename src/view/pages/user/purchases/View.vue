@@ -85,17 +85,6 @@
             </div>
             <div class="card-toolbar">
               <button
-                ref="btnCancel"
-                @click="handleCancelPurchase"
-                v-if="servicePurchase.canBeCanceled"
-                data-toggle="tooltip"
-                title="Cancel"
-                class="btn btn-lg btn-icon btn-light-danger mr-2"
-              >
-                <i class="flaticon2-cancel"></i>
-              </button>
-
-              <button
                 ref="btnApprove"
                 @click="handleApprovePurchase"
                 v-if="servicePurchase.canBeApproved"
@@ -104,6 +93,17 @@
                 class="btn btn-lg btn-icon btn-light-success mr-2"
               >
                 <i class="fas fa-check-double"></i>
+              </button>
+
+              <button
+                ref="btnCancel"
+                @click="handleCancelPurchase"
+                v-if="servicePurchase.canBeCanceled"
+                data-toggle="tooltip"
+                title="Cancel"
+                class="btn btn-lg btn-icon btn-light-danger mr-2"
+              >
+                <i class="flaticon2-cancel"></i>
               </button>
 
               <button
