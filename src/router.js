@@ -158,6 +158,15 @@ export default new Router({
                 import("@/view/pages/user/orders/deliverables/Datatable"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
+
+            {
+              path: "/user/orders/:id/litigation",
+              name: "orders-litigation",
+              component: () =>
+                import("@/view/pages/user/services/litigations/Litigation"),
+              meta: { requiresAuth: true, scrollToTop: false }
+            },
+
             {
               path: "/orders/:id/deliverables/create",
               name: "order-deliverables-create",
