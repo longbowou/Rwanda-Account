@@ -189,7 +189,7 @@
                 }}
               </h3>
               <h3 class="col-sm-3 text-primary font-weight-bold text-right">
-                {{ basePrice }} {{ currency }}
+                {{ servicePurchase.basePrice }} {{ currency }}
               </h3>
             </div>
 
@@ -423,7 +423,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["currentAccount", "currency", "basePrice"]),
+    ...mapGetters(["currentAccount", "currency"]),
     getTitle() {
       if (this.servicePurchase.number !== undefined) {
         return "Purchase " + this.servicePurchase.number;

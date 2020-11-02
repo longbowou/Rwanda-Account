@@ -32,6 +32,7 @@ type AccountMutation {
     approveServicePurchase(input: ApproveServicePurchaseInput!): ApproveServicePurchase
     cancelServicePurchase(input: CancelServicePurchaseInput!): CancelServicePurchase
     changeAccountPassword(input: ChangeAccountPasswordInput!): ChangeAccountPassword
+    changeAdminPassword(input: ChangeAdminPasswordInput!): ChangeAdminPassword
     createAccount(input: AccountInput!): CreateAccount
     createAdmin(input: AdminInput!): CreateAdmin
     createChatMessage(input: CreateChatMessageInput!): CreateChatMessage
@@ -63,7 +64,8 @@ type AccountMutation {
     replyServiceComment(input: ReplyServiceCommentInput!): ReplyServiceComment
     revokeToken(refreshToken: String): Revoke
     updateAccount(input: UpdateAccountInput!): UpdateAccount
-    updateAdmin(input: AdminUpdateInput!): UpdateAdmin
+    updateAdmin(input: UpdateAdminInput!): UpdateAdmin
+    updateAdminProfile(input: UpdateAdminProfileInput!): UpdateAdminProfile
     updateDeliverable(input: UpdateDeliverableInput!): UpdateDeliverable
     updateService(input: UpdateServiceInput!): UpdateService
     updateServiceCategory(input: UpdateServiceCategoryInput!): UpdateServiceCategory
@@ -163,6 +165,11 @@ type CancelServicePurchase {
 
 type ChangeAccountPassword {
     account: AccountType
+    errors: [ErrorType]
+}
+
+type ChangeAdminPassword {
+    admin: AdminType
     errors: [ErrorType]
 }
 
@@ -353,6 +360,7 @@ type LitigationType {
     account: AccountType!
     admin: AdminType
     approved: Boolean!
+    canBeHandled: Boolean!
     canceled: Boolean!
     content: String!
     createdAt: DateTime!
@@ -538,6 +546,7 @@ type ServicePurchaseType {
     account: AccountType!
     approved: Boolean!
     approvedAt: DateTime
+    basePrice: String!
     canAddDeliverable: Boolean!
     canAskForUpdate: Boolean!
     canBeAccepted: Boolean!
@@ -648,6 +657,11 @@ type UpdateAdmin {
     errors: [ErrorType]
 }
 
+type UpdateAdminProfile {
+    admin: AdminType
+    errors: [ErrorType]
+}
+
 type UpdateDeliverable {
     deliverable: DeliverableType
     errors: [ErrorType]
@@ -705,16 +719,6 @@ input AdminInput {
     username: String!
 }
 
-input AdminUpdateInput {
-    email: String
-    firstName: String
-    id: UUID!
-    isActive: Boolean
-    isSuperuser: Boolean
-    lastName: String
-    username: String
-}
-
 input ApproveServicePurchaseInput {
     id: UUID!
 }
@@ -724,6 +728,12 @@ input CancelServicePurchaseInput {
 }
 
 input ChangeAccountPasswordInput {
+    currentPassword: String!
+    password: String!
+    passwordConfirmation: String!
+}
+
+input ChangeAdminPasswordInput {
     currentPassword: String!
     password: String!
     passwordConfirmation: String!
@@ -850,6 +860,24 @@ input ServiceOptionInput {
 input UpdateAccountInput {
     email: String
     firstName: String
+    lastName: String
+    username: String
+}
+
+input UpdateAdminInput {
+    email: String
+    firstName: String
+    id: UUID!
+    isActive: Boolean
+    isSuperuser: Boolean
+    lastName: String
+    username: String
+}
+
+input UpdateAdminProfileInput {
+    email: String
+    firstName: String
+    id: UUID!
     lastName: String
     username: String
 }

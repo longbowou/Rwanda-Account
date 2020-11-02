@@ -160,14 +160,6 @@ export default new Router({
             },
 
             {
-              path: "/user/orders/:id/litigation",
-              name: "orders-litigation",
-              component: () =>
-                import("@/view/pages/user/services/litigations/Litigation"),
-              meta: { requiresAuth: true, scrollToTop: false }
-            },
-
-            {
               path: "/orders/:id/deliverables/create",
               name: "order-deliverables-create",
               component: () =>
