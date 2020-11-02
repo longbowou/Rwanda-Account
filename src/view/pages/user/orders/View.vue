@@ -214,10 +214,10 @@
           </div>
         </div>
         <!--end::Card-->
-        <router-view
-          v-if="servicePurchase.hasBeenAccepted"
-          v-on:deliverables-updated="fetchData"
-        />
+        <!--        <router-view-->
+        <!--          v-if="servicePurchase.hasBeenAccepted"-->
+        <!--          v-on:deliverables-updated="fetchData"-->
+        <!--        />-->
       </div>
 
       <div :class="sideDivClasses">

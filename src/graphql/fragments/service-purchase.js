@@ -23,6 +23,7 @@ export const litigationFields = gql`
     content
     opened
     handled
+    approved
     canceled
     status
     decision
@@ -34,6 +35,7 @@ export const servicePurchaseFields = gql`
     id
     number
     price
+    basePrice
     status
     delay
     initiated

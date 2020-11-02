@@ -249,7 +249,7 @@
           </div>
         </div>
         <!--end::Card-->
-        <router-view v-if="servicePurchase.hasBeenAccepted" />
+        <!--        <router-view v-if="servicePurchase.hasBeenAccepted" />-->
       </div>
 
       <div :class="sideDivClasses">
@@ -358,7 +358,7 @@
         />
 
         <litigation-create
-          v-on:litigation-created="viewLitigationCreate"
+          v-on:litigation-created="updateLitigationCreated"
           v-if="viewLitigationCreate"
         />
 
