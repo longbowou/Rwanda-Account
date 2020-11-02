@@ -190,7 +190,7 @@ export default {
       window
         .$(this.$refs.btnAccept)
         .addClass("btn-light disabled spinner spinner-success spinner-right");
-      window.$(this.$refs.btnAccept).attr("disabled", "");
+      window.$(this.$refs.btnAccept).attr("disabled", true);
       window
         .$(this.$refs.btnAccept)
         .find("i")

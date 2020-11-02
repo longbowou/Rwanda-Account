@@ -23,6 +23,7 @@ export const litigationFields = gql`
     content
     opened
     handled
+    canceled
     status
     decision
   }
@@ -40,6 +41,7 @@ export const servicePurchaseFields = gql`
     refused
     delivered
     approved
+    canceled
     inDispute
     updateInitiated
     updateAccepted
