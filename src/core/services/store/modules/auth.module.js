@@ -2,6 +2,7 @@ import JwtService from "@/core/services/jwt.service";
 import { queryAccount } from "@/graphql/account-queries";
 import { apolloClient } from "@/vue-apollo";
 import _ from "lodash";
+import store from "@/core/services/store/index";
 
 // action types
 export const VERIFY_AUTH = "verifyAuth";
@@ -19,7 +20,7 @@ const currentAuth = JwtService.getAuth();
 const isAuthenticated = currentAuth !== null;
 if (isAuthenticated) {
   apolloClient.query({ query: queryAccount }).then(result => {
-    state.account = result.data.account;
+    store.dispatch(UPDATE_USER, { account: result.data.account });
   });
 }
 

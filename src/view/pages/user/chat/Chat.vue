@@ -141,82 +141,90 @@
 
     <!--begin::Footer-->
     <div class="card-footer align-items-center p-3">
-      <!--begin::Compose-->
-      <div style="height: 150px" id="message-content"></div>
-      <div class="d-flex align-items-center justify-content-between mt-3">
-        <div class="">
-          <button
-            id="btn-attach-file"
-            @click="chooseFile"
-            class="btn btn-clean btn-light btn-square btn-md mr-1"
-          >
-            <i class="fas fa-file-upload"></i>
-            Attach a file
-          </button>
+      <div v-if="servicePurchase.canChat">
+        <!--begin::Compose-->
+        <div style="height: 150px" id="message-content"></div>
+        <div class="d-flex align-items-center justify-content-between mt-3">
+          <div class="">
+            <button
+              id="btn-attach-file"
+              @click="chooseFile"
+              class="btn btn-clean btn-light btn-square btn-md mr-1"
+            >
+              <i class="fas fa-file-upload"></i>
+              Attach a file
+            </button>
+          </div>
+          <div>
+            <button
+              id="btn_submit"
+              :disabled="messageContentIsEmpty"
+              @click="sendChatMessage"
+              type="button"
+              class="btn btn-light-success btn-md btn-square font-weight-bold chat-send"
+            >
+              Send
+            </button>
+          </div>
         </div>
-        <div>
-          <button
-            id="btn_submit"
-            :disabled="messageContentIsEmpty"
-            @click="sendChatMessage"
-            type="button"
-            class="btn btn-light-success btn-md btn-square font-weight-bold chat-send"
-          >
-            Send
-          </button>
-        </div>
-      </div>
 
-      <div class="d-flex align-items-center justify-content-between mt-3">
-        <div class="col-sm-12 p-0">
-          <div class="dropzone dropzone-multi" id="chat-file-upload-dropzone">
-            <div class="dropzone-panel mb-lg-0 mb-2">
-              <a id="attach-file" class="dropzone-select"> </a>
-            </div>
+        <div class="d-flex align-items-center justify-content-between mt-3">
+          <div class="col-sm-12 p-0">
+            <div class="dropzone dropzone-multi" id="chat-file-upload-dropzone">
+              <div class="dropzone-panel mb-lg-0 mb-2">
+                <a id="attach-file" class="dropzone-select"> </a>
+              </div>
 
-            <div class="dropzone-items">
-              <div class="dropzone-item" style="display: none">
-                <div class="dropzone-file">
-                  <div
-                    class="dropzone-filename"
-                    title="some_image_file_name.jpg"
-                  >
-                    <span data-dz-name class="mr-2"
-                      >some_image_file_name.jpg</span
+              <div class="dropzone-items">
+                <div class="dropzone-item" style="display: none">
+                  <div class="dropzone-file">
+                    <div
+                      class="dropzone-filename"
+                      title="some_image_file_name.jpg"
                     >
-                    <strong>(<span data-dz-size>340kb</span>)</strong>
-                    <div id="success-div" style="display: none">
-                      <i class="ml-2 icon-lg text-success flaticon2-correct" />
+                      <span data-dz-name class="mr-2"
+                        >some_image_file_name.jpg</span
+                      >
+                      <strong>(<span data-dz-size>340kb</span>)</strong>
+                      <div id="success-div" style="display: none">
+                        <i
+                          class="ml-2 icon-lg text-success flaticon2-correct"
+                        />
+                      </div>
+                    </div>
+                    <div class="dropzone-error" data-dz-errormessage></div>
+                  </div>
+                  <div class="dropzone-progress">
+                    <div class="progress">
+                      <div
+                        class="progress-bar bg-primary"
+                        role="progressbar"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="0"
+                        data-dz-uploadprogress
+                      ></div>
                     </div>
                   </div>
-                  <div class="dropzone-error" data-dz-errormessage></div>
-                </div>
-                <div class="dropzone-progress">
-                  <div class="progress">
-                    <div
-                      class="progress-bar bg-primary"
-                      role="progressbar"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      aria-valuenow="0"
-                      data-dz-uploadprogress
-                    ></div>
+                  <div class="dropzone-toolbar">
+                    <span class="dropzone-delete" data-dz-remove
+                      ><i class="flaticon2-cross"></i
+                    ></span>
                   </div>
-                </div>
-                <div class="dropzone-toolbar">
-                  <span class="dropzone-delete" data-dz-remove
-                    ><i class="flaticon2-cross"></i
-                  ></span>
                 </div>
               </div>
             </div>
+            <span class="form-text text-muted"
+              >Max file size is <strong>1GB</strong></span
+            >
           </div>
-          <span class="form-text text-muted"
-            >Max file size is <strong>1GB</strong></span
-          >
         </div>
+        <!--begin::Compose-->
       </div>
-      <!--begin::Compose-->
+
+      <div v-if="!servicePurchase.canChat">
+        <h5 class="text-center text-muted">You cannot chat for now !</h5>
+      </div>
     </div>
     <!--end::Footer-->
   </div>
@@ -243,7 +251,7 @@ export default {
   name: "Chat",
   components: { ChatMessage },
   comments: { ChatMessage },
-  props: ["fromPurchase"],
+  props: ["fromPurchase", "servicePurchase"],
   data() {
     return {
       chat: [],

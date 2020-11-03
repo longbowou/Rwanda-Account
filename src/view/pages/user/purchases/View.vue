@@ -307,6 +307,49 @@
           </div>
         </div>
 
+        <div
+          v-if="litigation !== null && litigation.handled"
+          :class="[
+            'alert alert-custom alert-notice fade show m-0 mb-5',
+            litigation.approved && 'alert-light-success',
+            litigation.canceled && 'alert-light-danger'
+          ]"
+          role="alert"
+        >
+          <div class="alert-icon">
+            <span
+              :class="[
+                'svg-icon svg-icon-lg svg-icon-3x mr-3',
+                litigation.approved && 'svg-icon-success',
+                litigation.canceled && 'svg-icon-danger'
+              ]"
+            >
+              <!--begin::Svg Icon-->
+              <inline-svg
+                v-if="litigation.approved"
+                src="media/svg/icons/Code/Done-circle.svg"
+              />
+
+              <inline-svg
+                v-if="litigation.canceled"
+                src="media/svg/icons/Code/Error-circle.svg"
+              />
+              <!--end::Svg Icon-->
+            </span>
+          </div>
+          <div class="alert-text text-justify font-weight-bold">
+            <div v-if="litigation.approved">
+              Your purchase has been approved by administrators. <br />
+            </div>
+
+            <div v-if="litigation.canceled">
+              Your purchase has been canceled by administrators. <br />
+            </div>
+
+            <strong>Reason: </strong> {{ litigation.reason }} <br />
+          </div>
+        </div>
+
         <div v-if="viewTimeline">
           <div
             class="card card-custom shadow-sm mb-5"
@@ -344,7 +387,11 @@
           <timeline :timelines="timelines" />
         </div>
 
-        <chat v-if="viewChat" :from-purchase="true" />
+        <chat
+          v-if="viewChat"
+          :service-purchase="servicePurchase"
+          :from-purchase="true"
+        />
 
         <update-request-create
           v-on:update-request-created="updateRequestCreated"

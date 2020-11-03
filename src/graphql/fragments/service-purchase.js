@@ -27,6 +27,7 @@ export const litigationFields = gql`
     canceled
     status
     decision
+    reason
   }
 `;
 
@@ -51,6 +52,7 @@ export const servicePurchaseFields = gql`
     updateDelivered
     deadlineAt
     hasBeenAccepted
+    canChat
     serviceOptions {
       ...serviceOptionFields
     }

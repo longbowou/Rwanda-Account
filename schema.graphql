@@ -366,8 +366,10 @@ type LitigationType {
     createdAt: DateTime!
     decision: String
     handled: Boolean!
+    handledAt: DateTime
     id: UUID!
     opened: Boolean!
+    reason: String
     servicePurchase: ServicePurchaseType!
     status: String!
     title: String!
@@ -513,6 +515,7 @@ type ServicePurchaseChatMessageType {
     fileName: String
     fileSize: String
     fileUrl: String
+    fromBuyer: Boolean!
     fromCurrentAccount: Boolean!
     id: UUID!
     isFile: Boolean!
@@ -555,10 +558,12 @@ type ServicePurchaseType {
     canBeCommented: Boolean!
     canBeDelivered: Boolean!
     canBeInDispute: Boolean!
+    canChat: Boolean!
     canceled: Boolean!
     canceledAt: DateTime
     chat: [ServicePurchaseChatMessageType]!
     chatFiles: [ServicePurchaseChatMessageType]!
+    chatHistory: [ServicePurchaseChatMessageType]!
     chatMarked: [ServicePurchaseChatMessageType]!
     chatmessageSet: [ChatMessageType!]!
     commission: Int!
@@ -814,9 +819,9 @@ input DeliverServicePurchaseUpdateRequestInput {
 }
 
 input HandleLitigationInput {
-    admin: UUID!
-    decision: String
+    decision: String!
     id: UUID!
+    reason: String!
 }
 
 input InitiateServicePurchaseInput {

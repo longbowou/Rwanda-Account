@@ -222,11 +222,11 @@
 
       <div :class="sideDivClasses">
         <div
-          v-if="servicePurchase.approved || servicePurchase.canceled"
+          v-if="litigation !== null && litigation.handled"
           :class="[
             'alert alert-custom alert-notice fade show m-0 mb-5',
-            servicePurchase.approved && 'alert-light-success',
-            servicePurchase.canceled && 'alert-light-danger'
+            litigation.approved && 'alert-light-success',
+            litigation.canceled && 'alert-light-danger'
           ]"
           role="alert"
         >
@@ -234,33 +234,78 @@
             <span
               :class="[
                 'svg-icon svg-icon-lg svg-icon-3x mr-3',
-                servicePurchase.approved && 'svg-icon-success',
-                servicePurchase.canceled && 'svg-icon-danger'
+                litigation.approved && 'svg-icon-success',
+                litigation.canceled && 'svg-icon-danger'
               ]"
             >
               <!--begin::Svg Icon-->
               <inline-svg
-                v-if="servicePurchase.approved"
-                src="media/svg/icons/Code/Info-circle.svg"
+                v-if="litigation.approved"
+                src="media/svg/icons/Code/Done-circle.svg"
               />
 
               <inline-svg
-                v-if="servicePurchase.canceled"
-                src="media/svg/icons/Code/Warning-1-circle.svg"
+                v-if="litigation.canceled"
+                src="media/svg/icons/Code/Error-circle.svg"
               />
               <!--end::Svg Icon-->
             </span>
           </div>
           <div class="alert-text text-justify font-weight-bold">
-            <div v-if="servicePurchase.approved">
-              The order has been <strong>approved</strong> by the buyer.<br />
-              Checkout your wallet
+            <div v-if="litigation.approved">
+              The order has been approved by administrators. <br />
             </div>
 
-            <div v-if="servicePurchase.canceled">
-              The order has been
-              <strong>canceled</strong> by the buyer.
-              <br />
+            <div v-if="litigation.canceled">
+              The order has been canceled by administrators. <br />
+            </div>
+
+            <strong>Reason: </strong> {{ litigation.reason }} <br />
+          </div>
+        </div>
+
+        <div v-if="litigation == null">
+          <div
+            v-if="servicePurchase.approved || servicePurchase.canceled"
+            :class="[
+              'alert alert-custom alert-notice fade show m-0 mb-5',
+              servicePurchase.approved && 'alert-light-success',
+              servicePurchase.canceled && 'alert-light-danger'
+            ]"
+            role="alert"
+          >
+            <div class="alert-icon">
+              <span
+                :class="[
+                  'svg-icon svg-icon-lg svg-icon-3x mr-3',
+                  servicePurchase.approved && 'svg-icon-success',
+                  servicePurchase.canceled && 'svg-icon-danger'
+                ]"
+              >
+                <!--begin::Svg Icon-->
+                <inline-svg
+                  v-if="servicePurchase.approved"
+                  src="media/svg/icons/Code/Info-circle.svg"
+                />
+
+                <inline-svg
+                  v-if="servicePurchase.canceled"
+                  src="media/svg/icons/Code/Warning-1-circle.svg"
+                />
+                <!--end::Svg Icon-->
+              </span>
+            </div>
+            <div class="alert-text text-justify font-weight-bold">
+              <div v-if="servicePurchase.approved">
+                The order has been <strong>approved</strong> by the buyer.<br />
+                Checkout your wallet
+              </div>
+
+              <div v-if="servicePurchase.canceled">
+                The order has been
+                <strong>canceled</strong> by the buyer.
+                <br />
+              </div>
             </div>
           </div>
         </div>
@@ -301,7 +346,7 @@
           <timeline :timelines="timelines" />
         </div>
 
-        <chat v-if="viewChat" />
+        <chat :service-purchase="servicePurchase" v-if="viewChat" />
 
         <update-request-view
           v-on:update-request-updated="updateRequestUpdated"
