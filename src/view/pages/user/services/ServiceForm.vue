@@ -137,7 +137,7 @@
     </div>
   </form>
 </template>
-<style scoped>
+<style>
 .select2-selection {
   min-height: 36px;
 }

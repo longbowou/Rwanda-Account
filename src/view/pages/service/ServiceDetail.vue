@@ -21,7 +21,7 @@
         <div class="card-body p-0">
           <img
             :src="
-              service.fileUrl !== null ? service.fileUrl : 'media/picture.png'
+              service.fileUrl !== null ? service.fileUrl : 'media/picture.jpg'
             "
             width="100%"
             height="400"
@@ -249,8 +249,6 @@
       </div>
 
       <br />
-
-      <user-card :user="service.account" />
     </div>
   </div>
 </template>
@@ -260,14 +258,12 @@ import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { queryServiceForDetail } from "@/graphql/service-queries";
 import { mapGetters } from "vuex";
-import UserCard from "@/view/pages/partials/UserCard";
 import i18nService from "@/core/services/i18n.service";
 import KTUtil from "@/assets/js/components/util";
 import { UPDATE_PURCHASE_OPTIONS } from "@/core/services/store/modules/purchase.module";
 
 export default {
   name: "ServiceDetail",
-  components: { UserCard },
   data() {
     return {
       service: {},

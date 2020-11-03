@@ -1,6 +1,6 @@
 <template>
   <b-card
-    :img-src="service.fileUrl !== null ? service.fileUrl : 'media/picture.png'"
+    :img-src="service.fileUrl !== null ? service.fileUrl : 'media/picture.jpg'"
     img-alt="cover"
     img-top
     img-height="150"
@@ -14,7 +14,7 @@
       </div>
       <span class="text-muted font-weight-bold ml-3">by</span>
       <span class="text-dark-75 font-weight-bold ml-2">{{
-        service.account.fullName
+        service.account.username
       }}</span>
     </a>
 

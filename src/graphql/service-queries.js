@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 import { serviceOptionFields } from "@/graphql/fragments/service-option";
+import { accountBasicFields } from "@/graphql/fragments/account";
 
 export const queryServicesForPreview = gql`
   query {
@@ -8,10 +9,11 @@ export const queryServicesForPreview = gql`
       title
       fileUrl
       account {
-        fullName
+        ...accountBasicFields
       }
     }
   }
+  ${accountBasicFields}
 `;
 
 export const queryServiceCategories = gql`
@@ -44,13 +46,14 @@ export const queryServiceForDetail = gql`
         label
       }
       account {
-        fullName
+        ...accountBasicFields
       }
       options {
         ...serviceOptionFields
       }
     }
   }
+  ${accountBasicFields}
   ${serviceOptionFields}
 `;
 
