@@ -1,5 +1,56 @@
 <template>
   <form class="form col-sm-9" @submit="onSubmit">
+    <div class="form-group" v-if="updating">
+      <label class="col-sm-12 col-form-label font-weight-bold">Image</label>
+      <div
+        class="image-input image-input-outline"
+        id="kt_profile_avatar"
+        style="background-image: url(media/picture.png);"
+      >
+        <div
+          id="image-input-wrapper-div"
+          class="image-input-wrapper"
+          :style="[
+            { width: '170px', height: '170px' },
+            service.fileUrl !== null && {
+              'background-image': 'url(' + service.fileUrl + ')'
+            }
+          ]"
+        ></div>
+
+        <label
+          class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+          data-action="change"
+          data-toggle="tooltip"
+          title=""
+          data-original-title="Change avatar"
+        >
+          <i class="fa fa-pen icon-sm text-muted"></i>
+          <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" />
+          <input type="hidden" name="profile_avatar_remove" />
+        </label>
+
+        <span
+          class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+          data-action="cancel"
+          data-toggle="tooltip"
+          title="Cancel avatar"
+        >
+          <i class="ki ki-bold-close icon-xs text-muted"></i>
+        </span>
+
+        <span
+          v-if="service.fileUrl !== null"
+          class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+          data-action="remove"
+          data-toggle="tooltip"
+          title="Remove avatar"
+        >
+          <i class="ki ki-bold-close icon-xs text-muted"></i>
+        </span>
+      </div>
+    </div>
+
     <div class="form-group">
       <label class="col-sm-12 col-form-label font-weight-bold">Title</label>
       <b-form-input
@@ -103,6 +154,9 @@ import {
   queryServiceForEdit
 } from "@/graphql/service-queries";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
+import KTImageInput from "@/assets/js/components/image-input";
+import { serviceUpload } from "@/core/server-side/urls";
+import JwtService from "@/core/services/jwt.service";
 
 export default {
   name: "ServiceForm",
@@ -240,6 +294,46 @@ export default {
         originalInputValueFormat: valuesArr =>
           valuesArr.map(item => item.value).join(",")
       });
+
+      if (this.updating) {
+        let file = new KTImageInput("kt_profile_avatar");
+        const $this = this;
+        file.on("change", function(imageInput) {
+          let fd = new FormData();
+          fd.append("file", imageInput.input.files[0]);
+
+          const imageInputWrapperDiv = window.$("#image-input-wrapper-div");
+          imageInputWrapperDiv.addClass(
+            "spinner spinner-lg spinner-warning spinner-center"
+          );
+
+          window.$.ajax({
+            url: serviceUpload.replace(":pk", $this.$route.params.id),
+            type: "POST",
+            data: fd,
+            contentType: false,
+            processData: false,
+            headers: {
+              Authorization:
+                JwtService.getAuth() !== null
+                  ? "JWT " + JwtService.getAuth().token
+                  : null
+            },
+            success: function() {
+              imageInputWrapperDiv.removeClass(
+                "spinner spinner-lg spinner-warning spinner-center"
+              );
+            },
+            error: function() {
+              imageInputWrapperDiv.removeClass(
+                "spinner spinner-lg spinner-warning spinner-center"
+              );
+            }
+          });
+        });
+
+        file.on("remove", function() {});
+      }
     }
   },
   apollo: {

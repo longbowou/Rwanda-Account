@@ -20,7 +20,9 @@
 
         <div class="card-body p-0">
           <img
-            src="media/books/img-72.jpg"
+            :src="
+              service.fileUrl !== null ? service.fileUrl : 'media/picture.png'
+            "
             width="100%"
             height="400"
             style="object-fit: cover"

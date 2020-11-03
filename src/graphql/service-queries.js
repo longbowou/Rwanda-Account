@@ -6,6 +6,7 @@ export const queryServicesForPreview = gql`
     services {
       id
       title
+      fileUrl
       account {
         fullName
       }
@@ -37,16 +38,13 @@ export const queryServiceForDetail = gql`
       optionsCountDisplay
       basePrice
       published
+      fileUrl
       serviceCategory {
         id
         label
       }
       account {
         fullName
-      }
-      servicemediaSet {
-        fileUrl
-        url
       }
       options {
         ...serviceOptionFields
@@ -66,6 +64,7 @@ export const queryServiceForView = gql`
       keywords
       createdAt
       publishedDisplay
+      fileUrl
       serviceCategory {
         label
       }
@@ -82,6 +81,7 @@ export const queryServiceForEdit = gql`
       delay
       keywords
       published
+      fileUrl
       serviceCategory {
         id
       }

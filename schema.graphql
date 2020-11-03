@@ -629,6 +629,8 @@ type ServiceType {
     createdAt: String!
     delay: Int!
     delayDisplay: String!
+    file: String
+    fileUrl: String
     id: UUID!
     keywords: String
     options: [ServiceOptionType]!
@@ -786,6 +788,7 @@ input CreateServiceCommentInput {
 input CreateServiceInput {
     content: String!
     delay: Int!
+    file: String
     keywords: String
     published: Boolean
     serviceCategory: ID!
@@ -904,6 +907,7 @@ input UpdateServiceCategoryInput {
 input UpdateServiceInput {
     content: String
     delay: Int
+    file: String
     id: UUID!
     keywords: String
     published: Boolean

@@ -21,17 +21,6 @@
 
     <div class="form-group">
       <label class="col-sm-12 col-form-label font-weight-bold"
-        >Description</label
-      >
-      <div
-        id="description"
-        style="height: 325px"
-        v-html="descriptionHtml"
-      ></div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold"
         >Additional Delivery Delay (Days)</label
       >
       <b-form-input
@@ -85,7 +74,6 @@
 
 <script>
 import { formMixin, toastMixin } from "@/view/mixins";
-import Quill from "quill";
 import { queryServiceOption } from "@/graphql/service-options-queries";
 import {
   createServiceOption,
@@ -100,9 +88,7 @@ export default {
     return {
       service: {},
       serviceOption: {},
-      input: {},
-      descriptionHtml: "",
-      descriptionQuill: {}
+      input: {}
     };
   },
   computed: {
@@ -118,11 +104,6 @@ export default {
       this.fetchServiceOption();
     }
   },
-  mounted() {
-    if (this.creating) {
-      this.initPlugins();
-    }
-  },
   methods: {
     async onSubmit(evt) {
       evt.preventDefault();
@@ -132,7 +113,6 @@ export default {
       submitButton.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
-      this.input.description = this.descriptionQuill.root.innerHTML;
       if (this.creating) {
         this.input.service = this.$route.params.id;
       }
@@ -190,7 +170,6 @@ export default {
 
         this.input.id = this.serviceOption.id;
         this.input.label = this.serviceOption.label;
-        this.descriptionHtml = this.serviceOption.description;
         this.input.price = this.serviceOption.price;
         this.input.delay = this.serviceOption.delay;
         this.input.published = this.serviceOption.published;
@@ -198,15 +177,6 @@ export default {
         await this.$forceUpdate();
         this.initPlugins();
       }
-    },
-    initPlugins() {
-      this.descriptionQuill = new Quill("#description", {
-        modules: {
-          toolbar: true
-        },
-        placeholder: "Content",
-        theme: "snow"
-      });
     }
   }
 };

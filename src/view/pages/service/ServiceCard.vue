@@ -1,6 +1,6 @@
 <template>
   <b-card
-    img-src="media/books/img-72.jpg"
+    :img-src="service.fileUrl !== null ? service.fileUrl : 'media/picture.png'"
     img-alt="cover"
     img-top
     img-height="150"
