@@ -73,7 +73,7 @@
                   class="form-control form-control-lg form-control-solid"
                   type="number"
                   placeholder="Amount"
-                  min="0"
+                  min="150"
                   autocomplete="off"
                 />
                 <b-form-invalid-feedback id="input-live-feedback">
@@ -131,7 +131,7 @@ export default {
   mixins: [formMixin, toastMixin],
   data() {
     return {
-      amount: 1000,
+      amount: 150,
       errors: [],
       formData: [],
       paymentUrl: null,
@@ -202,7 +202,7 @@ export default {
         }).href;
 
       this.$nextTick(function() {
-        window.$("#payment-submit").click();
+        // window.$("#payment-submit").click();
       });
     },
     async fetchPayment() {
