@@ -55,6 +55,7 @@ type AccountMutation {
     deliverServicePurchase(input: DeliverServicePurchaseInput!): DeliverServicePurchase
     deliverServicePurchaseUpdateRequest(input: DeliverServicePurchaseUpdateRequestInput!): DeliverServicePurchaseUpdateRequest
     handleLitigation(input: HandleLitigationInput!): HandleLitigation
+    initiateDeposit(amount: Int!): InitiateDeposit
     initiateServicePurchase(input: InitiateServicePurchaseInput!): InitiateServicePurchase
     initiateServicePurchaseUpdateRequest(input: InitiateServicePurchaseUpdateRequestInput!): InitiateServicePurchaseUpdateRequest
     login(input: LoginInput!): LoginAccount
@@ -84,6 +85,7 @@ type AccountQuery {
     deliverableVersions: [DeliverableVersionType!]!
     litigation(id: UUID!): LitigationType!
     parameters: ParametersType!
+    payment(id: UUID!): PaymentType!
     service(id: UUID!): ServiceType!
     "ServiceCategory list"
     serviceCategories(id: UUID): [ServiceCategoryType]
@@ -122,6 +124,7 @@ type AccountType implements UserInterface {
     litigationSet: [LitigationType!]!
     operationSet: [OperationType!]!
     ordersCount: String!
+    paymentSet: [PaymentType!]!
     purchasesCount: String!
     refundSet: [RefundType!]!
     refundsSum: String!
@@ -324,7 +327,7 @@ type DepositType {
     amount: Int!
     createdAt: DateTime!
     id: UUID!
-    updatedAt: DateTime!
+    payment: PaymentType!
 }
 
 type ErrorType {
@@ -344,6 +347,13 @@ type FundType {
 type HandleLitigation {
     errors: [ErrorType]
     litigation: LitigationType
+}
+
+type InitiateDeposit {
+    errors: [ErrorType]
+    formData: String
+    paymentId: UUID
+    paymentUrl: String
 }
 
 type InitiateServicePurchase {
@@ -407,6 +417,24 @@ type ParametersType {
     currency: String!
 }
 
+type PaymentType {
+    account: AccountType!
+    amount: Int!
+    canceled: Boolean!
+    celPhoneNum: String
+    confirmed: Boolean!
+    cpmPayid: String
+    cpmPhonePrefixe: String
+    cpmResult: String
+    cpmTransStatus: String
+    createdAt: DateTime!
+    depositSet: [DepositType!]!
+    id: UUID!
+    paymentMethod: String
+    signature: String
+    status: String!
+}
+
 type Refresh {
     payload: GenericScalar!
     refreshExpiresIn: Int!
@@ -420,7 +448,6 @@ type RefundType {
     createdAt: DateTime!
     id: UUID!
     phoneNumber: String
-    updatedAt: DateTime!
 }
 
 type RefuseServicePurchaseUpdateRequest {

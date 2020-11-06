@@ -61,9 +61,12 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { depositsUrl } from "@/core/server-side/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
+import { toastMixin } from "@/view/mixins";
+import { queryPayment } from "@/graphql/global-queries";
 
 export default {
   name: "Deposits",
+  mixins: [toastMixin],
   computed: {
     ...mapGetters(["currentAccount", "currency"])
   },
@@ -91,6 +94,40 @@ export default {
       }
     });
   },
-  methods: {}
+  beforeMount() {
+    if (this.$route.query.payment !== undefined) {
+      this.fetchPayment();
+    }
+  },
+  methods: {
+    async fetchPayment() {
+      const result = await this.$apollo.query({
+        query: queryPayment,
+        variables: {
+          id: this.$route.query.payment
+        }
+      });
+
+      if (window._.isEmpty(result.errors)) {
+        if (result.data.payment.confirmed) {
+          this.notifySuccess(
+            "You successfully make a deposit of " +
+              result.data.payment.amount +
+              " " +
+              this.currency
+          );
+        }
+
+        if (result.data.payment.canceled) {
+          this.notifyError(
+            "Error while making deposit of " +
+              result.data.payment.amount +
+              " " +
+              this.currency
+          );
+        }
+      }
+    }
+  }
 };
 </script>

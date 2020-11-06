@@ -1,5 +1,6 @@
 // France
 export const locale = {
+  "Make a deposit": "Faire un dépôt",
   TRANSLATOR: {
     SELECT: "choisissez votre langue"
   },

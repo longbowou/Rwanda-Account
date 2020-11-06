@@ -32,22 +32,18 @@ export const changeAccountPassword = gql`
   ${accountFields}
 `;
 
-export const createDeposit = gql`
-  mutation($input: CreateDepositInput!) {
-    createDeposit(input: $input) {
+export const initiateDeposit = gql`
+  mutation($amount: Int!) {
+    initiateDeposit(amount: $amount) {
       errors {
         ...errorFields
       }
-      deposit {
-        amount
-        account {
-          ...accountFields
-        }
-      }
+      paymentUrl
+      formData
+      paymentId
     }
   }
   ${errorFields}
-  ${accountFields}
 `;
 
 export const createRefund = gql`

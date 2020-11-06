@@ -12,7 +12,7 @@
                 <inline-svg src="media/svg/icons/Shopping/Dollar.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Make a deposit</h3>
+              <h3 class="card-label">{{ $t("Make a deposit") }}</h3>
             </div>
           </div>
           <div class="card-body">
@@ -64,12 +64,12 @@
               <form class="form" @submit="onSubmit">
                 <label
                   class="col-sm-12 col-form-label font-weight-bold text-center"
-                  >Amount</label
+                  >{{ $t("Amount") }}</label
                 >
                 <b-form-input
                   required
                   :state="validateState('amount')"
-                  v-model="input.amount"
+                  v-model="amount"
                   class="form-control form-control-lg form-control-solid"
                   type="number"
                   placeholder="Amount"
@@ -89,9 +89,24 @@
                     id="btn_submit"
                     class="col-sm-6 btn btn-success btn-lg font-weight-bolder"
                   >
-                    Submit
+                    {{ $t("Submit") }}
                   </button>
                 </div>
+              </form>
+
+              <form :action="paymentUrl" method="post">
+                <template v-for="(value, key) of formData">
+                  <input :key="key" type="hidden" :name="key" :value="value" />
+                </template>
+                <input type="hidden" name="return_url" :value="returnUrl" />
+                <input type="hidden" name="cancel_url" :value="cancelUrl" />
+                <input type="hidden" name="debug" value="true" />
+                <input
+                  type="submit"
+                  id="payment-submit"
+                  value="Submit"
+                  style="display: none"
+                />
               </form>
             </div>
           </div>
@@ -108,25 +123,36 @@ import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
 import { formMixin, toastMixin } from "@/view/mixins";
-import { createDeposit } from "@/graphql/account-mutations";
-import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
+import { initiateDeposit } from "@/graphql/account-mutations";
 
 export default {
   name: "DepositCreate",
   mixins: [formMixin, toastMixin],
   data() {
     return {
-      input: {
-        amount: 0
-      }
+      amount: 1000,
+      errors: [],
+      formData: [],
+      paymentUrl: null,
+      returnUrl: null,
+      cancelUrl: null
     };
   },
   computed: {
     ...mapGetters(["currentAccount", "currency"])
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Make a deposit" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Make a deposit");
+    this.$store.dispatch(SET_BREADCRUMB, [
+      { title: this.$t("Make a deposit") }
+    ]);
+    this.$store.dispatch(SET_HEAD_TITLE, this.$("Make a deposit"));
+
+    if (this.$route.query["payment-canceled"] !== undefined) {
+      this.errors.push({
+        field: "amount",
+        messages: [this.$t("Payment  canceled please try again.")]
+      });
+    }
   },
   methods: {
     async onSubmit(evt) {
@@ -139,38 +165,40 @@ export default {
       this.errors = [];
 
       let result = await this.$apollo.mutate({
-        mutation: createDeposit,
+        mutation: initiateDeposit,
         variables: {
-          input: this.input
+          amount: this.amount
         }
-      });
-
-      this.errors = result.data.createDeposit.errors;
-      if (!window._.isEmpty(this.errors)) {
-        submitButton.removeAttr("disabled");
-        submitButton.removeClass(
-          "disabled spinner spinner-light spinner-right"
-        );
-        return;
-      }
-
-      await this.$store.dispatch(UPDATE_USER, {
-        account: result.data.createDeposit.deposit.account
       });
 
       submitButton.removeAttr("disabled");
       submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
-      await this.$router.push({
-        name: "deposits"
-      });
+      this.errors = result.data.initiateDeposit.errors;
+      if (!window._.isEmpty(this.errors)) {
+        return;
+      }
 
-      this.notifySuccess(
-        "You successfully make a deposit of " +
-          result.data.createDeposit.deposit.amount +
-          " " +
-          this.currency
-      );
+      this.paymentUrl = result.data.initiateDeposit.paymentUrl;
+      this.formData = JSON.parse(result.data.initiateDeposit.formData);
+
+      this.cancelUrl =
+        process.env.VUE_APP_BASE_URL +
+        this.$router.resolve({
+          name: "deposits-create",
+          query: { "payment-canceled": true }
+        }).href;
+
+      this.returnUrl =
+        process.env.VUE_APP_BASE_URL +
+        this.$router.resolve({
+          name: "deposits",
+          query: { payment: result.data.initiateDeposit.paymentId }
+        }).href;
+
+      this.$nextTick(function() {
+        window.$("#payment-submit").click();
+      });
     }
   }
 };

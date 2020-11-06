@@ -8,3 +8,13 @@ export const queryParameters = gql`
     }
   }
 `;
+
+export const queryPayment = gql`
+  query queryPayment($id: UUID!) {
+    payment(id: $id) {
+      confirmed
+      canceled
+      amount
+    }
+  }
+`;
