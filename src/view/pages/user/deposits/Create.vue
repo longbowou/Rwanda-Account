@@ -52,7 +52,7 @@
                   <h4
                     class="font-size-h6 d-block font-weight-bold text-dark-50"
                   >
-                    Current balance
+                    {{ $t("Current balance") }}
                   </h4>
                   <!--end::Content-->
                 </div>
@@ -124,6 +124,7 @@ import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
 import { formMixin, toastMixin } from "@/view/mixins";
 import { initiateDeposit } from "@/graphql/account-mutations";
+import { queryPayment } from "@/graphql/global-queries";
 
 export default {
   name: "DepositCreate",
@@ -152,6 +153,11 @@ export default {
         field: "amount",
         messages: [this.$t("Payment  canceled please try again.")]
       });
+    }
+  },
+  beforeMount() {
+    if (this.$route.query.payment !== undefined) {
+      this.fetchPayment();
     }
   },
   methods: {
@@ -185,20 +191,47 @@ export default {
       this.cancelUrl =
         process.env.VUE_APP_BASE_URL +
         this.$router.resolve({
-          name: "deposits-create",
-          query: { "payment-canceled": true }
+          name: "deposits-create"
         }).href;
 
       this.returnUrl =
         process.env.VUE_APP_BASE_URL +
         this.$router.resolve({
-          name: "deposits",
+          name: "deposits-create",
           query: { payment: result.data.initiateDeposit.paymentId }
         }).href;
 
       this.$nextTick(function() {
         window.$("#payment-submit").click();
       });
+    },
+    async fetchPayment() {
+      const result = await this.$apollo.query({
+        query: queryPayment,
+        variables: {
+          id: this.$route.query.payment
+        }
+      });
+
+      if (window._.isEmpty(result.errors)) {
+        if (result.data.payment.confirmed) {
+          this.notifySuccess(
+            "You successfully make a deposit of " +
+              result.data.payment.amount +
+              " " +
+              this.currency
+          );
+        }
+
+        if (result.data.payment.canceled) {
+          this.notifyError(
+            "Error while making deposit of " +
+              result.data.payment.amount +
+              " " +
+              this.currency
+          );
+        }
+      }
     }
   }
 };
