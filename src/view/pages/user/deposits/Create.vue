@@ -146,7 +146,7 @@ export default {
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("Make a deposit") }
     ]);
-    this.$store.dispatch(SET_HEAD_TITLE, this.$("Make a deposit"));
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("Make a deposit"));
 
     if (this.$route.query["payment-canceled"] !== undefined) {
       this.errors.push({
