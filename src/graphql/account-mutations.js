@@ -46,9 +46,9 @@ export const initiateDeposit = gql`
   ${errorFields}
 `;
 
-export const createRefund = gql`
-  mutation($input: CreateRefundInput!) {
-    createRefund(input: $input) {
+export const initiateRefund = gql`
+  mutation($input: InitiateRefundInput!) {
+    initiateRefund(input: $input) {
       errors {
         ...errorFields
       }

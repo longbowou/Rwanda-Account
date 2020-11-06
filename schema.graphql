@@ -37,9 +37,7 @@ type AccountMutation {
     createAdmin(input: AdminInput!): CreateAdmin
     createChatMessage(input: CreateChatMessageInput!): CreateChatMessage
     createDeliverable(input: CreateDeliverableInput!): CreateDeliverable
-    createDeposit(input: CreateDepositInput!): CreateDeposit
     createLitigation(input: CreateLitigationInput!): CreateLitigation
-    createRefund(input: CreateRefundInput!): CreateRefund
     createService(input: CreateServiceInput!): CreateService
     createServiceCategory(input: CreateServiceCategoryInput!): CreateServiceCategory
     createServiceComment(input: CreateServiceCommentInput!): CreateServiceComment
@@ -56,6 +54,7 @@ type AccountMutation {
     deliverServicePurchaseUpdateRequest(input: DeliverServicePurchaseUpdateRequestInput!): DeliverServicePurchaseUpdateRequest
     handleLitigation(input: HandleLitigationInput!): HandleLitigation
     initiateDeposit(amount: Int!): InitiateDeposit
+    initiateRefund(input: InitiateRefundInput!): InitiateRefund
     initiateServicePurchase(input: InitiateServicePurchaseInput!): InitiateServicePurchase
     initiateServicePurchaseUpdateRequest(input: InitiateServicePurchaseUpdateRequestInput!): InitiateServicePurchaseUpdateRequest
     login(input: LoginInput!): LoginAccount
@@ -132,7 +131,6 @@ type AccountType implements UserInterface {
     servicecommentSet: [ServiceCommentType!]!
     servicepurchaseSet: [ServicePurchaseType!]!
     servicesCount: String!
-    updatedAt: DateTime!
     username: String!
 }
 
@@ -146,7 +144,6 @@ type AdminType implements UserInterface {
     lastLogin: String
     lastName: String
     litigationSet: [LitigationType!]!
-    updatedAt: DateTime!
     username: String!
 }
 
@@ -191,7 +188,6 @@ type ChatMessageType {
     id: UUID!
     isFile: Boolean!
     servicePurchase: ServicePurchaseType!
-    updatedAt: DateTime!
 }
 
 type CreateAccount {
@@ -214,19 +210,9 @@ type CreateDeliverable {
     errors: [ErrorType]
 }
 
-type CreateDeposit {
-    deposit: DepositType
-    errors: [ErrorType]
-}
-
 type CreateLitigation {
     errors: [ErrorType]
     litigation: LitigationType
-}
-
-type CreateRefund {
-    errors: [ErrorType]
-    refund: RefundType
 }
 
 type CreateService {
@@ -299,7 +285,6 @@ type DeliverableFileType {
     id: UUID!
     name: String!
     size: Int!
-    updatedAt: DateTime!
 }
 
 type DeliverableType {
@@ -312,7 +297,6 @@ type DeliverableType {
     published: Boolean!
     servicePurchase: ServicePurchaseType!
     title: String!
-    updatedAt: DateTime!
     version: String!
     versionDisplay: String!
 }
@@ -327,7 +311,7 @@ type DepositType {
     amount: Int!
     createdAt: DateTime!
     id: UUID!
-    payment: PaymentType!
+    payment: PaymentType
 }
 
 type ErrorType {
@@ -341,7 +325,6 @@ type FundType {
     id: UUID!
     label: String!
     operationSet: [OperationType!]!
-    updatedAt: DateTime!
 }
 
 type HandleLitigation {
@@ -354,6 +337,11 @@ type InitiateDeposit {
     formData: String
     paymentId: UUID
     paymentUrl: String
+}
+
+type InitiateRefund {
+    errors: [ErrorType]
+    refund: RefundType
 }
 
 type InitiateServicePurchase {
@@ -383,7 +371,6 @@ type LitigationType {
     servicePurchase: ServicePurchaseType!
     status: String!
     title: String!
-    updatedAt: DateTime!
 }
 
 type LoginAccount {
@@ -409,7 +396,6 @@ type OperationType {
     id: UUID!
     servicePurchase: ServicePurchaseType
     type: String!
-    updatedAt: DateTime!
 }
 
 type ParametersType {
@@ -448,6 +434,7 @@ type RefundType {
     createdAt: DateTime!
     id: UUID!
     phoneNumber: String
+    status: String!
 }
 
 type RefuseServicePurchaseUpdateRequest {
@@ -470,7 +457,6 @@ type ServiceCategoryType {
     id: UUID!
     label: String!
     serviceSet: [ServiceType!]!
-    updatedAt: DateTime!
 }
 
 type ServiceCommentType {
@@ -483,7 +469,6 @@ type ServiceCommentType {
     replyContent: String
     servicePurchase: ServicePurchaseType
     type: String
-    updatedAt: DateTime!
 }
 
 type ServiceCommentTypeType {
@@ -497,7 +482,6 @@ type ServiceMediaType {
     id: UUID!
     isMain: Boolean!
     service: ServiceType!
-    updatedAt: DateTime!
     url: String
 }
 
@@ -516,7 +500,6 @@ type ServiceOptionType {
     service: ServiceType!
     servicepurchaseSet: [ServicePurchaseType!]!
     servicepurchaseserviceoptionSet: [ServicePurchaseServiceOptionType!]!
-    updatedAt: DateTime!
 }
 
 type ServiceOrderType {
@@ -556,7 +539,6 @@ type ServicePurchaseServiceOptionType {
     id: UUID!
     serviceOption: ServiceOptionType!
     servicePurchase: ServicePurchaseType!
-    updatedAt: DateTime!
 }
 
 type ServicePurchaseSubscription {
@@ -624,7 +606,6 @@ type ServicePurchaseType {
     updateInitiated: Boolean!
     updateRefused: Boolean!
     updateRequest: ServicePurchaseUpdateRequestType
-    updatedAt: DateTime!
 }
 
 type ServicePurchaseUpdateRequestType {
@@ -671,7 +652,6 @@ type ServiceType {
     servicepurchaseSet: [ServicePurchaseType!]!
     stars: Int!
     title: String!
-    updatedAt: DateTime!
 }
 
 type Subscription {
@@ -786,19 +766,10 @@ input CreateDeliverableInput {
     version: String!
 }
 
-input CreateDepositInput {
-    amount: Int!
-}
-
 input CreateLitigationInput {
     content: String!
     servicePurchase: ID!
     title: String!
-}
-
-input CreateRefundInput {
-    amount: Int!
-    phoneNumber: String!
 }
 
 input CreateServiceCategoryInput {
@@ -852,6 +823,11 @@ input HandleLitigationInput {
     decision: String!
     id: UUID!
     reason: String!
+}
+
+input InitiateRefundInput {
+    amount: Int!
+    phoneNumber: String!
 }
 
 input InitiateServicePurchaseInput {

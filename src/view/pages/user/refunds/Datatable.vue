@@ -29,6 +29,7 @@
                   <thead>
                     <tr>
                       <th>Amount</th>
+                      <th>Status</th>
                       <th>Phone Number</th>
                       <th>Created At</th>
                     </tr>
@@ -36,6 +37,7 @@
                   <tfoot>
                     <tr>
                       <th>Amount</th>
+                      <th>Status</th>
                       <th>Phone Number</th>
                       <th>Created At</th>
                     </tr>
@@ -78,7 +80,7 @@ export default {
         [10, 50, 100, -1],
         [10, 50, 100, "All"]
       ],
-      order: [[2, "desc"]],
+      order: [[3, "desc"]],
       columnDefs: [],
       searching: true,
       processing: true,

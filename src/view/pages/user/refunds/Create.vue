@@ -12,7 +12,7 @@
                 <inline-svg src="media/svg/icons/Shopping/Dollar.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Make a refunds</h3>
+              <h3 class="card-label">{{ $t("Make a refund") }}</h3>
             </div>
           </div>
           <div class="card-body">
@@ -52,7 +52,7 @@
                   <h4
                     class="font-size-h6 d-block font-weight-bold text-dark-50"
                   >
-                    Current balance
+                    {{ $t("Current balance") }}
                   </h4>
                   <!--end::Content-->
                 </div>
@@ -64,7 +64,7 @@
               <form class="form" @submit="onSubmit">
                 <label
                   class="col-sm-12 col-form-label font-weight-bold text-center"
-                  >Phone Number</label
+                  >{{ $t("Phone Number") }}</label
                 >
                 <b-form-input
                   required
@@ -72,7 +72,7 @@
                   v-model="input.phoneNumber"
                   class="form-control form-control-lg form-control-solid"
                   type="text"
-                  placeholder="Phone Number"
+                  :placeholder="$t('Phone Number')"
                 />
                 <b-form-invalid-feedback id="input-live-feedback">
                   <p
@@ -85,7 +85,7 @@
 
                 <label
                   class="col-sm-12 col-form-label font-weight-bold text-center"
-                  >Amount</label
+                  >{{ $t("Amount") }}</label
                 >
                 <b-form-input
                   required
@@ -93,7 +93,7 @@
                   v-model="input.amount"
                   class="form-control form-control-lg form-control-solid"
                   type="number"
-                  placeholder="Amount"
+                  :placeholder="$t('Amount')"
                   min="0"
                   autocomplete="off"
                 />
@@ -110,7 +110,7 @@
                     id="btn_submit"
                     class="col-sm-6 btn btn-success btn-lg font-weight-bolder"
                   >
-                    Submit
+                    {{ $t("Submit") }}
                   </button>
                 </div>
               </form>
@@ -129,8 +129,7 @@ import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
 import { formMixin, toastMixin } from "@/view/mixins";
-import { createRefund } from "@/graphql/account-mutations";
-import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
+import { initiateRefund } from "@/graphql/account-mutations";
 
 export default {
   name: "RefundCreate",
@@ -147,8 +146,8 @@ export default {
     ...mapGetters(["currentAccount", "currency"])
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Make a refund" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Make a refund");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("Make a refund") }]);
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("Make a refund"));
   },
   methods: {
     async onSubmit(evt) {
@@ -161,13 +160,13 @@ export default {
       this.errors = [];
 
       let result = await this.$apollo.mutate({
-        mutation: createRefund,
+        mutation: initiateRefund,
         variables: {
           input: this.input
         }
       });
 
-      this.errors = result.data.createRefund.errors;
+      this.errors = result.data.initiateRefund.errors;
       if (!window._.isEmpty(this.errors)) {
         submitButton.removeAttr("disabled");
         submitButton.removeClass(
@@ -176,22 +175,19 @@ export default {
         return;
       }
 
-      await this.$store.dispatch(UPDATE_USER, {
-        account: result.data.createRefund.refund.account
-      });
       submitButton.removeAttr("disabled");
       submitButton.removeClass("disabled spinner spinner-light spinner-right");
+
+      this.notifySuccess(
+        "You successfully initiate a refund of " +
+          result.data.initiateRefund.refund.amount +
+          " " +
+          this.currency
+      );
 
       await this.$router.push({
         name: "refunds"
       });
-
-      this.notifySuccess(
-        "You successfully make a refund of " +
-          result.data.createRefund.refund.amount +
-          " " +
-          this.currency
-      );
     }
   }
 };
