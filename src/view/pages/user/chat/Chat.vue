@@ -29,7 +29,7 @@
               role="tab"
             >
               <span class="nav-icon"><i class="flaticon2-chat-1"></i></span>
-              <span class="nav-text">Messages</span>
+              <span class="nav-text">{{ $t("Messages") }}</span>
             </button>
           </li>
           <li class="nav-item ">
@@ -40,7 +40,7 @@
               role="tab"
             >
               <span class="nav-icon"><i class="fas fa-file-alt"></i></span>
-              <span class="nav-text">Files</span>
+              <span class="nav-text">{{ $t("Files") }}</span>
             </button>
           </li>
           <li class="nav-item nav-info">
@@ -51,7 +51,7 @@
               role="tab"
             >
               <span class="nav-icon"><i class="flaticon-star"></i></span>
-              <span class="nav-text">Marked</span>
+              <span class="nav-text">{{ $t("Marked") }}</span>
             </button>
           </li>
         </ul>
@@ -152,7 +152,7 @@
               class="btn btn-clean btn-light btn-square btn-md mr-1"
             >
               <i class="fas fa-file-upload"></i>
-              Attach a file
+              {{ $t("Attach a file") }}
             </button>
           </div>
           <div>
@@ -163,7 +163,7 @@
               type="button"
               class="btn btn-light-success btn-md btn-square font-weight-bold chat-send"
             >
-              Send
+              {{ $t("Send") }}
             </button>
           </div>
         </div>
@@ -223,7 +223,9 @@
       </div>
 
       <div v-if="!servicePurchase.canChat">
-        <h5 class="text-center text-muted">You cannot chat for now !</h5>
+        <h5 class="text-center text-muted">
+          {{ $t("You cannot chat for now !") }}
+        </h5>
       </div>
     </div>
     <!--end::Footer-->

@@ -11,16 +11,21 @@
           <!--end::Svg Icon-->
         </span>
       </div>
-      <div class="alert-text text-justify font-weight-bold">
-        You can ask write a <strong>positive or even negative</strong> comment.
-      </div>
+      <div
+        class="alert-text text-justify font-weight-bold"
+        v-html="
+          $t(
+            'You can ask write a <strong>positive or even negative</strong> comment.'
+          )
+        "
+      ></div>
     </div>
 
     <div class="card card-custom shadow-sm mb-5 mt-5">
       <div class="card-header">
         <div class="card-title">
           <h3 class="card-label">
-            Write a comment
+            {{ $t("Write a comment") }}
           </h3>
         </div>
       </div>
@@ -56,7 +61,7 @@
               id="btn_submit"
               class="col-sm-6 btn btn-light-primary btn-lg font-weight-bolder"
             >
-              Submit
+              {{ $t("Submit") }}
             </button>
           </div>
         </form>
@@ -130,7 +135,7 @@ export default {
 
       this.$emit("comment-created");
 
-      return this.notifySuccess("Your comment sent successfully.");
+      return this.notifySuccess(this.$t("Your comment sent successfully."));
     },
     initPlugins() {
       this.typeSelect2 = window.$("#type").select2();

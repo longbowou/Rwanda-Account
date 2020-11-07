@@ -21,7 +21,7 @@
     <button
       class="btn btn-light-dark btn-lg btn-block btn-square font-weight-bold"
     >
-      Order Now
+      {{ $t("Order Now") }}
     </button>
   </b-card>
 </template>

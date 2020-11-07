@@ -11,17 +11,22 @@
           <!--end::Svg Icon-->
         </span>
       </div>
-      <div class="alert-text text-justify font-weight-bold">
-        You can open a litigation by <strong>filling the form bellow</strong>.
-        Administrators will <strong>handle</strong> it a soon as possible.
-      </div>
+      <div
+        class="alert-text text-justify font-weight-bold"
+        v-html="
+          $t(
+            'You can open a litigation by <strong>filling the form bellow</strong>.\n' +
+              'Administrators will <strong>handle</strong> it a soon as possible.'
+          )
+        "
+      ></div>
     </div>
 
     <div class="card card-custom shadow-sm mb-5 mt-5">
       <div class="card-header">
         <div class="card-title">
           <h3 class="card-label">
-            Open a litigation
+            {{ $t("Open a litigation") }}
           </h3>
         </div>
       </div>
@@ -29,16 +34,16 @@
       <div class="card-body pt-2">
         <form class="form" @submit="onSubmit">
           <div class="form-group">
-            <label class="col-sm-12 col-form-label font-weight-bold"
-              >Title</label
-            >
+            <label class="col-sm-12 col-form-label font-weight-bold">{{
+              $t("Title")
+            }}</label>
             <b-form-input
               required
               :state="validateState('title')"
               v-model="input.title"
               class="form-control form-control-lg form-control-solid"
               type="text"
-              placeholder="Title"
+              :placeholder="$t('Title')"
               autocomplete="off"
             />
             <b-form-invalid-feedback id="input-live-feedback">
@@ -49,9 +54,9 @@
           </div>
 
           <div class="form-group">
-            <label class="col-sm-12 col-form-label font-weight-bold"
-              >Content</label
-            >
+            <label class="col-sm-12 col-form-label font-weight-bold">{{
+              $t("Content")
+            }}</label>
             <div
               id="description"
               style="height: 200px"
@@ -66,7 +71,7 @@
               id="btn_submit"
               class="col-sm-6 btn btn-light-danger btn-lg font-weight-bolder"
             >
-              Submit
+              {{ $t("Submit") }}
             </button>
           </div>
         </form>
@@ -121,14 +126,14 @@ export default {
 
       this.$emit("litigation-created", result.data.createLitigation.litigation);
 
-      return this.notifySuccess("Litigation opened.");
+      return this.notifySuccess(this.$t("Litigation opened."));
     },
     initPlugins() {
       this.contentQuill = new Quill("#description", {
         modules: {
           toolbar: true
         },
-        placeholder: "Content",
+        placeholder: this.$t("Content"),
         theme: "snow"
       });
     }

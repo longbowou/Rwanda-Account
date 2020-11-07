@@ -16,7 +16,7 @@
                 />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Deposits</h3>
+              <h3 class="card-label">{{ $t("Deposits") }}</h3>
             </div>
           </div>
           <div class="card-body">
@@ -28,14 +28,14 @@
                 >
                   <thead>
                     <tr>
-                      <th>Amount</th>
-                      <th>Created At</th>
+                      <th>{{ $t("Amount") }}</th>
+                      <th>{{ $t("Created At") }}</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>Amount</th>
-                      <th>Created At</th>
+                      <th>{{ $t("Amount") }}</th>
+                      <th>{{ $t("Created At") }}</th>
                     </tr>
                   </tfoot>
                 </table>

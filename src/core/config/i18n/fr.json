@@ -1,0 +1,107 @@
+{
+  "1": {
+    " Order a service from your choice to one of our vendors": ""
+  },
+  "2": {
+    " Exchange by chat on the site up to safe delivery": ""
+  },
+  "3": {
+    " Get your service delivered": ""
+  },
+  "4": {
+    " The seller is paid only after delivery of the service": ""
+  },
+  "Make a deposit": "Faire un depôt",
+  "Current balance": "",
+  "Amount": "",
+  "Submit": "",
+  "Make a refund": "",
+  "Phone Number": "",
+  "User Experience & Interface Design, Product Strategy": "",
+  "Web Application SaaS Solutions": "",
+  "Sign In": "",
+  "Create An Account": "",
+  "Username or Email": "",
+  "Password": "",
+  "Forgot Password ?": "",
+  "Login": "",
+  "Sign Up": "",
+  "Enter your details to create your account": "",
+  "Username": "",
+  "Email": "",
+  "First Name": "",
+  "Last Name": "",
+  "Confirm password": "",
+  "Cancel": "",
+  "Registration successful": "",
+  "You can now login": "",
+  "Services for sale": "",
+  "Order Now": "",
+  "Customize the service": "",
+  "Additional options": "",
+  "total delivery days": "",
+  "All prices are excluding VAT + 0": {
+    "25 {currency} and 3": {
+      "4% fees may be charged by our banking partners depending on the VAT applied as well as the means of payment used": {
+        "": ""
+      }
+    }
+  },
+  "Basic service without options": "",
+  "Custom Options": "",
+  "You can choose among": "",
+  "Payment": "",
+  "Secured": "",
+  "Your information is encrypted by TLS": "",
+  "Order summary": "",
+  "Delivery days": "",
+  "Deadline will be set to": "",
+  "if the order is accepted today": "",
+  "Price detail": "",
+  "Seller Payment": "",
+  "Fee": "",
+  "MDTAF's Commission": "",
+  "Payment Method": "",
+  "Choose a payment method to pay for your order": {
+    "": ""
+  },
+  "You can also pay with your MDTAF wallet free of charge if you have a sufficient balance": {
+    "": ""
+  },
+  "You don't have enough balance to pay with your Wallet": {
+    "": ""
+  },
+  "Wallet Balance": "",
+  "Proceed to Payment": "",
+  "Once payment has been made, you can send your production instructions to your seller, discuss and exchange files in complete safety": {
+    "": ""
+  },
+  "You successfully make a purchase of ": "",
+  "Messages": "",
+  "Files": "",
+  "Marked": "",
+  "Attach a file": "",
+  "Send": "",
+  "You cannot chat for now !": "",
+  "You can ask write a <strong>positive or even negative</strong> comment": {
+    "": ""
+  },
+  "Write a comment": "",
+  "Your comment sent successfully": {
+    "": ""
+  },
+  "You successfully make a deposit of ": "",
+  "Error while making deposit of ": "",
+  "Deposits": "",
+  "Created At": "",
+  "You can open a litigation by <strong>filling the form bellow</strong>": {
+    "\\n": ""
+  },
+  "Open a litigation": "",
+  "Title": "",
+  "Content": "",
+  "Litigation opened": {
+    "": ""
+  },
+  "Litigation": ""
+}

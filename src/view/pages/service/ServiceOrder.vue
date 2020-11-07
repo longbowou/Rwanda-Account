@@ -13,7 +13,7 @@
             </span>
 
             <h3 class="card-label">
-              Order summary
+              {{ $t("Order summary") }}
             </h3>
           </div>
         </div>
@@ -68,15 +68,15 @@
 
           <div class="row">
             <p class="col-sm-9">
-              Delivery days
+              {{ $t("Delivery days") }}
             </p>
             <p class="col-sm-3 text-right">
               {{ serviceOrderPreview.totalDelay }} days <br />
               <span class="text-primary">
-                Deadline will be set to <br />
+                {{ $t("Deadline will be set to") }} <br />
                 <strong>{{ serviceOrderPreview.deadlineAt }}</strong>
                 <br />
-                if the order is accepted today
+                {{ $t("if the order is accepted today") }}
               </span>
             </p>
           </div>
@@ -95,17 +95,17 @@
             </span>
 
             <h3 class="card-label">
-              Price detail
+              {{ $t("Price detail") }}
             </h3>
           </div>
         </div>
 
         <div class="card-body">
-          <h5>Seller Payment</h5>
+          <h5>{{ $t("Seller Payment") }}</h5>
 
           <div class="row mb-2">
             <p class="col-sm-9">
-              Amount
+              {{ $t("Amount") }}
             </p>
             <p class="col-sm-3 font-weight-bold text-right">
               {{ serviceOrderPreview.totalPrice }} {{ currency }}
@@ -123,11 +123,11 @@
 
           <hr />
 
-          <h5>Fee</h5>
+          <h5>{{ $t("Fee") }}</h5>
 
           <div class="row mb-2">
             <p class="col-sm-9">
-              MDTAF's Commission
+              {{ $t("MDTAF's Commission") }}
             </p>
             <p class="col-sm-3 font-weight-bold text-right">
               {{ serviceOrderPreview.commission }} {{ currency }}
@@ -181,15 +181,18 @@
             </span>
 
             <h3 class="card-label">
-              Payment Method
+              {{ $t("Payment Method") }}
             </h3>
           </div>
         </div>
         <div class="card-body">
           <p class="text-center text-dark-75">
-            Choose a payment method to pay for your order. <br />
-            You can also pay with your MDTAF wallet free of charge if you have a
-            sufficient balance.
+            {{ $t("Choose a payment method to pay for your order.") }} <br />
+            {{
+              $t(
+                "You can also pay with your MDTAF wallet free of charge if you have a sufficient balance."
+              )
+            }}
           </p>
 
           <div class="row justify-content-center">
@@ -208,7 +211,11 @@
                 </span>
               </div>
               <div class="alert-text">
-                <h5>You don't have enough balance to pay with your Wallet.</h5>
+                <h5>
+                  {{
+                    $t("You don't have enough balance to pay with your Wallet.")
+                  }}
+                </h5>
               </div>
             </div>
 
@@ -246,7 +253,7 @@
                   <h4
                     class="font-size-h6 d-block font-weight-bold text-dark-50"
                   >
-                    Wallet Balance
+                    {{ $t("Wallet Balance") }}
                   </h4>
                   <!--end::Icon-->
 
@@ -263,16 +270,17 @@
                 id="proceed-btn"
                 @click="initServicePurchase"
                 class="btn btn-success btn-block font-weight-bold btn-square"
-                >Proceed to Payment</b-btn
+                >{{ $t("Proceed to Payment") }}</b-btn
               >
               <hr />
               <p class="text-center font-weight-bold m-0">
-                Payment
+                {{ $t("Payment") }}
                 <span class="text-success"
-                  ><i class="flaticon2-lock text-success" /> Secured</span
+                  ><i class="flaticon2-lock text-success" />
+                  {{ $t("Secured") }}</span
                 >
                 <br />
-                <small>Your information is encrypted by TLS</small>
+                <small>{{ $t("Your information is encrypted by TLS") }}</small>
               </p>
             </div>
           </div>
@@ -297,9 +305,11 @@
               </span>
             </div>
             <div class="alert-text text-justify font-weight-bold">
-              Once payment has been made, you can send your production
-              instructions to your seller, discuss and exchange files in
-              complete safety.
+              {{
+                $t(
+                  "Once payment has been made, you can send your production instructions to your seller, discuss and exchange files in complete safety."
+                )
+              }}
             </div>
           </div>
         </div>
@@ -439,7 +449,7 @@ export default {
       });
 
       this.notifySuccess(
-        "You successfully make a purchase of " +
+        this.$t("You successfully make a purchase of ") +
           this.serviceOrderPreview.service.title
       );
     }

@@ -72,7 +72,7 @@
                   v-model="amount"
                   class="form-control form-control-lg form-control-solid"
                   type="number"
-                  placeholder="Amount"
+                  :placeholder="$t('Amount')"
                   min="150"
                   autocomplete="off"
                 />
@@ -87,7 +87,7 @@
                 <div class="col-sm-12 text-center">
                   <button
                     id="btn_submit"
-                    class="col-sm-6 btn btn-success btn-lg font-weight-bolder"
+                    class="col-sm-12 col-md-9 col-xl-6 btn btn-success btn-lg font-weight-bolder"
                   >
                     {{ $t("Submit") }}
                   </button>
@@ -210,7 +210,7 @@ export default {
       if (window._.isEmpty(result.errors)) {
         if (result.data.payment.confirmed) {
           this.notifySuccess(
-            "You successfully make a deposit of " +
+            this.$t("You successfully make a deposit of ") +
               result.data.payment.amount +
               " " +
               this.currency
@@ -219,7 +219,7 @@ export default {
 
         if (result.data.payment.canceled) {
           this.notifyError(
-            "Error while making deposit of " +
+            this.$t("Error while making deposit of ") +
               result.data.payment.amount +
               " " +
               this.currency

@@ -6,10 +6,10 @@
       <!--begin::Title-->
       <div class="text-center pb-8">
         <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">
-          Sign Up
+          {{ $t("Sign Up") }}
         </h2>
         <p class="text-muted font-weight-bold font-size-h4">
-          Enter your details to create your account
+          {{ $t("Enter your details to create your account") }}
         </p>
       </div>
       <!--end::Title-->
@@ -23,7 +23,7 @@
           v-model="input.username"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
           type="text"
-          placeholder="Username"
+          :placeholder="$t('Username')"
           autocomplete="off"
         />
         <b-form-invalid-feedback id="input-live-feedback">
@@ -42,7 +42,7 @@
           v-model="input.email"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
           type="email"
-          placeholder="Email"
+          :placeholder="$t('Email')"
           autocomplete="off"
         />
         <b-form-invalid-feedback id="input-live-feedback">
@@ -60,7 +60,7 @@
           v-model="input.firstName"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
           type="text"
-          placeholder="First Name"
+          :placeholder="$t('First Name')"
           autocomplete="off"
         />
         <b-form-invalid-feedback id="input-live-feedback">
@@ -78,7 +78,7 @@
           v-model="input.lastName"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
           type="text"
-          placeholder="Last Name"
+          :placeholder="$t('Last Name')"
           autocomplete="off"
         />
         <b-form-invalid-feedback id="input-live-feedback">
@@ -97,7 +97,7 @@
           v-model="input.password"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
           type="password"
-          placeholder="Password"
+          :placeholder="$t('Password')"
           autocomplete="off"
         />
         <b-form-invalid-feedback id="input-live-feedback">
@@ -116,7 +116,7 @@
           v-model="input.passwordConfirmation"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
           type="password"
-          placeholder="Confirm password"
+          :placeholder="$t('Confirm password')"
           autocomplete="off"
         />
         <b-form-invalid-feedback id="input-live-feedback">
@@ -147,7 +147,7 @@
           id="kt_login_signup_submit"
           class="btn btn-dark font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4"
         >
-          Submit
+          {{ $t("Submit") }}
         </button>
 
         <router-link
@@ -159,7 +159,7 @@
             class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4"
             @click="navigate"
           >
-            Cancel
+            {{ $t("Cancel") }}
           </a>
         </router-link>
       </div>
@@ -230,8 +230,8 @@ export default {
       }
 
       await this.$store.dispatch(ADD_LOGIN_NOTIFICATION, {
-        message: "Registration successful",
-        otherMessage: "You can now login"
+        message: this.$t("Registration successful"),
+        otherMessage: this.$t("You can now login")
       });
 
       await this.$router.push({

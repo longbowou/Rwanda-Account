@@ -6,7 +6,7 @@
       <!--begin::Title-->
       <div :class="['text-center', hasNotifications ? 'pb-4' : 'pb-8']">
         <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">
-          Sign In
+          {{ $t("Sign In") }}
         </h2>
         <span class="text-muted font-weight-bold font-size-h4"
           >Or
@@ -19,7 +19,7 @@
               class="text-primary font-weight-bolder"
               @click="navigate"
             >
-              Create An Account
+              {{ $t("Create An Account") }}
             </a>
           </router-link>
         </span>
@@ -53,9 +53,9 @@
 
       <!--begin::Form group-->
       <div class="form-group">
-        <label class="font-size-h6 font-weight-bolder text-dark"
-          >Username or Email</label
-        >
+        <label class="font-size-h6 font-weight-bolder text-dark">{{
+          $t("Username or Email")
+        }}</label>
         <b-form-input
           required
           autofocus
@@ -63,7 +63,7 @@
           v-model="input.login"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
           type="text"
-          placeholder="Username or Email"
+          :placeholder="$t('Username or Email')"
           autocomplete="off"
         />
         <b-form-invalid-feedback id="input-live-feedback">
@@ -77,9 +77,9 @@
       <!--begin::Form group-->
       <div class="form-group">
         <div class="d-flex justify-content-between mt-n5">
-          <label class="font-size-h6 font-weight-bolder text-dark pt-5"
-            >Password</label
-          >
+          <label class="font-size-h6 font-weight-bolder text-dark pt-5">{{
+            $t("Password")
+          }}</label>
 
           <router-link
             :to="{ name: 'forgot' }"
@@ -90,7 +90,7 @@
               class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5"
               @click="navigate"
             >
-              Forgot Password ?
+              {{ $t("Forgot Password ?") }}
             </a>
           </router-link>
         </div>
@@ -101,7 +101,7 @@
           v-model="input.password"
           class="form-control form-control-solid h-auto py-7 px-6 rounded-lg"
           type="password"
-          placeholder="Password"
+          :placeholder="$t('Password')"
           autocomplete="off"
         />
         <b-form-invalid-feedback id="input-live-feedback">
@@ -118,7 +118,7 @@
           id="kt_login_signin_submit"
           class="btn btn-dark font-weight-bolder font-size-h6 px-8 py-4 my-3"
         >
-          Sign In
+          {{ $t("Sign In") }}
         </button>
       </div>
       <!--end::Action-->
@@ -162,7 +162,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(SET_HEAD_TITLE, "Login");
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("Login"));
   },
   methods: {
     async onSubmit(evt) {

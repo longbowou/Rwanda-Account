@@ -61,7 +61,7 @@
             </span>
 
             <h3 class="card-label">
-              Customize the service
+              {{ $t("Customize the service") }}
             </h3>
           </div>
         </div>
@@ -92,7 +92,7 @@
           </div>
           <hr />
           <h3 class="mt-8 mb-8 text-info text-center">
-            Additional options
+            {{ $t("Additional options") }}
           </h3>
           <template v-for="option of service.options">
             <div :key="option.id" class="row justify-content-center mb-3 ">
@@ -148,7 +148,7 @@
             </div>
             <div class="col-8">
               <span class="form-text text-dark-50"
-                >{{ selectedOptionsDelaySum }} total delivery days
+                >{{ selectedOptionsDelaySum }} {{ $t("total delivery days") }}
               </span>
             </div>
             <div class="col-sm-2 d-flex align-items-center"></div>
@@ -168,9 +168,12 @@
 
             <div class="col-sm-8 mt-3">
               <p class="text-muted text-center">
-                All prices are excluding VAT + 0.25 {{ currency }} and 3.4% fees
-                may be charged by our banking partners depending on the VAT
-                applied as well as the means of payment used.
+                {{
+                  $t(
+                    "All prices are excluding VAT + 0.25 {currency} and 3.4% fees may be charged by our banking partners depending on the VAT applied as well as the means of payment used.",
+                    { currency: currency }
+                  )
+                }}
               </p>
             </div>
           </div>
@@ -192,7 +195,7 @@
               >{{ service.delayDisplay }}
             </small>
 
-            <p>Basic service without options</p>
+            <p>{{ $t("Basic service without options") }}</p>
           </div>
 
           <div
@@ -204,7 +207,7 @@
 
             <div>
               <h3 class="font-weight-bold">
-                <span>Custom Options</span>
+                <span>{{ $t("Custom Options") }}</span>
                 <span class="text-primary float-right"
                   >{{ basePrice }} to {{ optionsSumPrice }} {{ currency }}
                 </span>
@@ -214,7 +217,7 @@
               </small>
 
               <p>
-                You can choose among
+                {{ $t("You can choose among") }}
                 <strong>{{ service.optionsCount }}</strong> options
               </p>
             </div>
@@ -231,19 +234,20 @@
               @click="navigate"
               class="btn btn-light-dark btn-lg btn-square btn-block font-weight-bold"
             >
-              Order Now ({{ basePrice }} {{ currency }})
+              {{ $t("Order Now") }} ({{ basePrice }} {{ currency }})
             </a>
           </router-link>
 
           <hr />
 
           <p class="text-center font-weight-bold m-0">
-            Payment
+            {{ $t("Payment") }}
             <span class="text-success"
-              ><i class="flaticon2-lock text-success" /> Secured</span
+              ><i class="flaticon2-lock text-success" />
+              {{ $t("Secured") }}</span
             >
             <br />
-            <small>Your information is encrypted by TLS</small>
+            <small>{{ $t("Your information is encrypted by TLS") }}</small>
           </p>
         </div>
       </div>

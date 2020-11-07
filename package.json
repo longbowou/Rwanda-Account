@@ -11,7 +11,7 @@
     "apollo:schema:publish": "vue-cli-service apollo:schema:publish",
     "apollo:start": "vue-cli-service apollo:start",
     "rtl": "webpack --config webpack-rtl.config.js",
-    "vue-i18n-extract": "vue-i18n-extract report -v './src/view/**/*.?(js|vue)' -l './src/core/config/i18n/*.?(js)'"
+    "vue-i18n-extract": "vue-i18n-extract report -v './src/view/**/*.?(js|vue)' -l './src/core/config/i18n/*.?(json|yml|yaml)' -a"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",

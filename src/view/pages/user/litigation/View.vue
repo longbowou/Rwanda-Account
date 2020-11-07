@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="card-title">
           <h3 class="card-label">
-            Litigation
+            {{ $t("Litigation") }}
           </h3>
 
           <span
