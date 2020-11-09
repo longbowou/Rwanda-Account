@@ -12,7 +12,7 @@
                 <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Add a Service</h3>
+              <h3 class="card-label">{{ $t("Add a Service") }}</h3>
             </div>
             <div class="card-toolbar">
               <button
@@ -20,7 +20,7 @@
                 class="btn btn-light-dark font-weight-bolder mr-2"
               >
                 <i class="ki ki-long-arrow-back icon-lg"></i>
-                Back
+                {{ $t("Back to Services") }}
               </button>
             </div>
           </div>
@@ -50,8 +50,8 @@ export default {
   },
   computed: {},
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Add a Service" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Add a Service");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("Add a Service") }]);
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("Add a Service"));
   },
   methods: {}
 };

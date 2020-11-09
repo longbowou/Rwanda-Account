@@ -12,15 +12,22 @@
                 <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Update a Service Option</h3>
+              <h3 class="card-label">
+                {{ $t("Update an Option") }}
+              </h3>
             </div>
             <div class="card-toolbar">
               <button
-                @click="$router.push({ name: 'service-options', params: {id: $route.params.id} })"
+                @click="
+                  $router.push({
+                    name: 'service-options',
+                    params: { id: $route.params.id }
+                  })
+                "
                 class="btn btn-light-dark font-weight-bolder mr-2"
               >
                 <i class="ki ki-long-arrow-back icon-lg"></i>
-                Back
+                {{ $t("Back to Options") }}
               </button>
             </div>
           </div>
@@ -51,9 +58,9 @@ export default {
   computed: {},
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
-      { title: "Update a Service Option" }
+      { title: this.$t("Update a Service Option") }
     ]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Update a Service Option");
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("Update a Service Option"));
   },
   methods: {}
 };

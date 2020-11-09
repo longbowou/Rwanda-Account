@@ -12,10 +12,14 @@
           <!--end::Svg Icon-->
         </span>
       </div>
-      <div class="alert-text text-justify font-weight-bold">
-        You ask an update. Please wait the seller
-        <strong>answer</strong> for your update request.
-      </div>
+      <div
+        class="alert-text text-justify font-weight-bold"
+        v-html="
+          $t(
+            'You ask an update. Please wait the seller <strong>answer</strong> for your update request.'
+          )
+        "
+      ></div>
     </div>
 
     <div
@@ -31,10 +35,17 @@
         </span>
       </div>
       <div class="alert-text text-justify font-weight-bold">
-        <h5>Action Required</h5>
-        An update request has been made by the buyer. <br />
-        You must <strong>accept or refuse</strong> the update request to
-        continue the process of purchasing the service. <br />
+        <h5>{{ $t("Action Required") }}</h5>
+        <div v-html="$t('An update request has been made by the buyer.')"></div>
+        <br />
+        <div
+          v-html="
+            $t(
+              'You must <strong>accept or refuse</strong> the update request to continue the process of purchasing the service.'
+            )
+          "
+        ></div>
+        <br />
       </div>
     </div>
 
@@ -42,7 +53,7 @@
       <div class="card-header">
         <div class="card-title">
           <h3 class="card-label">
-            Update request
+            {{ $t("Update Request") }}
           </h3>
 
           <span
@@ -63,7 +74,7 @@
             ref="btnAccept"
             @click="accept"
             v-if="updateRequest.canBeAccepted"
-            title="Accept"
+            :title="$t('Accept')"
             class="btn btn-lg btn-icon btn-light-success mr-2"
           >
             <i class="fas fa-check"></i>
@@ -74,7 +85,7 @@
             @click="deliver"
             v-if="updateRequest.canBeDelivered"
             data-toggle="tooltip"
-            title="Approve"
+            :title="$t('Approve')"
             class="btn btn-lg btn-icon btn-light-success mr-2"
           >
             <i class="fas fa-check-double"></i>
@@ -85,7 +96,7 @@
             @click="$refs.refuseModal.show()"
             v-if="updateRequest.canBeRefused"
             data-toggle="tooltip"
-            title="Refuse"
+            :title="$t('Refuse')"
             class="btn btn-lg btn-icon btn-light-danger"
           >
             <i class="flaticon2-cancel"></i>
@@ -101,7 +112,7 @@
 
       <div class="card-footer pt-4 pb-4" v-if="updateRequest.accepted">
         <h6 class="text-dark-65 m-0">
-          Deadline
+          {{ $t("Deadline") }}
           <span class="text-primary">{{ updateRequest.deadlineAt }}</span>
         </h6>
       </div>
@@ -110,7 +121,7 @@
     <b-modal ref="refuseModal" class="modal fade">
       <template #modal-header="{close}">
         <h5 class="modal-title">
-          Do you really want to refuse the update request ?
+          {{ $t("Do you really want to refuse the update request ?") }}
         </h5>
         <button type="button" class="close" @click="close()">
           <i aria-hidden="true" class="ki ki-close"></i>
@@ -128,7 +139,7 @@
             rows="4"
             class="form-control form-control-lg form-control-solid"
             type="text"
-            placeholder="Reason why"
+            :placeholder="$t('Reason why')"
             autocomplete="off"
           />
 
@@ -142,7 +153,7 @@
           class="btn btn-square btn-light-primary font-weight-bold"
           @click="hide()"
         >
-          Cancel
+          {{ $t("Cancel") }}
         </button>
 
         <button
@@ -151,7 +162,7 @@
           @click="$refs.submitModal.click()"
           class="btn btn-square btn-light-danger font-weight-bold"
         >
-          Refuse
+          {{ $t("Refuse") }}
         </button>
       </template>
     </b-modal>
@@ -177,10 +188,12 @@ export default {
   },
   methods: {
     async accept() {
-      const title =
-        "Do you really want to accept the update request " +
-        this.updateRequest.title +
-        " ?";
+      const title = this.$t(
+        "Do you really want to accept the update request {title} ?",
+        {
+          title: this.updateRequest.title
+        }
+      );
 
       if (!confirm(title)) {
         return;
@@ -221,7 +234,7 @@ export default {
         return;
       }
 
-      this.notifySuccess("Update request accepted.");
+      this.notifySuccess(this.$t("Update request accepted."));
 
       this.$emit(
         "update-request-updated",
@@ -254,7 +267,7 @@ export default {
         return;
       }
 
-      this.notifySuccess("Update request refused.");
+      this.notifySuccess(this.$t("Update request refused."));
 
       this.$emit(
         "update-request-updated",
@@ -263,10 +276,12 @@ export default {
       );
     },
     async deliver() {
-      const title =
-        "Do you really want to mark as deliver the update request " +
-        this.updateRequest.title +
-        " ?";
+      const title = this.$t(
+        "Do you really want to mark as deliver the update request {title} ?",
+        {
+          title: this.updateRequest.title
+        }
+      );
 
       if (!confirm(title)) {
         return;
@@ -309,7 +324,7 @@ export default {
         return;
       }
 
-      this.notifySuccess("Update request mark as deliver.");
+      this.notifySuccess(this.$t("Update request mark as delivered."));
 
       this.$emit(
         "update-request-updated",

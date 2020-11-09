@@ -12,7 +12,9 @@
               <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
               <!--end::Svg Icon-->
             </span>
-            <h3 class="card-label">Service Options</h3>
+            <h3 class="card-label">
+              {{ $t("Service Options") }}
+            </h3>
           </div>
           <div class="card-toolbar">
             <button
@@ -20,7 +22,7 @@
               class="btn btn-light-dark font-weight-bolder mr-2"
             >
               <i class="ki ki-long-arrow-back icon-lg"></i>
-              Back
+              {{ $t("Back to Options") }}
             </button>
 
             <router-link
@@ -35,7 +37,7 @@
                 <span class="svg-icon svg-icon-md">
                   <inline-svg src="media/svg/icons/Design/Flatten.svg" />
                 </span>
-                Add a Service Option
+                {{ $t("Add an Option") }}
               </a>
             </router-link>
           </div>
@@ -49,22 +51,22 @@
               >
                 <thead>
                   <tr>
-                    <th style="width: 25%">Title</th>
-                    <th>Delay</th>
-                    <th>Price</th>
-                    <th>Published</th>
-                    <th>Created At</th>
+                    <th style="width: 25%">{{ $t("Title") }}</th>
+                    <th>{{ $t("Delivery Delay") }}</th>
+                    <th>{{ $t("Price") }}</th>
+                    <th>{{ $t("Published") }}</th>
+                    <th>{{ $t("Created At") }}</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
 
                 <tfoot>
                   <tr>
-                    <th style="width: 25%">Title</th>
-                    <th>Delay</th>
-                    <th>Price</th>
-                    <th>Published</th>
-                    <th>Created At</th>
+                    <th style="width: 25%">{{ $t("Title") }}</th>
+                    <th>{{ $t("Delivery Delay") }}</th>
+                    <th>{{ $t("Price") }}</th>
+                    <th>{{ $t("Published") }}</th>
+                    <th>{{ $t("Created At") }}</th>
                     <th>Actions</th>
                   </tr>
                 </tfoot>
@@ -132,15 +134,27 @@ export default {
               name: "service-options-view",
               params: { optionId: data.id }
             });
-            const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-dark btn-square btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
+            const showBtn = `<a href="${
+              showRouter.href
+            }" class="btn btn-sm btn-clean btn-icon btn-hover-icon-dark btn-square btn-icon-sm" title="${$this.$t(
+              "Show"
+            )}"><i class="flaticon-eye"></i></a>`;
 
             const editRouter = $this.$router.resolve({
               name: "service-options-edit",
               params: { id: data.service, optionId: data.id }
             });
-            const editBtn = `<a href="${editRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square" title="Edit"><i class="fa fa-edit"></i></a>`;
+            const editBtn = `<a href="${
+              editRouter.href
+            }" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square" title="${$this.$t(
+              "Edit"
+            )}"><i class="fa fa-edit"></i></a>`;
 
-            const deleteBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-danger btn-square btn-delete" title="Delete" data-id="${data.id}" data-label="${data.label}"><i class="fa fa-trash"></i></button>`;
+            const deleteBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-danger btn-square btn-delete" title="${$this.$t(
+              "Delete"
+            )}" data-id="${data.id}" data-label="${
+              data.label
+            }"><i class="fa fa-trash"></i></button>`;
             return showBtn + " " + editBtn + " " + deleteBtn;
           }
         }
@@ -183,7 +197,7 @@ export default {
         window.$(btn).addClass("disabled spinner spinner-danger spinner-right");
 
         if (window._.isEmpty(result.data.deleteServiceOption.errors)) {
-          this.notifySuccess("Service Option deleted successfully.");
+          this.notifySuccess(this.$t("Service Option deleted successfully."));
           this.datatable.ajax.reload(null, false);
         }
 

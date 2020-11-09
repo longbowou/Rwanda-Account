@@ -5,5 +5,9 @@
   "The buyer <strong>{username}</strong> during this time before you accept the order may at any time <strong>cancel</strong> the order.": "The buyer <strong>{username}</strong> during this time before you accept the order may at any time <strong>cancel</strong> the order.",
   "By accepting the order a delivery deadline has been set to <strong>{deadlineAt}</strong>for the order.": "By accepting the order a delivery deadline has been set to <strong>{deadlineAt}</strong>for the order.",
   "Do you really want to accept the order {number} for {title} ?": "Do you really want to accept the order {number} for {title} ?",
-  "Do you really want to mark as deliver the order {number} for {title} ?": "Do you really want to mark as deliver the order {number} for {title} ?"
+  "Do you really want to mark as deliver the order {number} for {title} ?": "Do you really want to mark as deliver the order {number} for {title} ?",
+  "Do you really want to cancel the purchase {number} for {title} ?": "Do you really want to cancel the purchase {number} for {title} ?",
+  "Do you really want to approve the purchase {number} for {title} ?": "Do you really want to approve the purchase {number} for {title} ?",
+  "The seller has accepted your purchase a delivery deadline has been set to <strong>{deadlineAt}</strong>.": "The seller has accepted your purchase a delivery deadline has been set to <strong>{deadlineAt}</strong>.",
+  "Do you really want to accept the update request {title} ?": "Do you really want to accept the update request {title} ?"
 }

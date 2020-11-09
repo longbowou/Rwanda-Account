@@ -12,8 +12,20 @@
         </span>
       </div>
       <div class="alert-text text-justify font-weight-bold">
-        You can ask an update by <strong>making an update request</strong>. If
-        the seller accept it the <strong>deadline will be reset</strong>.
+        <div
+          v-html="
+            $t(
+              'You can ask an update by <strong>making an update request</strong>.'
+            )
+          "
+        ></div>
+        <div
+          v-html="
+            $t(
+              'If the seller accept it the <strong>deadline will be reset</strong>.'
+            )
+          "
+        ></div>
       </div>
     </div>
 
@@ -21,7 +33,7 @@
       <div class="card-header">
         <div class="card-title">
           <h3 class="card-label">
-            Make an update request
+            {{ $t("Make an update request") }}
           </h3>
         </div>
       </div>
@@ -29,16 +41,16 @@
       <div class="card-body pt-2">
         <form class="form" @submit="onSubmit">
           <div class="form-group">
-            <label class="col-sm-12 col-form-label font-weight-bold"
-              >Title</label
-            >
+            <label class="col-sm-12 col-form-label font-weight-bold">
+              {{ $t("Title") }}
+            </label>
             <b-form-input
               required
               :state="validateState('title')"
               v-model="input.title"
               class="form-control form-control-lg form-control-solid"
               type="text"
-              placeholder="Title"
+              :placeholder="$t('Title')"
               autocomplete="off"
             />
             <b-form-invalid-feedback id="input-live-feedback">
@@ -49,9 +61,9 @@
           </div>
 
           <div class="form-group">
-            <label class="col-sm-12 col-form-label font-weight-bold"
-              >Content</label
-            >
+            <label class="col-sm-12 col-form-label font-weight-bold">
+              {{ $t("Content") }}
+            </label>
             <div
               id="description"
               style="height: 200px"
@@ -66,7 +78,7 @@
               id="btn_submit"
               class="col-sm-6 btn btn-light-warning btn-lg font-weight-bolder"
             >
-              Submit
+              {{ $t("Submit") }}
             </button>
           </div>
         </form>
@@ -129,14 +141,14 @@ export default {
           .servicePurchaseUpdateRequest
       );
 
-      return this.notifySuccess("Update request made successfully.");
+      return this.notifySuccess(this.$t("Update request made successfully."));
     },
     initPlugins() {
       this.contentQuill = new Quill("#description", {
         modules: {
           toolbar: true
         },
-        placeholder: "Content",
+        placeholder: this.$t("Content"),
         theme: "snow"
       });
     }

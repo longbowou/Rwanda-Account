@@ -6,11 +6,11 @@
       <div class="card-header py-3">
         <div class="card-title align-items-start flex-column">
           <h3 class="card-label font-weight-bolder text-dark">
-            Personal Information
+            {{ $t("Personal Information") }}
           </h3>
-          <span class="text-muted font-weight-bold font-size-sm mt-1"
-            >Update your personal information</span
-          >
+          <span class="text-muted font-weight-bold font-size-sm mt-1">{{
+            $t("Update your personal information")
+          }}</span>
         </div>
         <div class="card-toolbar">
           <button
@@ -18,7 +18,7 @@
             id="btn_submit"
             class="btn btn-success font-weight-bolder"
           >
-            Save Changes
+            {{ $t("Save Changes") }}
           </button>
           <!--          <button type="reset" class="btn btn-secondary">Cancel</button>-->
         </div>
@@ -30,7 +30,9 @@
         <!--begin::Body-->
         <div class="card-body">
           <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label">Username</label>
+            <label class="col-xl-3 col-lg-3 col-form-label">{{
+              $t("Username")
+            }}</label>
             <div class="col-lg-9 col-xl-6">
               <b-form-input
                 required
@@ -39,7 +41,7 @@
                 v-model="input.username"
                 class="form-control form-control-lg form-control-solid"
                 type="text"
-                placeholder="Username"
+                :placeholder="$t('Username')"
                 autocomplete="off"
               />
               <b-form-invalid-feedback id="input-live-feedback">
@@ -71,14 +73,16 @@
           </div>
 
           <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label">First Name</label>
+            <label class="col-xl-3 col-lg-3 col-form-label">{{
+              $t("First Name")
+            }}</label>
             <div class="col-lg-9 col-xl-6">
               <b-form-input
                 :state="validateState('firstName')"
                 v-model="input.firstName"
                 class="form-control form-control-lg form-control-solid"
                 type="text"
-                placeholder="First Name"
+                :placeholder="$t('First Name')"
                 autocomplete="off"
               />
               <b-form-invalid-feedback id="input-live-feedback">
@@ -90,14 +94,16 @@
           </div>
 
           <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label">Last Name</label>
+            <label class="col-xl-3 col-lg-3 col-form-label">{{
+              $t("Last Name")
+            }}</label>
             <div class="col-lg-9 col-xl-6">
               <b-form-input
                 :state="validateState('lastName')"
                 v-model="input.lastName"
                 class="form-control form-control-lg form-control-solid"
                 type="text"
-                placeholder="Last Name"
+                :placeholder="$t('Last Name')"
                 autocomplete="off"
               />
               <b-form-invalid-feedback id="input-live-feedback">
@@ -134,8 +140,10 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Personal Information" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Personal Information");
+    this.$store.dispatch(SET_BREADCRUMB, [
+      { title: this.$t("Personal Information") }
+    ]);
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("Personal Information"));
 
     this.input = window._.pick(this.$store.state.auth.account, [
       "username",

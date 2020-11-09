@@ -7,11 +7,11 @@
       <div class="card-header py-3">
         <div class="card-title align-items-start flex-column">
           <h3 class="card-label font-weight-bolder text-dark">
-            Change Password
+            {{ $t("Change Password") }}
           </h3>
-          <span class="text-muted font-weight-bold font-size-sm mt-1"
-            >Change your account password</span
-          >
+          <span class="text-muted font-weight-bold font-size-sm mt-1">{{
+            $t("Change your account password")
+          }}</span>
         </div>
         <div class="card-toolbar">
           <button
@@ -19,7 +19,7 @@
             id="btn_submit"
             class="btn btn-success font-weight-bolder"
           >
-            Save Changes
+            {{ $t("Save Changes") }}
           </button>
         </div>
       </div>
@@ -29,9 +29,9 @@
       <form id="form" class="form" @submit="onSubmit">
         <div class="card-body">
           <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label text-alert"
-              >Current Password</label
-            >
+            <label class="col-xl-3 col-lg-3 col-form-label text-alert">{{
+              $t("Current Password")
+            }}</label>
             <div class="col-lg-9 col-xl-6">
               <b-form-input
                 required
@@ -40,7 +40,7 @@
                 v-model="input.currentPassword"
                 class="form-control form-control-lg form-control-solid"
                 type="password"
-                placeholder="Current password"
+                :placeholder="$t('Current Password')"
               />
               <b-form-invalid-feedback id="input-live-feedback">
                 <p
@@ -54,9 +54,9 @@
           </div>
 
           <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label text-alert"
-              >New Password</label
-            >
+            <label class="col-xl-3 col-lg-3 col-form-label text-alert">{{
+              $t("New Password")
+            }}</label>
             <div class="col-lg-9 col-xl-6">
               <b-form-input
                 required
@@ -64,7 +64,7 @@
                 v-model="input.password"
                 class="form-control form-control-lg form-control-solid"
                 type="password"
-                placeholder="New password"
+                :placeholder="$t('New Password')"
               />
               <b-form-invalid-feedback id="input-live-feedback">
                 <p :key="message" v-for="message of errorMessages('password')">
@@ -75,9 +75,9 @@
           </div>
 
           <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label text-alert"
-              >New password confirmation</label
-            >
+            <label class="col-xl-3 col-lg-3 col-form-label text-alert">{{
+              $t("New password confirmation")
+            }}</label>
             <div class="col-lg-9 col-xl-6">
               <b-form-input
                 required
@@ -85,7 +85,7 @@
                 v-model="input.passwordConfirmation"
                 class="form-control form-control-lg form-control-solid"
                 type="password"
-                placeholder="New password confirmation"
+                :placeholder="$t('New password confirmation')"
               />
               <b-form-invalid-feedback id="input-live-feedback">
                 <p
@@ -131,8 +131,10 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Change Password" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Change Password");
+    this.$store.dispatch(SET_BREADCRUMB, [
+      { title: this.$t("Change Password") }
+    ]);
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("Change Password"));
   },
   methods: {
     async onSubmit(evt) {
@@ -166,8 +168,8 @@ export default {
       await this.$store.dispatch(UPDATE_NEXT_PATH, this.$route.fullPath);
 
       await this.$store.dispatch(ADD_LOGIN_NOTIFICATION, {
-        message: "Password successful updated",
-        otherMessage: "You can now login"
+        message: this.$t("Password successfully updated"),
+        otherMessage: this.$t("You can now login")
       });
 
       await this.$router.push({

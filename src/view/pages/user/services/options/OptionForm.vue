@@ -1,15 +1,16 @@
 <template>
   <form class="form col-sm-9" @submit="onSubmit">
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Label</label>
+      <label class="col-sm-12 col-form-label font-weight-bold">
+        {{ $t("Label") }}
+      </label>
       <b-form-input
         required
         :state="validateState('label')"
         v-model="input.label"
         class="form-control form-control-lg form-control-solid"
         type="text"
-        placeholder="Label"
-        min="0"
+        :placeholder="$t('Label')"
         autocomplete="off"
       />
       <b-form-invalid-feedback id="input-live-feedback">
@@ -20,27 +21,29 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold"
-        >Additional Delivery Delay (Days)</label
-      >
+      <label class="col-sm-12 col-form-label font-weight-bold">
+        {{ $t("Additional Delivery Delay (Days)") }}
+      </label>
       <b-form-input
         required
         v-model="input.delay"
         class="form-control form-control-lg form-control-solid"
         type="number"
-        placeholder="Additional Delivery Delay (Days)"
+        :placeholder="$t('Additional Delivery Delay (Days)')"
         min="0"
       />
     </div>
 
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Price</label>
+      <label class="col-sm-12 col-form-label font-weight-bold">
+        {{ $t("Price") }}
+      </label>
       <b-form-input
         required
         v-model="input.price"
         class="form-control form-control-lg form-control-solid"
         type="number"
-        placeholder="Price"
+        :placeholder="$t('Price')"
         min="0"
       />
     </div>
@@ -54,7 +57,7 @@
             type="checkbox"
           />
           <span></span>
-          Published
+          {{ $t("Published") }}
         </label>
       </div>
     </div>
@@ -66,7 +69,7 @@
         id="btn_submit"
         class="col-sm-6 btn btn-success btn-lg font-weight-bolder"
       >
-        Submit
+        {{ $t("Submit") }}
       </button>
     </div>
   </form>
@@ -149,9 +152,9 @@ export default {
         name: "service-options"
       });
 
-      let message = "Service option added successfully.";
+      let message = this.$t("Service option added successfully.");
       if (this.updating) {
-        message = "Service option updated successfully.";
+        message = this.$t("Service option updated successfully.");
       }
 
       return this.notifySuccess(message);

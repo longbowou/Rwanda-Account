@@ -20,7 +20,7 @@
                 class="btn btn-light-dark font-weight-bolder mr-2"
               >
                 <i class="ki ki-long-arrow-back icon-lg"></i>
-                Back
+                {{ $t("Back to Options") }}
               </button>
 
               <button
@@ -35,33 +35,32 @@
                 class="btn btn-light-primary font-weight-bolder mr-2"
               >
                 <i class="fa fa-edit icon-lg"></i>
-                Edit
+                {{ $t("Edit") }}
               </button>
             </div>
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-sm-8" v-html="serviceOption.description"></div>
-              <div class="col-sm-4">
+              <div class="col-sm-12">
                 <div class="form-group row">
-                  <label class="col-form-label col-4 text-lg-right text-left"
-                    >Delivery Delay</label
-                  >
+                  <label class="col-form-label col-4 text-lg-right text-left">
+                    {{ $t("Delivery Delay") }}
+                  </label>
                   <div class="col-8">
-                    <span class="form-control-plaintext font-weight-bold"
-                      >{{ serviceOption.delay }} Days</span
-                    >
+                    <span class="form-control-plaintext font-weight-bold">
+                      {{ serviceOption.delay }}
+                    </span>
                   </div>
                 </div>
 
                 <div class="form-group row">
-                  <label class="col-form-label col-4 text-lg-right text-left"
-                    >Price</label
-                  >
+                  <label class="col-form-label col-4 text-lg-right text-left">
+                    {{ $t("Price") }}
+                  </label>
                   <div class="col-8">
-                    <span class="form-control-plaintext font-weight-bold"
-                      >{{ serviceOption.price }} XOF</span
-                    >
+                    <span class="form-control-plaintext font-weight-bold">
+                      {{ serviceOption.price }} {{ currency }}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -79,6 +78,7 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { queryServiceOption } from "@/graphql/service-options-queries";
+import { mapGetters } from "vuex";
 
 export default {
   name: "OptionView",
@@ -89,6 +89,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["currency"]),
     getTitle() {
       if (window._.has(this.serviceOption, "label")) {
         return this.serviceOption.label;

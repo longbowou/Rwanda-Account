@@ -179,7 +179,8 @@ export default {
       submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
       this.notifySuccess(
-        "You successfully initiate a refund of " +
+        this.$t("You successfully initiate a refund of") +
+          " " +
           result.data.initiateRefund.refund.amount +
           " " +
           this.currency

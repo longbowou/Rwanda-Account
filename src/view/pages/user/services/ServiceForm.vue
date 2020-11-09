@@ -34,7 +34,6 @@
           class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
           data-action="cancel"
           data-toggle="tooltip"
-          title="Cancel avatar"
         >
           <i class="ki ki-bold-close icon-xs text-muted"></i>
         </span>
@@ -44,7 +43,6 @@
           class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
           data-action="remove"
           data-toggle="tooltip"
-          title="Remove avatar"
         >
           <i class="ki ki-bold-close icon-xs text-muted"></i>
         </span>
@@ -52,14 +50,16 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Title</label>
+      <label class="col-sm-12 col-form-label font-weight-bold">
+        {{ $t("Title") }}
+      </label>
       <b-form-input
         required
         :state="validateState('title')"
         v-model="input.title"
         class="form-control form-control-lg form-control-solid"
         type="text"
-        placeholder="Title"
+        :placeholder="$t('Title')"
         autocomplete="off"
       />
       <b-form-invalid-feedback id="input-live-feedback">
@@ -70,12 +70,16 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Content</label>
+      <label class="col-sm-12 col-form-label font-weight-bold">
+        {{ $t("Content") }}
+      </label>
       <div id="content" style="height: 200px" v-html="contentHtml"></div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Category</label>
+      <label class="col-sm-12 col-form-label font-weight-bold">
+        {{ $t("Category") }}
+      </label>
       <b-form-select
         required
         v-model="input.serviceCategory"
@@ -86,28 +90,29 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold"
-        >Delivery Delay (Days)</label
-      >
+      <label class="col-sm-12 col-form-label font-weight-bold">
+        {{ $t("Delivery Delay (Days)") }}
+      </label>
       <b-form-input
         required
         v-model="input.delay"
         class="form-control form-control-lg form-control-solid"
         type="number"
-        placeholder="Delivery Delay (Days)"
+        :placeholder="$t('Delivery Delay (Days)')"
         min="0"
       />
     </div>
 
     <div class="form-group">
-      <label class="col-sm-12 col-form-label font-weight-bold">Keywords</label>
+      <label class="col-sm-12 col-form-label font-weight-bold">
+        {{ $t("Keywords") }}
+      </label>
       <b-form-input
         v-model="input.keywords"
         id="keywords"
         class="form-control form-control-lg form-control-solid"
         type="text"
-        placeholder="Keywords"
-        min="0"
+        :placeholder="$t('Keywords')"
       />
     </div>
 
@@ -120,7 +125,7 @@
             type="checkbox"
           />
           <span></span>
-          Published
+          {{ $t("Published") }}
         </label>
       </div>
     </div>
@@ -132,7 +137,7 @@
         id="btn_submit"
         class="col-sm-6 btn btn-success btn-lg font-weight-bolder"
       >
-        Submit
+        {{ $t("Submit") }}
       </button>
     </div>
   </form>
@@ -249,9 +254,9 @@ export default {
         name: "user-services"
       });
 
-      let message = "Service added successfully.";
+      let message = this.$t("Service added successfully.");
       if (this.updating) {
-        message = "Service updated successfully.";
+        message = this.$t("Service updated successfully.");
       }
 
       return this.notifySuccess(message);
@@ -286,7 +291,7 @@ export default {
         modules: {
           toolbar: true
         },
-        placeholder: "Content",
+        placeholder: this.$t("Content"),
         theme: "snow"
       });
 

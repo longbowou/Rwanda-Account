@@ -79,7 +79,7 @@
                     </span>
                   </span>
                   <span class="navi-text font-size-lg">
-                    Profile Overview
+                    {{ $t("Profile Overview") }}
                   </span>
                 </a>
               </router-link>
@@ -105,7 +105,7 @@
                     </span>
                   </span>
                   <span class="navi-text font-size-lg">
-                    Personal Information
+                    {{ $t("Personal Information") }}
                   </span>
                 </a>
               </router-link>
@@ -133,7 +133,7 @@
                     </span>
                   </span>
                   <span class="navi-text font-size-lg">
-                    Change Password
+                    {{ $t("Change Password") }}
                   </span>
                 </a>
               </router-link>

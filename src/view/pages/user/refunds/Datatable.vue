@@ -16,7 +16,7 @@
                 />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Refunds</h3>
+              <h3 class="card-label">{{ $t("Refunds") }}</h3>
             </div>
           </div>
           <div class="card-body">
@@ -28,18 +28,18 @@
                 >
                   <thead>
                     <tr>
-                      <th>Amount</th>
-                      <th>Status</th>
-                      <th>Phone Number</th>
-                      <th>Created At</th>
+                      <th>{{ $t("Amount") }}</th>
+                      <th>{{ $t("Status") }}</th>
+                      <th>{{ $t("Phone Number") }}</th>
+                      <th>{{ $t("Created At") }}</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>Amount</th>
-                      <th>Status</th>
-                      <th>Phone Number</th>
-                      <th>Created At</th>
+                      <th>{{ $t("Amount") }}</th>
+                      <th>{{ $t("Status") }}</th>
+                      <th>{{ $t("Phone Number") }}</th>
+                      <th>{{ $t("Created At") }}</th>
                     </tr>
                   </tfoot>
                 </table>
@@ -72,8 +72,8 @@ export default {
     ...mapGetters(["currentAccount", "currency"])
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Refunds" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Refunds");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("Refunds") }]);
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("Refunds"));
 
     window.$("#refunds-dataTable").DataTable({
       lengthMenu: [

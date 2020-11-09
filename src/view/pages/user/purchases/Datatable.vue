@@ -14,7 +14,7 @@
                 <inline-svg src="media/svg/icons/Shopping/Cart1.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">Purchases</h3>
+              <h3 class="card-label">{{ $t("Purchases") }}</h3>
             </div>
           </div>
 
@@ -27,25 +27,25 @@
                 >
                   <thead>
                     <tr>
-                      <th>Number</th>
-                      <th style="width: 25%">Service</th>
-                      <th>Status</th>
-                      <th>Delay</th>
-                      <th>Price</th>
-                      <th>Deadline</th>
-                      <th>Created At</th>
+                      <th>{{ $t("Number") }}</th>
+                      <th style="width: 25%">{{ $t("Service") }}</th>
+                      <th>{{ $t("Status") }}</th>
+                      <th>{{ $t("Delivery delay") }}</th>
+                      <th>{{ $t("Price") }}</th>
+                      <th>{{ $t("Deadline") }}</th>
+                      <th>{{ $t("Created At") }}</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>Number</th>
-                      <th style="width: 25%">Service</th>
-                      <th>Status</th>
-                      <th>Delay</th>
-                      <th>Price</th>
-                      <th>Deadline</th>
-                      <th>Created At</th>
+                      <th>{{ $t("Number") }}</th>
+                      <th style="width: 25%">{{ $t("Service") }}</th>
+                      <th>{{ $t("Status") }}</th>
+                      <th>{{ $t("Delivery delay") }}</th>
+                      <th>{{ $t("Price") }}</th>
+                      <th>{{ $t("Deadline") }}</th>
+                      <th>{{ $t("Created At") }}</th>
                       <th>Actions</th>
                     </tr>
                   </tfoot>
@@ -87,8 +87,8 @@ export default {
     ...mapGetters(["currentAccount", "currency"])
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Purchases" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Purchases");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("Purchases") }]);
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("Purchases"));
 
     const $this = this;
     this.datatable = window.$("#service-purchases-dataTable").DataTable({
@@ -187,12 +187,10 @@ export default {
   },
   methods: {
     async handleCancelPurchase(btn) {
-      const title =
-        "Do you really want to cancel the purchase " +
-        btn.dataset.number +
-        " for " +
-        btn.dataset.title +
-        " ?";
+      const title = this.$t(
+        "Do you really want to cancel the purchase {number} for {title} ?",
+        { number: btn.dataset.number, title: btn.dataset.title }
+      );
 
       window.$(btn).addClass("disabled spinner spinner-danger spinner-right");
 
@@ -209,12 +207,10 @@ export default {
         .removeClass("disabled spinner spinner-danger spinner-right");
     },
     async handleApprovePurchase(btn) {
-      const title =
-        "Do you really want to approve the purchase " +
-        btn.dataset.number +
-        " for " +
-        btn.dataset.title +
-        " ?";
+      const title = this.$t(
+        "Do you really want to approve the purchase {number} for {title} ?",
+        { number: btn.dataset.number, title: btn.dataset.title }
+      );
 
       window.$(btn).addClass("disabled spinner spinner-success spinner-right");
 

@@ -22,18 +22,36 @@
                 </span>
               </div>
               <div class="alert-text text-justify font-weight-bold">
-                Your purchase <strong>{{ servicePurchase.number }}</strong> has
-                been successfully placed to the seller
-                <strong>{{
-                  servicePurchase.service
-                    ? servicePurchase.service.account.fullName
-                    : null
-                }}</strong
-                >. <br />
-                You must wait for the seller to <strong>accept</strong> the
-                order to continue the process of purchasing the service. <br />
-                You can <strong>cancel</strong> the purchase before the order is
-                accepted by the seller. <br />
+                <div
+                  v-html="
+                    $t(
+                      'Your purchase <strong>{number}</strong> has been successfully placed to the seller <strong>{username}</strong>.',
+                      {
+                        number: servicePurchase.number,
+                        username: servicePurchase.service
+                          ? servicePurchase.service.account.username
+                          : null
+                      }
+                    )
+                  "
+                ></div>
+                <br />
+                <div
+                  v-html="
+                    $t(
+                      'You must wait for the seller to <strong>accept</strong> the order to continue the process of purchasing the service.'
+                    )
+                  "
+                ></div>
+                <br />
+                <div
+                  v-html="
+                    $t(
+                      'You can <strong>cancel</strong> the purchase before the order is accepted by the seller.'
+                    )
+                  "
+                ></div>
+                <br />
               </div>
             </div>
           </div>
@@ -51,7 +69,7 @@
                 <!--end::Svg Icon-->
               </span>
               <h3 class="card-label">
-                Purchase
+                {{ $t("Purchase") }}
               </h3>
               <span
                 class="label label-xl font-weight-bold label-inline label-square label-light-dark"
@@ -89,7 +107,7 @@
                 @click="handleApprovePurchase"
                 v-if="servicePurchase.canBeApproved"
                 data-toggle="tooltip"
-                title="Approve"
+                :title="$t('Approve')"
                 class="btn btn-lg btn-icon btn-light-success mr-2"
               >
                 <i class="fas fa-check-double"></i>
@@ -100,7 +118,7 @@
                 @click="handleCancelPurchase"
                 v-if="servicePurchase.canBeCanceled"
                 data-toggle="tooltip"
-                title="Cancel"
+                :title="$t('Cancel')"
                 class="btn btn-lg btn-icon btn-light-danger mr-2"
               >
                 <i class="flaticon2-cancel"></i>
@@ -117,8 +135,8 @@
                 data-toggle="tooltip"
                 :title="
                   updateRequest == null
-                    ? 'Make an update request'
-                    : 'View update request'
+                    ? $t('Make an update request')
+                    : $t('View update request')
                 "
                 class="btn btn-lg btn-icon btn-light-warning mr-2"
               >
@@ -134,7 +152,9 @@
                     !viewLitigationView
                 "
                 :title="
-                  litigation == null ? 'Open a litigation' : 'View litigation'
+                  litigation == null
+                    ? $t('Open a litigation')
+                    : $t('View litigation')
                 "
                 class="btn btn-lg btn-icon btn-light-danger mr-2"
               >
@@ -149,7 +169,7 @@
                 ref="btnComment"
                 @click="showCommentCreate"
                 v-if="servicePurchase.canBeCommented && !viewCommentCreate"
-                title="Write a comment"
+                :title="$t('Write a comment')"
                 class="btn btn-lg btn-icon btn-light-dark mr-2"
               >
                 <span class="svg-icon svg-icon-lg svg-icon-2x">
@@ -163,7 +183,7 @@
                 v-if="servicePurchase.hasBeenAccepted && !viewChat"
                 @click="showChatComponent"
                 data-toggle="tooltip"
-                title="Chat with the Seller"
+                :title="$t('Chat with the Seller')"
                 class="btn btn-lg btn-icon btn-light-primary mr-2"
               >
                 <i class="flaticon2-chat-1"></i>
@@ -173,7 +193,7 @@
                 ref="btnChat"
                 v-if="!viewTimeline"
                 @click="showTimelineComponent"
-                title="Timeline"
+                :title="$t('Timeline')"
                 class="btn btn-lg btn-icon btn-light-dark"
               >
                 <i class="fas fa-history"></i>
@@ -234,7 +254,7 @@
                   {{ servicePurchase.price }} {{ currency }}
                 </h5>
                 <p class="font-weight-boldest text-success mb-0">
-                  Paid with Wallet <br />
+                  {{ $t("Paid with Wallet") }} <br />
                   <i class="ml-2 icon-lg text-success flaticon2-correct" />
                 </p>
               </div>
@@ -243,7 +263,7 @@
 
           <div class="card-footer pt-4 pb-4" v-if="servicePurchase.accepted">
             <h6 class="text-dark-65 m-0">
-              Deadline
+              {{ $t("Deadline") }}
               <span class="text-primary">{{ servicePurchase.deadlineAt }}</span>
             </h6>
           </div>
@@ -285,25 +305,39 @@
           </div>
           <div class="alert-text text-justify font-weight-bold">
             <div v-if="lastUpdateRequest.delivered">
-              Your update request
-              <strong>{{ lastUpdateRequest.title }}</strong> has been mark as
-              delivered. <br />
+              <div
+                v-html="
+                  $t(
+                    'Your update request <strong>{title}</strong> has been mark as delivered.',
+                    { title: lastUpdateRequest.title }
+                  )
+                "
+              ></div>
+              <br />
             </div>
 
             <div v-if="lastUpdateRequest.refused">
-              Your update request
-              <strong>{{ lastUpdateRequest.title }}</strong> has been refused.
+              <div
+                v-html="
+                  $t(
+                    'Your update request <strong>{title}</strong> has been refused.',
+                    { title: lastUpdateRequest.title }
+                  )
+                "
+              ></div>
               <br />
-              <strong>Reason:</strong> {{ lastUpdateRequest.reason }}
+              <strong>{{ $t("Reason") }}:</strong>
+              {{ lastUpdateRequest.reason }}
               <br />
             </div>
 
-            You can now
-            <strong
-              >approve, create a new update request or even open a
-              litigation</strong
-            >
-            in order to continue the process of purchasing the service.
+            <div
+              v-html="
+                $t(
+                  'You can now <strong>approve, create a new update request or even open a litigation</strong> in order to continue the process of purchasing the service.'
+                )
+              "
+            ></div>
           </div>
         </div>
 
@@ -339,14 +373,24 @@
           </div>
           <div class="alert-text text-justify font-weight-bold">
             <div v-if="litigation.approved">
-              Your purchase has been approved by administrators. <br />
+              <div
+                v-html="
+                  $t('Your purchase has been approved by administrators.')
+                "
+              ></div>
+              <br />
             </div>
 
             <div v-if="litigation.canceled">
-              Your purchase has been canceled by administrators. <br />
+              <div
+                v-html="
+                  $t('Your purchase has been canceled by administrators.')
+                "
+              ></div>
+              <br />
             </div>
 
-            <strong>Reason: </strong> {{ litigation.reason }} <br />
+            <strong>{{ $t("Reason") }}: </strong> {{ litigation.reason }} <br />
           </div>
         </div>
 
@@ -370,15 +414,22 @@
                   </span>
                 </div>
                 <div class="alert-text text-justify font-weight-bold">
-                  The seller has accepted your purchase a delivery deadline has
-                  been set to
-                  <strong>{{ servicePurchase.deadlineAt }}</strong
-                  >. <br />
-                  <strong
-                    >The seller will publish a deliverable in final version and
-                    mark the order as delivered before the end of this
-                    deadline.</strong
-                  >
+                  <div
+                    v-html="
+                      $t(
+                        'The seller has accepted your purchase a delivery deadline has been set to <strong>{deadlineAt}</strong>.',
+                        { deadlineAt: servicePurchase.deadlineAt }
+                      )
+                    "
+                  ></div>
+                  <br />
+                  <div
+                    v-html="
+                      $t(
+                        '<strong>The seller will mark the order as delivered before the end of this deadline.</strong>'
+                      )
+                    "
+                  ></div>
                 </div>
               </div>
             </div>
@@ -473,7 +524,7 @@ export default {
     ...mapGetters(["currentAccount", "currency"]),
     getTitle() {
       if (this.servicePurchase.number !== undefined) {
-        return "Purchase " + this.servicePurchase.number;
+        return this.$t("Purchase") + " " + this.servicePurchase.number;
       }
 
       return "";
@@ -551,12 +602,13 @@ export default {
       }
     },
     async handleCancelPurchase() {
-      const title =
-        "Do you really want to cancel the purchase " +
-        this.servicePurchase.number +
-        " for " +
-        this.servicePurchase.service.title +
-        " ?";
+      const title = this.$t(
+        "Do you really want to cancel the purchase {number} for {title} ?",
+        {
+          number: this.servicePurchase.number,
+          title: this.servicePurchase.service.title
+        }
+      );
 
       window.$(this.$refs.btnCancel).removeClass("btn-light-danger");
       window
@@ -590,12 +642,13 @@ export default {
         .css("display", "");
     },
     async handleApprovePurchase() {
-      const title =
-        "Do you really want to approve the purchase " +
-        this.servicePurchase.number +
-        " for " +
-        this.servicePurchase.service.title +
-        " ?";
+      const title = this.$t(
+        "Do you really want to approve the purchase {number} for {title} ?",
+        {
+          number: this.servicePurchase.number,
+          title: this.servicePurchase.service.title
+        }
+      );
 
       window.$(this.$refs.btnApprove).removeClass("btn-light-success");
       window

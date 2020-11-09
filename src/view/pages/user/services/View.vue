@@ -20,7 +20,7 @@
                 class="btn btn-light-dark font-weight-bolder mr-2"
               >
                 <i class="ki ki-long-arrow-back icon-lg"></i>
-                Back
+                {{ $t("Back to Services") }}
               </button>
 
               <button
@@ -35,7 +35,7 @@
                 class="btn btn-light-primary font-weight-bolder mr-2"
               >
                 <i class="fa fa-edit icon-lg"></i>
-                Edit
+                {{ $t("Edit") }}
               </button>
             </div>
           </div>
@@ -44,33 +44,35 @@
               <div class="col-sm-8" v-html="service.content"></div>
               <div class="col-sm-4">
                 <div class="form-group row">
-                  <label class="col-form-label col-4 text-lg-right text-left"
-                    >Category</label
-                  >
+                  <label class="col-form-label col-4 text-lg-right text-left">
+                    {{ $t("Category") }}
+                  </label>
                   <div class="col-8">
-                    <span class="form-control-plaintext font-weight-bold">{{
-                      service.serviceCategory
-                        ? service.serviceCategory.label
-                        : null
-                    }}</span>
+                    <span class="form-control-plaintext font-weight-bold">
+                      {{
+                        service.serviceCategory
+                          ? service.serviceCategory.label
+                          : null
+                      }}
+                    </span>
                   </div>
                 </div>
 
                 <div class="form-group row">
-                  <label class="col-form-label col-4 text-lg-right text-left"
-                    >Delivery Delay</label
-                  >
+                  <label class="col-form-label col-4 text-lg-right text-left">
+                    {{ $t("Delivery Delay") }}
+                  </label>
                   <div class="col-8">
-                    <span class="form-control-plaintext font-weight-bold">{{
-                      service.delayDisplay
-                    }}</span>
+                    <span class="form-control-plaintext font-weight-bold">
+                      {{ service.delayDisplay }}
+                    </span>
                   </div>
                 </div>
 
                 <div class="form-group row">
-                  <label class="col-form-label col-4 text-lg-right text-left"
-                    >Keywords</label
-                  >
+                  <label class="col-form-label col-4 text-lg-right text-left">
+                    {{ $t("Keywords") }}
+                  </label>
                   <div class="col-8">
                     <span
                       class="form-control-plaintext font-weight-bold"
@@ -91,9 +93,9 @@
                 </div>
 
                 <div class="form-group row">
-                  <label class="col-form-label col-4 text-lg-right text-left"
-                    >Published</label
-                  >
+                  <label class="col-form-label col-4 text-lg-right text-left">
+                    {{ $t("Published") }}
+                  </label>
                   <div class="col-8">
                     <span class="form-control-plaintext font-weight-bold">{{
                       service.publishedDisplay
@@ -102,13 +104,13 @@
                 </div>
 
                 <div class="form-group row">
-                  <label class="col-form-label col-4 text-lg-right text-left"
-                    >Created at</label
-                  >
+                  <label class="col-form-label col-4 text-lg-right text-left">
+                    {{ $t("Created at") }}
+                  </label>
                   <div class="col-8">
-                    <span class="form-control-plaintext font-weight-bold">{{
-                      service.createdAt
-                    }}</span>
+                    <span class="form-control-plaintext font-weight-bold">
+                      {{ service.createdAt }}
+                    </span>
                   </div>
                 </div>
               </div>

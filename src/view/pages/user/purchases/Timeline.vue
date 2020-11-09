@@ -9,7 +9,7 @@
         </span>
 
         <h3 class="card-label">
-          Timeline
+          {{ $t("Timeline") }}
         </h3>
       </div>
     </div>

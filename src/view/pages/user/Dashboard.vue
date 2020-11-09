@@ -19,9 +19,9 @@
               {{ currentAccount !== null ? currentAccount.balance : null }}
               {{ currency }}
             </span>
-            <span class="font-weight-bold text-muted  font-size-sm"
-              >Wallet Balance</span
-            >
+            <span class="font-weight-bold text-muted  font-size-sm">
+              {{ $t("Wallet Balance") }}
+            </span>
           </div>
           <!--end::Body-->
         </div>
@@ -43,9 +43,9 @@
                 currentAccount !== null ? currentAccount.ordersCount : null
               }}</span
             >
-            <span class="font-weight-bold text-muted  font-size-sm"
-              >Orders</span
-            >
+            <span class="font-weight-bold text-muted  font-size-sm">
+              {{ $t("Orders") }}
+            </span>
           </div>
           <!--end::Body-->
         </div>
@@ -68,9 +68,9 @@
               }}
               {{ currency }}</span
             >
-            <span class="font-weight-bold text-muted  font-size-sm"
-              >Earnings</span
-            >
+            <span class="font-weight-bold text-muted  font-size-sm">
+              {{ $t("Earnings") }}
+            </span>
           </div>
           <!--end::Body-->
         </div>
@@ -92,9 +92,9 @@
                 currentAccount !== null ? currentAccount.purchasesCount : null
               }}</span
             >
-            <span class="font-weight-bold text-muted  font-size-sm"
-              >Purchases</span
-            >
+            <span class="font-weight-bold text-muted  font-size-sm">
+              {{ $t("Purchases") }}
+            </span>
           </div>
           <!--end::Body-->
         </div>
@@ -119,9 +119,9 @@
               }}
               {{ currency }}</span
             >
-            <span class="font-weight-bold text-muted  font-size-sm"
-              >Deposits</span
-            >
+            <span class="font-weight-bold text-muted  font-size-sm">
+              {{ $t("Deposits") }}
+            </span>
           </div>
           <!--end::Body-->
         </div>
@@ -144,9 +144,9 @@
               >{{ currentAccount !== null ? currentAccount.refundsSum : null }}
               {{ currency }}</span
             >
-            <span class="font-weight-bold text-muted  font-size-sm"
-              >Refunds</span
-            >
+            <span class="font-weight-bold text-muted  font-size-sm">
+              {{ $t("Refunds") }}
+            </span>
           </div>
           <!--end::Body-->
         </div>
@@ -168,9 +168,9 @@
                 currentAccount !== null ? currentAccount.servicesCount : null
               }}</span
             >
-            <span class="font-weight-bold text-muted  font-size-sm"
-              >Services</span
-            >
+            <span class="font-weight-bold text-muted  font-size-sm">
+              {{ $t("Services") }}
+            </span>
           </div>
           <!--end::Body-->
         </div>
@@ -191,8 +191,8 @@ export default {
     ...mapGetters(["currentAccount", "currency"])
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Dashboard" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Dashboard");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("Dashboard") }]);
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("Dashboard"));
   },
   methods: {}
 };

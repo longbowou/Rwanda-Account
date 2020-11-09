@@ -14,7 +14,7 @@
                 <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
                 <!--end::Svg Icon-->
               </span>
-              <h3 class="card-label">My Services</h3>
+              <h3 class="card-label">{{ $t("My Services") }}</h3>
             </div>
             <div class="card-toolbar">
               <router-link
@@ -29,7 +29,7 @@
                   <span class="svg-icon svg-icon-md">
                     <inline-svg src="media/svg/icons/Design/Flatten.svg" />
                   </span>
-                  Add a Service
+                  {{ $t("Add a Service") }}
                 </a>
               </router-link>
             </div>
@@ -43,21 +43,21 @@
                 >
                   <thead>
                     <tr>
-                      <th style="width: 30%">Title</th>
-                      <th>Delay</th>
-                      <th>Activated</th>
-                      <th>Published</th>
-                      <th>Created At</th>
+                      <th style="width: 30%">{{ $t("Title") }}</th>
+                      <th>{{ $t("Delivery delay") }}</th>
+                      <th>{{ $t("Activated") }}</th>
+                      <th>{{ $t("Published") }}</th>
+                      <th>{{ $t("Created At") }}</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>Title</th>
-                      <th>Delay</th>
-                      <th>Activated</th>
-                      <th>Published</th>
-                      <th>Created At</th>
+                      <th style="width: 30%">{{ $t("Title") }}</th>
+                      <th>{{ $t("Delivery delay") }}</th>
+                      <th>{{ $t("Activated") }}</th>
+                      <th>{{ $t("Published") }}</th>
+                      <th>{{ $t("Created At") }}</th>
                       <th>Actions</th>
                     </tr>
                   </tfoot>
@@ -99,8 +99,8 @@ export default {
     ...mapGetters(["currentAccount", "currency"])
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "My Services" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "My Services");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("My Services") }]);
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("My Services"));
 
     const $this = this;
     this.datatable = window.$("#services-dataTable").DataTable({
@@ -121,21 +121,33 @@ export default {
               name: "user-services-view",
               params: { id: data.id }
             });
-            const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-dark btn-square btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
+            const showBtn = `<a href="${
+              showRouter.href
+            }" class="btn btn-sm btn-clean btn-icon btn-hover-icon-dark btn-square btn-icon-sm" title="${$this.$t(
+              "Show"
+            )}"><i class="flaticon-eye"></i></a>`;
             buttons.push(showBtn);
 
             const editRouter = $this.$router.resolve({
               name: "user-services-edit",
               params: { id: data.id }
             });
-            const editBtn = `<a href="${editRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-success btn-square btn-icon-sm" title="Edit"><i class="fa fa-edit"></i></a>`;
+            const editBtn = `<a href="${
+              editRouter.href
+            }" class="btn btn-sm btn-clean btn-icon btn-hover-icon-success btn-square btn-icon-sm" title="${$this.$t(
+              "Edit"
+            )}"><i class="fa fa-edit"></i></a>`;
             buttons.push(editBtn);
 
             const optionsRouter = $this.$router.resolve({
               name: "service-options",
               params: { id: data.id }
             });
-            const optionsBtn = `<a href="${optionsRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Options"><i class="flaticon2-layers"></i></a>`;
+            const optionsBtn = `<a href="${
+              optionsRouter.href
+            }" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="${$this.$t(
+              "Options"
+            )}"><i class="flaticon2-layers"></i></a>`;
             buttons.push(optionsBtn);
 
             const deleteBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-danger btn-square btn-delete" title="Delete" data-id="${data.id}" data-title="${data.title}"><i class="fa fa-trash"></i></button>`;
@@ -169,7 +181,9 @@ export default {
   },
   methods: {
     async deleteService(id, title, btn) {
-      if (confirm("Do you really want to delete " + title + " ?")) {
+      if (
+        confirm(this.$t("Do you really want to delete") + " " + title + " ?")
+      ) {
         let result = await this.$apollo.mutate({
           mutation: deleteService,
           variables: {
@@ -180,7 +194,7 @@ export default {
         window.$(btn).addClass("disabled spinner spinner-danger spinner-right");
 
         if (window._.isEmpty(result.data.deleteService.errors)) {
-          this.notifySuccess("Service deleted successfully.");
+          this.notifySuccess(this.$t("Service deleted successfully."));
           this.datatable.ajax.reload(null, false);
         }
 
