@@ -18,7 +18,7 @@
                     <h3 class="wizard-title">
                       {{
                         $t(
-                          "1. Order a service from your choice to one of our vendors"
+                          "1. Order a service from your choice to one of our sellers"
                         )
                       }}
                     </h3>
@@ -32,7 +32,7 @@
                     <h3 class="wizard-title">
                       {{
                         $t(
-                          "2. Exchange by chat on the site up to safe delivery"
+                          "2. Exchange by chat with the seller to safe delivery"
                         )
                       }}
                     </h3>
@@ -56,7 +56,7 @@
                     <h3 class="wizard-title">
                       {{
                         $t(
-                          "4. The seller is paid only after delivery of the service"
+                          "4. The seller is paid only after the delivery of the service"
                         )
                       }}
                     </h3>

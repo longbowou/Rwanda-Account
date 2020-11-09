@@ -15,7 +15,7 @@
         class="alert-text text-justify font-weight-bold"
         v-html="
           $t(
-            'You can ask write a <strong>positive or even negative</strong> comment.'
+            'You can write a <strong>positive or even negative</strong> comment.'
           )
         "
       ></div>
@@ -135,7 +135,9 @@ export default {
 
       this.$emit("comment-created");
 
-      return this.notifySuccess(this.$t("Your comment sent successfully."));
+      return this.notifySuccess(
+        this.$t("Your comment has been successfully saved.")
+      );
     },
     initPlugins() {
       this.typeSelect2 = window.$("#type").select2();

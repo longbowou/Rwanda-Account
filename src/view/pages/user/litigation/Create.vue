@@ -15,8 +15,7 @@
         class="alert-text text-justify font-weight-bold"
         v-html="
           $t(
-            'You can open a litigation by <strong>filling the form bellow</strong>.\n' +
-              'Administrators will <strong>handle</strong> it a soon as possible.'
+            'You can open a litigation by <strong>filling the form bellow</strong>.<br>Administrators will <strong>handle</strong> it a soon as possible.'
           )
         "
       ></div>
@@ -84,11 +83,13 @@
 <script>
 import { formMixin, toastMixin } from "@/view/mixins";
 import { createLitigation } from "@/graphql/purchase-mutations";
+import { directive as t } from "@intlify/vue-i18n-extensions";
 import Quill from "quill";
 
 export default {
   name: "LitigationCreate",
   mixins: [formMixin, toastMixin],
+  directives: { t },
   data() {
     return {
       input: {},

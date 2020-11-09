@@ -166,16 +166,16 @@
               </button>
             </div>
 
-            <div class="col-sm-8 mt-3">
-              <p class="text-muted text-center">
-                {{
-                  $t(
-                    "All prices are excluding VAT + 0.25 {currency} and 3.4% fees may be charged by our banking partners depending on the VAT applied as well as the means of payment used.",
-                    { currency: currency }
-                  )
-                }}
-              </p>
-            </div>
+            <!--            <div class="col-sm-8 mt-3" >-->
+            <!--              <p class="text-muted text-center">-->
+            <!--                {{-->
+            <!--                  $t(-->
+            <!--                    "All prices are excluding VAT + 0.25 {currency} and 3.4% fees may be charged by our banking partners depending on the VAT applied as well as the means of payment used.",-->
+            <!--                    { currency: currency }-->
+            <!--                  )-->
+            <!--                }}-->
+            <!--              </p>-->
+            <!--            </div>-->
           </div>
         </div>
       </div>
@@ -216,10 +216,13 @@
                 >{{ service.delay }} to {{ optionsSumDelay }} delivery days
               </small>
 
-              <p>
-                {{ $t("You can choose among") }}
-                <strong>{{ service.optionsCount }}</strong> options
-              </p>
+              <p
+                v-html="
+                  $t('You can choose among <strong>{number}</strong> options', {
+                    number: service.optionsCount
+                  })
+                "
+              ></p>
             </div>
           </div>
 
@@ -247,7 +250,7 @@
               {{ $t("Secured") }}</span
             >
             <br />
-            <small>{{ $t("Your information is encrypted by TLS") }}</small>
+            <small>{{ $t("Your information is encrypted by SSL") }}</small>
           </p>
         </div>
       </div>

@@ -1,0 +1,9 @@
+{
+  "You can choose among <strong>{number}</strong> options": "You can choose among <strong>{number}</strong> options",
+  "Deadline will be set to <br /><strong>{deadlineAt}</strong><br /> if the order is accepted today.": "Deadline will be set to <br /><strong>{deadlineAt}</strong><br /> if the order is accepted today.",
+  "New order <strong>{ number }</strong> has been placed by <strong>{username}</strong>.": "New order <strong>{ number }</strong> has been placed by <strong>{username}</strong>.",
+  "The buyer <strong>{username}</strong> during this time before you accept the order may at any time <strong>cancel</strong> the order.": "The buyer <strong>{username}</strong> during this time before you accept the order may at any time <strong>cancel</strong> the order.",
+  "By accepting the order a delivery deadline has been set to <strong>{deadlineAt}</strong>for the order.": "By accepting the order a delivery deadline has been set to <strong>{deadlineAt}</strong>for the order.",
+  "Do you really want to accept the order {number} for {title} ?": "Do you really want to accept the order {number} for {title} ?",
+  "Do you really want to mark as deliver the order {number} for {title} ?": "Do you really want to mark as deliver the order {number} for {title} ?"
+}

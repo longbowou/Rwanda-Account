@@ -68,15 +68,19 @@
 
           <div class="row">
             <p class="col-sm-9">
-              {{ $t("Delivery days") }}
+              {{ $t("Delivery delay") }}
             </p>
             <p class="col-sm-3 text-right">
               {{ serviceOrderPreview.totalDelay }} days <br />
-              <span class="text-primary">
-                {{ $t("Deadline will be set to") }} <br />
-                <strong>{{ serviceOrderPreview.deadlineAt }}</strong>
-                <br />
-                {{ $t("if the order is accepted today") }}
+              <span
+                class="text-primary"
+                v-html="
+                  $t(
+                    'Deadline will be set to <br /><strong>{deadlineAt}</strong><br /> if the order is accepted today.',
+                    { deadlineAt: serviceOrderPreview.deadlineAt }
+                  )
+                "
+              >
               </span>
             </p>
           </div>
@@ -280,7 +284,7 @@
                   {{ $t("Secured") }}</span
                 >
                 <br />
-                <small>{{ $t("Your information is encrypted by TLS") }}</small>
+                <small>{{ $t("Your information is encrypted by SSL") }}</small>
               </p>
             </div>
           </div>
@@ -381,7 +385,9 @@ export default {
       return this.serviceOptions.length > 0;
     },
     getTitle() {
-      return "Order for " + this.serviceOrderPreview.service.title;
+      return (
+        this.$t("Order for") + " " + this.serviceOrderPreview.service.title
+      );
     }
   },
   methods: {

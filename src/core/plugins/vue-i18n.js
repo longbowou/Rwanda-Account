@@ -3,11 +3,12 @@ import VueI18n from "vue-i18n";
 
 // Localisation language list
 import fr from "@/core/config/i18n/fr.json";
+import en from "@/core/config/i18n/en.json";
 
 Vue.use(VueI18n);
 
 let messages = {};
-messages = { ...messages, fr };
+messages = { ...messages, fr, en };
 
 // get current selected language
 const lang = localStorage.getItem("language") || "en";

@@ -226,6 +226,8 @@ export default {
           );
         }
       }
+
+      await this.$router.push({ name: "deposits-create" });
     }
   }
 };
