@@ -94,5 +94,10 @@
   "You must mark the order as delivered before the end of this deadline.": "Vous devez marquer la commande comme livrée avant la fin de ce délai.",
   "Do you really want to accept the order {number} for {title} ?": "Voulez-vous vraiment accepter la commande {number} pour {title}?",
   "Do you really want to mark as delivered the order {number} for {title} ?": "Voulez-vous vraiment marquer comme livrée la commande {number} pour {title}?",
-  "Order for": "Commande pour"
+  "Order for": "Commande pour",
+  "Orders": "Commandes",
+  "Number": "Numéro",
+  "Service": "Service",
+  "Status": "Status",
+  "Price": "Prix"
 }
