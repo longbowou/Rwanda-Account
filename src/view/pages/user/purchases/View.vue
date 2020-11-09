@@ -35,7 +35,6 @@
                     )
                   "
                 ></div>
-                <br />
                 <div
                   v-html="
                     $t(
@@ -43,7 +42,6 @@
                     )
                   "
                 ></div>
-                <br />
                 <div
                   v-html="
                     $t(
@@ -51,7 +49,6 @@
                     )
                   "
                 ></div>
-                <br />
               </div>
             </div>
           </div>
@@ -313,7 +310,6 @@
                   )
                 "
               ></div>
-              <br />
             </div>
 
             <div v-if="lastUpdateRequest.refused">
@@ -325,10 +321,8 @@
                   )
                 "
               ></div>
-              <br />
               <strong>{{ $t("Reason") }}:</strong>
               {{ lastUpdateRequest.reason }}
-              <br />
             </div>
 
             <div
@@ -422,7 +416,6 @@
                       )
                     "
                   ></div>
-                  <br />
                   <div
                     v-html="
                       $t(

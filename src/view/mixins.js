@@ -153,7 +153,7 @@ export const purchaseActionsMixin = {
           await store.dispatch(UPDATE_USER, {
             account: result.data.cancelServicePurchase.servicePurchase.account
           });
-          this.notifySuccess("Purchase canceled successfully.");
+          this.notifySuccess(this.$t("Purchase canceled successfully."));
           return result.data.cancelServicePurchase;
         }
       }
@@ -176,7 +176,7 @@ export const purchaseActionsMixin = {
           await store.dispatch(UPDATE_USER, {
             account: result.data.approveServicePurchase.servicePurchase.account
           });
-          this.notifySuccess("Purchase approved successfully.");
+          this.notifySuccess(this.$t("Purchase approved successfully."));
           return result.data.approveServicePurchase;
         }
       }
@@ -202,7 +202,7 @@ export const orderActionsMixin = {
         });
 
         if (window._.isEmpty(result.data.acceptServicePurchase.errors)) {
-          this.notifySuccess("Purchase accepted successfully.");
+          this.notifySuccess(this.$t("Order accepted successfully."));
           return result.data.acceptServicePurchase;
         }
       }
@@ -222,7 +222,7 @@ export const orderActionsMixin = {
         });
 
         if (window._.isEmpty(result.data.deliverServicePurchase.errors)) {
-          this.notifySuccess("Purchase mark as delivered successfully.");
+          this.notifySuccess(this.$t("Order mark as delivered successfully."));
           return result.data.deliverServicePurchase;
         }
       }

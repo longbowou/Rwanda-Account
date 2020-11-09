@@ -14,7 +14,9 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text">Home</span>
+          <span class="menu-text">
+            {{ $t("Home") }}
+          </span>
         </a>
       </li>
     </router-link>
@@ -34,7 +36,9 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Dashboard </span>
+          <span class="menu-text">
+            {{ $t("Dashboard") }}
+          </span>
         </a>
       </li>
     </router-link>
@@ -54,7 +58,9 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Purchases </span>
+          <span class="menu-text">
+            {{ $t("Purchases") }}
+          </span>
         </a>
       </li>
     </router-link>
@@ -74,7 +80,9 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Orders </span>
+          <span class="menu-text">
+            {{ $t("Orders") }}
+          </span>
         </a>
       </li>
     </router-link>
@@ -94,7 +102,9 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Deposits </span>
+          <span class="menu-text">
+            {{ $t("Deposits") }}
+          </span>
         </a>
       </li>
     </router-link>
@@ -114,7 +124,9 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> Refunds </span>
+          <span class="menu-text">
+            {{ $t("Refunds") }}
+          </span>
         </a>
       </li>
     </router-link>
@@ -134,7 +146,9 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <span class="menu-text"> My Services </span>
+          <span class="menu-text">
+            {{ $t("My Services") }}
+          </span>
         </a>
       </li>
     </router-link>

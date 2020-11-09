@@ -7,7 +7,7 @@
       <span
         class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline mr-1"
       >
-        Hi,
+        {{ $t("Hi") }},
       </span>
       <span
         class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-2"
@@ -33,7 +33,7 @@
         class="offcanvas-header d-flex align-items-center justify-content-between pb-5"
       >
         <h3 class="font-weight-bold m-0">
-          User Profile
+          {{ $t("User Profile") }}
           <!--          <small class="text-muted font-size-sm ml-2">12 messages</small>-->
         </h3>
         <a
@@ -104,7 +104,7 @@
               </a>
             </div>
             <button class="btn btn-light-primary btn-bold" @click="onLogout">
-              Sign out
+              {{ $t("Sign out") }}
             </button>
           </div>
         </div>
@@ -131,9 +131,11 @@
                 </div>
               </div>
               <div class="navi-text">
-                <div class="font-weight-bold">My Profile</div>
+                <div class="font-weight-bold">
+                  {{ $t("My Profile") }}
+                </div>
                 <div class="text-muted">
-                  Your account settings
+                  {{ $t("Your account settings") }}
                 </div>
               </div>
             </div>
@@ -157,8 +159,12 @@
                 </div>
               </div>
               <div class="navi-text">
-                <div class="font-weight-bold">My Purchases</div>
-                <div class="text-muted">Your recent purchases</div>
+                <div class="font-weight-bold">
+                  {{ $t("My Purchases") }}
+                </div>
+                <div class="text-muted">
+                  {{ $t("Your recent purchases") }}
+                </div>
               </div>
             </div>
           </router-link>
@@ -181,8 +187,12 @@
                 </div>
               </div>
               <div class="navi-text">
-                <div class="font-weight-bold">My Services</div>
-                <div class="text-muted">Your recent services</div>
+                <div class="font-weight-bold">
+                  {{ $t("My Services") }}
+                </div>
+                <div class="text-muted">
+                  {{ $t("Your recent services") }}
+                </div>
               </div>
             </div>
           </router-link>
@@ -193,16 +203,16 @@
         <!--begin::Notifications-->
         <div>
           <!--begin:Heading-->
-          <h5 class="mb-5">Recent Notifications</h5>
+          <h5 class="mb-5">
+            {{ $t("Recent Notifications") }}
+          </h5>
           <!--end:Heading-->
 
           <div
             class="d-flex flex-center text-center text-muted min-h-200px"
             v-if="isEmpty"
           >
-            All caught up!
-            <br />
-            No new notifications.
+            {{ $t("No new notifications.") }}
           </div>
 
           <div v-if="isNotEmpty">

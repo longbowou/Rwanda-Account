@@ -66,7 +66,7 @@
               />
               <!--end::Svg Icon-->
             </span>
-            Make a deposit
+            {{ $t("Make a deposit") }}
           </a>
         </router-link>
 
@@ -91,7 +91,7 @@
               />
               <!--end::Svg Icon-->
             </span>
-            Make a refund
+            {{ $t("Make a refund") }}
           </a>
         </router-link>
 

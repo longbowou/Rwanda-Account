@@ -34,7 +34,6 @@
                     )
                   "
                 ></div>
-                <br />
                 <div
                   v-html="
                     $t(
@@ -42,7 +41,6 @@
                     )
                   "
                 ></div>
-                <br />
                 <div
                   v-html="
                     $t(
@@ -51,8 +49,6 @@
                     )
                   "
                 ></div>
-
-                <br />
                 <div
                   v-html="
                     $t(
@@ -279,11 +275,11 @@
           </div>
           <div class="alert-text text-justify font-weight-bold">
             <div v-if="litigation.approved">
-              {{ $t("The order has been approved by administrators.") }} <br />
+              {{ $t("The order has been approved by administrators.") }}
             </div>
 
             <div v-if="litigation.canceled">
-              {{ $t("The order has been canceled by administrators.") }} <br />
+              {{ $t("The order has been canceled by administrators.") }}
             </div>
 
             <strong>{{ $t("Reason") }}: </strong> {{ litigation.reason }} <br />
@@ -339,7 +335,6 @@
                   )
                 "
               ></div>
-              <br />
             </div>
           </div>
         </div>
@@ -372,7 +367,6 @@
                       )
                     "
                   ></div>
-                  <br />
                   <strong>
                     {{
                       $t(

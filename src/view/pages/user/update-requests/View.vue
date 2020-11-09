@@ -37,7 +37,6 @@
       <div class="alert-text text-justify font-weight-bold">
         <h5>{{ $t("Action Required") }}</h5>
         <div v-html="$t('An update request has been made by the buyer.')"></div>
-        <br />
         <div
           v-html="
             $t(

@@ -115,8 +115,8 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Home" }]);
-    this.$store.dispatch(SET_HEAD_TITLE, "Home");
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("Home") }]);
+    this.$store.dispatch(SET_HEAD_TITLE, this.$t("Home"));
   },
   beforeMount() {
     this.fetchServices();

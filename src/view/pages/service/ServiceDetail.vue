@@ -162,7 +162,8 @@
                 @click="orderSelectedOptions"
                 class="btn btn-light-dark btn-lg btn-square btn-block font-weight-bold"
               >
-                Order Now ({{ selectedOptionsPriceSum }} {{ currency }})
+                {{ $t("Order Now") }} ({{ selectedOptionsPriceSum }}
+                {{ currency }})
               </button>
             </div>
 
@@ -208,12 +209,14 @@
             <div>
               <h3 class="font-weight-bold">
                 <span>{{ $t("Custom Options") }}</span>
-                <span class="text-primary float-right"
-                  >{{ basePrice }} to {{ optionsSumPrice }} {{ currency }}
+                <span class="text-primary float-right">
+                  {{ basePrice }} {{ $t("to") }} {{ optionsSumPrice }}
+                  {{ currency }}
                 </span>
               </h3>
-              <small class="font-weight-bold text-dark-50"
-                >{{ service.delay }} to {{ optionsSumDelay }} delivery days
+              <small class="font-weight-bold text-dark-50">
+                {{ service.delay }} {{ $t("to") }}
+                {{ optionsSumDelay }} delivery days
               </small>
 
               <p
