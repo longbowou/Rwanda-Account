@@ -1,31 +1,6 @@
 <template>
   <!-- begin:: Header Topbar -->
   <div class="topbar">
-    <!--begin: Search -->
-    <b-dropdown
-      size="sm"
-      id="kt_quick_search_toggle"
-      variant="link"
-      toggle-class="topbar-item text-decoration-none"
-      no-caret
-      right
-      no-flip
-    >
-      <template v-slot:button-content>
-        <div
-          class="btn btn-icon btn-hover-transparent-white btn-lg btn-dropdown mr-1"
-        >
-          <span class="svg-icon svg-icon-xl">
-            <inline-svg src="media/svg/icons/General/Search.svg" />
-          </span>
-        </div>
-      </template>
-      <b-dropdown-text tag="div" class="min-w-md-350px">
-        <KTSearchDefault></KTSearchDefault>
-      </b-dropdown-text>
-    </b-dropdown>
-    <!--end: Search -->
-
     <!--begin: My Cart -->
     <b-dropdown
       v-if="isAuthenticated"
@@ -77,29 +52,28 @@
     </div>
     <!--end: Language bar -->
 
+    <div class="topbar-item" v-if="isNotAuthenticated">
+      <router-link
+        :to="{ name: 'signin' }"
+        v-slot="{ href, navigate, isActive, isExactActive }"
+      >
+        <a
+          :href="href"
+          @click="navigate"
+          class="btn btn-hover-transparent-white d-flex align-items-center btn-lg"
+        >
+          <span
+            class="text-white opacity-90 font-weight-bolder font-size-base d-md-inline"
+          >
+            {{ $t("Login") }}
+          </span>
+        </a>
+      </router-link>
+    </div>
+
     <!--begin: User Bar -->
     <KTQuickUser v-if="isAuthenticated"></KTQuickUser>
     <!--end: User Bar -->
-
-    <div class="topbar-item" v-if="isNotAuthenticated">
-      <div
-        id="kt_quick_user_toggle"
-        class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto"
-      >
-        <router-link
-          :to="{ name: 'signin' }"
-          v-slot="{ href, navigate, isActive, isExactActive }"
-        >
-          <a :href="href" @click="navigate">
-            <span
-              class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline p-4"
-            >
-              Login
-            </span>
-          </a>
-        </router-link>
-      </div>
-    </div>
   </div>
   <!-- end:: Header Topbar -->
 </template>
@@ -132,7 +106,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import KTSearchDefault from "@/view/layout/extras/dropdown/SearchDefault.vue";
 import KTDropdownMyCart from "@/view/layout/extras/dropdown/DropdownMyCart.vue";
 import KTDropdownLanguage from "@/view/layout/extras/dropdown/DropdownLanguage.vue";
 import KTQuickUser from "@/view/layout/extras/offcanvas/QuickUser.vue";
@@ -147,7 +120,6 @@ export default {
     };
   },
   components: {
-    KTSearchDefault,
     KTDropdownMyCart,
     KTDropdownLanguage,
     KTQuickUser

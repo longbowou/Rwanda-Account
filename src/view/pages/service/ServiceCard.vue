@@ -12,10 +12,12 @@
       <div class="symbol symbol-40 symbol-lg-50 symbol-circle bg-light">
         <img alt="Pic" src="media/stock-600x600/img-11.jpg" />
       </div>
-      <span class="text-muted font-weight-bold ml-3">by</span>
-      <span class="text-dark-75 font-weight-bold ml-2">{{
-        service.account.username
-      }}</span>
+      <span class="text-muted font-weight-bold ml-3">
+        {{ $t("by") }}
+      </span>
+      <span class="text-dark-75 font-weight-bold ml-2">
+        {{ service.account.username }}
+      </span>
     </a>
 
     <button

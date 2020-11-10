@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-12 col-md-8">
       <div class="card card-custom shadow-sm mb-5">
         <div class="card-header">
           <div class="card-title">
@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <div class="card card-custom shadow-sm" v-if="hasOptions">
+      <div class="card card-custom shadow-sm mb-5" v-if="hasOptions">
         <div class="card-header">
           <div class="card-title">
             <span
@@ -68,7 +68,7 @@
 
         <div class="card-body p-5">
           <div class="row">
-            <div class="col-1 mr-4">
+            <div class="col-sm-1 mr-14">
               <span
                 class="switch switch-lg switch-outline switch-success switch-icon"
               >
@@ -83,8 +83,8 @@
                 </label>
               </span>
             </div>
-            <div class="col-9" ref="additionalOptions">
-              <h2>{{ service.title }}</h2>
+            <div class="col-sm-12 col-md-9" ref="additionalOptions">
+              <h2 class="mt-2">{{ service.title }}</h2>
               <span class="form-text text-dark-50">{{
                 service.delayDisplay
               }}</span>
@@ -96,12 +96,13 @@
           </h3>
           <template v-for="option of service.options">
             <div :key="option.id" class="row justify-content-center mb-3 ">
-              <div class="col-1 mr-4">
+              <div class="col-sm-1 mr-14">
                 <span
                   class="switch switch-lg switch-outline switch-info switch-icon"
                 >
                   <label>
                     <input
+                      v-on:change="clickCheckbox(option.id)"
                       v-model="serviceCategories"
                       :id="'checkbox-' + option.id"
                       type="checkbox"
@@ -112,19 +113,19 @@
                 </span>
               </div>
               <div
-                class="col-8 cursor-pointer"
+                class="col-sm-12 col-md-7 cursor-pointer"
                 @click="clickCheckbox(option.id)"
               >
-                <h5>{{ option.label }}</h5>
+                <h5 class="mt-2">{{ option.label }}</h5>
                 <span class="form-text text-dark-50">{{
                   option.delayPreviewDisplay
                 }}</span>
               </div>
               <div
                 @click="clickCheckbox(option.id)"
-                class="col-sm-2 d-flex align-items-center cursor-pointer"
+                class="col-sm-12 col-md-3 d-flex align-items-center cursor-pointer"
               >
-                <h5 :id="'price-' + option.id">
+                <h5 class="mt-2" :id="'price-' + option.id">
                   + {{ option.priceDisplay }} {{ currency }}
                 </h5>
               </div>
@@ -166,23 +167,24 @@
                 {{ currency }})
               </button>
             </div>
-
-            <!--            <div class="col-sm-8 mt-3" >-->
-            <!--              <p class="text-muted text-center">-->
-            <!--                {{-->
-            <!--                  $t(-->
-            <!--                    "All prices are excluding VAT + 0.25 {currency} and 3.4% fees may be charged by our banking partners depending on the VAT applied as well as the means of payment used.",-->
-            <!--                    { currency: currency }-->
-            <!--                  )-->
-            <!--                }}-->
-            <!--              </p>-->
-            <!--            </div>-->
           </div>
+
+          <hr />
+
+          <p class="text-center font-weight-bold m-0">
+            {{ $t("Payment") }}
+            <span class="text-success"
+              ><i class="flaticon2-lock text-success" />
+              {{ $t("Secured") }}</span
+            >
+            <br />
+            <small>{{ $t("Your information is encrypted by SSL") }}</small>
+          </p>
         </div>
       </div>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-12 col-md-4">
       <div class="card card-custom shadow-sm">
         <div class="card-body p-5">
           <div>

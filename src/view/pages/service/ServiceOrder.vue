@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-12 col-md-8">
       <div class="card card-custom shadow-sm mb-5">
         <div class="card-header">
           <div class="card-title">
@@ -173,7 +173,7 @@
         </div>
       </div>
 
-      <div class="card card-custom shadow-sm">
+      <div class="card card-custom shadow-sm mb-5">
         <div class="card-header">
           <div class="card-title">
             <span
@@ -292,7 +292,7 @@
       </div>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-12 col-md-4">
       <div class="card card-custom shadow-sm">
         <div class="card-body p-5">
           <div

@@ -578,7 +578,10 @@ export default {
       if (window._.isEmpty(result.errors)) {
         this.updateUI(result.data.servicePurchase);
 
-        await this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
+        await this.$store.dispatch(SET_BREADCRUMB, [
+          { title: this.$t("Purchases"), route: { name: "purchases" } },
+          { title: this.getTitle }
+        ]);
         await this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
       }
     },
