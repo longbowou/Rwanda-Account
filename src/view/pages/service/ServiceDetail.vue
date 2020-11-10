@@ -217,8 +217,8 @@
                 </span>
               </h3>
               <small class="font-weight-bold text-dark-50">
-                {{ service.delay }} {{ $t("to") }}
-                {{ optionsSumDelay }} delivery days
+                {{ service.delay }} {{ $t("to") }} {{ optionsSumDelay }}
+                {{ $t("delivery days") }}
               </small>
 
               <p

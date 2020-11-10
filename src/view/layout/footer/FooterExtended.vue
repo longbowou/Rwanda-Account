@@ -12,16 +12,21 @@
         <!--begin::Col-->
         <div class="col-lg-4 my-lg-0 my-5">
           <h4 class="text-white pb-3">{{ brand }}</h4>
-          <p class="m-0 text-white opacity-45">
-            Product of Maison du Digitale
-            <br />Platform for buying and selling services <br />in the digital
-            domain, <br />LOME-TOGO.
-          </p>
+          <p
+            class="m-0 text-white opacity-45"
+            v-html="
+              $t(
+                'Product of Maison du Digitale.<br />Platform for buying and selling digital services based in LOME TOGO.'
+              )
+            "
+          ></p>
         </div>
         <!--end::Col-->
         <!--begin::Col-->
         <div class="col-lg-4 my-lg-0 my-5">
-          <h4 class="text-white pb-3">Quick Links</h4>
+          <h4 class="text-white pb-3">
+            {{ $t("Quick Links") }}
+          </h4>
           <div class="d-flex align-items-center">
             <div class="d-flex flex-column mr-18">
               <router-link
@@ -33,7 +38,7 @@
                   class="text-white opacity-55 text-hover-primary"
                   @click="navigate"
                 >
-                  Home
+                  {{ $t("Home") }}
                 </a>
               </router-link>
             </div>
@@ -44,7 +49,9 @@
         <!--end::Col-->
         <!--begin::Col-->
         <div class="col-lg-4 my-lg-0 my-5">
-          <h4 class="text-white pb-3">Get In Touch</h4>
+          <h4 class="text-white pb-3">
+            {{ $t("Get In Touch") }}
+          </h4>
           <form class="rounded" style="background-color: rgba(0,0,0,.2);">
             <div class="input-group p-2 align-items-center">
               <input
@@ -58,7 +65,7 @@
                   style="z-index: 1"
                   type="button"
                 >
-                  Join
+                  {{ $t("Join us") }}
                 </button>
               </div>
             </div>

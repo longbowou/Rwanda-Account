@@ -17,7 +17,7 @@
             <div class="card-toolbar">
               <button
                 @click="$router.push({ name: 'service-options' })"
-                class="btn btn-light-dark font-weight-bolder mr-2"
+                class="btn btn-light-dark font-weight-bolder m-2"
               >
                 <i class="ki ki-long-arrow-back icon-lg"></i>
                 {{ $t("Back to Options") }}
@@ -32,7 +32,7 @@
                     }
                   })
                 "
-                class="btn btn-light-primary font-weight-bolder mr-2"
+                class="btn btn-light-primary font-weight-bolder m-2"
               >
                 <i class="fa fa-edit icon-lg"></i>
                 {{ $t("Edit") }}

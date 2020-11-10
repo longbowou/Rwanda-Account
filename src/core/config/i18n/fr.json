@@ -31,7 +31,7 @@
   "Order Now": "Commandez maintenant",
   "Customize the service": "Personnalisez le service",
   "Additional options": "Options additionelles",
-  "total delivery days": "jours de délais livraison total",
+  "total delivery days": "jours de livraison total",
   "Basic service without options": "Service de base sans options",
   "Custom Options": "Options personnalisées",
   "You can choose among <strong>{number}</strong> options": "Vous pouvez choisir parmi <strong>{number}</strong> options",
@@ -190,7 +190,13 @@
   "Home": "Accueil",
   "to": "à",
   "Purchase canceled successfully.": "Achat annulé avec succès.",
-  "Purchase approved successfully": "Achat approuvé avec succès.",
+  "Purchase approved successfully.": "Achat approuvé avec succès.",
   "Order accepted successfully.": "Commande acceptée avec succès.",
-  "Order mark as delivered successfully.": "Commande marqué comme livrée avec succès."
+  "Order mark as delivered successfully.": "Commande marqué comme livrée avec succès.",
+  "by": "par",
+  "delivery days": "jours de livraison",
+  "Quick Links": "Liens rapides",
+  "Get In Touch": "Entrer en contact",
+  "Product of Maison du Digitale.<br />Platform for buying and selling digital services based in LOME TOGO.": "Produit de la Maison du Digitale.<br />Plateforme d'achat et de vente de services numériques basée à LOME TOGO.",
+  "Join us": "Rejoignez-nous"
 }

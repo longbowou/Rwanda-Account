@@ -19,7 +19,7 @@
           <div class="card-toolbar">
             <button
               @click="$router.push({ name: 'user-services' })"
-              class="btn btn-light-dark font-weight-bolder mr-2"
+              class="btn btn-light-dark font-weight-bolder m-2"
             >
               <i class="ki ki-long-arrow-back icon-lg"></i>
               {{ $t("Back to Services") }}
@@ -31,7 +31,7 @@
             >
               <a
                 :href="href"
-                class="btn btn-primary font-weight-bolder"
+                class="btn btn-primary font-weight-bolder m-2"
                 @click="navigate"
               >
                 <span class="svg-icon svg-icon-md">

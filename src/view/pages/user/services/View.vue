@@ -17,7 +17,7 @@
             <div class="card-toolbar">
               <button
                 @click="$router.push({ name: 'user-services' })"
-                class="btn btn-light-dark font-weight-bolder mr-2"
+                class="btn btn-light-dark font-weight-bolder m-2"
               >
                 <i class="ki ki-long-arrow-back icon-lg"></i>
                 {{ $t("Back to Services") }}
@@ -32,7 +32,7 @@
                     }
                   })
                 "
-                class="btn btn-light-primary font-weight-bolder mr-2"
+                class="btn btn-light-primary font-weight-bolder m-2"
               >
                 <i class="fa fa-edit icon-lg"></i>
                 {{ $t("Edit") }}
@@ -166,7 +166,10 @@ export default {
       if (window._.isEmpty(result.errors)) {
         this.service = result.data.service;
 
-        this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
+        this.$store.dispatch(SET_BREADCRUMB, [
+          { title: this.$t("My Services"), route: { name: "user-services" } },
+          { title: this.getTitle }
+        ]);
         this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
       }
     }

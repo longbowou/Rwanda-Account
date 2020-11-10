@@ -82,6 +82,7 @@ export default {
       ],
       order: [[3, "desc"]],
       columnDefs: [],
+      responsive: true,
       searching: true,
       processing: true,
       serverSide: true,
