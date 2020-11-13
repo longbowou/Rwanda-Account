@@ -18,12 +18,12 @@ export default new Router({
         {
           path: "/service/:id",
           name: "service-detail",
-          component: () => import("@/view/pages/service/ServiceDetail")
+          component: () => import("@/view/pages/services/ServiceDetail")
         },
         {
           path: "/service/:id/order",
           name: "service-order",
-          component: () => import("@/view/pages/service/ServiceOrder"),
+          component: () => import("@/view/pages/services/ServiceOrder"),
           meta: { requiresAuth: true }
         },
         {

@@ -98,7 +98,7 @@
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { queryServicesForPreview } from "@/graphql/service-queries";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import ServiceCard from "@/view/pages/service/ServiceCard";
+import ServiceCard from "@/view/pages/services/ServiceCard";
 
 export default {
   name: "Home",

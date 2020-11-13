@@ -44,7 +44,7 @@
                   <thead>
                     <tr>
                       <th style="width: 30%">{{ $t("Title") }}</th>
-                      <th>{{ $t("Delivery delay") }}</th>
+                      <th style="width: 30%">{{ $t("Category") }}</th>
                       <th>{{ $t("Activated") }}</th>
                       <th>{{ $t("Published") }}</th>
                       <th>{{ $t("Created At") }}</th>
@@ -54,7 +54,7 @@
                   <tfoot>
                     <tr>
                       <th style="width: 30%">{{ $t("Title") }}</th>
-                      <th>{{ $t("Delivery delay") }}</th>
+                      <th style="width: 30%">{{ $t("Category") }}</th>
                       <th>{{ $t("Activated") }}</th>
                       <th>{{ $t("Published") }}</th>
                       <th>{{ $t("Created At") }}</th>
