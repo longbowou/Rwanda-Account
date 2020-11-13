@@ -10,7 +10,7 @@
     <h5 class="card-title">{{ service.title }}</h5>
     <a href="#" class="d-flex align-items-start mb-5">
       <div class="symbol symbol-40 symbol-lg-50 symbol-circle bg-light">
-        <img alt="Pic" src="media/stock-600x600/img-11.jpg" />
+        <img alt="Pic" src="media/user.png" />
       </div>
       <span class="text-muted font-weight-bold ml-3">
         {{ $t("by") }}

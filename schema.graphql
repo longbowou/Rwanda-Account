@@ -462,8 +462,10 @@ type ServiceCategoryType {
 type ServiceCommentType {
     account: AccountType!
     content: String!
-    createdAt: DateTime!
+    createdAt: String!
     id: UUID!
+    negative: Boolean!
+    positive: Boolean!
     published: Boolean!
     replyAt: DateTime
     replyContent: String
@@ -572,6 +574,7 @@ type ServicePurchaseType {
     canceledAt: DateTime
     chat: [ServicePurchaseChatMessageType]!
     chatFiles: [ServicePurchaseChatMessageType]!
+    chatFilesHistory: [ServicePurchaseChatMessageType]!
     chatHistory: [ServicePurchaseChatMessageType]!
     chatMarked: [ServicePurchaseChatMessageType]!
     chatmessageSet: [ChatMessageType!]!
@@ -633,6 +636,7 @@ type ServiceType {
     account: AccountType!
     activated: Boolean!
     basePrice: Int!
+    comments: [ServiceCommentType]
     content: String!
     createdAt: String!
     delay: Int!
@@ -641,9 +645,11 @@ type ServiceType {
     fileUrl: String
     id: UUID!
     keywords: String
+    negativeCommentsCount: String!
     options: [ServiceOptionType]!
     optionsCount: Int!
     optionsCountDisplay: String!
+    positiveCommentsCount: String!
     published: Boolean!
     publishedDisplay: String!
     serviceCategory: ServiceCategoryType!

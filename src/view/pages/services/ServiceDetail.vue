@@ -85,9 +85,9 @@
             </div>
             <div class="col-sm-12 col-md-9" ref="additionalOptions">
               <h2 class="mt-2">{{ service.title }}</h2>
-              <span class="form-text text-dark-50">{{
-                service.delayDisplay
-              }}</span>
+              <span class="form-text text-dark-50">
+                {{ service.delayDisplay }}
+              </span>
             </div>
           </div>
           <hr />
@@ -103,7 +103,7 @@
                   <label>
                     <input
                       v-on:change="clickCheckbox(option.id)"
-                      v-model="serviceCategories"
+                      v-model="options"
                       :id="'checkbox-' + option.id"
                       type="checkbox"
                       :value="option.id"
@@ -182,10 +182,127 @@
           </p>
         </div>
       </div>
+
+      <div class="card card-custom shadow-sm mb-5" v-if="comments.length > 0">
+        <div class="card card-custom shadow-sm">
+          <div class="card-header">
+            <div class="card-title">
+              <span
+                class="svg-icon svg-icon-lg svg-icon-3x svg-icon-primary mr-3"
+              >
+                <!--begin::Svg Icon-->
+                <inline-svg src="media/svg/icons/Communication/Chat4.svg" />
+                <!--end::Svg Icon-->
+              </span>
+
+              <h3 class="card-label">
+                {{ $t("Comments") }}
+              </h3>
+            </div>
+          </div>
+
+          <div class="card-body p-5">
+            <div class="row justify-content-around">
+              <div
+                class="col-sm-12 col-md-5 card card-custom bg-success card-stretch gutter-b"
+              >
+                <!--begin::Body-->
+                <div class="card-body">
+                  <span class="svg-icon svg-icon-lg svg-icon-3x svg-icon-white">
+                    <!--begin::Svg Icon-->
+                    <inline-svg src="media/svg/icons/General/Smile.svg" />
+                    <!--end::Svg Icon-->
+                  </span>
+                  <span
+                    class="font-weight-bolder text-white font-size-h1 mb-0 mt-6 d-block"
+                  >
+                    {{ positiveCommentsCount }}
+                  </span>
+                  <span class="font-weight-bold text-white font-size-sm">
+                    {{ $t("Positive Comments") }}
+                  </span>
+                </div>
+                <!--end::Body-->
+              </div>
+
+              <div
+                class="col-sm-12 col-md-5 card card-custom bg-warning card-stretch gutter-b"
+              >
+                <!--begin::Body-->
+                <div class="card-body">
+                  <span class="svg-icon svg-icon-lg svg-icon-3x svg-icon-white">
+                    <!--begin::Svg Icon-->
+                    <inline-svg src="media/svg/icons/General/Sad.svg" />
+                    <!--end::Svg Icon-->
+                  </span>
+                  <span
+                    class="font-weight-bolder text-white font-size-h1 mb-0 mt-6 d-block"
+                  >
+                    {{ negativeCommentsCount }}
+                  </span>
+                  <span class="font-weight-bold text-white font-size-sm">
+                    {{ $t("Negative Comments") }}
+                  </span>
+                </div>
+                <!--end::Body-->
+              </div>
+            </div>
+            <hr />
+            <div class="timeline timeline-3">
+              <div class="timeline-items">
+                <template v-for="comment of comments">
+                  <div :key="comment.id" class="timeline-item">
+                    <div class="timeline-media">
+                      <img alt="Pic" src="media/user.png" />
+                    </div>
+                    <div class="timeline-content">
+                      <div
+                        class="d-flex align-items-center justify-content-between mb-3"
+                      >
+                        <div class="mr-2">
+                          <span
+                            class="text-dark-75 text-hover-primary font-weight-bold"
+                          >
+                            {{ comment.account.firstName }}
+                          </span>
+
+                          <span
+                            :class="[
+                              'svg-icon mr-3',
+                              comment.positive && 'svg-icon-success',
+                              comment.negative && 'svg-icon-warning'
+                            ]"
+                          >
+                            <!--begin::Svg Icon-->
+                            <inline-svg
+                              v-if="comment.positive"
+                              src="media/svg/icons/General/Smile.svg"
+                            />
+
+                            <inline-svg
+                              v-if="comment.negative"
+                              src="media/svg/icons/General/Sad.svg"
+                            />
+                            <!--end::Svg Icon-->
+                          </span>
+                        </div>
+                      </div>
+                      <p class="p-0" v-html="comment.content"></p>
+                      <span class="text-muted font-size-sm">
+                        {{ comment.createdAt }}
+                      </span>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="col-sm-12 col-md-4">
-      <div class="card card-custom shadow-sm">
+      <div class="card card-custom shadow-sm mb-5">
         <div class="card-body p-5">
           <div>
             <h3 class="font-weight-bold">
@@ -259,32 +376,17 @@
           </p>
         </div>
       </div>
-
-      <br />
     </div>
-
-    <div class="col-sm-4">
-      <div class="card card-custom shadow-sm">
-        <div class="card card-custom shadow-sm">
-          <div class="card-body p-5">
-            <div>
-              <h3 class="font-weight-bold">
-                <span>Commentaires</span>
-              </h3>
-              <p> {{ putcomment() }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </template>
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import { queryServiceForDetail } from "@/graphql/service-queries";
+import {
+  queryServiceComments,
+  queryServiceForDetail
+} from "@/graphql/service-queries";
 import { mapGetters } from "vuex";
 import i18nService from "@/core/services/i18n.service";
 import KTUtil from "@/assets/js/components/util";
@@ -295,16 +397,17 @@ export default {
   data() {
     return {
       service: {},
-      serviceComment: {},
-      serviceComments: [],
-      serviceCategories: [],
+      comments: [],
+      positiveCommentsCount: 0,
+      negativeCommentsCount: 0,
+      options: [],
       totalPrice: 0,
       totalDelay: 0
     };
   },
   mounted() {},
   beforeMount() {
-    this.fetchService();
+    this.fetchData();
   },
   computed: {
     ...mapGetters(["basePrice", "currency"]),
@@ -337,24 +440,13 @@ export default {
       }
 
       return totalDelay;
-    },
-    putcomment(){
-      let comment= this.serviceComment.content;
-      for (const x of this.service){
-        for (const y of this.serviceComment){
-          if (x.id==y.service.id){
-            comment= y.content
-          }
-      }
-      return comment
     }
   },
-
   watch: {
-    serviceCategories: function() {
+    options: function() {
       this.totalPrice = parseInt(this.service.basePrice);
       this.totalDelay = parseInt(this.service.delay);
-      for (const id of this.serviceCategories) {
+      for (const id of this.options) {
         for (const option of this.service.options) {
           if (id === option.id) {
             this.totalPrice += parseInt(option.price);
@@ -366,10 +458,7 @@ export default {
   },
   methods: {
     async orderSelectedOptions() {
-      await this.$store.dispatch(
-        UPDATE_PURCHASE_OPTIONS,
-        this.serviceCategories
-      );
+      await this.$store.dispatch(UPDATE_PURCHASE_OPTIONS, this.options);
 
       await this.$router.push({
         name: "service-order",
@@ -382,11 +471,15 @@ export default {
     clickCheckbox(id) {
       window.$("#checkbox-" + id).click();
 
-      if (this.serviceCategories.includes(id)) {
+      if (this.options.includes(id)) {
         window.$("#price-" + id).addClass("text-info");
       } else {
         window.$("#price-" + id).removeClass("text-info");
       }
+    },
+    fetchData() {
+      this.fetchService();
+      this.fetchServiceComments();
     },
     async fetchService() {
       const result = await this.$apollo.query({
@@ -406,7 +499,21 @@ export default {
         ]);
         await this.$store.dispatch(SET_HEAD_TITLE, this.service.title);
       }
+    },
+    async fetchServiceComments() {
+      const result = await this.$apollo.query({
+        query: queryServiceComments,
+        variables: {
+          id: this.$route.params.id
+        }
+      });
+
+      if (window._.isEmpty(result.errors)) {
+        this.comments = result.data.service.comments;
+        this.positiveCommentsCount = result.data.service.positiveCommentsCount;
+        this.negativeCommentsCount = result.data.service.negativeCommentsCount;
+      }
     }
   }
 };
-<                             /script>
+</script>

@@ -57,6 +57,25 @@ export const queryServiceForDetail = gql`
   ${serviceOptionFields}
 `;
 
+export const queryServiceComments = gql`
+  query service($id: UUID!) {
+    service(id: $id) {
+      positiveCommentsCount
+      negativeCommentsCount
+      comments {
+        id
+        positive
+        negative
+        content
+        createdAt
+        account {
+          firstName
+        }
+      }
+    }
+  }
+`;
+
 export const queryServiceForView = gql`
   query service($id: UUID!) {
     service(id: $id) {
