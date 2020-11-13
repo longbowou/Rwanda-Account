@@ -264,7 +264,7 @@ export default {
       this.service = result.data.submitServiceForApproval.service;
 
       this.notifySuccess(
-        this.$t("The service has been submitted for approval successfully.")
+        this.$t("The service has been submitted for approval.")
       );
     }
   }

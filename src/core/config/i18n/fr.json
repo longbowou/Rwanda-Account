@@ -133,7 +133,6 @@
   "Add a Service": "Ajouter un service",
   "Back to Services": "Retour aux services",
   "My Services": "Mes services",
-  "Activated": "Activé",
   "Published": "Publié",
   "Show": "Voir",
   "Edit": "Modifier",
@@ -182,9 +181,6 @@
   "Sign out": "Déconnexion",
   "My Profile": "Mon profil",
   "Your account settings": "Vos paramètres de compte",
-  "My Purchases": "Mes achats",
-  "Your recent purchases": "Vos achats récents",
-  "Your recent services": "Vos services récents",
   "Recent Notifications": "Notifications récentes",
   "No new notifications.": "Pas de nouvelles notifications.",
   "Home": "Accueil",
@@ -201,5 +197,8 @@
   "Join us": "Rejoignez-nous",
   "Comments": "Avis",
   "Positive Comments": "Avis positive",
-  "Negative Comments": "Avis négative"
+  "Negative Comments": "Avis négative",
+  "Submit for approval": "Soummetre pour approbation",
+  "Do you really want to submit the service for approval {title} ?": "Voulez-vous vraiment soumettre le service pour approbation {title} ?",
+  "The service has been submitted for approval.": "Le service a été soumis pour approbation."
 }
