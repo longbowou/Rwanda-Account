@@ -1,31 +1,6 @@
 <template>
   <!-- begin:: Header Topbar -->
   <div class="topbar">
-    <!--begin: My Cart -->
-    <b-dropdown
-      v-if="isAuthenticated"
-      size="sm"
-      variant="link"
-      toggle-class="topbar-item text-decoration-none"
-      no-caret
-      right
-      no-flip
-    >
-      <template v-slot:button-content>
-        <div
-          class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1"
-        >
-          <span class="svg-icon svg-icon-xl">
-            <inline-svg src="media/svg/icons/Shopping/Cart3.svg" />
-          </span>
-        </div>
-      </template>
-      <b-dropdown-text tag="div" class="min-w-md-350px">
-        <KTDropdownMyCart></KTDropdownMyCart>
-      </b-dropdown-text>
-    </b-dropdown>
-    <!--end: My Cart -->
-
     <!--begin: Language bar -->
     <div class="topbar-item">
       <b-dropdown
@@ -106,7 +81,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import KTDropdownMyCart from "@/view/layout/extras/dropdown/DropdownMyCart.vue";
 import KTDropdownLanguage from "@/view/layout/extras/dropdown/DropdownLanguage.vue";
 import KTQuickUser from "@/view/layout/extras/offcanvas/QuickUser.vue";
 import i18nService from "@/core/services/i18n.service.js";
@@ -120,7 +94,6 @@ export default {
     };
   },
   components: {
-    KTDropdownMyCart,
     KTDropdownLanguage,
     KTQuickUser
   },
