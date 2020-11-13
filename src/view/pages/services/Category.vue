@@ -43,17 +43,19 @@ export default {
       return "";
     }
   },
-  mounted() {},
+  mounted() {
+    this.fetchCategory(this.$route.params.id);
+  },
   beforeRouteUpdate(to, from, next) {
-    this.fetchCategory();
+    this.fetchCategory(to.params.id);
     next();
   },
   methods: {
-    async fetchCategory() {
+    async fetchCategory(id) {
       this.isFetchingService = true;
       const result = await this.$apollo.query({
         query: queryServiceCategory,
-        variables: { id: this.$route.params.id }
+        variables: { id: id }
       });
 
       if (window._.isEmpty(result.errors)) {

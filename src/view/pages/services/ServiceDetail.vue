@@ -302,7 +302,12 @@
     </div>
 
     <div class="col-sm-12 col-md-4">
-      <div class="card card-custom shadow-sm mb-5">
+      <div
+        :class="[
+          'card card-custom shadow-sm mb-5 d-md-block',
+          hasOptions && 'd-sm-none'
+        ]"
+      >
         <div class="card-body p-5">
           <div>
             <h3 class="font-weight-bold">
