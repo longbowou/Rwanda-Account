@@ -250,6 +250,22 @@
 
       <user-card :user="service.account" />
     </div>
+
+    <div class="col-sm-4">
+      <div class="card card-custom shadow-sm">
+        <div class="card card-custom shadow-sm">
+          <div class="card-body p-5">
+            <div>
+              <h3 class="font-weight-bold">
+                <span>Commentaires</span>
+              </h3>
+              <p> {{ putcomment() }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -269,6 +285,8 @@ export default {
   data() {
     return {
       service: {},
+      serviceComment: {},
+      serviceComments: [],
       serviceCategories: [],
       totalPrice: 0,
       totalDelay: 0
@@ -293,6 +311,7 @@ export default {
 
       return false;
     },
+
     optionsSumPrice() {
       let totalPrice = parseInt(this.service.basePrice);
       for (const option of this.service.options) {
@@ -308,8 +327,19 @@ export default {
       }
 
       return totalDelay;
+    },
+    putcomment(){
+      let comment= this.serviceComment.content;
+      for (const x of this.service){
+        for (const y of this.serviceComment){
+          if (x.id==y.service.id){
+            comment= y.content
+          }
+      }
+      return comment
     }
   },
+
   watch: {
     serviceCategories: function() {
       this.totalPrice = parseInt(this.service.basePrice);
@@ -369,4 +399,4 @@ export default {
     }
   }
 };
-</script>
+<                             /script>

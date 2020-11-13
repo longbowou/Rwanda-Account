@@ -7,6 +7,9 @@ export const refundsUrl =
 export const servicesUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL + "account/services.json";
 
+export const serviceCategoriesUrl =
+  process.env.VUE_APP_DATATABLES_BASE_URL + "account/services.json";
+
 export const servicePurchasesUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL + "account/purchases.json";
 

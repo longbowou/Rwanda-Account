@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     creating() {
-      return this.$route.params.LitigationId === undefined;
+      return this.$route.params.litigation === undefined;
     },
     updating() {
       return !this.creating;
@@ -135,8 +135,9 @@ export default {
       let result = await this.$apollo.query({
         query: queryLitigation,
         variables: {
-          id: this.$route.params.LitigationId
+          id: this.$route.params.id
         },
+
         fetchPolicy: "no-cache"
       });
 
@@ -146,6 +147,7 @@ export default {
         this.input.id = this.litigation.id;
         this.input.title = this.litigation.title;
         this.descriptionHtml = this.litigation.description;
+        this.input.servicePurchase = this.servicePurchase.id;
 
         await this.$forceUpdate();
         this.initPlugins();
