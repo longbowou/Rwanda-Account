@@ -88,6 +88,7 @@ type AccountQuery {
     service(id: UUID!): ServiceType!
     "ServiceCategory list"
     serviceCategories(id: UUID): [ServiceCategoryType]
+    serviceCategory(id: UUID!): ServiceCategoryType!
     serviceCommentTypes: [ServiceCommentTypeType]
     serviceOption(id: UUID!): ServiceOptionType
     "ServiceOption list"
@@ -457,6 +458,7 @@ type ServiceCategoryType {
     id: UUID!
     label: String!
     serviceSet: [ServiceType!]!
+    services: [ServiceType]!
 }
 
 type ServiceCommentType {

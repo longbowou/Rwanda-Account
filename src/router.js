@@ -27,6 +27,11 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
+          path: "/service-category/:id",
+          name: "service-category",
+          component: () => import("@/view/pages/services/Category")
+        },
+        {
           path: "/dashboard",
           name: "dashboard",
           component: () => import("@/view/pages/user/Dashboard"),

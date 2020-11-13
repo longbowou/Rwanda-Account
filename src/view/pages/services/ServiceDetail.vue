@@ -161,7 +161,7 @@
 
               <button
                 @click="orderSelectedOptions"
-                class="btn btn-light-dark btn-lg btn-square btn-block font-weight-bold"
+                class="btn btn-light-primary btn-lg btn-square btn-block font-weight-bold"
               >
                 {{ $t("Order Now") }} ({{ selectedOptionsPriceSum }}
                 {{ currency }})
@@ -357,7 +357,7 @@
             <a
               :href="href"
               @click="navigate"
-              class="btn btn-light-dark btn-lg btn-square btn-block font-weight-bold"
+              class="btn btn-light-primary btn-lg btn-square btn-block font-weight-bold"
             >
               {{ $t("Order Now") }} ({{ basePrice }} {{ currency }})
             </a>

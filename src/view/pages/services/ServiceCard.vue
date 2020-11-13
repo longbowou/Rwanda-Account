@@ -21,7 +21,7 @@
     </a>
 
     <button
-      class="btn btn-light-dark btn-lg btn-block btn-square font-weight-bold"
+      class="btn btn-light-primary btn-lg btn-block btn-square font-weight-bold"
     >
       {{ $t("Order Now") }}
     </button>
