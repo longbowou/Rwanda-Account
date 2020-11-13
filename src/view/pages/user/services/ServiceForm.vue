@@ -1,6 +1,6 @@
 <template>
   <form class="form col-sm-9" @submit="onSubmit">
-    <div class="form-group" v-if="updating">
+    <div class="form-group">
       <label class="col-sm-12 col-form-label font-weight-bold">Image</label>
       <div
         class="image-input image-input-outline"
@@ -47,6 +47,8 @@
           <i class="ki ki-bold-close icon-xs text-muted"></i>
         </span>
       </div>
+
+      <input type="hidden" id="file" />
     </div>
 
     <div class="form-group">
@@ -160,7 +162,7 @@ import {
 } from "@/graphql/service-queries";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 import KTImageInput from "@/assets/js/components/image-input";
-import { serviceUpload } from "@/core/server-side/urls";
+import { servicePreSaveUpload, serviceUpload } from "@/core/server-side/urls";
 import JwtService from "@/core/services/jwt.service";
 
 export default {
@@ -215,6 +217,8 @@ export default {
       this.input.content = this.contentQuill.root.innerHTML;
       this.input.serviceCategory = this.serviceCategorySelect2.val();
       this.input.keywords = this.keywordsTagify.val();
+
+      this.input.file = window.$("#file").val();
 
       let mutation = createService;
       if (this.updating) {
@@ -300,45 +304,48 @@ export default {
           valuesArr.map(item => item.value).join(",")
       });
 
-      if (this.updating) {
-        let file = new KTImageInput("kt_profile_avatar");
-        const $this = this;
-        file.on("change", function(imageInput) {
-          let fd = new FormData();
-          fd.append("file", imageInput.input.files[0]);
+      let file = new KTImageInput("kt_profile_avatar");
+      file.on("change", function(imageInput) {
+        let fd = new FormData();
+        fd.append("file", imageInput.input.files[0]);
 
-          const imageInputWrapperDiv = window.$("#image-input-wrapper-div");
-          imageInputWrapperDiv.addClass(
-            "spinner spinner-lg spinner-warning spinner-center"
-          );
+        const imageInputWrapperDiv = window.$("#image-input-wrapper-div");
+        imageInputWrapperDiv.addClass(
+          "spinner spinner-lg spinner-warning spinner-center"
+        );
 
-          window.$.ajax({
-            url: serviceUpload.replace(":pk", $this.$route.params.id),
-            type: "POST",
-            data: fd,
-            contentType: false,
-            processData: false,
-            headers: {
-              Authorization:
-                JwtService.getAuth() !== null
-                  ? "JWT " + JwtService.getAuth().token
-                  : null
-            },
-            success: function() {
-              imageInputWrapperDiv.removeClass(
-                "spinner spinner-lg spinner-warning spinner-center"
-              );
-            },
-            error: function() {
-              imageInputWrapperDiv.removeClass(
-                "spinner spinner-lg spinner-warning spinner-center"
-              );
-            }
-          });
+        const uploadURL = this.updating
+          ? serviceUpload.replace(":pk", this.$route.params.id)
+          : servicePreSaveUpload;
+
+        window.$.ajax({
+          url: uploadURL,
+          type: "POST",
+          data: fd,
+          contentType: false,
+          processData: false,
+          headers: {
+            Authorization:
+              JwtService.getAuth() !== null
+                ? "JWT " + JwtService.getAuth().token
+                : null
+          },
+          success: function(response) {
+            window.$("#file").val(response.file);
+
+            imageInputWrapperDiv.removeClass(
+              "spinner spinner-lg spinner-warning spinner-center"
+            );
+          },
+          error: function() {
+            imageInputWrapperDiv.removeClass(
+              "spinner spinner-lg spinner-warning spinner-center"
+            );
+          }
         });
+      });
 
-        file.on("remove", function() {});
-      }
+      file.on("remove", function() {});
     }
   },
   apollo: {

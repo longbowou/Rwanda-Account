@@ -112,7 +112,153 @@
         <div class="separator separator-dashed mt-8 mb-5"></div>
         <!--begin::Nav-->
         <div class="navi navi-spacer-x-0 p-0">
-          <!--begin::Item-->
+          <router-link
+            :to="{ name: 'dashboard' }"
+            @click.native="closeOffcanvas"
+            class="navi-item"
+          >
+            <div class="navi-link">
+              <div class="symbol symbol-40 bg-light mr-3">
+                <div class="symbol-label">
+                  <span class="svg-icon svg-icon-md svg-icon-success">
+                    <!--begin::Svg Icon-->
+                    <inline-svg src="media/svg/icons/Home/Home.svg" />
+                    <!--end::Svg Icon-->
+                  </span>
+                </div>
+              </div>
+              <div class="navi-text">
+                <div class="font-weight-bold">
+                  {{ $t("Dashboard") }}
+                </div>
+              </div>
+            </div>
+          </router-link>
+
+          <router-link
+            :to="{ name: 'purchases' }"
+            @click.native="closeOffcanvas"
+            href="#"
+            class="navi-item"
+          >
+            <div class="navi-link">
+              <div class="symbol symbol-40 bg-light mr-3">
+                <div class="symbol-label">
+                  <span class="svg-icon svg-icon-md svg-icon-primary">
+                    <!--begin::Svg Icon-->
+                    <inline-svg src="media/svg/icons/Shopping/Cart1.svg" />
+                    <!--end::Svg Icon-->
+                  </span>
+                </div>
+              </div>
+              <div class="navi-text">
+                <div class="font-weight-bold">
+                  {{ $t("Purchases") }}
+                </div>
+              </div>
+            </div>
+          </router-link>
+
+          <router-link
+            :to="{ name: 'orders' }"
+            @click.native="closeOffcanvas"
+            href="#"
+            class="navi-item"
+          >
+            <div class="navi-link">
+              <div class="symbol symbol-40 bg-light mr-3">
+                <div class="symbol-label">
+                  <span class="svg-icon svg-icon-md svg-icon-primary">
+                    <!--begin::Svg Icon-->
+                    <inline-svg src="media/svg/icons/Shopping/Bag2.svg" />
+                    <!--end::Svg Icon-->
+                  </span>
+                </div>
+              </div>
+              <div class="navi-text">
+                <div class="font-weight-bold">
+                  {{ $t("Orders") }}
+                </div>
+              </div>
+            </div>
+          </router-link>
+
+          <router-link
+            :to="{ name: 'deposits' }"
+            @click.native="closeOffcanvas"
+            href="#"
+            class="navi-item"
+          >
+            <div class="navi-link">
+              <div class="symbol symbol-40 bg-light mr-3">
+                <div class="symbol-label">
+                  <span class="svg-icon svg-icon-md svg-icon-primary">
+                    <!--begin::Svg Icon-->
+                    <inline-svg
+                      src="media/svg/icons/Communication/Incoming-box.svg"
+                    />
+                    <!--end::Svg Icon-->
+                  </span>
+                </div>
+              </div>
+              <div class="navi-text">
+                <div class="font-weight-bold">
+                  {{ $t("Deposits") }}
+                </div>
+              </div>
+            </div>
+          </router-link>
+
+          <router-link
+            :to="{ name: 'refunds' }"
+            @click.native="closeOffcanvas"
+            href="#"
+            class="navi-item"
+          >
+            <div class="navi-link">
+              <div class="symbol symbol-40 bg-light mr-3">
+                <div class="symbol-label">
+                  <span class="svg-icon svg-icon-md svg-icon-primary">
+                    <!--begin::Svg Icon-->
+                    <inline-svg
+                      src="media/svg/icons/Communication/Outgoing-box.svg"
+                    />
+                    <!--end::Svg Icon-->
+                  </span>
+                </div>
+              </div>
+              <div class="navi-text">
+                <div class="font-weight-bold">
+                  {{ $t("Refunds") }}
+                </div>
+              </div>
+            </div>
+          </router-link>
+
+          <router-link
+            :to="{ name: 'user-services' }"
+            @click.native="closeOffcanvas"
+            href="#"
+            class="navi-item"
+          >
+            <div class="navi-link">
+              <div class="symbol symbol-40 bg-light mr-3">
+                <div class="symbol-label">
+                  <span class="svg-icon svg-icon-md svg-icon-primary">
+                    <!--begin::Svg Icon-->
+                    <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
+                    <!--end::Svg Icon-->
+                  </span>
+                </div>
+              </div>
+              <div class="navi-text">
+                <div class="font-weight-bold">
+                  {{ $t("My Services") }}
+                </div>
+              </div>
+            </div>
+          </router-link>
+
           <router-link
             :to="{ name: 'profile-overview' }"
             @click.native="closeOffcanvas"
@@ -140,63 +286,6 @@
               </div>
             </div>
           </router-link>
-          <!--end:Item-->
-          <!--begin::Item-->
-          <router-link
-            to="/builder"
-            @click.native="closeOffcanvas"
-            href="#"
-            class="navi-item"
-          >
-            <div class="navi-link">
-              <div class="symbol symbol-40 bg-light mr-3">
-                <div class="symbol-label">
-                  <span class="svg-icon svg-icon-md svg-icon-warning">
-                    <!--begin::Svg Icon-->
-                    <inline-svg src="media/svg/icons/Shopping/Cart1.svg" />
-                    <!--end::Svg Icon-->
-                  </span>
-                </div>
-              </div>
-              <div class="navi-text">
-                <div class="font-weight-bold">
-                  {{ $t("My Purchases") }}
-                </div>
-                <div class="text-muted">
-                  {{ $t("Your recent purchases") }}
-                </div>
-              </div>
-            </div>
-          </router-link>
-          <!--end:Item-->
-          <!--begin::Item-->
-          <router-link
-            to="/builder"
-            @click.native="closeOffcanvas"
-            href="#"
-            class="navi-item"
-          >
-            <div class="navi-link">
-              <div class="symbol symbol-40 bg-light mr-3">
-                <div class="symbol-label">
-                  <span class="svg-icon svg-icon-md svg-icon-danger">
-                    <!--begin::Svg Icon-->
-                    <inline-svg src="media/svg/icons/Shopping/Box2.svg" />
-                    <!--end::Svg Icon-->
-                  </span>
-                </div>
-              </div>
-              <div class="navi-text">
-                <div class="font-weight-bold">
-                  {{ $t("My Services") }}
-                </div>
-                <div class="text-muted">
-                  {{ $t("Your recent services") }}
-                </div>
-              </div>
-            </div>
-          </router-link>
-          <!--end:Item-->
         </div>
         <!--end::Nav-->
         <div class="separator separator-dashed my-7"></div>
