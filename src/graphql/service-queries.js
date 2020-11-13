@@ -1,6 +1,7 @@
 import gql from "graphql-tag";
 import { serviceOptionFields } from "@/graphql/fragments/service-option";
 import { accountBasicFields } from "@/graphql/fragments/account";
+import { serviceForViewFields } from "@/graphql/fragments/service";
 
 export const queryServicesForPreview = gql`
   query {
@@ -97,19 +98,10 @@ export const queryServiceComments = gql`
 export const queryServiceForView = gql`
   query service($id: UUID!) {
     service(id: $id) {
-      id
-      title
-      content
-      delayDisplay
-      keywords
-      createdAt
-      publishedDisplay
-      fileUrl
-      serviceCategory {
-        label
-      }
+      ...serviceForViewFields
     }
   }
+  ${serviceForViewFields}
 `;
 
 export const queryServiceForEdit = gql`

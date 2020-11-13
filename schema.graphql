@@ -32,27 +32,19 @@ type AccountMutation {
     approveServicePurchase(input: ApproveServicePurchaseInput!): ApproveServicePurchase
     cancelServicePurchase(input: CancelServicePurchaseInput!): CancelServicePurchase
     changeAccountPassword(input: ChangeAccountPasswordInput!): ChangeAccountPassword
-    changeAdminPassword(input: ChangeAdminPasswordInput!): ChangeAdminPassword
     createAccount(input: AccountInput!): CreateAccount
-    createAdmin(input: AdminInput!): CreateAdmin
     createChatMessage(input: CreateChatMessageInput!): CreateChatMessage
     createDeliverable(input: CreateDeliverableInput!): CreateDeliverable
     createLitigation(input: CreateLitigationInput!): CreateLitigation
     createService(input: CreateServiceInput!): CreateService
-    createServiceCategory(input: CreateServiceCategoryInput!): CreateServiceCategory
     createServiceComment(input: CreateServiceCommentInput!): CreateServiceComment
-    createServiceMedia(input: CreateServiceMediaInput!): CreateServiceMedia
     createServiceOption(input: CreateServiceOptionInput!): CreateServiceOption
-    deleteAdmin(id: UUID!): DeleteAdmin
     deleteDeliverable(id: UUID!): DeleteDeliverable
     deleteDeliverableFile(id: UUID!): DeleteDeliverableFile
     deleteService(id: UUID!): DeleteService
-    deleteServiceCategory(id: UUID!): DeleteServiceCategory
-    deleteServiceMedia(id: UUID!): DeleteServiceMedia
     deleteServiceOption(id: UUID!): DeleteServiceOption
     deliverServicePurchase(input: DeliverServicePurchaseInput!): DeliverServicePurchase
     deliverServicePurchaseUpdateRequest(input: DeliverServicePurchaseUpdateRequestInput!): DeliverServicePurchaseUpdateRequest
-    handleLitigation(input: HandleLitigationInput!): HandleLitigation
     initiateDeposit(amount: Int!): InitiateDeposit
     initiateRefund(input: InitiateRefundInput!): InitiateRefund
     initiateServicePurchase(input: InitiateServicePurchaseInput!): InitiateServicePurchase
@@ -61,15 +53,11 @@ type AccountMutation {
     markUnmarkChatMessage(chatMessage: UUID!): MarkUnmarkChatMessage
     refreshToken(refreshToken: String): Refresh
     refuseServicePurchaseUpdateRequest(input: RefuseServicePurchaseUpdateRequestInput!): RefuseServicePurchaseUpdateRequest
-    replyServiceComment(input: ReplyServiceCommentInput!): ReplyServiceComment
     revokeToken(refreshToken: String): Revoke
+    submitServiceForApproval(input: SubmitServiceForApprovalInput!): SubmitServiceForApproval
     updateAccount(input: UpdateAccountInput!): UpdateAccount
-    updateAdmin(input: UpdateAdminInput!): UpdateAdmin
-    updateAdminProfile(input: UpdateAdminProfileInput!): UpdateAdminProfile
     updateDeliverable(input: UpdateDeliverableInput!): UpdateDeliverable
     updateService(input: UpdateServiceInput!): UpdateService
-    updateServiceCategory(input: UpdateServiceCategoryInput!): UpdateServiceCategory
-    updateServiceMedia(input: UpdateServiceMediaInput!): UpdateServiceMedia
     updateServiceOption(input: UpdateServiceOptionInput!): UpdateServiceOption
     verifyToken(token: String): Verify
 }
@@ -169,11 +157,6 @@ type ChangeAccountPassword {
     errors: [ErrorType]
 }
 
-type ChangeAdminPassword {
-    admin: AdminType
-    errors: [ErrorType]
-}
-
 type ChatMessageSubscription {
     message: ServicePurchaseChatMessageType
 }
@@ -193,11 +176,6 @@ type ChatMessageType {
 
 type CreateAccount {
     account: AccountType
-    errors: [ErrorType]
-}
-
-type CreateAdmin {
-    admin: AdminType
     errors: [ErrorType]
 }
 
@@ -221,28 +199,14 @@ type CreateService {
     service: ServiceType
 }
 
-type CreateServiceCategory {
-    errors: [ErrorType]
-    serviceCategory: ServiceCategoryType
-}
-
 type CreateServiceComment {
     errors: [ErrorType]
     serviceComment: ServiceCommentType
 }
 
-type CreateServiceMedia {
-    errors: [ErrorType]
-    serviceMedia: ServiceMediaType
-}
-
 type CreateServiceOption {
     errors: [ErrorType]
     serviceOption: ServiceOptionType
-}
-
-type DeleteAdmin {
-    errors: [ErrorType]
 }
 
 type DeleteDeliverable {
@@ -254,14 +218,6 @@ type DeleteDeliverableFile {
 }
 
 type DeleteService {
-    errors: [ErrorType]
-}
-
-type DeleteServiceCategory {
-    errors: [ErrorType]
-}
-
-type DeleteServiceMedia {
     errors: [ErrorType]
 }
 
@@ -326,11 +282,6 @@ type FundType {
     id: UUID!
     label: String!
     operationSet: [OperationType!]!
-}
-
-type HandleLitigation {
-    errors: [ErrorType]
-    litigation: LitigationType
 }
 
 type InitiateDeposit {
@@ -441,11 +392,6 @@ type RefundType {
 type RefuseServicePurchaseUpdateRequest {
     errors: [ErrorType]
     servicePurchaseUpdateRequest: ServicePurchaseUpdateRequestType
-}
-
-type ReplyServiceComment {
-    errors: [ErrorType]
-    serviceComment: ServiceCommentType
 }
 
 type Revoke {
@@ -635,9 +581,12 @@ type ServicePurchaseUpdateRequestType {
 }
 
 type ServiceType {
+    accepted: Boolean!
     account: AccountType!
-    activated: Boolean!
     basePrice: Int!
+    canBeAccepted: Boolean!
+    canBeRejected: Boolean!
+    canBeSubmittedForApproval: Boolean!
     comments: [ServiceCommentType]
     content: String!
     createdAt: String!
@@ -653,13 +602,21 @@ type ServiceType {
     optionsCountDisplay: String!
     positiveCommentsCount: String!
     published: Boolean!
-    publishedDisplay: String!
+    rejected: Boolean!
+    rejectedReason: String
     serviceCategory: ServiceCategoryType!
     servicemediaSet: [ServiceMediaType!]!
     serviceoptionSet: [ServiceOptionType!]!
     servicepurchaseSet: [ServicePurchaseType!]!
     stars: Int!
+    status: String!
+    submittedForApproval: Boolean!
     title: String!
+}
+
+type SubmitServiceForApproval {
+    errors: [ErrorType]
+    service: ServiceType
 }
 
 type Subscription {
@@ -674,16 +631,6 @@ type UpdateAccount {
     errors: [ErrorType]
 }
 
-type UpdateAdmin {
-    admin: AdminType
-    errors: [ErrorType]
-}
-
-type UpdateAdminProfile {
-    admin: AdminType
-    errors: [ErrorType]
-}
-
 type UpdateDeliverable {
     deliverable: DeliverableType
     errors: [ErrorType]
@@ -692,16 +639,6 @@ type UpdateDeliverable {
 type UpdateService {
     errors: [ErrorType]
     service: ServiceType
-}
-
-type UpdateServiceCategory {
-    errors: [ErrorType]
-    serviceCategory: ServiceCategoryType
-}
-
-type UpdateServiceMedia {
-    errors: [ErrorType]
-    serviceMedia: ServiceMediaType
 }
 
 type UpdateServiceOption {
@@ -730,17 +667,6 @@ input AccountInput {
     username: String!
 }
 
-input AdminInput {
-    email: String!
-    firstName: String
-    isActive: Boolean
-    isSuperuser: Boolean
-    lastName: String
-    password: String!
-    passwordConfirmation: String!
-    username: String!
-}
-
 input ApproveServicePurchaseInput {
     id: UUID!
 }
@@ -750,12 +676,6 @@ input CancelServicePurchaseInput {
 }
 
 input ChangeAccountPasswordInput {
-    currentPassword: String!
-    password: String!
-    passwordConfirmation: String!
-}
-
-input ChangeAdminPasswordInput {
     currentPassword: String!
     password: String!
     passwordConfirmation: String!
@@ -780,11 +700,6 @@ input CreateLitigationInput {
     title: String!
 }
 
-input CreateServiceCategoryInput {
-    description: String
-    label: String!
-}
-
 input CreateServiceCommentInput {
     content: String!
     servicePurchase: UUID!
@@ -797,17 +712,10 @@ input CreateServiceInput {
     file: String
     keywords: String
     published: Boolean
+    rejectedReason: String
     serviceCategory: ID!
-    serviceMedias: [ServiceMediaInput]
-    serviceOptions: [ServiceOptionInput]
+    status: String!
     title: String!
-}
-
-input CreateServiceMediaInput {
-    file: String
-    isMain: Boolean
-    service: ID!
-    url: String
 }
 
 input CreateServiceOptionInput {
@@ -825,12 +733,6 @@ input DeliverServicePurchaseInput {
 
 input DeliverServicePurchaseUpdateRequestInput {
     id: UUID!
-}
-
-input HandleLitigationInput {
-    decision: String!
-    id: UUID!
-    reason: String!
 }
 
 input InitiateRefundInput {
@@ -859,44 +761,13 @@ input RefuseServicePurchaseUpdateRequestInput {
     reason: String!
 }
 
-input ReplyServiceCommentInput {
+input SubmitServiceForApprovalInput {
     id: UUID!
-    replyContent: String
-}
-
-input ServiceMediaInput {
-    file: String
-    url: String
-}
-
-input ServiceOptionInput {
-    delay: Int!
-    description: String
-    label: String!
-    price: Int!
 }
 
 input UpdateAccountInput {
     email: String
     firstName: String
-    lastName: String
-    username: String
-}
-
-input UpdateAdminInput {
-    email: String
-    firstName: String
-    id: UUID!
-    isActive: Boolean
-    isSuperuser: Boolean
-    lastName: String
-    username: String
-}
-
-input UpdateAdminProfileInput {
-    email: String
-    firstName: String
-    id: UUID!
     lastName: String
     username: String
 }
@@ -909,12 +780,6 @@ input UpdateDeliverableInput {
     version: String
 }
 
-input UpdateServiceCategoryInput {
-    description: String
-    id: UUID!
-    label: String
-}
-
 input UpdateServiceInput {
     content: String
     delay: Int
@@ -922,16 +787,11 @@ input UpdateServiceInput {
     id: UUID!
     keywords: String
     published: Boolean
+    rejectedReason: String
     serviceCategory: ID
     stars: Int
+    status: String
     title: String
-}
-
-input UpdateServiceMediaInput {
-    file: String
-    id: UUID!
-    isMain: Boolean
-    url: String
 }
 
 input UpdateServiceOptionInput {
