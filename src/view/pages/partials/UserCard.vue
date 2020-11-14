@@ -6,7 +6,7 @@
           <img alt="Pic" src="media/stock-600x600/img-11.jpg" />
         </div>
         <span class="text-dark-75 font-weight-bold ml-2">
-          {{ user ? user.username : null }}
+          {{ user ? user.firstName : null }}
         </span>
       </a>
 

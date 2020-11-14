@@ -233,17 +233,11 @@ export default {
         return;
       }
 
-      window
-        .$(this.$refs.btnSubmitForApproval)
-        .removeClass("btn-light-success");
-      window
-        .$(this.$refs.btnSubmitForApproval)
-        .addClass("btn-light disabled spinner spinner-success spinner-right");
-      window.$(this.$refs.btnSubmitForApproval).attr("disabled", true);
-      window
-        .$(this.$refs.btnSubmitForApproval)
-        .find("i")
-        .css("display", "none");
+      const btn = window.$(this.$refs.btnSubmitForApproval);
+      btn.removeClass("btn-light-success");
+      btn.addClass("btn-light spinner spinner-success spinner-right");
+      btn.attr("disabled", true);
+      btn.find("i").css("display", "none");
 
       let result = await this.$apollo.mutate({
         mutation: submitServiceForApproval,
@@ -252,17 +246,10 @@ export default {
         }
       });
 
-      window.$(this.$refs.btnSubmitForApproval).addClass("btn-light-success");
-      window.$(this.$refs.btnSubmitForApproval).removeAttr("disabled");
-      window
-        .$(this.$refs.btnSubmitForApproval)
-        .removeClass(
-          "btn-light disabled spinner spinner-success spinner-right"
-        );
-      window
-        .$(this.$refs.btnSubmitForApproval)
-        .find("i")
-        .css("display", "");
+      btn.addClass("btn-light-success");
+      btn.removeAttr("disabled");
+      btn.removeClass("btn-light spinner spinner-success spinner-right");
+      btn.find("i").css("display", "");
 
       if (!window._.isEmpty(result.data.submitServiceForApproval.errors)) {
         return;

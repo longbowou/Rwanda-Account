@@ -110,9 +110,9 @@ export default {
     async onSubmit(evt) {
       evt.preventDefault();
 
-      const submitButton = window.$("#btn_submit");
-      submitButton.attr("disabled", true);
-      submitButton.addClass("spinner spinner-light spinner-right");
+      const btn = window.$("#btn_submit");
+      btn.attr("disabled", true);
+      btn.addClass("spinner spinner-light spinner-right");
 
       this.input.content = this.contentQuill.root.innerHTML;
       this.input.servicePurchase = this.$route.params.id;
@@ -124,8 +124,8 @@ export default {
         }
       });
 
-      submitButton.removeAttr("disabled");
-      submitButton.removeClass("spinner spinner-light spinner-right");
+      btn.removeAttr("disabled");
+      btn.removeClass("spinner spinner-light spinner-right");
 
       if (
         !window._.isEmpty(

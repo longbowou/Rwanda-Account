@@ -630,14 +630,10 @@ export default {
         }
       );
 
-      window.$(this.$refs.btnCancel).removeClass("btn-light-danger");
-      window
-        .$(this.$refs.btnCancel)
-        .addClass("btn-light disabled spinner spinner-danger spinner-right");
-      window
-        .$(this.$refs.btnCancel)
-        .find("i")
-        .css("display", "none");
+      const btn = window.$(this.$refs.btnCancel);
+      btn.removeClass("btn-light-danger");
+      btn.addClass("btn-light spinner spinner-danger spinner-right");
+      btn.find("i").css("display", "none");
 
       const result = await this.cancelPurchase(
         this.servicePurchase.id,
@@ -652,14 +648,9 @@ export default {
         this.$refs.btnCancel.blur();
       }
 
-      window.$(this.$refs.btnCancel).addClass("btn-light-danger");
-      window
-        .$(this.$refs.btnCancel)
-        .removeClass("btn-light disabled spinner spinner-danger spinner-right");
-      window
-        .$(this.$refs.btnCancel)
-        .find("i")
-        .css("display", "");
+      btn.addClass("btn-light-danger");
+      btn.removeClass("btn-light spinner spinner-danger spinner-right");
+      btn.find("i").css("display", "");
     },
     async handleApprovePurchase() {
       const title = this.$t(
@@ -670,14 +661,10 @@ export default {
         }
       );
 
-      window.$(this.$refs.btnApprove).removeClass("btn-light-success");
-      window
-        .$(this.$refs.btnApprove)
-        .addClass("btn-light disabled spinner spinner-success spinner-right");
-      window
-        .$(this.$refs.btnApprove)
-        .find("i")
-        .css("display", "none");
+      const btn = window.$(this.$refs.btnApprove);
+      btn.removeClass("btn-light-success");
+      btn.addClass("btn-light spinner spinner-success spinner-right");
+      btn.find("i").css("display", "none");
 
       const result = await this.approvePurchase(
         this.servicePurchase.id,
@@ -692,16 +679,9 @@ export default {
         this.$refs.btnApprove.blur();
       }
 
-      window.$(this.$refs.btnApprove).addClass("btn-light-success");
-      window
-        .$(this.$refs.btnApprove)
-        .removeClass(
-          "btn-light disabled spinner spinner-success spinner-right"
-        );
-      window
-        .$(this.$refs.btnApprove)
-        .find("i")
-        .css("display", "");
+      btn.addClass("btn-light-success");
+      btn.removeClass("btn-light spinner spinner-success spinner-right");
+      btn.find("i").css("display", "");
     },
     subscribeToPurchase() {
       const observer = this.$apollo.subscribe({

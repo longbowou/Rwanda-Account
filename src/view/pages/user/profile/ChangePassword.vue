@@ -141,9 +141,9 @@ export default {
       evt.preventDefault();
 
       // set spinner to submit button
-      const submitButton = window.$("#btn_submit");
-      submitButton.attr("disabled", true);
-      submitButton.addClass("disabled spinner spinner-light spinner-right");
+      const btn = window.$("#btn_submit");
+      btn.attr("disabled", true);
+      btn.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
 
@@ -156,10 +156,8 @@ export default {
 
       this.errors = result.data.changeAccountPassword.errors;
       if (!window._.isEmpty(this.errors)) {
-        submitButton.removeAttr("disabled");
-        submitButton.removeClass(
-          "disabled spinner spinner-light spinner-right"
-        );
+        btn.removeAttr("disabled");
+        btn.removeClass("spinner spinner-light spinner-right");
         return;
       }
 

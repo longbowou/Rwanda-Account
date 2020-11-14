@@ -209,9 +209,9 @@ export default {
     async onSubmit(evt) {
       evt.preventDefault();
 
-      const submitButton = window.$("#btn_submit");
-      submitButton.attr("disabled", true);
-      submitButton.addClass("disabled spinner spinner-light spinner-right");
+      const btn = window.$("#btn_submit");
+      btn.attr("disabled", true);
+      btn.addClass("disabled spinner spinner-light spinner-right");
 
       this.errors = [];
       this.input.content = this.contentQuill.root.innerHTML;
@@ -232,8 +232,8 @@ export default {
         }
       });
 
-      submitButton.removeAttr("disabled");
-      submitButton.removeClass("disabled spinner spinner-light spinner-right");
+      btn.removeAttr("disabled");
+      btn.removeClass("disabled spinner spinner-light spinner-right");
 
       if (this.creating) {
         this.errors = result.data.createService.errors;

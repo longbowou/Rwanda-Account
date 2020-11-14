@@ -415,9 +415,9 @@ export default {
       }
     },
     async initServicePurchase() {
-      const proceedButton = window.$("#proceed-btn");
-      proceedButton.attr("disabled", true);
-      proceedButton.addClass("disabled spinner spinner-light spinner-right");
+      const btn = window.$("#proceed-btn");
+      btn.attr("disabled", true);
+      btn.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
 
@@ -431,12 +431,11 @@ export default {
         }
       });
 
+      btn.removeAttr("disabled");
+      btn.removeClass("spinner spinner-light spinner-right");
+
       this.errors = result.data.initiateServicePurchase.errors;
       if (!window._.isEmpty(this.errors)) {
-        proceedButton.removeAttr("disabled");
-        proceedButton.removeClass(
-          "disabled spinner spinner-light spinner-right"
-        );
         return;
       }
 
@@ -445,9 +444,6 @@ export default {
       await this.$store.dispatch(UPDATE_USER, {
         account: result.data.initiateServicePurchase.servicePurchase.account
       });
-
-      proceedButton.removeAttr("disabled");
-      proceedButton.removeClass("disabled spinner spinner-light spinner-right");
 
       await this.$router.push({
         name: "purchases-view",

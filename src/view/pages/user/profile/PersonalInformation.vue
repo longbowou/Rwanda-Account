@@ -158,9 +158,9 @@ export default {
       evt.preventDefault();
 
       // set spinner to submit button
-      const submitButton = window.$("#btn_submit");
-      submitButton.attr("disabled", true);
-      submitButton.addClass("disabled spinner spinner-light spinner-right");
+      const btn = window.$("#btn_submit");
+      btn.attr("disabled", true);
+      btn.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
 
@@ -173,17 +173,15 @@ export default {
 
       this.errors = result.data.updateAccount.errors;
       if (!window._.isEmpty(this.errors)) {
-        submitButton.removeAttr("disabled");
-        submitButton.removeClass(
-          "disabled spinner spinner-light spinner-right"
-        );
+        btn.removeAttr("disabled");
+        btn.removeClass("spinner spinner-light spinner-right");
         return;
       }
 
       await this.$store.dispatch(UPDATE_USER, {
         account: result.data.updateAccount.account
       });
-      submitButton.removeClass("disabled spinner spinner-light spinner-right");
+      btn.removeClass("disabled spinner spinner-light spinner-right");
 
       this.notifySuccess("Personal information update successfully.");
     },

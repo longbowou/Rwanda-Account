@@ -172,9 +172,9 @@ export default {
       await this.$store.dispatch(LOGOUT);
 
       // set spinner to submit button
-      const submitButton = window.$("#kt_login_signin_submit");
-      submitButton.attr("disabled", true);
-      submitButton.addClass("spinner spinner-light spinner-right");
+      const btn = window.$("#kt_login_signin_submit");
+      btn.attr("disabled", true);
+      btn.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
 
@@ -185,8 +185,8 @@ export default {
         }
       });
 
-      submitButton.removeAttr("disabled");
-      submitButton.removeClass("spinner spinner-light spinner-right");
+      btn.removeAttr("disabled");
+      btn.removeClass("spinner spinner-light spinner-right");
 
       this.errors = result.data.login.errors;
       if (!window._.isEmpty(this.errors)) {

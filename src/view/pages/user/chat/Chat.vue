@@ -4,7 +4,7 @@
     <div class="card-header card-header-tabs-line align-items-center px-4 py-3">
       <div class="flex-grow-1 ml-2">
         <div class="text-dark-75 font-weight-bold font-size-h5">
-          {{ account.username }}
+          {{ account.firstName }}
         </div>
         <div>
           <span
@@ -374,8 +374,8 @@ export default {
       }
     },
     async sendChatMessage() {
-      const submitButton = window.$("#btn_submit");
-      submitButton.addClass("disabled spinner spinner-light spinner-right");
+      const btn = window.$("#btn_submit");
+      btn.addClass("spinner spinner-light spinner-right");
 
       let input = {};
       input.content = this.messageContentQuill.root.innerHTML;
@@ -388,8 +388,8 @@ export default {
         }
       });
 
-      submitButton.removeClass("disabled spinner spinner-light spinner-right");
-      window.$("#btn_submit").blur();
+      btn.removeClass("spinner spinner-light spinner-right");
+      btn.blur();
 
       if (!window._.isEmpty(result.errors)) {
         return;

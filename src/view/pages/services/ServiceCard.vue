@@ -16,7 +16,7 @@
         {{ $t("by") }}
       </span>
       <span class="text-dark-75 font-weight-bold ml-2">
-        {{ service.account.username }}
+        {{ service.account.firstName }}
       </span>
     </a>
 

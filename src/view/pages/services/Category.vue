@@ -61,8 +61,8 @@ export default {
       if (window._.isEmpty(result.errors)) {
         this.category = result.data.serviceCategory;
 
-        this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
-        this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
+        await this.$store.dispatch(SET_BREADCRUMB, [{ title: this.getTitle }]);
+        await this.$store.dispatch(SET_HEAD_TITLE, this.getTitle);
       }
 
       this.isFetchingService = false;

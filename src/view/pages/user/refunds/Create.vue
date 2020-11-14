@@ -153,9 +153,9 @@ export default {
     async onSubmit(evt) {
       evt.preventDefault();
 
-      const submitButton = window.$("#btn_submit");
-      submitButton.attr("disabled", true);
-      submitButton.addClass("disabled spinner spinner-light spinner-right");
+      const btn = window.$("#btn_submit");
+      btn.attr("disabled", true);
+      btn.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
 
@@ -166,17 +166,13 @@ export default {
         }
       });
 
+      btn.removeAttr("disabled");
+      btn.removeClass("disabled spinner spinner-light spinner-right");
+
       this.errors = result.data.initiateRefund.errors;
       if (!window._.isEmpty(this.errors)) {
-        submitButton.removeAttr("disabled");
-        submitButton.removeClass(
-          "disabled spinner spinner-light spinner-right"
-        );
         return;
       }
-
-      submitButton.removeAttr("disabled");
-      submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
       this.notifySuccess(
         this.$t("You successfully initiate a refund of") +

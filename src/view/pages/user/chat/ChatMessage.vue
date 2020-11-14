@@ -86,9 +86,9 @@ export default {
       const icon = window.$(this.$refs["icon-star-" + messageId]);
       icon.hide();
 
-      const markButton = window.$(this.$refs["btn-mark-" + messageId]);
-      markButton.attr("disabled", true);
-      markButton.addClass("spinner spinner-success spinner-sm spinner-center");
+      const btn = window.$(this.$refs["btn-mark-" + messageId]);
+      btn.attr("disabled", true);
+      btn.addClass("spinner spinner-success spinner-sm spinner-center");
 
       const result = await this.$apollo.mutate({
         mutation: markUnmarkChatMessage,
@@ -98,10 +98,8 @@ export default {
       });
 
       icon.show();
-      markButton.removeAttr("disabled");
-      markButton.removeClass(
-        "spinner spinner-success spinner-sm spinner-center"
-      );
+      btn.removeAttr("disabled");
+      btn.removeClass("spinner spinner-success spinner-sm spinner-center");
 
       if (window._.isEmpty(result.errors)) {
         this.message.marked = result.data.markUnmarkChatMessage.marked;

@@ -655,14 +655,10 @@ export default {
         }
       );
 
-      window.$(this.$refs.btnDeliver).removeClass("btn-light-success");
-      window
-        .$(this.$refs.btnDeliver)
-        .addClass("btn-light disabled spinner spinner-success spinner-right");
-      window
-        .$(this.$refs.btnDeliver)
-        .find("i")
-        .css("display", "none");
+      const btn = window.$(this.$refs.btnDeliver);
+      btn.removeClass("btn-light-success");
+      btn.addClass("btn-light spinner spinner-success spinner-right");
+      btn.find("i").css("display", "none");
 
       const result = await this.deliverOrder(
         this.servicePurchase.id,
@@ -677,16 +673,9 @@ export default {
         this.$refs.btnDeliver.blur();
       }
 
-      window.$(this.$refs.btnDeliver).addClass("btn-light-success");
-      window
-        .$(this.$refs.btnDeliver)
-        .removeClass(
-          "btn-light disabled spinner spinner-success spinner-right"
-        );
-      window
-        .$(this.$refs.btnDeliver)
-        .find("i")
-        .css("display", "");
+      btn.addClass("btn-light-success");
+      btn.removeClass("btn-light spinner spinner-success spinner-right");
+      btn.find("i").css("display", "");
     },
     subscribeToOrder() {
       const observer = this.$apollo.subscribe({

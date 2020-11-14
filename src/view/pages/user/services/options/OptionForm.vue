@@ -111,9 +111,9 @@ export default {
     async onSubmit(evt) {
       evt.preventDefault();
 
-      const submitButton = window.$("#btn_submit");
-      submitButton.attr("disabled", true);
-      submitButton.addClass("disabled spinner spinner-light spinner-right");
+      const btn = window.$("#btn_submit");
+      btn.attr("disabled", true);
+      btn.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
       if (this.creating) {
@@ -132,21 +132,18 @@ export default {
         }
       });
 
+      btn.removeAttr("disabled");
+      btn.removeClass("spinner spinner-light spinner-right");
+
       if (this.creating) {
         this.errors = result.data.createServiceOption.errors;
       } else {
         this.errors = result.data.updateServiceOption.errors;
       }
+
       if (!window._.isEmpty(this.errors)) {
-        submitButton.removeAttr("disabled");
-        submitButton.removeClass(
-          "disabled spinner spinner-light spinner-right"
-        );
         return;
       }
-
-      submitButton.removeAttr("disabled");
-      submitButton.removeClass("disabled spinner spinner-light spinner-right");
 
       await this.$router.push({
         name: "service-options"
