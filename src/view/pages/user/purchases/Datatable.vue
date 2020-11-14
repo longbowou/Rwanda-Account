@@ -72,11 +72,9 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { servicePurchasesUrl } from "@/core/server-side/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
-import { purchaseActionsMixin } from "@/view/mixins";
 
 export default {
   name: "Purchases",
-  mixins: [purchaseActionsMixin],
   data() {
     return {
       datatable: {},
@@ -131,26 +129,6 @@ export default {
             const showBtn = `<a href="${showRouter.href}" data-toggle="tooltip" class="btn btn-sm btn-clean btn-icon btn-hover-icon-dark btn-square btn-icon-sm" title="Show"><i class="flaticon-eye"></i></a>`;
             buttons.push(showBtn);
 
-            if (data.can_be_canceled) {
-              const cancelBtn = `<button data-toggle="tooltip" class="btn btn-sm btn-clean btn-icon btn-hover-icon-danger btn-icon-sm btn-square btn-cancel" title="Cancel" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="flaticon2-cancel"></i></button>`;
-              buttons.push(cancelBtn);
-            }
-
-            if (data.can_be_approved) {
-              const approveBtn = `<button data-toggle="tooltip" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-square btn-hover-icon-success btn-approve" title="Approve" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
-              buttons.push(approveBtn);
-            }
-
-            if (data.has_been_accepted) {
-              const chatRouter = $this.$router.resolve({
-                name: "purchases-view",
-                params: { id: data.id }
-              });
-
-              const chatBtn = `<a href="${chatRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Chat"><i class="flaticon2-chat-1"></i></a>`;
-              buttons.push(chatBtn);
-            }
-
             return buttons.join("");
           }
         }
@@ -172,61 +150,8 @@ export default {
     this.interval = setInterval(function() {
       $this.datatable.ajax.reload(null, false);
     }, 10000);
-
-    window
-      .$("#service-purchases-dataTable")
-      .on("click", ".btn-cancel", function() {
-        $this.handleCancelPurchase(window.$(this)[0]);
-      });
-
-    window
-      .$("#service-purchases-dataTable")
-      .on("click", ".btn-approve", function() {
-        $this.handleApprovePurchase(window.$(this)[0]);
-      });
   },
-  methods: {
-    async handleCancelPurchase(btn) {
-      const title = this.$t(
-        "Do you really want to cancel the purchase {number} for {title} ?",
-        { number: btn.dataset.number, title: btn.dataset.title }
-      );
-
-      window.$(btn).addClass("disabled spinner spinner-danger spinner-right");
-
-      const result = await this.cancelPurchase(btn.dataset.id, title);
-
-      if (window._.isObject(result)) {
-        this.datatable.ajax.reload(null, false);
-      } else {
-        btn.blur();
-      }
-
-      window
-        .$(btn)
-        .removeClass("disabled spinner spinner-danger spinner-right");
-    },
-    async handleApprovePurchase(btn) {
-      const title = this.$t(
-        "Do you really want to approve the purchase {number} for {title} ?",
-        { number: btn.dataset.number, title: btn.dataset.title }
-      );
-
-      window.$(btn).addClass("disabled spinner spinner-success spinner-right");
-
-      const result = await this.approvePurchase(btn.dataset.id, title);
-
-      if (window._.isObject(result)) {
-        this.datatable.ajax.reload(null, false);
-      } else {
-        btn.blur();
-      }
-
-      window
-        .$(btn)
-        .removeClass("disabled spinner spinner-success spinner-right");
-    }
-  },
+  methods: {},
   beforeDestroy() {
     clearInterval(this.interval);
   }

@@ -72,11 +72,9 @@ import "@/assets/plugins/datatable/datatables.bundle";
 import { serviceOrdersUrl } from "@/core/server-side/urls";
 import JwtService from "@/core/services/jwt.service";
 import i18nService from "@/core/services/i18n.service";
-import { orderActionsMixin } from "@/view/mixins";
 
 export default {
   name: "Orders",
-  mixins: [orderActionsMixin],
   data() {
     return {
       datatable: {},
@@ -131,26 +129,6 @@ export default {
             const showBtn = `<a href="${showRouter.href}" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-dark btn-square" title="Show"><i class="flaticon-eye"></i></a>`;
             buttons.push(showBtn);
 
-            if (data.can_be_accepted) {
-              const acceptBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-accept" title="Accept" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="fas fa-check"></i></button>`;
-              buttons.push(acceptBtn);
-            }
-
-            if (data.can_be_delivered) {
-              const deliverBtn = `<button class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-hover-icon-success btn-square btn-deliver" title="Mark as Delivered" data-id="${data.id}" data-number="${data.number}" data-title="${data.service_title}"><i class="fas fa-check-double"></i></button>`;
-              buttons.push(deliverBtn);
-            }
-
-            if (data.has_been_accepted) {
-              const chatRouter = $this.$router.resolve({
-                name: "orders-view",
-                params: { id: data.id }
-              });
-
-              const chatBtn = `<a href="${chatRouter.href}" class="btn btn-sm btn-clean btn-icon btn-hover-icon-primary btn-square btn-icon-sm" title="Chat"><i class="flaticon2-chat-1"></i></a>`;
-              buttons.push(chatBtn);
-            }
-
             return buttons.join("");
           }
         }
@@ -172,67 +150,8 @@ export default {
     this.interval = setInterval(function() {
       $this.datatable.ajax.reload(null, false);
     }, 10000);
-
-    window
-      .$("#service-orders-dataTable")
-      .on("click", ".btn-accept", function() {
-        $this.handleAcceptOrder(window.$(this)[0]);
-      });
-
-    window
-      .$("#service-orders-dataTable")
-      .on("click", ".btn-deliver", function() {
-        $this.handleDeliverOrder(window.$(this)[0]);
-      });
   },
-  methods: {
-    async handleAcceptOrder(btn) {
-      const title = this.$t(
-        "Do you really want to accept the order {number} for {title} ?",
-        {
-          number: btn.dataset.number,
-          title: btn.dataset.title
-        }
-      );
-
-      window.$(btn).addClass("disabled spinner spinner-success spinner-right");
-
-      const result = await this.acceptOrder(btn.dataset.id, title);
-
-      if (window._.isObject(result)) {
-        this.datatable.ajax.reload(null, false);
-      } else {
-        btn.blur();
-      }
-
-      window
-        .$(btn)
-        .removeClass("disabled spinner spinner-success spinner-right");
-    },
-    async handleDeliverOrder(btn) {
-      const title = this.$t(
-        "Do you really want to mark as delivered the order {number} for {title} ?",
-        {
-          number: btn.dataset.number,
-          title: btn.dataset.title
-        }
-      );
-
-      window.$(btn).addClass("disabled spinner spinner-success spinner-right");
-
-      const result = await this.deliverOrder(btn.dataset.id, title);
-
-      if (window._.isObject(result)) {
-        this.datatable.ajax.reload(null, false);
-      } else {
-        btn.blur();
-      }
-
-      window
-        .$(btn)
-        .removeClass("disabled spinner spinner-success spinner-right");
-    }
-  },
+  methods: {},
   beforeDestroy() {
     clearInterval(this.interval);
   }

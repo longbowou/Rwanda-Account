@@ -10,5 +10,6 @@
   "Do you really want to approve the purchase {number} for {title} ?": "Do you really want to approve the purchase {number} for {title} ?",
   "The seller has accepted your purchase a delivery deadline has been set to <strong>{deadlineAt}</strong>.": "The seller has accepted your purchase a delivery deadline has been set to <strong>{deadlineAt}</strong>.",
   "Do you really want to accept the update request {title} ?": "Do you really want to accept the update request {title} ?",
-  "Do you really want to submit the service for approval {title} ?": "Do you really want to submit the service for approval {title} ?"
+  "Do you really want to submit the service for approval {title} ?": "Do you really want to submit the service for approval {title} ?",
+  "Do you really want to refuse the order {title} ?": "Do you really want to refuse the order {title} ?"
 }

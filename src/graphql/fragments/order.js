@@ -5,6 +5,7 @@ export const orderFields = gql`
   fragment orderFields on ServicePurchaseType {
     ...servicePurchaseFields
     canBeAccepted
+    canBeRefused
     canBeDelivered
     canAddDeliverable
     service {

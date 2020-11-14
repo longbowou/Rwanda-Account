@@ -33,6 +33,25 @@ export const acceptServicePurchaseFullFields = gql`
   ${orderFields}
 `;
 
+export const refuseServicePurchase = gql`
+  mutation($input: RefuseServicePurchaseInput!) {
+    refuseServicePurchase(input: $input) {
+      errors {
+        ...errorFields
+      }
+      servicePurchase {
+        ...orderFields
+        account {
+          id
+          fullName
+        }
+      }
+    }
+  }
+  ${errorFields}
+  ${orderFields}
+`;
+
 export const deliverServicePurchase = gql`
   mutation($input: DeliverServicePurchaseInput!) {
     deliverServicePurchase(input: $input) {

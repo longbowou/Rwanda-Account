@@ -290,12 +290,12 @@
               <!--begin::Svg Icon-->
               <inline-svg
                 v-if="lastUpdateRequest.delivered"
-                src="media/svg/icons/Code/Info-circle.svg"
+                src="media/svg/icons/General/Smile.svg"
               />
 
               <inline-svg
                 v-if="lastUpdateRequest.refused"
-                src="media/svg/icons/Code/Warning-1-circle.svg"
+                src="media/svg/icons/General/Sad.svg"
               />
               <!--end::Svg Icon-->
             </span>
@@ -388,46 +388,70 @@
           </div>
         </div>
 
-        <div v-if="viewTimeline">
-          <div
-            class="card card-custom shadow-sm mb-5"
-            v-if="servicePurchase.accepted"
-          >
-            <div class="card-body p-5">
+        <div
+          v-if="servicePurchase.accepted || servicePurchase.refused"
+          :class="[
+            'alert alert-custom alert-notice fade show mb-5',
+            servicePurchase.accepted && 'alert-light-secondary',
+            servicePurchase.refused && 'alert-light-danger'
+          ]"
+          role="alert"
+        >
+          <div class="alert-icon">
+            <span
+              :class="[
+                'svg-icon svg-icon-lg svg-icon-3x mr-3',
+                servicePurchase.accepted && 'svg-icon-withe',
+                servicePurchase.refused && 'svg-icon-danger'
+              ]"
+            >
+              <!--begin::Svg Icon-->
+              <inline-svg
+                v-if="servicePurchase.accepted"
+                src="media/svg/icons/General/Smile.svg"
+              />
+
+              <inline-svg
+                v-if="servicePurchase.refused"
+                src="media/svg/icons/General/Sad.svg"
+              />
+              <!--end::Svg Icon-->
+            </span>
+          </div>
+          <div class="alert-text text-justify font-weight-bold">
+            <div v-if="servicePurchase.accepted">
               <div
-                class="alert alert-custom alert-notice alert-secondary fade show m-0"
-                role="alert"
-              >
-                <div class="alert-icon">
-                  <span
-                    class="svg-icon svg-icon-lg svg-icon-3x svg-icon-secondary mr-3"
-                  >
-                    <!--begin::Svg Icon-->
-                    <inline-svg src="media/svg/icons/Code/Info-circle.svg" />
-                    <!--end::Svg Icon-->
-                  </span>
-                </div>
-                <div class="alert-text text-justify font-weight-bold">
-                  <div
-                    v-html="
-                      $t(
-                        'The seller has accepted your purchase a delivery deadline has been set to <strong>{deadlineAt}</strong>.',
-                        { deadlineAt: servicePurchase.deadlineAt }
-                      )
-                    "
-                  ></div>
-                  <div
-                    v-html="
-                      $t(
-                        '<strong>The seller will mark the order as delivered before the end of this deadline.</strong>'
-                      )
-                    "
-                  ></div>
-                </div>
-              </div>
+                v-html="
+                  $t(
+                    'The seller has accepted your purchase a delivery deadline has been set to <strong>{deadlineAt}</strong>.',
+                    { deadlineAt: servicePurchase.deadlineAt }
+                  )
+                "
+              ></div>
+              <div
+                v-html="
+                  $t(
+                    '<strong>The seller will mark the order as delivered before the end of this deadline.</strong>'
+                  )
+                "
+              ></div>
+            </div>
+
+            <div v-if="servicePurchase.refused">
+              <div
+                v-html="
+                  $t(
+                    'Your purchase has been <strong>refused</strong> by the seller. Please find below the reason.'
+                  )
+                "
+              ></div>
+              <strong> {{ $t("Reason") }}: </strong>
+              {{ servicePurchase.refusedReason }}
             </div>
           </div>
+        </div>
 
+        <div v-if="viewTimeline">
           <timeline :timelines="timelines" />
         </div>
 

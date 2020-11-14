@@ -79,6 +79,13 @@
                     </span>
                   </div>
                   <div class="alert-text text-justify font-weight-bold">
+                    <div
+                      v-html="
+                        $t(
+                          'Your service has been <strong>rejected by administrator</strong>. Please find below the reason why.'
+                        )
+                      "
+                    ></div>
                     <strong>Reason :</strong> {{ service.rejectedReason }}<br />
                   </div>
                 </div>

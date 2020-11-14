@@ -204,7 +204,7 @@
           <div class="card-body p-5">
             <div class="row justify-content-around">
               <div
-                class="col-sm-12 col-md-5 card card-custom bg-success card-stretch gutter-b"
+                class="col-sm-12 col-md-5 card card-custom bg-success card-stretch"
               >
                 <!--begin::Body-->
                 <div class="card-body">
@@ -226,7 +226,7 @@
               </div>
 
               <div
-                class="col-sm-12 col-md-5 card card-custom bg-warning card-stretch gutter-b"
+                class="col-sm-12 col-md-5 card card-custom bg-warning card-stretch"
               >
                 <!--begin::Body-->
                 <div class="card-body">

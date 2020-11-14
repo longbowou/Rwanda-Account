@@ -52,6 +52,7 @@ type AccountMutation {
     login(input: LoginInput!): LoginAccount
     markUnmarkChatMessage(chatMessage: UUID!): MarkUnmarkChatMessage
     refreshToken(refreshToken: String): Refresh
+    refuseServicePurchase(input: RefuseServicePurchaseInput!): RefuseServicePurchase
     refuseServicePurchaseUpdateRequest(input: RefuseServicePurchaseUpdateRequestInput!): RefuseServicePurchaseUpdateRequest
     revokeToken(refreshToken: String): Revoke
     submitServiceForApproval(input: SubmitServiceForApprovalInput!): SubmitServiceForApproval
@@ -389,6 +390,11 @@ type RefundType {
     status: String!
 }
 
+type RefuseServicePurchase {
+    errors: [ErrorType]
+    servicePurchase: ServicePurchaseType
+}
+
 type RefuseServicePurchaseUpdateRequest {
     errors: [ErrorType]
     servicePurchaseUpdateRequest: ServicePurchaseUpdateRequestType
@@ -517,6 +523,7 @@ type ServicePurchaseType {
     canBeCommented: Boolean!
     canBeDelivered: Boolean!
     canBeInDispute: Boolean!
+    canBeRefused: Boolean!
     canChat: Boolean!
     canceled: Boolean!
     canceledAt: DateTime
@@ -545,6 +552,8 @@ type ServicePurchaseType {
     operationSet: [OperationType!]!
     price: String!
     refused: Boolean!
+    refusedAt: DateTime
+    refusedReason: String
     service: ServiceType!
     serviceOptions: [ServiceOptionType!]!
     servicecommentSet: [ServiceCommentType!]!
@@ -754,6 +763,10 @@ input InitiateServicePurchaseUpdateRequestInput {
 input LoginInput {
     login: String!
     password: String!
+}
+
+input RefuseServicePurchaseInput {
+    id: UUID!
 }
 
 input RefuseServicePurchaseUpdateRequestInput {

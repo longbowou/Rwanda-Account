@@ -117,6 +117,17 @@
               </button>
 
               <button
+                ref="btnRefuse"
+                @click="$refs.refuseModal.show()"
+                v-if="servicePurchase.canBeRefused"
+                data-toggle="tooltip"
+                :title="$t('Refuse')"
+                class="btn btn-lg btn-icon btn-light-danger"
+              >
+                <i class="flaticon2-cancel"></i>
+              </button>
+
+              <button
                 ref="btnDeliver"
                 @click="handleDeliverOrder"
                 v-if="servicePurchase.canBeDelivered"
@@ -235,11 +246,6 @@
             </h6>
           </div>
         </div>
-        <!--end::Card-->
-        <!--        <router-view-->
-        <!--          v-if="servicePurchase.hasBeenAccepted"-->
-        <!--          v-on:deliverables-updated="fetchData"-->
-        <!--        />-->
       </div>
 
       <div :class="sideDivClasses">
@@ -263,12 +269,12 @@
               <!--begin::Svg Icon-->
               <inline-svg
                 v-if="litigation.approved"
-                src="media/svg/icons/Code/Done-circle.svg"
+                src="media/svg/icons/General/Smile.svg"
               />
 
               <inline-svg
                 v-if="litigation.canceled"
-                src="media/svg/icons/Code/Error-circle.svg"
+                src="media/svg/icons/General/Sad.svg"
               />
               <!--end::Svg Icon-->
             </span>
@@ -288,11 +294,16 @@
 
         <div v-if="litigation == null">
           <div
-            v-if="servicePurchase.approved || servicePurchase.canceled"
+            v-if="
+              servicePurchase.approved ||
+                servicePurchase.canceled ||
+                servicePurchase.refused
+            "
             :class="[
               'alert alert-custom alert-notice fade show m-0 mb-5',
               servicePurchase.approved && 'alert-light-success',
-              servicePurchase.canceled && 'alert-light-danger'
+              servicePurchase.canceled && 'alert-light-danger',
+              servicePurchase.refused && 'alert-light-danger'
             ]"
             role="alert"
           >
@@ -301,18 +312,19 @@
                 :class="[
                   'svg-icon svg-icon-lg svg-icon-3x mr-3',
                   servicePurchase.approved && 'svg-icon-success',
-                  servicePurchase.canceled && 'svg-icon-danger'
+                  servicePurchase.canceled && 'svg-icon-danger',
+                  servicePurchase.refused && 'svg-icon-danger'
                 ]"
               >
                 <!--begin::Svg Icon-->
                 <inline-svg
                   v-if="servicePurchase.approved"
-                  src="media/svg/icons/Code/Info-circle.svg"
+                  src="media/svg/icons/General/Smile.svg"
                 />
 
                 <inline-svg
-                  v-if="servicePurchase.canceled"
-                  src="media/svg/icons/Code/Warning-1-circle.svg"
+                  v-if="servicePurchase.canceled || servicePurchase.refused"
+                  src="media/svg/icons/General/Sad.svg"
                 />
                 <!--end::Svg Icon-->
               </span>
@@ -335,6 +347,18 @@
                   )
                 "
               ></div>
+
+              <div v-if="servicePurchase.refused">
+                <div
+                  v-html="
+                    $t(
+                      'You <strong>refused</strong> the order. Please find below the reason you provided.'
+                    )
+                  "
+                ></div>
+                <strong> {{ $t("Reason") }}: </strong>
+                {{ servicePurchase.refusedReason }}
+              </div>
             </div>
           </div>
         </div>
@@ -354,7 +378,7 @@
                     class="svg-icon svg-icon-lg svg-icon-3x svg-icon-secondary mr-3"
                   >
                     <!--begin::Svg Icon-->
-                    <inline-svg src="media/svg/icons/Code/Info-circle.svg" />
+                    <inline-svg src="media/svg/icons/General/Smile.svg" />
                     <!--end::Svg Icon-->
                   </span>
                 </div>
@@ -397,6 +421,59 @@
       </div>
     </div>
     <!--end::Dashboard-->
+
+    <b-modal ref="refuseModal" class="modal fade">
+      <template #modal-header="{close}">
+        <h5 class="modal-title">
+          {{
+            $t("Do you really want to refuse the order {title} ?", {
+              title: servicePurchase.number
+            })
+          }}
+        </h5>
+        <button type="button" class="close" @click="close()">
+          <i aria-hidden="true" class="ki ki-close"></i>
+        </button>
+      </template>
+
+      <template #default>
+        <form @submit="handleRefuseOrder" action="#">
+          <h3>{{ servicePurchase.number }}</h3>
+          <br />
+          <b-textarea
+            required
+            autofocus
+            v-model="refusedReason"
+            rows="4"
+            class="form-control form-control-lg form-control-solid"
+            type="text"
+            :placeholder="$t('Reason why')"
+            autocomplete="off"
+          />
+
+          <input ref="submitModal" type="submit" style="display: none" />
+        </form>
+      </template>
+
+      <template #modal-footer="{ ok, cancel, hide }">
+        <button
+          type="button"
+          class="btn btn-square btn-light-primary font-weight-bold"
+          @click="hide()"
+        >
+          {{ $t("Cancel") }}
+        </button>
+
+        <button
+          id="btnSubmit"
+          type="button"
+          @click="$refs.submitModal.click()"
+          class="btn btn-square btn-light-danger font-weight-bold"
+        >
+          {{ $t("Refuse") }}
+        </button>
+      </template>
+    </b-modal>
   </div>
 </template>
 <style></style>
@@ -412,6 +489,7 @@ import Chat from "@/view/pages/user/chat/Chat";
 import UpdateRequestView from "@/view/pages/user/update-requests/View";
 import LitigationView from "@/view/pages/user/litigation/View";
 import { orderSubscription } from "@/graphql/order-subscriptions";
+import { refuseServicePurchase } from "@/graphql/order-mutations";
 
 export default {
   name: "OrderView",
@@ -426,7 +504,8 @@ export default {
       viewUpdateRequestView: false,
       viewLitigationView: false,
       updateRequest: null,
-      litigation: null
+      litigation: null,
+      refusedReason: null
     };
   },
   computed: {
@@ -516,14 +595,10 @@ export default {
         }
       );
 
-      window.$(this.$refs.btnAccept).removeClass("btn-light-success");
-      window
-        .$(this.$refs.btnAccept)
-        .addClass("btn-light disabled spinner spinner-success spinner-right");
-      window
-        .$(this.$refs.btnAccept)
-        .find("i")
-        .css("display", "none");
+      const btn = window.$(this.$refs.btnAccept);
+      btn.removeClass("btn-light-success");
+      btn.addClass("btn-light spinner spinner-success spinner-right");
+      btn.find("i").css("display", "none");
 
       const result = await this.acceptOrder(
         this.servicePurchase.id,
@@ -534,19 +609,42 @@ export default {
         this.servicePurchase = result.servicePurchase;
         await this.fetchTimeline();
       } else {
-        this.$refs.btnAccept.blur();
+        btn.blur();
       }
 
-      window.$(this.$refs.btnAccept).addClass("btn-light-success");
-      window
-        .$(this.$refs.btnAccept)
-        .removeClass(
-          "btn-light disabled spinner spinner-success spinner-right"
-        );
-      window
-        .$(this.$refs.btnAccept)
-        .find("i")
-        .css("display", "");
+      btn.addClass("btn-light-success");
+      btn.removeClass("btn-light spinner spinner-success spinner-right");
+      btn.find("i").css("display", "");
+    },
+    async handleRefuseOrder(e) {
+      e.preventDefault();
+
+      const btn = window.$("#btnSubmit");
+      btn.attr("disabled", true);
+      btn.addClass("spinner spinner-light spinner-right");
+
+      let result = await this.$apollo.mutate({
+        mutation: refuseServicePurchase,
+        variables: {
+          input: {
+            id: this.$route.params.id,
+            refusedReason: this.refusedReason
+          }
+        }
+      });
+
+      btn.removeAttr("disabled");
+      btn.removeClass("spinner spinner-light spinner-right");
+
+      if (!window._.isEmpty(result.data.refuseServicePurchase.errors)) {
+        return;
+      }
+
+      this.servicePurchase = result.data.refuseServicePurchase.servicePurchase;
+
+      this.$refs.refuseModal.hide();
+
+      this.notifySuccess(this.$t("Order refused successfully."));
     },
     async handleDeliverOrder() {
       const title = this.$t(

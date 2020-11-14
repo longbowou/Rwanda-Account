@@ -198,15 +198,11 @@ export default {
         return;
       }
 
-      window.$(this.$refs.btnAccept).removeClass("btn-light-success");
-      window
-        .$(this.$refs.btnAccept)
-        .addClass("btn-light disabled spinner spinner-success spinner-right");
-      window.$(this.$refs.btnAccept).attr("disabled", true);
-      window
-        .$(this.$refs.btnAccept)
-        .find("i")
-        .css("display", "none");
+      const btn = window.$(this.$refs.btnAccept);
+      btn.removeClass("btn-light-success");
+      btn.addClass("btn-light spinner spinner-success spinner-right");
+      btn.attr("disabled", true);
+      btn.find("i").css("display", "none");
 
       let result = await this.$apollo.mutate({
         mutation: acceptServicePurchaseUpdateRequest,
@@ -215,17 +211,10 @@ export default {
         }
       });
 
-      window.$(this.$refs.btnAccept).addClass("btn-light-success");
-      window.$(this.$refs.btnAccept).removeAttr("disabled");
-      window
-        .$(this.$refs.btnAccept)
-        .removeClass(
-          "btn-light disabled spinner spinner-success spinner-right"
-        );
-      window
-        .$(this.$refs.btnAccept)
-        .find("i")
-        .css("display", "");
+      btn.addClass("btn-light-success");
+      btn.removeAttr("disabled");
+      btn.removeClass("btn-light spinner spinner-success spinner-right");
+      btn.find("i").css("display", "");
 
       if (
         !window._.isEmpty(result.data.acceptServicePurchaseUpdateRequest.errors)
@@ -244,9 +233,9 @@ export default {
     async refuse(evt) {
       evt.preventDefault();
 
-      const submitButton = window.$("#btnSubmit");
-      submitButton.attr("disabled", true);
-      submitButton.addClass("spinner spinner-light spinner-right");
+      const btn = window.$("#btnSubmit");
+      btn.attr("disabled", true);
+      btn.addClass("spinner spinner-light spinner-right");
 
       let result = await this.$apollo.mutate({
         mutation: refuseServicePurchaseUpdateRequest,
@@ -255,10 +244,8 @@ export default {
         }
       });
 
-      this.$refs.refuseModal.hide();
-
-      submitButton.removeAttr("disabled");
-      submitButton.removeClass("spinner spinner-light spinner-right");
+      btn.removeAttr("disabled");
+      btn.removeClass("spinner spinner-light spinner-right");
 
       if (
         !window._.isEmpty(result.data.refuseServicePurchaseUpdateRequest.errors)
@@ -266,13 +253,15 @@ export default {
         return;
       }
 
-      this.notifySuccess(this.$t("Update request refused."));
-
       this.$emit(
         "update-request-updated",
         result.data.refuseServicePurchaseUpdateRequest
           .servicePurchaseUpdateRequest
       );
+
+      this.$refs.refuseModal.hide();
+
+      this.notifySuccess(this.$t("Update request refused."));
     },
     async deliver() {
       const title = this.$t(
@@ -286,15 +275,11 @@ export default {
         return;
       }
 
-      window.$(this.$refs.btnDeliver).removeClass("btn-light-danger");
-      window
-        .$(this.$refs.btnDeliver)
-        .addClass("btn-light disabled spinner spinner-success spinner-right");
-      window.$(this.$refs.btnDeliver).attr("disabled", "");
-      window
-        .$(this.$refs.btnDeliver)
-        .find("i")
-        .css("display", "none");
+      const btn = window.$(this.$refs.btnDeliver);
+      btn.removeClass("btn-light-danger");
+      btn.addClass("btn-light spinner spinner-success spinner-right");
+      btn.attr("disabled", "");
+      btn.find("i").css("display", "none");
 
       let result = await this.$apollo.mutate({
         mutation: deliverServicePurchaseUpdateRequest,
@@ -303,17 +288,10 @@ export default {
         }
       });
 
-      window.$(this.$refs.btnDeliver).addClass("btn-light-success");
-      window.$(this.$refs.btnDeliver).removeAttr("disabled");
-      window
-        .$(this.$refs.btnDeliver)
-        .removeClass(
-          "btn-light disabled spinner spinner-success spinner-right"
-        );
-      window
-        .$(this.$refs.btnDeliver)
-        .find("i")
-        .css("display", "");
+      btn.addClass("btn-light-success");
+      btn.removeAttr("disabled");
+      btn.removeClass("btn-light spinner spinner-success spinner-right");
+      btn.find("i").css("display", "");
 
       if (
         !window._.isEmpty(

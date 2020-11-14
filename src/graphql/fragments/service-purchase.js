@@ -42,6 +42,7 @@ export const servicePurchaseFields = gql`
     initiated
     accepted
     refused
+    refused
     delivered
     approved
     canceled
@@ -53,6 +54,7 @@ export const servicePurchaseFields = gql`
     deadlineAt
     hasBeenAccepted
     canChat
+    refusedReason
     serviceOptions {
       ...serviceOptionFields
     }
