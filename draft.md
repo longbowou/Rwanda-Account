@@ -1,5 +1,2 @@
 - tooltips
-- user avatar 
-
-# Refactor
-- submit buttons name
+- user avatar
