@@ -23,7 +23,6 @@
 
     <template v-for="category of serviceCategories">
       <router-link
-        v-if="isAuthenticated"
         :key="category.id"
         :to="{ name: 'service-category', params: { id: category.id } }"
         v-slot="{ href, navigate, isActive, isExactActive }"
