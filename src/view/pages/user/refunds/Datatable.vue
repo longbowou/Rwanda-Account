@@ -30,6 +30,7 @@
                     <tr>
                       <th>{{ $t("Amount") }}</th>
                       <th>{{ $t("Status") }}</th>
+                      <th>{{ $t("Refund Way") }}</th>
                       <th>{{ $t("Phone Number") }}</th>
                       <th>{{ $t("Created At") }}</th>
                     </tr>
@@ -38,6 +39,7 @@
                     <tr>
                       <th>{{ $t("Amount") }}</th>
                       <th>{{ $t("Status") }}</th>
+                      <th>{{ $t("Refund Way") }}</th>
                       <th>{{ $t("Phone Number") }}</th>
                       <th>{{ $t("Created At") }}</th>
                     </tr>
@@ -80,7 +82,7 @@ export default {
         [10, 50, 100, -1],
         [10, 50, 100, "All"]
       ],
-      order: [[3, "desc"]],
+      order: [[4, "desc"]],
       columnDefs: [],
       responsive: true,
       searching: true,

@@ -9,3 +9,13 @@ export const queryAccount = gql`
   }
   ${accountFields}
 `;
+
+export const queryRefundWays = gql`
+  query {
+    refundWays {
+      id
+      name
+      countryCode
+    }
+  }
+`;

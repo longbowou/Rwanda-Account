@@ -68,12 +68,13 @@ type AccountOnlineSubscription {
 }
 
 type AccountQuery {
-    account: AccountType!
+    account: AccountType
     deliverable(id: UUID!): DeliverableType!
     deliverableVersions: [DeliverableVersionType!]!
     litigation(id: UUID!): LitigationType!
     parameters: ParametersType!
     payment(id: UUID!): PaymentType!
+    refundWays: [RefundWayType]
     service(id: UUID!): ServiceType!
     "ServiceCategory list"
     serviceCategories(id: UUID): [ServiceCategoryType]
@@ -387,7 +388,17 @@ type RefundType {
     createdAt: DateTime!
     id: UUID!
     phoneNumber: String
+    refundWay: RefundWayType
     status: String!
+}
+
+type RefundWayType {
+    countryCode: String!
+    createdAt: DateTime!
+    id: UUID!
+    name: String!
+    published: Boolean!
+    refundSet: [RefundType!]!
 }
 
 type RefuseServicePurchase {
@@ -721,9 +732,7 @@ input CreateServiceInput {
     file: String
     keywords: String
     published: Boolean
-    rejectedReason: String
     serviceCategory: ID!
-    status: String!
     title: String!
 }
 
@@ -747,6 +756,7 @@ input DeliverServicePurchaseUpdateRequestInput {
 input InitiateRefundInput {
     amount: Int!
     phoneNumber: String!
+    refundWay: String!
 }
 
 input InitiateServicePurchaseInput {
@@ -767,6 +777,7 @@ input LoginInput {
 
 input RefuseServicePurchaseInput {
     id: UUID!
+    refusedReason: String!
 }
 
 input RefuseServicePurchaseUpdateRequestInput {
@@ -800,10 +811,7 @@ input UpdateServiceInput {
     id: UUID!
     keywords: String
     published: Boolean
-    rejectedReason: String
     serviceCategory: ID
-    stars: Int
-    status: String
     title: String
 }
 

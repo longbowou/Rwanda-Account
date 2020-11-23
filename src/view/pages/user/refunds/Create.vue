@@ -61,49 +61,73 @@
             </div>
 
             <div class="row justify-content-center">
-              <form class="form" @submit="onSubmit">
-                <label
-                  class="col-sm-12 col-form-label font-weight-bold text-center"
-                  >{{ $t("Phone Number") }}</label
-                >
-                <b-form-input
-                  required
-                  :state="validateState('phoneNumber')"
-                  v-model="input.phoneNumber"
-                  class="form-control form-control-lg form-control-solid"
-                  type="text"
-                  :placeholder="$t('Phone Number')"
-                />
-                <b-form-invalid-feedback id="input-live-feedback">
-                  <p
-                    :key="message"
-                    v-for="message of errorMessages('phoneNumber')"
-                  >
-                    {{ message }}
-                  </p>
-                </b-form-invalid-feedback>
+              <form class="form col-sm-12 col-md-7 col-xl-4" @submit="onSubmit">
+                <div class="form-group">
+                  <label class="col-sm-12 col-form-label font-weight-bold">
+                    {{ $t("Refund Way") }}
+                  </label>
 
-                <label
-                  class="col-sm-12 col-form-label font-weight-bold text-center"
-                  >{{ $t("Amount") }}</label
-                >
-                <b-form-input
-                  required
-                  :state="validateState('amount')"
-                  v-model="input.amount"
-                  class="form-control form-control-lg form-control-solid"
-                  type="number"
-                  :placeholder="$t('Amount')"
-                  min="0"
-                  autocomplete="off"
-                />
-                <b-form-invalid-feedback id="input-live-feedback">
-                  <p :key="message" v-for="message of errorMessages('amount')">
-                    {{ message }}
-                  </p>
-                </b-form-invalid-feedback>
+                  <b-form-select
+                    required
+                    v-model="input.refundWay"
+                    :options="refundWaysOptions"
+                    id="refund-way"
+                    class="form-control form-control-lg"
+                  ></b-form-select>
+                </div>
 
-                <br />
+                <div class="form-group">
+                  <label class="col-sm-12 col-form-label font-weight-bold">{{
+                    $t("Phone Number")
+                  }}</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        {{ refundWayCountryCode }}
+                      </span>
+                    </div>
+                    <b-form-input
+                      required
+                      :state="validateState('phoneNumber')"
+                      v-model="input.phoneNumber"
+                      class="form-control form-control-lg"
+                      type="text"
+                      :placeholder="$t('Phone Number')"
+                    />
+                  </div>
+                  <b-form-invalid-feedback id="input-live-feedback">
+                    <p
+                      :key="message"
+                      v-for="message of errorMessages('phoneNumber')"
+                    >
+                      {{ message }}
+                    </p>
+                  </b-form-invalid-feedback>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-12 col-form-label font-weight-bold">{{
+                    $t("Amount")
+                  }}</label>
+                  <b-form-input
+                    required
+                    :state="validateState('amount')"
+                    v-model="input.amount"
+                    class="form-control form-control-lg form-control-solid"
+                    type="number"
+                    :placeholder="$t('Amount')"
+                    min="150"
+                    autocomplete="off"
+                  />
+                  <b-form-invalid-feedback id="input-live-feedback">
+                    <p
+                      :key="message"
+                      v-for="message of errorMessages('amount')"
+                    >
+                      {{ message }}
+                    </p>
+                  </b-form-invalid-feedback>
+                </div>
 
                 <div class="col-sm-12 text-center">
                   <button
@@ -123,31 +147,63 @@
     <!--end::Dashboard-->
   </div>
 </template>
+<style>
+.select2-selection {
+  min-height: 36px;
+}
+</style>
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
 import { mapGetters } from "vuex";
+import "select2";
 import { formMixin, toastMixin } from "@/view/mixins";
 import { initiateRefund } from "@/graphql/account-mutations";
+import { queryRefundWays } from "@/graphql/account-queries";
 
 export default {
   name: "RefundCreate",
   mixins: [formMixin, toastMixin],
   data() {
     return {
+      refundWays: [],
+      refundWayCountryCode: null,
+      refundWaySelect2: null,
       input: {
-        amount: 0,
-        phoneNumber: null
+        amount: 150,
+        phoneNumber: null,
+        refundWay: null
       }
     };
   },
   computed: {
-    ...mapGetters(["currentAccount", "currency"])
+    ...mapGetters(["currentAccount", "currency"]),
+    refundWaysOptions() {
+      let options = [];
+      for (const refundWay of this.refundWays) {
+        options.push({ value: refundWay.id, text: refundWay.name });
+      }
+      return options;
+    },
+    selectedRefundWayCountryCode() {
+      if (this.input.refundWay !== null) {
+        return "";
+      }
+      return "";
+    }
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("Make a refund") }]);
     this.$store.dispatch(SET_HEAD_TITLE, this.$t("Make a refund"));
+
+    this.refundWaySelect2 = window.$("#refund-way").select2();
+    let $this = this;
+    window.$("#refund-way").on("select2:select", function() {
+      $this.refundWayCountryCode = window._.find($this.refundWays, function(r) {
+        return r.id === $this.refundWaySelect2.val();
+      }).countryCode;
+    });
   },
   methods: {
     async onSubmit(evt) {
@@ -158,6 +214,8 @@ export default {
       btn.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
+
+      this.input.refundWay = this.refundWaySelect2.val();
 
       let result = await this.$apollo.mutate({
         mutation: initiateRefund,
@@ -185,6 +243,12 @@ export default {
       await this.$router.push({
         name: "refunds"
       });
+    }
+  },
+  apollo: {
+    refundWays: {
+      query: queryRefundWays,
+      update: data => data.refundWays
     }
   }
 };
