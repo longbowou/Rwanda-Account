@@ -12,7 +12,7 @@
               >
                 <!--begin::Svg Icon-->
                 <inline-svg
-                  src="media/svg/icons/Communication/Incoming-box.svg"
+                  src="media/svg/icons/Communication/Outgoing-box.svg"
                 />
                 <!--end::Svg Icon-->
               </span>

@@ -7,9 +7,13 @@
         <div class="card card-custom gutter-b">
           <div class="card-header">
             <div class="card-title">
-              <span class="svg-icon svg-icon-lg svg-icon-3x svg-icon-primary">
+              <span
+                class="svg-icon svg-icon-lg svg-icon-3x svg-icon-primary mr-3"
+              >
                 <!--begin::Svg Icon-->
-                <inline-svg src="media/svg/icons/Shopping/Dollar.svg" />
+                <inline-svg
+                  src="media/svg/icons/Communication/Incoming-box.svg"
+                />
                 <!--end::Svg Icon-->
               </span>
               <h3 class="card-label">{{ $t("Make a deposit") }}</h3>

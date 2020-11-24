@@ -184,6 +184,8 @@ export default {
       if (
         confirm(this.$t("Do you really want to delete") + " " + title + " ?")
       ) {
+        window.$(btn).addClass("disabled spinner spinner-danger spinner-right");
+
         let result = await this.$apollo.mutate({
           mutation: deleteService,
           variables: {
@@ -191,16 +193,14 @@ export default {
           }
         });
 
-        window.$(btn).addClass("disabled spinner spinner-danger spinner-right");
+        window
+          .$(btn)
+          .removeClass("disabled spinner spinner-danger spinner-right");
 
         if (window._.isEmpty(result.data.deleteService.errors)) {
           this.notifySuccess(this.$t("Service deleted successfully."));
           this.datatable.ajax.reload(null, false);
         }
-
-        window
-          .$(btn)
-          .removeClass("disabled spinner spinner-danger spinner-right");
       } else {
         btn.blur();
       }
