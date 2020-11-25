@@ -53,8 +53,8 @@
       >
         <!--begin::Header-->
         <div class="d-flex align-items-center mt-5">
-          <div class="symbol symbol-100 mr-5">
-            <img class="symbol-label" :src="picture" alt="" />
+          <div class="symbol symbol-circle symbol-100 mr-5">
+            <img class="symbol-label" :src="avatarUrl" alt="" />
             <i class="symbol-badge bg-success"></i>
           </div>
           <div class="d-flex flex-column">
@@ -400,8 +400,14 @@ export default {
     isNotEmpty() {
       return !this.isEmpty;
     },
-    picture() {
-      return process.env.BASE_URL + "media/svg/icons/General/User.svg";
+    avatarUrl() {
+      if (
+        this.currentAccount !== null &&
+        this.currentAccount.imageUrl !== null
+      ) {
+        return this.currentAccount.imageUrl;
+      }
+      return "media/svg/icons/General/User.svg";
     }
   }
 };

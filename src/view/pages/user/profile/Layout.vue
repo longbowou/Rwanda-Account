@@ -1,10 +1,7 @@
 <template>
-  <div class="d-flex flex-row">
+  <div class="row">
     <!--begin::Aside-->
-    <div
-      class="flex-row-auto offcanvas-mobile w-300px w-xl-350px"
-      id="kt_profile_aside"
-    >
+    <div class="col-sm-12 col-md-4 mb-2" id="kt_profile_aside">
       <!--begin::Profile Card-->
       <div class="card card-custom card-stretch">
         <!--begin::Body-->
@@ -12,11 +9,15 @@
           <!--begin::User-->
           <div class="d-flex align-items-center mt-4">
             <div
-              class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center"
+              class="symbol symbol-circle symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center"
             >
               <div
-                class="symbol-label"
-                style="background-image:url('media/svg/icons/General/User.svg')"
+                class="symbol-label symbol-circle"
+                :style="[
+                  {
+                    'background-image': 'url(' + avatarUrl + ')'
+                  }
+                ]"
               ></div>
               <i class="symbol-badge bg-success"></i>
             </div>
@@ -25,7 +26,9 @@
                 href="#"
                 class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary"
               >
-                {{ currentAccount !== null ? currentAccount.fullName : null }}
+                {{ currentAccount !== null ? currentAccount.firstName : null }}
+                <br />
+                {{ currentAccount !== null ? currentAccount.lastName : null }}
               </a>
             </div>
           </div>
@@ -147,7 +150,9 @@
     </div>
     <!--end::Aside-->
 
-    <router-view />
+    <div class="col-sm-12 col-md-8 mb-2">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -159,7 +164,16 @@ import { mapGetters } from "vuex";
 export default {
   name: "ProfileLayout",
   computed: {
-    ...mapGetters(["currentAccount", "currency"])
+    ...mapGetters(["currentAccount", "currency"]),
+    avatarUrl() {
+      if (
+        this.currentAccount !== null &&
+        this.currentAccount.imageUrl !== null
+      ) {
+        return this.currentAccount.imageUrl;
+      }
+      return "media/svg/icons/General/User.svg";
+    }
   }
 };
 </script>

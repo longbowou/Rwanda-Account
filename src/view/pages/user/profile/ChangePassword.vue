@@ -1,108 +1,106 @@
 <template>
   <!--begin::Content-->
-  <div class="flex-row-fluid ml-lg-8">
-    <!--begin::Card-->
-    <div class="card card-custom card-stretch">
-      <!--begin::Header-->
-      <div class="card-header py-3">
-        <div class="card-title align-items-start flex-column">
-          <h3 class="card-label font-weight-bolder text-dark">
-            {{ $t("Change Password") }}
-          </h3>
-          <span class="text-muted font-weight-bold font-size-sm mt-1">{{
-            $t("Change your account password")
-          }}</span>
+  <!--begin::Card-->
+  <div class="card card-custom card-stretch">
+    <!--begin::Header-->
+    <div class="card-header py-3">
+      <div class="card-title align-items-start flex-column">
+        <h3 class="card-label font-weight-bolder text-dark">
+          {{ $t("Change Password") }}
+        </h3>
+        <span class="text-muted font-weight-bold font-size-sm mt-1">{{
+          $t("Change your account password")
+        }}</span>
+      </div>
+      <div class="card-toolbar">
+        <button
+          @click="submitForm"
+          id="btn_submit"
+          class="btn btn-success font-weight-bolder"
+        >
+          {{ $t("Save Changes") }}
+        </button>
+      </div>
+    </div>
+    <!--end::Header-->
+
+    <!--begin::Form-->
+    <form id="form" class="form" @submit="onSubmit">
+      <div class="card-body">
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label text-alert">{{
+            $t("Current Password")
+          }}</label>
+          <div class="col-lg-9 col-xl-6">
+            <b-form-input
+              required
+              autofocus
+              :state="validateState('currentPassword')"
+              v-model="input.currentPassword"
+              class="form-control form-control-lg form-control-solid"
+              type="password"
+              :placeholder="$t('Current Password')"
+            />
+            <b-form-invalid-feedback id="input-live-feedback">
+              <p
+                :key="message"
+                v-for="message of errorMessages('currentPassword')"
+              >
+                {{ message }}
+              </p>
+            </b-form-invalid-feedback>
+          </div>
         </div>
-        <div class="card-toolbar">
-          <button
-            @click="submitForm"
-            id="btn_submit"
-            class="btn btn-success font-weight-bolder"
-          >
-            {{ $t("Save Changes") }}
-          </button>
+
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label text-alert">{{
+            $t("New Password")
+          }}</label>
+          <div class="col-lg-9 col-xl-6">
+            <b-form-input
+              required
+              :state="validateState('password')"
+              v-model="input.password"
+              class="form-control form-control-lg form-control-solid"
+              type="password"
+              :placeholder="$t('New Password')"
+            />
+            <b-form-invalid-feedback id="input-live-feedback">
+              <p :key="message" v-for="message of errorMessages('password')">
+                {{ message }}
+              </p>
+            </b-form-invalid-feedback>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label text-alert">{{
+            $t("New password confirmation")
+          }}</label>
+          <div class="col-lg-9 col-xl-6">
+            <b-form-input
+              required
+              :state="validateState('passwordConfirmation')"
+              v-model="input.passwordConfirmation"
+              class="form-control form-control-lg form-control-solid"
+              type="password"
+              :placeholder="$t('New password confirmation')"
+            />
+            <b-form-invalid-feedback id="input-live-feedback">
+              <p
+                :key="message"
+                v-for="message of errorMessages('passwordConfirmation')"
+              >
+                {{ message }}
+              </p>
+            </b-form-invalid-feedback>
+          </div>
+
+          <input id="input_submit" type="submit" style="display: none" />
         </div>
       </div>
-      <!--end::Header-->
-
-      <!--begin::Form-->
-      <form id="form" class="form" @submit="onSubmit">
-        <div class="card-body">
-          <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label text-alert">{{
-              $t("Current Password")
-            }}</label>
-            <div class="col-lg-9 col-xl-6">
-              <b-form-input
-                required
-                autofocus
-                :state="validateState('currentPassword')"
-                v-model="input.currentPassword"
-                class="form-control form-control-lg form-control-solid"
-                type="password"
-                :placeholder="$t('Current Password')"
-              />
-              <b-form-invalid-feedback id="input-live-feedback">
-                <p
-                  :key="message"
-                  v-for="message of errorMessages('currentPassword')"
-                >
-                  {{ message }}
-                </p>
-              </b-form-invalid-feedback>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label text-alert">{{
-              $t("New Password")
-            }}</label>
-            <div class="col-lg-9 col-xl-6">
-              <b-form-input
-                required
-                :state="validateState('password')"
-                v-model="input.password"
-                class="form-control form-control-lg form-control-solid"
-                type="password"
-                :placeholder="$t('New Password')"
-              />
-              <b-form-invalid-feedback id="input-live-feedback">
-                <p :key="message" v-for="message of errorMessages('password')">
-                  {{ message }}
-                </p>
-              </b-form-invalid-feedback>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label text-alert">{{
-              $t("New password confirmation")
-            }}</label>
-            <div class="col-lg-9 col-xl-6">
-              <b-form-input
-                required
-                :state="validateState('passwordConfirmation')"
-                v-model="input.passwordConfirmation"
-                class="form-control form-control-lg form-control-solid"
-                type="password"
-                :placeholder="$t('New password confirmation')"
-              />
-              <b-form-invalid-feedback id="input-live-feedback">
-                <p
-                  :key="message"
-                  v-for="message of errorMessages('passwordConfirmation')"
-                >
-                  {{ message }}
-                </p>
-              </b-form-invalid-feedback>
-            </div>
-
-            <input id="input_submit" type="submit" style="display: none" />
-          </div>
-        </div>
-      </form>
-      <!--end::Form-->
-    </div>
+    </form>
+    <!--end::Form-->
   </div>
   <!--end::Content-->
 </template>

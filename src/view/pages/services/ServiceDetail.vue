@@ -253,7 +253,14 @@
                 <template v-for="comment of comments">
                   <div :key="comment.id" class="timeline-item">
                     <div class="timeline-media">
-                      <img alt="Pic" src="media/user.png" />
+                      <img
+                        alt="Pic"
+                        :src="
+                          comment.account.imageUrl !== null
+                            ? comment.account.imageUrl
+                            : 'media/user.png'
+                        "
+                      />
                     </div>
                     <div class="timeline-content">
                       <div

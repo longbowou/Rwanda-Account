@@ -18,11 +18,16 @@ export const SET_ERROR = "setError";
 
 const currentAuth = JwtService.getAuth();
 const isAuthenticated = currentAuth !== null;
-if (isAuthenticated) {
-  apolloClient.query({ query: queryAccount }).then(result => {
-    store.dispatch(UPDATE_USER, { account: result.data.account });
-  });
-}
+
+export const fetchAccount = function() {
+  if (isAuthenticated) {
+    apolloClient.query({ query: queryAccount }).then(result => {
+      store.dispatch(UPDATE_USER, { account: result.data.account });
+    });
+  }
+};
+
+fetchAccount();
 
 const state = {
   account: null,

@@ -1,2 +1,1 @@
 - tooltips
-- user avatar

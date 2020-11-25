@@ -8,9 +8,11 @@ export const accountFields = gql`
     fullName
     balance
     email
+    phoneNumber
     firstName
     lastName
     username
+    imageUrl
     servicesCount
     purchasesCount
     ordersCount
@@ -30,5 +32,6 @@ export const accountBasicFields = gql`
     balance
     isOnline
     lastLogin
+    imageUrl
   }
 `;

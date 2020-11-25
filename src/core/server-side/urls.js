@@ -8,10 +8,10 @@ export const servicesUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL + "account/services.json";
 
 export const serviceUpload =
-  process.env.VUE_APP_DATATABLES_BASE_URL + "account/service/:pk/upload";
+  process.env.VUE_APP_DATATABLES_BASE_URL + "account/services/:pk/upload";
 
 export const servicePreSaveUpload =
-  process.env.VUE_APP_DATATABLES_BASE_URL + "account/service/pre-save/upload";
+  process.env.VUE_APP_DATATABLES_BASE_URL + "account/services/pre-save/upload";
 
 export const servicePurchasesUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL + "account/purchases.json";
@@ -32,10 +32,13 @@ export const deliverableFilesUrl =
   "account/deliverables/:pk/files.json";
 
 export const servicesOptionsUrl =
-  process.env.VUE_APP_DATATABLES_BASE_URL + "account/service/:pk/options.json";
+  process.env.VUE_APP_DATATABLES_BASE_URL + "account/services/:pk/options.json";
 
 export const deliverablesUploadUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL + "account/deliverables/:pk/upload";
 
 export const chatMessagesUploadUrl =
   process.env.VUE_APP_DATATABLES_BASE_URL + "account/chat-messages/:pk/upload";
+
+export const avatarUploadUrl =
+  process.env.VUE_APP_DATATABLES_BASE_URL + "account/avatar/upload";

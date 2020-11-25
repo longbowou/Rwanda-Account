@@ -89,6 +89,7 @@ export const queryServiceComments = gql`
         createdAt
         account {
           firstName
+          imageUrl
         }
       }
     }

@@ -304,6 +304,10 @@ export default {
           valuesArr.map(item => item.value).join(",")
       });
 
+      const uploadURL = this.updating
+        ? serviceUpload.replace(":pk", this.$route.params.id)
+        : servicePreSaveUpload;
+
       let file = new KTImageInput("kt_profile_avatar");
       file.on("change", function(imageInput) {
         let fd = new FormData();
@@ -313,10 +317,6 @@ export default {
         imageInputWrapperDiv.addClass(
           "spinner spinner-lg spinner-warning spinner-center"
         );
-
-        const uploadURL = this.updating
-          ? serviceUpload.replace(":pk", this.$route.params.id)
-          : servicePreSaveUpload;
 
         window.$.ajax({
           url: uploadURL,
