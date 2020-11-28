@@ -120,7 +120,7 @@
                     class="form-control form-control-lg form-control-solid"
                     type="number"
                     :placeholder="$t('Amount')"
-                    min="150"
+                    min="200"
                     autocomplete="off"
                   />
                   <b-form-invalid-feedback id="input-live-feedback">
@@ -175,7 +175,7 @@ export default {
       refundWayCountryCode: null,
       refundWaySelect2: null,
       input: {
-        amount: 150,
+        amount: 200,
         phoneNumber: null,
         refundWay: null
       }
