@@ -4,6 +4,7 @@ export const serviceForViewFields = gql`
   fragment serviceForViewFields on ServiceType {
     id
     title
+    fileUrl
     content
     delayDisplay
     keywords
