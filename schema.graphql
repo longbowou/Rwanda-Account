@@ -11,6 +11,8 @@ interface UserInterface {
     firstName: String
     fullName: String
     imageUrl: String
+    isActive: Boolean!
+    isActiveDisplay: String!
     isOnline: Boolean!
     lastLogin: String
     lastName: String
@@ -112,6 +114,8 @@ type AccountType implements UserInterface {
     fullName: String
     id: UUID!
     imageUrl: String
+    isActive: Boolean!
+    isActiveDisplay: String!
     isOnline: Boolean!
     lastLogin: String
     lastName: String
@@ -127,6 +131,7 @@ type AccountType implements UserInterface {
     servicecommentSet: [ServiceCommentType!]!
     servicepurchaseSet: [ServicePurchaseType!]!
     servicesCount: String!
+    user: UserType!
     username: String!
 }
 
@@ -137,11 +142,14 @@ type AdminType implements UserInterface {
     fullName: String
     id: UUID!
     imageUrl: String
+    isActive: Boolean!
+    isActiveDisplay: String!
     isOnline: Boolean!
     lastLogin: String
     lastName: String
     litigationSet: [LitigationType!]!
     phoneNumber: String
+    user: UserType!
     username: String!
 }
 
@@ -369,13 +377,14 @@ type PaymentType {
     amount: Int!
     canceled: Boolean!
     celPhoneNum: String
+    comment: String
     confirmed: Boolean!
     cpmPayid: String
     cpmPhonePrefixe: String
     cpmResult: String
     cpmTransStatus: String
     createdAt: DateTime!
-    depositSet: [DepositType!]!
+    deposit: DepositType
     id: UUID!
     paymentMethod: String
     refund: RefundType
@@ -396,9 +405,10 @@ type RefundType {
     amount: Int!
     createdAt: DateTime!
     id: UUID!
-    paymentSet: [PaymentType!]!
+    payment: PaymentType
     phoneNumber: String
     refundWay: RefundWayType
+    refusedReason: String
     status: String!
 }
 
@@ -632,6 +642,7 @@ type ServiceType {
     optionsCountDisplay: String!
     positiveCommentsCount: String!
     published: Boolean!
+    publishedDisplay: String!
     rejected: Boolean!
     rejectedReason: String
     serviceCategory: ServiceCategoryType!
@@ -674,6 +685,30 @@ type UpdateService {
 type UpdateServiceOption {
     errors: [ErrorType]
     serviceOption: ServiceOptionType
+}
+
+type UserType {
+    account: AccountType
+    admin: AdminType
+    createdAt: DateTime!
+    dateJoined: DateTime!
+    email: String!
+    firstName: String!
+    id: UUID!
+    image: String
+    "Précise si l’utilisateur doit être considéré comme actif. Décochez ceci plutôt que de supprimer le compte."
+    isActive: Boolean!
+    isOnline: Boolean!
+    "Précise si l’utilisateur peut se connecter à ce site d'administration."
+    isStaff: Boolean!
+    "Précise que l’utilisateur possède toutes les permissions sans les assigner explicitement."
+    isSuperuser: Boolean!
+    lastLogin: DateTime
+    lastName: String!
+    password: String!
+    phoneNumber: String
+    "Requis. 150 caractères maximum. Uniquement des lettres, nombres et les caractères « @ », « . », « + », « - » et « _ »."
+    username: String!
 }
 
 type Verify {
