@@ -69,7 +69,7 @@
       </div>
     </div>
 
-    <h1 class="text-center mt-10 mb-5">{{ $t("Services for sale") }}</h1>
+    <h1 class="text-center mt-10 mb-5">{{ $t("Featured Services") }}</h1>
 
     <div class="row justify-content-center">
       <div class="spinner spinner-center" v-if="isFetchingService"></div>

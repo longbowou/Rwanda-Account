@@ -27,7 +27,6 @@
   "Cancel": "Annuler",
   "Registration successful": "Inscription réussi",
   "You can now login": "Vous pouvez maintenant vous connecter",
-  "Services for sale": "Services à vendre",
   "Order Now": "Commandez maintenant",
   "Customize the service": "Personnalisez le service",
   "Additional options": "Options additionelles",
@@ -205,5 +204,7 @@
   "Do you really want to refuse the order {title} ?": "Voulez-vous vraiment refuser la commande {title}?",
   "Order refused successfully.": "Commande refusée avec succès.",
   "Your purchase has been <strong>refused</strong> by the seller. Please find below the reason.": "Votre achat a été <strong>refusé</strong> par le vendeur. Veuillez trouver ci-dessous la raison.",
-  "Your service has been <strong>rejected by administrator</strong>. Please find below the reason why.": "Votre service a été <strong>rejeté par l'administrateur</strong>. Veuillez trouver ci-dessous la raison pour laquelle."
+  "Your service has been <strong>rejected by administrator</strong>. Please find below the reason why.": "Votre service a été <strong>rejeté par l'administrateur</strong>. Veuillez trouver ci-dessous la raison pour laquelle.",
+  "Featured Services": "Services a la une",
+  "Refund Way": "Moyen de retrai"
 }
