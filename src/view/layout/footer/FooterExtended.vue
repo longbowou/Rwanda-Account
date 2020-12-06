@@ -3,7 +3,7 @@
   <div
     class="footer kt-grid__item bgi-position-center-center bgi-size-cover bgi-no-cover"
     id="kt_footer"
-    style="background-image: url('media/bg/bg-2.jpg');"
+    style="background-image: url('media/bg/bg-mdtaf.png');"
   >
     <!--begin::Container-->
     <div class="container py-lg-18 py-8">
@@ -16,7 +16,7 @@
             class="m-0 text-white opacity-45"
             v-html="
               $t(
-                'Product of Maison du Digitale.<br />Platform for buying and selling digital services based in LOME TOGO.'
+                'Product of Maison du Digital.<br />Platform for buying and selling digital services based in LOME TOGO.'
               )
             "
           ></p>
@@ -99,12 +99,21 @@
         <!--end::Copyright-->
         <!--begin::Nav-->
         <div class="d-flex align-items-center order-lg-2 order-1 mb-lg-0 mb-5">
+          Powered by
           <a
             href="https://gitlab.com/longbowou"
             target="_blank"
-            class="text-white opacity-55 pl-0 text-hover-primary"
+            class="text-white opacity-55 pl-0 text-hover-primary ml-2 mr-2"
           >
-            Powered by Longbowou
+            Longbowou
+          </a>
+          &
+          <a
+            href="https://gitlab.com/Stalia"
+            target="_blank"
+            class="text-white opacity-55 pl-0 text-hover-primary ml-2"
+          >
+            Esther KANGBIETE
           </a>
         </div>
         <!--end::Nav-->

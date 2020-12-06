@@ -3,7 +3,7 @@
   "self": {
     "layout": "default",
     "body": {
-      "background-image": "media/bg/bg-2.jpg"
+      "background-image": "media/bg/bg-mdtaf.png"
     },
     "logo": {
       "default": "media/logos/logo.png",
