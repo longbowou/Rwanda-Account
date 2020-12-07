@@ -41,6 +41,45 @@
                   {{ $t("Home") }}
                 </a>
               </router-link>
+
+              <router-link
+                to="/home"
+                v-slot="{ href, navigate, isActive, isExactActive }"
+              >
+                <a
+                  :href="href"
+                  class="text-white opacity-55 text-hover-primary"
+                  @click="navigate"
+                >
+                  {{ $t("Privacy") }}
+                </a>
+              </router-link>
+
+              <router-link
+                to="/home"
+                v-slot="{ href, navigate, isActive, isExactActive }"
+              >
+                <a
+                  :href="href"
+                  class="text-white opacity-55 text-hover-primary"
+                  @click="navigate"
+                >
+                  {{ $t("Terms & Conditions") }}
+                </a>
+              </router-link>
+
+              <router-link
+                to="/home"
+                v-slot="{ href, navigate, isActive, isExactActive }"
+              >
+                <a
+                  :href="href"
+                  class="text-white opacity-55 text-hover-primary"
+                  @click="navigate"
+                >
+                  {{ $t("Sitemap") }}
+                </a>
+              </router-link>
             </div>
 
             <div class="d-flex flex-column"></div>
@@ -98,24 +137,24 @@
         </div>
         <!--end::Copyright-->
         <!--begin::Nav-->
-        <div class="d-flex align-items-center order-lg-2 order-1 mb-lg-0 mb-5">
-          Powered by
-          <a
-            href="https://gitlab.com/longbowou"
-            target="_blank"
-            class="text-white opacity-55 pl-0 text-hover-primary ml-2 mr-2"
-          >
-            Longbowou
-          </a>
-          &
-          <a
-            href="https://gitlab.com/Stalia"
-            target="_blank"
-            class="text-white opacity-55 pl-0 text-hover-primary ml-2"
-          >
-            Esther KANGBIETE
-          </a>
-        </div>
+        <!--        <div class="d-flex align-items-center order-lg-2 order-1 mb-lg-0 mb-5">-->
+        <!--          Powered by-->
+        <!--          <a-->
+        <!--            href="https://gitlab.com/longbowou"-->
+        <!--            target="_blank"-->
+        <!--            class="text-white opacity-55 pl-0 text-hover-primary ml-2 mr-2"-->
+        <!--          >-->
+        <!--            Longbowou-->
+        <!--          </a>-->
+        <!--          &-->
+        <!--          <a-->
+        <!--            href="https://gitlab.com/Stalia"-->
+        <!--            target="_blank"-->
+        <!--            class="text-white opacity-55 pl-0 text-hover-primary ml-2"-->
+        <!--          >-->
+        <!--            Esther KANGBIETE-->
+        <!--          </a>-->
+        <!--        </div>-->
         <!--end::Nav-->
       </div>
     </div>
