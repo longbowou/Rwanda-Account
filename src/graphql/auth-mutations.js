@@ -6,6 +6,7 @@ import { authTokenFields } from "@/graphql/fragments/global";
 export const login = gql`
   mutation($input: LoginInput!) {
     login(input: $input) {
+      canResendVerificationMail
       errors {
         ...errorFields
       }
@@ -35,4 +36,21 @@ export const register = gql`
   }
   ${errorFields}
   ${accountFields}
+`;
+
+export const sendVerificationMail = gql`
+  mutation($login: String!) {
+    sendVerificationMail(login: $login) {
+      sent
+    }
+  }
+`;
+
+export const activateAccount = gql`
+  mutation($user: UUID!) {
+    activateAccount(user: $user) {
+      activated
+      message
+    }
+  }
 `;

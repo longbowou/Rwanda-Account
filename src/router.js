@@ -32,61 +32,66 @@ export default new Router({
           component: () => import("@/view/pages/services/Category")
         },
         {
-          path: "/dashboard",
+          path: "/activate/:id",
+          name: "account-activation",
+          component: () => import("@/view/pages/user/Activation")
+        },
+        {
+          path: "/account/dashboard",
           name: "dashboard",
           component: () => import("@/view/pages/user/Dashboard"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/deposits",
+          path: "/account/deposits",
           name: "deposits",
           component: () => import("@/view/pages/user/deposits/Datatable"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/deposits-create",
+          path: "/account/deposits-create",
           name: "deposits-create",
           component: () => import("@/view/pages/user/deposits/Create"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/refunds",
+          path: "/account/refunds",
           name: "refunds",
           component: () => import("@/view/pages/user/refunds/Datatable"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/refunds-create",
+          path: "/account/refunds-create",
           name: "refunds-create",
           component: () => import("@/view/pages/user/refunds/Create"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services",
+          path: "/account/services",
           name: "user-services",
           component: () => import("@/view/pages/user/services/Datatable"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services/create",
+          path: "/account/services/create",
           name: "user-services-create",
           component: () => import("@/view/pages/user/services/Create"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services/:id",
+          path: "/account/services/:id",
           name: "user-services-view",
           component: () => import("@/view/pages/user/services/View"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services/:id/edit",
+          path: "/account/services/:id/edit",
           name: "user-services-edit",
           component: () => import("@/view/pages/user/services/Edit"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services/:id/options",
+          path: "/account/services/:id/options",
           name: "service-options",
           component: () =>
             import("@/view/pages/user/services/options/Datatable"),
@@ -94,25 +99,25 @@ export default new Router({
         },
 
         {
-          path: "/user/services/:id/options/:optionId/view",
+          path: "/account/services/:id/options/:optionId/view",
           name: "service-options-view",
           component: () => import("@/view/pages/user/services/options/View"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services/:id/options/create",
+          path: "/account/services/:id/options/create",
           name: "service-options-create",
           component: () => import("@/view/pages/user/services/options/Create"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/services/:id/options/edit-option/:optionId/edit",
+          path: "/account/services/:id/options/edit-option/:optionId/edit",
           name: "service-options-edit",
           component: () => import("@/view/pages/user/services/options/Edit"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/user/purchases",
+          path: "/account/purchases",
           name: "purchases",
           component: () => import("@/view/pages/user/purchases/Datatable"),
           meta: { requiresAuth: true }
@@ -123,21 +128,21 @@ export default new Router({
           meta: { requiresAuth: true },
           children: [
             {
-              path: "/purchases/:id",
+              path: "/account/purchases/:id",
               name: "purchases-view",
               component: () =>
                 import("@/view/pages/user/purchases/deliverables/Datatable"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
             {
-              path: "/purchases/:id/deliverables/:deliverableId",
+              path: "/account/purchases/:id/deliverables/:deliverableId",
               name: "purchase-deliverables-view",
               component: () =>
                 import("@/view/pages/user/purchases/deliverables/View"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
             {
-              path: "/purchases/:id/deliverables/:deliverableId/files",
+              path: "/account/purchases/:id/deliverables/:deliverableId/files",
               name: "purchase-deliverables-files",
               component: () =>
                 import("@/view/pages/user/purchases/deliverables/Files"),
@@ -146,18 +151,18 @@ export default new Router({
           ]
         },
         {
-          path: "/orders",
+          path: "/account/orders",
           name: "orders",
           component: () => import("@/view/pages/user/orders/Datatable"),
           meta: { requiresAuth: true }
         },
         {
-          path: "/orders/:id",
+          path: "/account/orders/:id",
           component: () => import("@/view/pages/user/orders/View"),
           meta: { requiresAuth: true },
           children: [
             {
-              path: "/orders/:id",
+              path: "/account/orders/:id",
               name: "orders-view",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Datatable"),
@@ -165,28 +170,28 @@ export default new Router({
             },
 
             {
-              path: "/orders/:id/deliverables/create",
+              path: "/account/orders/:id/deliverables/create",
               name: "order-deliverables-create",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Create"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
             {
-              path: "/orders/:id/deliverables/:deliverableId",
+              path: "/account/orders/:id/deliverables/:deliverableId",
               name: "order-deliverables-view",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/View"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
             {
-              path: "/orders/:id/deliverables/:deliverableId/edit",
+              path: "/account/orders/:id/deliverables/:deliverableId/edit",
               name: "order-deliverables-edit",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Edit"),
               meta: { requiresAuth: true, scrollToTop: false }
             },
             {
-              path: "/orders/:id/deliverables/:deliverableId/files",
+              path: "/account/orders/:id/deliverables/:deliverableId/files",
               name: "order-deliverables-files",
               component: () =>
                 import("@/view/pages/user/orders/deliverables/Files"),
@@ -195,27 +200,27 @@ export default new Router({
           ]
         },
         {
-          path: "/profile",
+          path: "/account/profile",
           redirect: "/profile-overview",
           component: () => import("@/view/pages/user/profile/Layout"),
           meta: { requiresAuth: true },
           children: [
             {
-              path: "/profile-overview",
+              path: "/account/profile-overview",
               name: "profile-overview",
               component: () =>
                 import("@/view/pages/user/profile/ProfileOverview"),
               meta: { requiresAuth: true }
             },
             {
-              path: "/personal-information",
+              path: "/account/personal-information",
               name: "personal-information",
               component: () =>
                 import("@/view/pages/user/profile/PersonalInformation"),
               meta: { requiresAuth: true }
             },
             {
-              path: "/change-password",
+              path: "/account/change-password",
               name: "change-password",
               component: () =>
                 import("@/view/pages/user/profile/ChangePassword"),

@@ -109,11 +109,7 @@ export default {
       isFetchingService: false
     };
   },
-  computed() {
-    {
-      return this.isFetchingService;
-    }
-  },
+  computed() {},
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [{ title: this.$t("Home") }]);
     this.$store.dispatch(SET_HEAD_TITLE, this.$t("Home"));

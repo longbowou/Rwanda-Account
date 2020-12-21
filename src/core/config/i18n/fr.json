@@ -209,5 +209,12 @@
   "Refund Way": "Moyen de retrait",
   "Privacy": "Confidentialité",
   "Terms & Conditions": "Termes et conditions",
-  "Sitemap": "Sitemap"
+  "Sitemap": "Sitemap",
+  "Or": "Ou",
+  "Resend a verification mail ?": "Renvoyer un e-mail de vérification ?",
+  "Verification mail successfully sent": "E-mail de vérification envoyé avec succès",
+  "Please check your mailbox and to activate your account.": "Veuillez vérifier votre boîte mail et activer votre compte.",
+  "Your account is being activated": "Votre compte est en cours d'activation",
+  "Account Activation": "Activation de compte",
+  "Proceed as follow for your account activation": "Procédez comme suit pour l'activation de votre compte"
 }

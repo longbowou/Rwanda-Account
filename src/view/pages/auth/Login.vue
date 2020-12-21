@@ -9,7 +9,7 @@
           {{ $t("Sign In") }}
         </h2>
         <span class="text-muted font-weight-bold font-size-h4"
-          >Or
+          >{{ $t("Or") }}
           <router-link
             to="/register"
             v-slot="{ href, navigate, isActive, isExactActive }"
@@ -32,7 +32,6 @@
             <span
               class="svg-icon svg-icon-success svg-icon-3x pulse pulse-success"
             >
-              <span class="pulse-ring"></span>
               <inline-svg src="media/svg/icons/Code/Compiling.svg" />
             </span>
 
@@ -42,9 +41,9 @@
               >
                 {{ notification.message }}
               </p>
-              <span class="text-muted font-size-sm">{{
-                notification.otherMessage
-              }}</span>
+              <span class="text-muted font-size-sm">
+                {{ notification.otherMessage }}
+              </span>
             </div>
           </div>
         </template>
@@ -53,9 +52,9 @@
 
       <!--begin::Form group-->
       <div class="form-group">
-        <label class="font-size-h6 font-weight-bolder text-dark">{{
-          $t("Username or Email")
-        }}</label>
+        <label class="font-size-h6 font-weight-bolder text-dark">
+          {{ $t("Username or Email") }}
+        </label>
         <b-form-input
           required
           autofocus
@@ -67,10 +66,23 @@
           autocomplete="off"
         />
         <b-form-invalid-feedback id="input-live-feedback">
-          <p :key="message" v-for="message of errorMessages('login')">
+          <p
+            :key="message"
+            v-for="message of errorMessages('login')"
+            class="m-0"
+          >
             {{ message }}
           </p>
         </b-form-invalid-feedback>
+
+        <button
+          id="btn-send-verification-mail"
+          v-if="canResendVerificationMail"
+          @click="sendVerificationMail"
+          class="text-primary font-size-h6 font-weight-bolder text-hover-primary"
+        >
+          {{ $t("Resend a verification mail ?") }}
+        </button>
       </div>
       <!--end::Form group-->
 
@@ -138,9 +150,12 @@
 import { mapGetters } from "vuex";
 import { LOGIN, LOGOUT } from "@/core/services/store/modules/auth.module";
 import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import { login } from "@/graphql/auth-mutations";
+import { login, sendVerificationMail } from "@/graphql/auth-mutations";
 import { formMixin } from "@/view/mixins";
-import { READ_LOGIN_NOTIFICATIONS } from "@/core/services/store/modules/notifications.module";
+import {
+  ADD_LOGIN_NOTIFICATION,
+  READ_LOGIN_NOTIFICATIONS
+} from "@/core/services/store/modules/notifications.module";
 import { RESET_NEXT_PATH } from "@/core/services/store/modules/router.module";
 import JwtService from "@/core/services/jwt.service";
 
@@ -149,6 +164,7 @@ export default {
   name: "Login",
   data() {
     return {
+      canResendVerificationMail: false,
       input: {
         login: "",
         password: ""
@@ -177,6 +193,7 @@ export default {
       btn.addClass("spinner spinner-light spinner-right");
 
       this.errors = [];
+      this.canResendVerificationMail = false;
 
       let result = await this.$apollo.mutate({
         mutation: login,
@@ -188,6 +205,8 @@ export default {
       btn.removeAttr("disabled");
       btn.removeClass("spinner spinner-light spinner-right");
 
+      this.canResendVerificationMail =
+        result.data.login.canResendVerificationMail;
       this.errors = result.data.login.errors;
       if (!window._.isEmpty(this.errors)) {
         return;
@@ -198,8 +217,6 @@ export default {
         auth: result.data.login.auth
       });
 
-      await this.$store.dispatch(READ_LOGIN_NOTIFICATIONS);
-
       if (!window._.isNull(this.nextPath)) {
         await this.$router.push({ path: this.nextPath });
 
@@ -207,6 +224,30 @@ export default {
       } else {
         await this.$router.push({ name: "dashboard" });
       }
+    },
+    async sendVerificationMail() {
+      const btn = window.$("#btn-send-verification-mail");
+      btn.attr("disabled", true);
+      btn.addClass("spinner spinner-primary spinner-right");
+
+      await this.$apollo.mutate({
+        mutation: sendVerificationMail,
+        variables: {
+          login: this.input.login
+        }
+      });
+
+      btn.removeAttr("disabled");
+      btn.removeClass("spinner spinner-primary spinner-right");
+
+      this.canResendVerificationMail = false;
+
+      await this.$store.dispatch(ADD_LOGIN_NOTIFICATION, {
+        message: this.$t("Verification mail successfully sent"),
+        otherMessage: this.$t(
+          "Please check your mailbox and to activate your account."
+        )
+      });
     }
   },
   computed: {
@@ -214,6 +255,9 @@ export default {
     hasNotifications() {
       return !window._.isEmpty(this.loginNotifications);
     }
+  },
+  beforeDestroy() {
+    this.$store.dispatch(READ_LOGIN_NOTIFICATIONS);
   }
 };
 </script>

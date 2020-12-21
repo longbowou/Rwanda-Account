@@ -33,6 +33,7 @@ type AcceptServicePurchaseUpdateRequest {
 type AccountMutation {
     acceptServicePurchase(input: AcceptServicePurchaseInput!): AcceptServicePurchase
     acceptServicePurchaseUpdateRequest(input: AcceptServicePurchaseUpdateRequestInput!): AcceptServicePurchaseUpdateRequest
+    activateAccount(user: UUID!): ActivateAccount
     approveServicePurchase(input: ApproveServicePurchaseInput!): ApproveServicePurchase
     cancelServicePurchase(input: CancelServicePurchaseInput!): CancelServicePurchase
     changeAccountPassword(input: ChangeAccountPasswordInput!): ChangeAccountPassword
@@ -59,6 +60,7 @@ type AccountMutation {
     refuseServicePurchase(input: RefuseServicePurchaseInput!): RefuseServicePurchase
     refuseServicePurchaseUpdateRequest(input: RefuseServicePurchaseUpdateRequestInput!): RefuseServicePurchaseUpdateRequest
     revokeToken(refreshToken: String): Revoke
+    sendVerificationMail(login: String!): SendVerificationMail
     submitServiceForApproval(input: SubmitServiceForApprovalInput!): SubmitServiceForApproval
     updateAccount(input: UpdateAccountInput!): UpdateAccount
     updateDeliverable(input: UpdateDeliverableInput!): UpdateDeliverable
@@ -80,26 +82,14 @@ type AccountQuery {
     payment(id: UUID!): PaymentType
     refundWay: RefundWayType
     refundWays: [RefundWayType]
-    service(id: UUID!): ServiceType!
-    "ServiceCategory list"
-    serviceCategories(id: UUID): [ServiceCategoryType]
-    serviceCategory(id: UUID!): ServiceCategoryType!
+    service(id: UUID!): ServiceType
+    serviceCategories: [ServiceCategoryType]
+    serviceCategory(id: UUID!): ServiceCategoryType
     serviceCommentTypes: [ServiceCommentTypeType]
     serviceOption(id: UUID!): ServiceOptionType
-    "ServiceOption list"
-    serviceOptions(id: UUID): [ServiceOptionType]
-    serviceOrderPreview(service: UUID!, serviceOptions: [UUID!]): ServiceOrderType!
+    serviceOrderPreview(service: UUID!, serviceOptions: [UUID!]): ServiceOrderType
     servicePurchase(id: UUID!): ServicePurchaseType!
-    "Service list"
-    services(
-        id: UUID,
-        "Number of results to return per page. Default 'default_limit': 5, and 'max_limit': None"
-        limit: Int = 5,
-        "The initial index from which to return the results. Default: 0"
-        offset: Int,
-        "A string or comma delimited string values that indicate the default ordering when obtaining lists of objects."
-        ordering: String
-    ): [ServiceType]
+    services: [ServiceType]
 }
 
 type AccountType implements UserInterface {
@@ -133,6 +123,11 @@ type AccountType implements UserInterface {
     servicesCount: String!
     user: UserType!
     username: String!
+}
+
+type ActivateAccount {
+    activated: Boolean
+    message: String
 }
 
 type AdminType implements UserInterface {
@@ -345,6 +340,7 @@ type LitigationType {
 type LoginAccount {
     account: AccountType
     auth: AuthType
+    canResendVerificationMail: Boolean
     errors: [ErrorType]
 }
 
@@ -435,11 +431,17 @@ type Revoke {
     revoked: Int!
 }
 
+type SendVerificationMail {
+    sent: Boolean
+}
+
 type ServiceCategoryType {
     createdAt: DateTime!
     description: String
     id: UUID!
+    index: Int!
     label: String!
+    published: Boolean!
     serviceSet: [ServiceType!]!
     services: [ServiceType]!
 }
@@ -622,6 +624,7 @@ type ServicePurchaseUpdateRequestType {
 
 type ServiceType {
     accepted: Boolean!
+    acceptedAt: DateTime
     account: AccountType!
     basePrice: Int!
     canBeAccepted: Boolean!
@@ -642,6 +645,7 @@ type ServiceType {
     optionsCountDisplay: String!
     positiveCommentsCount: String!
     published: Boolean!
+    publishedByAdmin: Boolean!
     publishedDisplay: String!
     rejected: Boolean!
     rejectedReason: String
@@ -693,6 +697,8 @@ type UserType {
     createdAt: DateTime!
     dateJoined: DateTime!
     email: String!
+    emailVerificationExpireAt: DateTime
+    emailVerified: Boolean!
     firstName: String!
     id: UUID!
     image: String
