@@ -71,7 +71,7 @@
               {{ $t("Delivery delay") }}
             </p>
             <p class="col-sm-3 text-right">
-              {{ serviceOrderPreview.totalDelay }} days <br />
+              {{ serviceOrderPreview.totalDelay }} {{ $t("days") }} <br />
               <span
                 class="text-primary"
                 v-html="

@@ -9,8 +9,6 @@
   "Submit": "Soumettre",
   "Make a refund": "Faire un retrait",
   "Phone Number": "Numéro de téléphone",
-  "User Experience & Interface Design, Product Strategy": "User Experience & Interface Design, Product Strategy",
-  "Web Application SaaS Solutions": "Web Application SaaS Solutions",
   "Sign In": "Se connecter",
   "Create An Account": "Créer un compte",
   "Username or Email": "Nom d'utilisateur ou email",
@@ -216,5 +214,8 @@
   "Please check your mailbox and to activate your account.": "Veuillez vérifier votre boîte mail et activer votre compte.",
   "Your account is being activated": "Votre compte est en cours d'activation",
   "Account Activation": "Activation de compte",
-  "Proceed as follow for your account activation": "Procédez comme suit pour l'activation de votre compte"
+  "Proceed as follow for your account activation": "Procédez comme suit pour l'activation de votre compte",
+  "The digital micro-services buying and selling platform": "La plate-forme d'achat et de vente de micro services numériques",
+  "Please check your mail to activate your account.": "Veuillez vérifier votre messagerie pour activer votre compte.",
+  "days": "jours"
 }

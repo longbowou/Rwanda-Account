@@ -62,9 +62,7 @@
           <p
             class="font-weight-bolder font-size-h2-md font-size-lg text-dark opacity-70"
           >
-            {{ $t("User Experience & Interface Design, Product Strategy") }}
-            <br />
-            {{ $t("Web Application SaaS Solutions") }}
+            {{ $t("The digital micro-services buying and selling platform") }}
           </p>
         </div>
         <!--end::Title-->

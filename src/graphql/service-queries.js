@@ -35,6 +35,20 @@ export const queryServiceCategory = gql`
   ${accountBasicFields}
 `;
 
+export const queryServiceCategoryServices = gql`
+  query serviceCategoryServices($id: UUID!) {
+    serviceCategoryServices(id: $id) {
+      id
+      title
+      fileUrl
+      account {
+        ...accountBasicFields
+      }
+    }
+  }
+  ${accountBasicFields}
+`;
+
 export const queryServiceCategories = gql`
   query {
     serviceCategories {

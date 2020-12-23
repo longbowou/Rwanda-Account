@@ -1,6 +1,6 @@
 <template>
   <!--begin::Signup-->
-  <div class="login-form login-signup pt-11">
+  <div class="login-form login-signup py-11">
     <!--begin::Form-->
     <form class="form" id="kt_login_signup_form" @submit="onSubmit">
       <!--begin::Title-->
@@ -229,7 +229,9 @@ export default {
 
       await this.$store.dispatch(ADD_LOGIN_NOTIFICATION, {
         message: this.$t("Registration successful"),
-        otherMessage: this.$t("You can now login")
+        otherMessage: this.$t(
+          "Please check your mail to activate your account."
+        )
       });
 
       await this.$router.push({

@@ -85,6 +85,7 @@ type AccountQuery {
     service(id: UUID!): ServiceType
     serviceCategories: [ServiceCategoryType]
     serviceCategory(id: UUID!): ServiceCategoryType
+    serviceCategoryServices(id: UUID!): ServiceType
     serviceCommentTypes: [ServiceCommentTypeType]
     serviceOption(id: UUID!): ServiceOptionType
     serviceOrderPreview(service: UUID!, serviceOptions: [UUID!]): ServiceOrderType
