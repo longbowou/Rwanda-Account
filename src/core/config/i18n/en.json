@@ -11,5 +11,6 @@
   "The seller has accepted your purchase a delivery deadline has been set to <strong>{deadlineAt}</strong>.": "The seller has accepted your purchase a delivery deadline has been set to <strong>{deadlineAt}</strong>.",
   "Do you really want to accept the update request {title} ?": "Do you really want to accept the update request {title} ?",
   "Do you really want to submit the service for approval {title} ?": "Do you really want to submit the service for approval {title} ?",
-  "Do you really want to refuse the order {title} ?": "Do you really want to refuse the order {title} ?"
+  "Do you really want to refuse the order {title} ?": "Do you really want to refuse the order {title} ?",
+  "You need to pay {depositFee} of your deposit amount as fee": "You need to pay {depositFee} of your deposit amount as fee"
 }

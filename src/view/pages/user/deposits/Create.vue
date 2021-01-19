@@ -49,10 +49,10 @@
                     class="font-size-h1 d-block font-weight-boldest text-dark-75 py-2"
                   >
                     {{ currentAccount != null ? currentAccount.balance : null }}
-                    <sup class="font-size-h3 font-weight-normal pl-1">{{
-                      currency
-                    }}</sup></span
-                  >
+                    <sup class="font-size-h3 font-weight-normal pl-1">
+                      {{ currency }}
+                    </sup>
+                  </span>
                   <h4
                     class="font-size-h6 d-block font-weight-bold text-dark-50"
                   >
@@ -68,18 +68,32 @@
               <form class="form" @submit="onSubmit">
                 <label
                   class="col-sm-12 col-form-label font-weight-bold text-center"
-                  >{{ $t("Amount") }}</label
                 >
+                  {{ $t("Amount") }}
+                </label>
                 <b-form-input
                   required
                   :state="validateState('amount')"
+                  v-on:keyup="onAmountChange"
                   v-model="amount"
                   class="form-control form-control-lg form-control-solid"
                   type="number"
                   :placeholder="$t('Amount')"
-                  min="150"
+                  min="200"
                   autocomplete="off"
                 />
+                <span class="form-text text-muted">
+                  {{
+                    $t(
+                      "You need to pay {depositFee} of your deposit amount as fee",
+                      { depositFee: depositFee * 100 + "%" }
+                    )
+                  }}
+                  <br />
+                  <strong>
+                    {{ $t("Current fee") }}: {{ feeDisplay }} {{ currency }}
+                  </strong>
+                </span>
                 <b-form-invalid-feedback id="input-live-feedback">
                   <p :key="message" v-for="message of errorMessages('amount')">
                     {{ message }}
@@ -129,13 +143,15 @@ import { mapGetters } from "vuex";
 import { formMixin, toastMixin } from "@/view/mixins";
 import { initiateDeposit } from "@/graphql/account-mutations";
 import { queryPayment } from "@/graphql/global-queries";
+import i18nService from "@/core/services/i18n.service";
 
 export default {
   name: "DepositCreate",
   mixins: [formMixin, toastMixin],
   data() {
     return {
-      amount: 150,
+      amount: 200,
+      fee: 0,
       errors: [],
       formData: [],
       paymentUrl: null,
@@ -144,13 +160,18 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["currentAccount", "currency"])
+    ...mapGetters(["currentAccount", "currency", "depositFee"]),
+    feeDisplay() {
+      return this.fee.toLocaleString(i18nService.getActiveLanguage());
+    }
   },
   mounted() {
     this.$store.dispatch(SET_BREADCRUMB, [
       { title: this.$t("Make a deposit") }
     ]);
     this.$store.dispatch(SET_HEAD_TITLE, this.$t("Make a deposit"));
+
+    this.onAmountChange();
   },
   beforeMount() {
     if (this.$route.query.payment !== undefined) {
@@ -231,6 +252,9 @@ export default {
       }
 
       await this.$router.push({ name: "deposits-create" });
+    },
+    onAmountChange() {
+      this.fee = this.amount * this.depositFee;
     }
   }
 };

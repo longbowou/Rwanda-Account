@@ -232,22 +232,22 @@ export default new Router({
     },
     {
       path: "/",
-      component: () => import("@/view/pages/auth/Layout"),
+      component: () => import("@/view/pages/user/auth/Layout"),
       children: [
         {
           name: "signin",
           path: "/login",
-          component: () => import("@/view/pages/auth/Login")
+          component: () => import("@/view/pages/user/auth/Login")
         },
         {
           name: "signup",
           path: "/register",
-          component: () => import("@/view/pages/auth/Register")
+          component: () => import("@/view/pages/user/auth/Register")
         },
         {
           name: "forgot",
           path: "/forgot-password",
-          component: () => import("@/view/pages/auth/ForgotPassword")
+          component: () => import("@/view/pages/user/auth/ForgotPassword")
         }
       ]
     },

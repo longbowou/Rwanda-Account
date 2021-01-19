@@ -5,6 +5,7 @@ export const queryParameters = gql`
     parameters {
       basePrice
       currency
+      depositFee
     }
   }
 `;

@@ -18,6 +18,9 @@ const getters = {
   },
   basePrice(state) {
     return state.parameters != null ? state.parameters.basePrice : null;
+  },
+  depositFee(state) {
+    return state.parameters != null ? state.parameters.depositFee : null;
   }
 };
 
