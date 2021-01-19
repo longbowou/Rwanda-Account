@@ -110,6 +110,8 @@
                     {{ $t("Submit") }}
                   </button>
                 </div>
+
+                <payment-secured />
               </form>
 
               <form :action="paymentUrl" method="post">
@@ -144,9 +146,11 @@ import { formMixin, toastMixin } from "@/view/mixins";
 import { initiateDeposit } from "@/graphql/account-mutations";
 import { queryPayment } from "@/graphql/global-queries";
 import i18nService from "@/core/services/i18n.service";
+import PaymentSecured from "@/view/pages/partials/PaymentSecured";
 
 export default {
   name: "DepositCreate",
+  components: { PaymentSecured },
   mixins: [formMixin, toastMixin],
   data() {
     return {

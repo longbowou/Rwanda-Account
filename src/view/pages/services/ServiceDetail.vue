@@ -375,17 +375,7 @@
             </a>
           </router-link>
 
-          <hr />
-
-          <p class="text-center font-weight-bold m-0">
-            {{ $t("Payment") }}
-            <span class="text-success"
-              ><i class="flaticon2-lock text-success" />
-              {{ $t("Secured") }}</span
-            >
-            <br />
-            <small>{{ $t("Your information is encrypted by SSL") }}</small>
-          </p>
+          <payment-secured />
         </div>
       </div>
     </div>
@@ -403,9 +393,12 @@ import { mapGetters } from "vuex";
 import i18nService from "@/core/services/i18n.service";
 import KTUtil from "@/assets/js/components/util";
 import { UPDATE_PURCHASE_OPTIONS } from "@/core/services/store/modules/purchase.module";
+import PaymentSecured from "@/view/pages/partials/PaymentSecured";
 
 export default {
   name: "ServiceDetail",
+  components: { PaymentSecured },
+  comments: { PaymentSecured },
   data() {
     return {
       service: {},

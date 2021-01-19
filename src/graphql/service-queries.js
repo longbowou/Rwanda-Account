@@ -161,7 +161,7 @@ export const queryServiceOrderPreview = gql`
       serviceOptions {
         id
         label
-        price
+        priceDisplay
         delayPreviewDisplay
       }
       service {

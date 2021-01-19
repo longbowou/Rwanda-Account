@@ -52,7 +52,7 @@
                   <small>{{ serviceOption.delayPreviewDisplay }}</small>
                 </h6>
                 <h5 class="col-sm-3 font-weight-bold text-right">
-                  {{ serviceOption.price }} {{ currency }}
+                  {{ serviceOption.priceDisplay }} {{ currency }}
                 </h5>
                 <div
                   class="col-10"
@@ -276,16 +276,7 @@
                 class="btn btn-success btn-block font-weight-bold btn-square"
                 >{{ $t("Proceed to Payment") }}</b-btn
               >
-              <hr />
-              <p class="text-center font-weight-bold m-0">
-                {{ $t("Payment") }}
-                <span class="text-success"
-                  ><i class="flaticon2-lock text-success" />
-                  {{ $t("Secured") }}</span
-                >
-                <br />
-                <small>{{ $t("Your information is encrypted by SSL") }}</small>
-              </p>
+              <payment-secured />
             </div>
           </div>
         </div>
@@ -340,11 +331,12 @@ import { initiateServicePurchase } from "@/graphql/purchase-mutations";
 import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 import { toastMixin } from "@/view/mixins";
 import { RESET_PURCHASE_OPTIONS } from "@/core/services/store/modules/purchase.module";
+import PaymentSecured from "@/view/pages/partials/PaymentSecured";
 
 export default {
   name: "service-order",
   mixins: [toastMixin],
-  components: {},
+  components: { PaymentSecured },
   data() {
     return {
       serviceOrderPreview: {},
