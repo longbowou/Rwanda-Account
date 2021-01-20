@@ -87,91 +87,15 @@
         </div>
       </div>
 
-      <div class="card card-custom shadow-sm mb-5">
-        <div class="card-header">
-          <div class="card-title">
-            <span
-              class="svg-icon svg-icon-lg svg-icon-3x svg-icon-primary mr-3"
-            >
-              <!--begin::Svg Icon-->
-              <inline-svg src="media/svg/icons/Shopping/Cart2.svg" />
-              <!--end::Svg Icon-->
-            </span>
-
-            <h3 class="card-label">
-              {{ $t("Price detail") }}
-            </h3>
-          </div>
-        </div>
-
-        <div class="card-body">
-          <h5>{{ $t("Seller Payment") }}</h5>
-
-          <div class="row mb-2">
-            <p class="col-sm-9">
-              {{ $t("Amount") }}
-            </p>
-            <p class="col-sm-3 font-weight-bold text-right">
-              {{ serviceOrderPreview.totalPrice }} {{ currency }}
-            </p>
-          </div>
-
-          <div class="row mb-2">
-            <p class="col-sm-9">
-              TVA
-            </p>
-            <p class="col-sm-3 font-weight-bold text-right">
-              {{ serviceOrderPreview.totalPriceTva }} {{ currency }}
-            </p>
-          </div>
-
-          <hr />
-
-          <h5>{{ $t("Fee") }}</h5>
-
-          <div class="row mb-2">
-            <p class="col-sm-9">
-              {{ $t("MDTAF's Commission") }}
-            </p>
-            <p class="col-sm-3 font-weight-bold text-right">
-              {{ serviceOrderPreview.commission }} {{ currency }}
-            </p>
-          </div>
-
-          <div class="row mb-2">
-            <p class="col-sm-9">
-              TVA 0 %
-            </p>
-            <p class="col-sm-3 font-weight-bold text-right">
-              {{ serviceOrderPreview.commissionTva }} {{ currency }}
-            </p>
-          </div>
-
-          <hr />
-
-          <h5>TOTAL</h5>
-
-          <div class="row mb-2">
-            <p class="col-sm-9">
-              TOTAL HT
-            </p>
-            <p class="col-sm-3 font-weight-bold text-right">
-              {{ serviceOrderPreview.totalOrderPrice }} {{ currency }}
-            </p>
-          </div>
-
-          <div class="row mb-2">
-            <p class="col-sm-9">
-              TOTAL TTC
-            </p>
-            <p class="col-sm-3 font-weight-bold text-right">
-              {{ serviceOrderPreview.totalOrderPriceTtc }} {{ currency }}
-            </p>
-          </div>
-
-          <hr />
-        </div>
-      </div>
+      <service-purchase-price-detail
+        :from-order-preview="true"
+        :total-price="serviceOrderPreview.totalPrice"
+        :total-price-tva="serviceOrderPreview.totalPriceTva"
+        :commission="serviceOrderPreview.commission"
+        :commission-tva="serviceOrderPreview.commissionTva"
+        :total-order-price="serviceOrderPreview.totalOrderPrice"
+        :total-order-price-ttc="serviceOrderPreview.totalOrderPriceTtc"
+      />
 
       <div class="card card-custom shadow-sm mb-5">
         <div class="card-header">
@@ -332,11 +256,12 @@ import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
 import { toastMixin } from "@/view/mixins";
 import { RESET_PURCHASE_OPTIONS } from "@/core/services/store/modules/purchase.module";
 import PaymentSecured from "@/view/pages/partials/PaymentSecured";
+import ServicePurchasePriceDetail from "@/view/pages/partials/ServicePurchasePriceDetail";
 
 export default {
   name: "service-order",
   mixins: [toastMixin],
-  components: { PaymentSecured },
+  components: { PaymentSecured, ServicePurchasePriceDetail },
   data() {
     return {
       serviceOrderPreview: {},

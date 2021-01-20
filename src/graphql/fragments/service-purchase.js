@@ -35,8 +35,10 @@ export const servicePurchaseFields = gql`
   fragment servicePurchaseFields on ServicePurchaseType {
     id
     number
-    price
     basePrice
+    price
+    commission
+    priceWithoutCommission
     status
     delay
     initiated

@@ -246,6 +246,12 @@
             </h6>
           </div>
         </div>
+
+        <service-purchase-price-detail
+          :total-price="servicePurchase.priceWithoutCommission"
+          :commission="servicePurchase.commission"
+          :total-order-price="servicePurchase.price"
+        />
       </div>
 
       <div :class="sideDivClasses">
@@ -490,11 +496,18 @@ import UpdateRequestView from "@/view/pages/user/update-requests/View";
 import LitigationView from "@/view/pages/user/litigation/View";
 import { orderSubscription } from "@/graphql/order-subscriptions";
 import { refuseServicePurchase } from "@/graphql/order-mutations";
+import ServicePurchasePriceDetail from "@/view/pages/partials/ServicePurchasePriceDetail";
 
 export default {
   name: "OrderView",
   mixins: [toastMixin, orderActionsMixin],
-  components: { Timeline, Chat, UpdateRequestView, LitigationView },
+  components: {
+    Timeline,
+    Chat,
+    UpdateRequestView,
+    LitigationView,
+    ServicePurchasePriceDetail
+  },
   data() {
     return {
       servicePurchase: {},

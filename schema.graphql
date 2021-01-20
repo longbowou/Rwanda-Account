@@ -382,6 +382,7 @@ type PaymentType {
     cpmTransStatus: String
     createdAt: DateTime!
     deposit: DepositType
+    fee: Int!
     id: UUID!
     paymentMethod: String
     refund: RefundType
@@ -567,7 +568,7 @@ type ServicePurchaseType {
     chatHistory: [ServicePurchaseChatMessageType]!
     chatMarked: [ServicePurchaseChatMessageType]!
     chatmessageSet: [ChatMessageType!]!
-    commission: Int!
+    commission: String!
     createdAt: DateTime!
     deadlineAt: String
     delay: String!
@@ -585,6 +586,7 @@ type ServicePurchaseType {
     number: String!
     operationSet: [OperationType!]!
     price: String!
+    priceWithoutCommission: String!
     refused: Boolean!
     refusedAt: DateTime
     refusedReason: String

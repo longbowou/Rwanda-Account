@@ -401,7 +401,7 @@
             <span
               :class="[
                 'svg-icon svg-icon-lg svg-icon-3x mr-3',
-                servicePurchase.accepted && 'svg-icon-withe',
+                servicePurchase.accepted && 'svg-icon-secondary',
                 servicePurchase.refused && 'svg-icon-danger'
               ]"
             >
@@ -418,36 +418,40 @@
               <!--end::Svg Icon-->
             </span>
           </div>
-          <div class="alert-text text-justify font-weight-bold">
-            <div v-if="servicePurchase.accepted">
-              <div
-                v-html="
-                  $t(
-                    'The seller has accepted your purchase a delivery deadline has been set to <strong>{deadlineAt}</strong>.',
-                    { deadlineAt: servicePurchase.deadlineAt }
-                  )
-                "
-              ></div>
-              <div
-                v-html="
-                  $t(
-                    '<strong>The seller will mark the order as delivered before the end of this deadline.</strong>'
-                  )
-                "
-              ></div>
-            </div>
+          <div
+            class="alert-text text-justify font-weight-bold"
+            v-if="servicePurchase.accepted"
+          >
+            <div
+              v-html="
+                $t(
+                  'The seller has accepted your purchase a delivery deadline has been set to <strong>{deadlineAt}</strong>.',
+                  { deadlineAt: servicePurchase.deadlineAt }
+                )
+              "
+            ></div>
+            <div
+              v-html="
+                $t(
+                  '<strong>The seller will mark the order as delivered before the end of this deadline.</strong>'
+                )
+              "
+            ></div>
+          </div>
 
-            <div v-if="servicePurchase.refused">
-              <div
-                v-html="
-                  $t(
-                    'Your purchase has been <strong>refused</strong> by the seller. Please find below the reason.'
-                  )
-                "
-              ></div>
-              <strong> {{ $t("Reason") }}: </strong>
-              {{ servicePurchase.refusedReason }}
-            </div>
+          <div
+            class="alert-text text-justify font-weight-bold"
+            v-if="servicePurchase.refused"
+          >
+            <div
+              v-html="
+                $t(
+                  'Your purchase has been <strong>refused</strong> by the seller. Please find below the reason.'
+                )
+              "
+            ></div>
+            <strong> {{ $t("Reason") }}: </strong>
+            {{ servicePurchase.refusedReason }}
           </div>
         </div>
 
