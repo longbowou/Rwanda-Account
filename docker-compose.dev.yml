@@ -5,8 +5,9 @@ services:
     container_name: rwanda_account
     build:
       context: .
-      dockerfile: Dockerfile
-    command: http-server dist
+      dockerfile: Dockerfile.dev
+    command: yarn serve
+    privileged: true
     volumes:
       - .:/app
     ports:
