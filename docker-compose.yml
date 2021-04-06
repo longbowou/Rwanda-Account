@@ -11,3 +11,12 @@ services:
       - .:/app
     ports:
       - 3000:8080
+    environment:
+      VIRTUAL_PORT: 3000
+      VIRTUAL_HOST: mdtaf.com,www.mdtaf.com
+      LETSENCRYPT_HOST: mdtaf.com,www.mdtaf.com
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
