@@ -392,8 +392,8 @@
           v-if="servicePurchase.accepted || servicePurchase.refused"
           :class="[
             'alert alert-custom alert-notice fade show mb-5',
-            servicePurchase.accepted && 'alert-light-secondary',
-            servicePurchase.refused && 'alert-light-danger'
+            servicePurchase.accepted && 'alert-secondary',
+            servicePurchase.refused && 'alert-danger'
           ]"
           role="alert"
         >
@@ -498,20 +498,20 @@
 </template>
 
 <script>
-import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
-import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import { mapGetters } from "vuex";
-import { purchaseActionsMixin, toastMixin } from "@/view/mixins";
-import { queryServicePurchase } from "@/graphql/purchase-queries";
+import {SET_BREADCRUMB} from "@/core/services/store/modules/breadcrumbs.module";
+import {SET_HEAD_TITLE} from "@/core/services/store/modules/htmlhead.module";
+import {mapGetters} from "vuex";
+import {purchaseActionsMixin, toastMixin} from "@/view/mixins";
+import {queryServicePurchase} from "@/graphql/purchase-queries";
 import Timeline from "@/view/pages/user/purchases/Timeline";
-import { queryServicePurchaseTimeline } from "@/graphql/service-purchase-queries";
+import {queryServicePurchaseTimeline} from "@/graphql/service-purchase-queries";
 import Chat from "@/view/pages/user/chat/Chat";
 import UpdateRequestCreate from "@/view/pages/user/update-requests/Create";
 import UpdateRequestView from "@/view/pages/user/update-requests/View";
 import LitigationCreate from "@/view/pages/user/litigation/Create";
 import LitigationView from "@/view/pages/user/litigation/View";
 import CommentCreate from "@/view/pages/user/comments/Create";
-import { purchaseSubscription } from "@/graphql/purchase-subscriptions";
+import {purchaseSubscription} from "@/graphql/purchase-subscriptions";
 
 export default {
   name: "PurchaseView",

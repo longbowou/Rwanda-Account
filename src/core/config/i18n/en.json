@@ -3,7 +3,7 @@
   "Deadline will be set to <br /><strong>{deadlineAt}</strong><br /> if the order is accepted today.": "Deadline will be set to <br /><strong>{deadlineAt}</strong><br /> if the order is accepted today.",
   "New order <strong>{ number }</strong> has been placed by <strong>{username}</strong>.": "New order <strong>{ number }</strong> has been placed by <strong>{username}</strong>.",
   "The buyer <strong>{username}</strong> during this time before you accept the order may at any time <strong>cancel</strong> the order.": "The buyer <strong>{username}</strong> during this time before you accept the order may at any time <strong>cancel</strong> the order.",
-  "By accepting the order a delivery deadline has been set to <strong>{deadlineAt}</strong>for the order.": "By accepting the order a delivery deadline has been set to <strong>{deadlineAt}</strong>for the order.",
+  "By accepting the order a delivery deadline has been set to <strong>{deadlineAt}</strong> for the order.": "By accepting the order a delivery deadline has been set to <strong>{deadlineAt}</strong> for the order.",
   "Do you really want to accept the order {number} for {title} ?": "Do you really want to accept the order {number} for {title} ?",
   "Do you really want to mark as deliver the order {number} for {title} ?": "Do you really want to mark as deliver the order {number} for {title} ?",
   "Do you really want to cancel the purchase {number} for {title} ?": "Do you really want to cancel the purchase {number} for {title} ?",
@@ -12,5 +12,10 @@
   "Do you really want to accept the update request {title} ?": "Do you really want to accept the update request {title} ?",
   "Do you really want to submit the service for approval {title} ?": "Do you really want to submit the service for approval {title} ?",
   "Do you really want to refuse the order {title} ?": "Do you really want to refuse the order {title} ?",
-  "You need to pay {depositFee} of your deposit amount as fee": "You need to pay {depositFee} of your deposit amount as fee"
+  "You need to pay {depositFee} of your deposit amount as fee": "You need to pay {depositFee} of your deposit amount as fee",
+  "Your purchase <strong>{number}</strong> has been successfully placed to the seller <strong>{username}</strong>.": "Your purchase <strong>{number}</strong> has been successfully placed to the seller <strong>{username}</strong>.",
+  "New order <strong>{number}</strong> has been placed by <strong>{username}</strong>.": "New order <strong>{number}</strong> has been placed by <strong>{username}</strong>.",
+  "Do you really want to mark as delivered the order {number} for {title} ?": "Do you really want to mark as delivered the order {number} for {title} ?",
+  "Do you really want to mark as deliver the update request {title} ?": "Do you really want to mark as deliver the update request {title} ?",
+  "Your update request <strong>{title}</strong> has been mark as delivered.": "Your update request <strong>{title}</strong> has been mark as delivered."
 }

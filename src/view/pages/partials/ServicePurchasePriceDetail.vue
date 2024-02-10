@@ -43,7 +43,7 @@
 
       <div class="row mb-2">
         <p class="col-sm-9">
-          {{ $t("MDTAF's Commission") }}
+          {{ $t("RWANDA's Commission") }}
         </p>
         <p class="col-sm-3 font-weight-bold text-right">
           {{ commission }} {{ currency }}
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 
 export default {
   name: "ServicePurchasePriceDetail",

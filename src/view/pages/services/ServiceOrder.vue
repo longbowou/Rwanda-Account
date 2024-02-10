@@ -118,7 +118,7 @@
             {{ $t("Choose a payment method to pay for your order.") }} <br />
             {{
               $t(
-                "You can also pay with your MDTAF wallet free of charge if you have a sufficient balance."
+                  "You can also pay with your RWANDA wallet free of charge if you have a sufficient balance."
               )
             }}
           </p>
@@ -247,14 +247,14 @@
 }
 </style>
 <script>
-import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
-import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import { queryServiceOrderPreview } from "@/graphql/service-queries";
-import { mapGetters } from "vuex";
-import { initiateServicePurchase } from "@/graphql/purchase-mutations";
-import { UPDATE_USER } from "@/core/services/store/modules/auth.module";
-import { toastMixin } from "@/view/mixins";
-import { RESET_PURCHASE_OPTIONS } from "@/core/services/store/modules/purchase.module";
+import {SET_BREADCRUMB} from "@/core/services/store/modules/breadcrumbs.module";
+import {SET_HEAD_TITLE} from "@/core/services/store/modules/htmlhead.module";
+import {queryServiceOrderPreview} from "@/graphql/service-queries";
+import {mapGetters} from "vuex";
+import {initiateServicePurchase} from "@/graphql/purchase-mutations";
+import {UPDATE_USER} from "@/core/services/store/modules/auth.module";
+import {toastMixin} from "@/view/mixins";
+import {RESET_PURCHASE_OPTIONS} from "@/core/services/store/modules/purchase.module";
 import PaymentSecured from "@/view/pages/partials/PaymentSecured";
 import ServicePurchasePriceDetail from "@/view/pages/partials/ServicePurchasePriceDetail";
 

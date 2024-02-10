@@ -392,7 +392,7 @@
                   <div
                     v-html="
                       $t(
-                        'By accepting the order a delivery deadline has been set to <strong>{deadlineAt}</strong>for the order.',
+                        'By accepting the order a delivery deadline has been set to <strong>{deadlineAt}</strong> for the order.',
                         { deadlineAt: servicePurchase.deadlineAt }
                       )
                     "
@@ -484,18 +484,18 @@
 </template>
 <style></style>
 <script>
-import { SET_BREADCRUMB } from "@/core/services/store/modules/breadcrumbs.module";
-import { SET_HEAD_TITLE } from "@/core/services/store/modules/htmlhead.module";
-import { mapGetters } from "vuex";
-import { orderActionsMixin, toastMixin } from "@/view/mixins";
-import { queryOrder } from "@/graphql/order-queries";
+import {SET_BREADCRUMB} from "@/core/services/store/modules/breadcrumbs.module";
+import {SET_HEAD_TITLE} from "@/core/services/store/modules/htmlhead.module";
+import {mapGetters} from "vuex";
+import {orderActionsMixin, toastMixin} from "@/view/mixins";
+import {queryOrder} from "@/graphql/order-queries";
 import Timeline from "@/view/pages/user/purchases/Timeline";
-import { queryServicePurchaseTimeline } from "@/graphql/service-purchase-queries";
+import {queryServicePurchaseTimeline} from "@/graphql/service-purchase-queries";
 import Chat from "@/view/pages/user/chat/Chat";
 import UpdateRequestView from "@/view/pages/user/update-requests/View";
 import LitigationView from "@/view/pages/user/litigation/View";
-import { orderSubscription } from "@/graphql/order-subscriptions";
-import { refuseServicePurchase } from "@/graphql/order-mutations";
+import {orderSubscription} from "@/graphql/order-subscriptions";
+import {refuseServicePurchase} from "@/graphql/order-mutations";
 import ServicePurchasePriceDetail from "@/view/pages/partials/ServicePurchasePriceDetail";
 
 export default {

@@ -17,6 +17,7 @@ const lang = i18nService.getActiveLanguage();
 // Create VueI18n instance with options
 const i18n = new VueI18n({
   locale: lang, // set locale
+    fallbackLng: "en",
   messages // set locale messages
 });
 
