@@ -18,24 +18,24 @@ Feel free to try it out. Check the credentials below.
 [https://rwanda.danielblandes.com](https://rwanda.danielblandes.com)
 
 - Seller
-  - seller@rwanda.app
-  - sellerpassword
+    - seller@rwanda.app
+    - sellerpassword
 
 - Buyer John
-  - john@rwanda.app
-  - johnpassword
+    - john@rwanda.app
+    - johnpassword
 
 - Buyer Jane
-  - jane@rwanda.app
-  - janepassword
+    - jane@rwanda.app
+    - janepassword
 
 ### Admin
 
 [https://admin.rwanda.danielblandes.com](https://admin.rwanda.danielblandes.com)
 
 - Superuser
-  - superuser@rwanda.app
-  - superuserpassword
+    - superuser@rwanda.app
+    - superuserpassword
 
 ### App (Backend)
 
@@ -178,7 +178,7 @@ This repository is composed of three git submodules for each part.
 - Clone the repository
 
 ```bash
-git clone git@gitlab.com:rwanda/rwanda-platform.git --recurse-submodules
+git clone git@github.com:longbowou/Rwanda-Platform.git --recurse-submodules
 ```
 
 - Build the application
